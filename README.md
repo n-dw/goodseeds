@@ -41,6 +41,8 @@ https://craftcms.stackexchange.com/
 
 https://craftcookbook.net/
 
+https://nystudio107.com
+
 * Summary of set up
 * Configuration
 * Dependencies
