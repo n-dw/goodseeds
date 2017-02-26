@@ -4,8 +4,6 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up? ###
@@ -28,6 +26,8 @@ in your db.php
  within the array no need to change your my.cnf like in the article above
 
 
+
+Database backups are in the backups folder. probably need to seperate these later and theres an article i found on this.
 EXAMPLE CRAFT SITE
 https://github.com/pixelandtonic/HappyLager
 
