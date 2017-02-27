@@ -63,7 +63,7 @@ return array(
   'pngquantOptionString' => '--strip --skip-if-larger',
   'tinyPngEnabled' => false,
   'tinyPngApiKey' => '',
-  'optimizeType' => 'task',
+  'optimizeType' => 'runtime',
   'logOptimizations' => false,
   
   'awsEnabled' => false,
