@@ -9,23 +9,27 @@
 
 return array(
 
-	// The database server name or IP address. Usually this is 'localhost' or '127.0.0.1'.
-	'server' => 'localhost',
+	  // All environments
+    '*' => array(
+        'tablePrefix' => getenv('CRAFTENV_DB_TABLE_PREFIX'),
+        'server' => getenv('CRAFTENV_DB_HOST'),
+        'database' => getenv('CRAFTENV_DB_NAME'),
+        'user' => getenv('CRAFTENV_DB_USER'),
+        'password' => getenv('CRAFTENV_DB_PASS'),
+        'initSQLs' => array("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';"),
+    ),
 
-	// The name of the database to select.
-	'database' => 'queef',
+    // Live (production) environment
+    'live'  => array(
+    ),
 
-	// The database username to connect with.
-	'user' => 'homestead',
+    // Staging (pre-production) environment
+    'staging'  => array(
+    ),
 
-	// The database password to connect with.
-	'password' => 'secret',
-
-	// The prefix to use when naming tables. This can be no more than 5 characters.
-	'tablePrefix' => '02fist',
-//mysql 5.7.5+
-	'initSQLs' => array("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';")
-
+    // Local (development) environment
+    'local'  => array(
+    ),
 );
 
 

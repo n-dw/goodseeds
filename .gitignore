@@ -24,6 +24,7 @@ craft/storage/runtime/*
 
 # MISC FILES
 # ------------------------------------------------------------
+/.env.php
 .DS_Store
 Thumbs.db
 .cache
