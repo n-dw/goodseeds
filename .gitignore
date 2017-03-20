@@ -25,6 +25,7 @@ craft/storage/runtime/*
 # MISC FILES
 # ------------------------------------------------------------
 /.env.php
+.env.sh
 .DS_Store
 Thumbs.db
 .cache
@@ -38,3 +39,4 @@ _notes
 dwsync.xml
 logs/*
 node_modules
+.idea/*
