@@ -46,6 +46,7 @@
     "urls": {
         "live": "https://cannababa.ca/",
         "local": "https://queef.dev/",
+        "staging": "https://stg.thcpost.ca/",
         "critical": "https://cannababa.ca/"
     },
     "vars": {
