@@ -35,7 +35,7 @@ return array(
         'devMode' => false,
         'enableTemplateCaching' => true,
         'allowAutoUpdates' => false,
-        'omitScriptNameInUrls' => true,
+        
     ),
 
     // Staging (pre-production) environment
@@ -43,7 +43,6 @@ return array(
         'devMode' => false,
         'enableTemplateCaching' => true,
         'allowAutoUpdates' => false,
-        'omitScriptNameInUrls' => true,
     ),
 
     // Local (development) environment

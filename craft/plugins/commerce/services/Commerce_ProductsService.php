@@ -124,6 +124,7 @@ class Commerce_ProductsService extends BaseApplicationComponent
                         $variant->sku = craft()->templates->renderObjectTemplate($productType->skuFormat, $variant);
                     }
                 }catch(\Exception $e){
+                    CommercePlugin::log("Could not generate SKU format: ".$e->getMessage(), LogLevel::Warning, true);
                     $variant->sku = "";
                 }
             }
@@ -158,11 +159,11 @@ class Commerce_ProductsService extends BaseApplicationComponent
 
              $record->defaultVariantId = $product->defaultVariantId = $defaultVariant->getPurchasableId();
              $record->defaultSku = $product->defaultSku = $defaultVariant->getSku();
-             $record->defaultPrice = $product->defaultPrice = $defaultVariant->price * 1;
-             $record->defaultHeight = $product->defaultHeight = $defaultVariant->height * 1;
-             $record->defaultLength = $product->defaultLength = $defaultVariant->length * 1;
-             $record->defaultWidth = $product->defaultWidth = $defaultVariant->width * 1;
-             $record->defaultWeight = $product->defaultWeight = $defaultVariant->weight * 1;
+             $record->defaultPrice = $product->defaultPrice = (float) $defaultVariant->price;
+             $record->defaultHeight = $product->defaultHeight = (float) $defaultVariant->height;
+             $record->defaultLength = $product->defaultLength = (float) $defaultVariant->length;
+             $record->defaultWidth = $product->defaultWidth = (float) $defaultVariant->width;
+             $record->defaultWeight = $product->defaultWeight = (float) $defaultVariant->weight;
             
             if ($event->performAction)
             {
@@ -415,5 +416,23 @@ class Commerce_ProductsService extends BaseApplicationComponent
         }
 
         $this->raiseEvent('onDeleteProduct', $event);
+    }
+
+    /**
+     * Event: The product loaded for editing
+     * Event params: product(Commerce_ProductModel)
+     *
+     * @param \CEvent $event
+     *
+     * @throws \CException
+     */
+    public function onBeforeEditProduct(\CEvent $event)
+    {
+        $params = $event->params;
+        if (empty($params['product']) || !($params['product'] instanceof Commerce_ProductModel))
+        {
+            throw new Exception('onBeforeEditProduct event requires "product" param with ProductModel instance');
+        }
+        $this->raiseEvent('onBeforeEditProduct', $event);
     }
 }

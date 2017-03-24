@@ -303,7 +303,7 @@ class CommercePlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '1.2.1334';
+        return '1.2.1337';
     }
 
     /**
@@ -313,7 +313,7 @@ class CommercePlugin extends BasePlugin
      */
     public function getSchemaVersion()
     {
-        return '1.2.73';
+        return '1.2.74';
     }
 
     /**
