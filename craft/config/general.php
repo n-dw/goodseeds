@@ -34,8 +34,7 @@ return array(
     'live'  => array(
         'devMode' => false,
         'enableTemplateCaching' => true,
-        'allowAutoUpdates' => false,
-        
+        'allowAutoUpdates' => false,   
     ),
 
     // Staging (pre-production) environment
