@@ -37,6 +37,7 @@ Thumbs.db
 *.sublime-project
 _notes
 dwsync.xml
+yarn.lock
 logs/*
 node_modules
 .idea/*

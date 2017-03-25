@@ -39,8 +39,7 @@
             "dest": "./public/img/site/",
             "path": "/img/site/"
         },
-        "scss": [
-        ],
+        "scss": [],
         "templates": "./craft/templates/"
     },
     "urls": {
@@ -58,7 +57,6 @@
         "distCss": [
             "./node_modules/normalize.css/normalize.css",
             "./node_modules/flexboxgrid/dist/flexboxgrid.min.css",
-            "./src/css/prism-theme.css",
             "./build/fonts/fontello/css/fontello-codes.css",
             "./build/css/*.css",
             "./src/css/*.css"
@@ -73,15 +71,7 @@
             "./build/fonts/fontello/font/*.{eot,ttf,woff,woff2}",
             "./src/fonts/*.{eot,ttf,woff,woff2}"
         ],
-        "critical": [
-            { "url": "", "template": "index" },
-            { "url": "blog/stop-using-htaccess-files-no-really", "template": "blog/_entry" },
-            { "url": "blog/stop-using-htaccess-files-no-really", "template": "blog/_amp_entry" },
-            { "url": "blog", "template": "blog/index" },
-            { "url": "blog", "template": "blog/amp_index" },
-            { "url": "wordpress", "template": "wordpress" },
-            { "url": "404", "template": "404" }
-        ],
+        "critical": [],
         "distJs": [
             "./build/js/*.js",
             "./node_modules/lazysizes/lazysizes.min.js",
@@ -112,16 +102,16 @@
         "flexboxgrid": "^6.3.1",
         "fontfaceobserver": "^2.0.5",
         "lazysizes": "^2.0.6",
+        "loadjs": "^3.4.0",
         "normalize.css": "^5.0.0",
-        "picturefill": "^3.0.2",
-        "prismjs": "^1.5.1",
-        "systemjs": "^0.19.40",
+        "picturefill": "^3.0.0",
         "vue": "^2.1.0",
         "vue-resource": "^1.0.3"
     },
     "devDependencies": {
-        "babel-preset-es2015": "^6.16.0",
         "babel-plugin-transform-runtime": "^6.15.0",
+        "babel-preset-es2015": "^6.16.0",
+        "browser-sync": "^2.18.8",
         "chalk": "^1.1.3",
         "critical": "0.8.0",
         "fancy-log": "^1.2.0",
@@ -129,7 +119,9 @@
         "gulp": "^3.9.0",
         "gulp-autoprefixer": "^3.1.0",
         "gulp-babel": "^6.1.2",
+        "gulp-cached": "^1.1.1",
         "gulp-concat": "^2.6.0",
+        "gulp-csslint": "^1.0.0",
         "gulp-cssnano": "^2.1.2",
         "gulp-debug": "^2.1.2",
         "gulp-favicons": "^2.2.6",
@@ -137,6 +129,8 @@
         "gulp-header": "^1.8.7",
         "gulp-if": "^2.0.1",
         "gulp-imagemin": "^3.1.1",
+        "gulp-jshint": "^2.0.4",
+        "gulp-jsonminify": "^1.0.0",
         "gulp-load-plugins": "^1.3.0",
         "gulp-newer": "^1.2.0",
         "gulp-plumber": "^1.1.0",
@@ -145,6 +139,7 @@
         "gulp-replace": "0.5.4",
         "gulp-rev": "^7.1.0",
         "gulp-sass": "^2.1.0",
+        "gulp-scss-lint": "^0.4.0",
         "gulp-size": "^2.1.0",
         "gulp-sourcemaps": "^2.2.1",
         "gulp-uglify": "^1.5.4",
