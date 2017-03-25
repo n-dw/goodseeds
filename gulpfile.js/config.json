@@ -21,7 +21,7 @@
     },
 
     "js": {
-      "src": "javascripts",
+      "src": "js",
       "dest": "js",
       "entries": {
         "app": ["./app.js"]
@@ -50,7 +50,7 @@
 
     "html": {
       "src": "../craft/templates",
-      "extensions": ["html", "twig"],
+      "extensions": ["html", "twig"]
     },
 
     "images": {
@@ -78,7 +78,7 @@
       "extensions": ["svg"]
     },
 
-    "production" : {
+    "production": {
       "rev": true
     }
   }
