@@ -7,6 +7,14 @@
     "copyright": "NdW",
     "license": "UNLICENSED",
     "private": true,
+    "appInfo" :{
+        "name" : "THC Post",
+        "descripton" : "To provide people quality cannabis",
+        "url" : "htttp://thcpost.ca",
+        "colour": {
+            "mainBackgroud" : "#FFFFFF;"
+        },
+    },
     "paths": {
         "src": {
             "base": "./src/",
@@ -40,7 +48,8 @@
             "path": "/img/site/"
         },
         "scss": [],
-        "templates": "./craft/templates/"
+        "templates": "./craft/templates/",
+        "faviconTemplate": "./craft/templates/_includes/favicon.html"
     },
     "urls": {
         "live": "https://cannababa.ca/",
@@ -75,8 +84,6 @@
         "distJs": [
             "./build/js/*.js",
             "./node_modules/lazysizes/lazysizes.min.js",
-            "./node_modules/lazysizes/plugins/bgset/ls.bgset.min.js",
-            "./node_modules/picturefill/dist/picturefill.min.js",
             "./node_modules/vue/dist/vue.min.js",
             "./node_modules/vue-resource/dist/vue-resource.min.js"
         ],
@@ -121,7 +128,7 @@
         "gulp-babel": "^6.1.2",
         "gulp-cached": "^1.1.1",
         "gulp-concat": "^2.6.0",
-        "gulp-csslint": "^1.0.0",
+        "gulp-csslintg": "^1.0.0",
         "gulp-cssnano": "^2.1.2",
         "gulp-debug": "^2.1.2",
         "gulp-favicons": "^2.2.6",
