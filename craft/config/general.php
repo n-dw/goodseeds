@@ -22,6 +22,7 @@ return array(
         'defaultWeekStartDay' => 0,
         'enableCsrfProtection' => true,
         'cpTrigger' => 'admin',
+        'autoLoginAfterAccountActivation' => true,
 
         // Set the environmental variables
         'environmentVariables' => array(
