@@ -6,7 +6,6 @@ use Commerce\Adjusters\Commerce_DiscountAdjuster;
 use Commerce\Adjusters\Commerce_ShippingAdjuster;
 use Commerce\Adjusters\Commerce_TaxAdjuster;
 use Commerce\Helpers\CommerceCurrencyHelper;
-use Commerce\Helpers\CommerceDbHelper;
 
 /**
  * Class Commerce_OrdersService
@@ -114,7 +113,9 @@ class Commerce_OrdersService extends BaseApplicationComponent
             }
         }
 
+        $order->setShouldRecalculateAdjustments(false);
         $this->saveOrder($order);
+        $order->setShouldRecalculateAdjustments(true);
 
         if (!$order->isCompleted)
         {
@@ -228,6 +229,7 @@ class Commerce_OrdersService extends BaseApplicationComponent
         $orderRecord->baseDiscount = $order->baseDiscount;
         $orderRecord->baseShippingCost = $order->baseShippingCost;
         $orderRecord->baseTax = $order->baseTax;
+        $orderRecord->baseTaxIncluded = $order->baseTaxIncluded;
         $orderRecord->totalPrice = $order->totalPrice;
         $orderRecord->totalPaid = $order->totalPaid;
         $orderRecord->currency = $order->currency;
@@ -242,7 +244,7 @@ class Commerce_OrdersService extends BaseApplicationComponent
         $orderRecord->validate();
         $order->addErrors($orderRecord->getErrors());
 
-        CommerceDbHelper::beginStackedTransaction();
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
 
         try
         {
@@ -254,7 +256,10 @@ class Commerce_OrdersService extends BaseApplicationComponent
                     $orderRecord->id = $order->id;
                     $orderRecord->save(false);
 
-                    CommerceDbHelper::commitStackedTransaction();
+                    if ($transaction !== null)
+                    {
+                        $transaction->commit();
+                    }
 
                     //raising event
                     $event = new Event($this, [
@@ -280,11 +285,17 @@ class Commerce_OrdersService extends BaseApplicationComponent
         }
         catch (\Exception $e)
         {
-            CommerceDbHelper::rollbackStackedTransaction();
+            if ($transaction !== null)
+            {
+                $transaction->rollback();
+            }
             throw $e;
         }
 
-        CommerceDbHelper::rollbackStackedTransaction();
+        if ($transaction !== null)
+        {
+            $transaction->rollback();
+        }
 
         return false;
     }
@@ -314,8 +325,7 @@ class Commerce_OrdersService extends BaseApplicationComponent
      */
     private function calculateAdjustments(Commerce_OrderModel $order)
     {
-        // Don't recalc the totals of completed orders.
-        if (!$order->id || $order->isCompleted)
+        if (!$order->id || !$order->getShouldRecalculateAdjustments())
         {
             return;
         }
@@ -327,6 +337,7 @@ class Commerce_OrdersService extends BaseApplicationComponent
         $order->baseDiscount = 0;
         $order->baseShippingCost = 0;
         $order->baseTax = 0;
+        $order->baseTaxIncluded = 0;
         $order->itemTotal = 0;
         foreach ($lineItems as $key => $item)
         {
@@ -557,14 +568,17 @@ class Commerce_OrdersService extends BaseApplicationComponent
         &$error = ''
     )
     {
-        CommerceDbHelper::beginStackedTransaction();
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
         try
         {
             if (!$order->id)
             {
                 if (!$this->saveOrder($order))
                 {
-                    CommerceDbHelper::rollbackStackedTransaction();
+                    if ($transaction !== null)
+                    {
+                        $transaction->rollback();
+                    }
                     throw new Exception(Craft::t('Error on creating empty cart'));
                 }
             }
@@ -610,18 +624,27 @@ class Commerce_OrdersService extends BaseApplicationComponent
                 $order->billingAddressId = $billingAddress->id;
 
                 $this->saveOrder($order);
-                CommerceDbHelper::commitStackedTransaction();
+                if ($transaction !== null)
+                {
+                    $transaction->commit();
+                }
 
                 return true;
             }
         }
         catch (\Exception $e)
         {
-            CommerceDbHelper::rollbackStackedTransaction();
+            if ($transaction !== null)
+            {
+                $transaction->rollback();
+            }
             throw $e;
         }
 
-        CommerceDbHelper::rollbackStackedTransaction();
+        if ($transaction !== null)
+        {
+            $transaction->rollback();
+        }
 
         return false;
     }

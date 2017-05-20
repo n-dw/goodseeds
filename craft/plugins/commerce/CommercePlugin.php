@@ -3,7 +3,6 @@
 namespace Craft;
 
 use Commerce\Extensions\CommerceTwigExtension;
-use Commerce\Helpers\CommerceDbHelper;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -109,7 +108,7 @@ class CommercePlugin extends BasePlugin
             }
 
             if ($pluginInfo['version'] == '0.8.09') {
-                CommerceDbHelper::beginStackedTransaction();
+                $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
                 try {
                     $this->doSeed = false;
 
@@ -165,7 +164,12 @@ class CommercePlugin extends BasePlugin
                         'm161001_010103_Commerce_DiscountStopProcessing',
                         'm161001_010104_Commerce_SaveTransactionCode',
                         'm161001_010105_Commerce_RemovePaymentCurrencyName',
-                        'm161024_010101_Commerce_FixDefaultShippingAndTaxCategoriesOnProducts'
+                        'm161024_010101_Commerce_FixDefaultShippingAndTaxCategoriesOnProducts',
+                        'm161101_010101_Commerce_AddBaseTaxToOrder',
+                        'm170227_010101_Commerce_RemoveNameUniquenessFromShippingRules',
+                        'm170411_010101_Commerce_AdditionalTaxRateTaxables',
+                        'm170411_010102_Commerce_OrderBaseTaxIncluded',
+                        'm170426_010101_Commerce_IncreaseTaxRateDecimal'
                     );
 
                     foreach ($migrations as $migrationClass) {
@@ -176,9 +180,15 @@ class CommercePlugin extends BasePlugin
                         }
                     }
 
-                    CommerceDbHelper::commitStackedTransaction();
+                    if ($transaction !== null)
+                    {
+                        $transaction->commit();
+                    }
                 } catch (Exception $e) {
-                    CommerceDbHelper::rollbackStackedTransaction();
+                    if ($transaction !== null)
+                    {
+                        $transaction->rollback();
+                    }
                 }
             }
         }
@@ -303,7 +313,7 @@ class CommercePlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '1.2.1337';
+        return '1.2.1341';
     }
 
     /**
@@ -313,7 +323,7 @@ class CommercePlugin extends BasePlugin
      */
     public function getSchemaVersion()
     {
-        return '1.2.74';
+        return '1.2.77';
     }
 
     /**

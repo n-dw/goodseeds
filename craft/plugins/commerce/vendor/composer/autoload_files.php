@@ -7,5 +7,4 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
-    '8cd2fca4db21bffce1ad0612f7caeec4' => $vendorDir . '/ramsey/array_column/src/array_column.php',
 );

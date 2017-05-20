@@ -41,3 +41,5 @@ yarn.lock
 logs/*
 node_modules
 .idea/*
+
+/vendor/

@@ -16,9 +16,7 @@
 	<title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
 	<link rel="home" href="{{ siteUrl }}" />
 
-	{# -- ServiceWorker & loadjs -- #}
     <script>
-        {{ source('_inlinejs/register-service-worker.min.js') }}
         {{ source('_inlinejs/loadjs.min.js') }}
     </script>
     <script>

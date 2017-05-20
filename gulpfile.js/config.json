@@ -7,7 +7,7 @@
   "tasks": {
     "browserSync": {
       "server": {
-        "baseDir": "public"
+        "baseDir": "/public"
       }
     },
 

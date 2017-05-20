@@ -1,6 +1,7 @@
 /*------------------------------------*\
 		#ABBY http://abby.arjanjassal.me/
 \*------------------------------------*/
+@import "normalize";
 
 @import "variables";
 @import "mixins/mixins";
@@ -12,5 +13,5 @@
 @import "form";
 @import "button";
 @import "table";
-@import "code";
+@import "code"; 
 @import "utilities";
