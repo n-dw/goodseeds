@@ -1,0 +1,12 @@
+{% extends 'shop/_layouts/main' %}
+{% block main %}
+<h1>{{ entry.title }}</h1>
+<section class="faqs">
+    {% for termsGroup in entry.FAQGroups %}
+    <div class="faqs__group">
+        <h2 class="tc__heading">{{termsGroup.header}}</h2>
+        <p class="tc__text">{{termsGroup.text}}</p>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}
