@@ -22,6 +22,7 @@ return array(
         'defaultWeekStartDay' => 0,
         'enableCsrfProtection' => true,
         'cpTrigger' => 'admin',
+        'autoLoginAfterAccountActivation' => true,
 
         // Set the environmental variables
         'environmentVariables' => array(
@@ -34,8 +35,7 @@ return array(
     'live'  => array(
         'devMode' => false,
         'enableTemplateCaching' => true,
-        'allowAutoUpdates' => false,
-        'omitScriptNameInUrls' => true,
+        'allowAutoUpdates' => false,   
     ),
 
     // Staging (pre-production) environment
@@ -43,7 +43,6 @@ return array(
         'devMode' => false,
         'enableTemplateCaching' => true,
         'allowAutoUpdates' => false,
-        'omitScriptNameInUrls' => true,
     ),
 
     // Local (development) environment

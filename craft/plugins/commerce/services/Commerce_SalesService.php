@@ -1,7 +1,6 @@
 <?php
 namespace Craft;
 
-use Commerce\Helpers\CommerceDbHelper;
 
 /**
  * Sale service.
@@ -111,9 +110,9 @@ class Commerce_SalesService extends BaseApplicationComponent
 
             foreach ($allSalesById as $id => $sale)
             {
-                $sale->productIds = isset($products[$id]) ? $products[$id] : [];
-                $sale->productTypeIds = isset($productTypes[$id]) ? $productTypes[$id] : [];
-                $sale->groupIds = isset($groups[$id]) ? $groups[$id] : [];
+                $sale->productIds = isset($products[$id]) ? array_unique($products[$id]) : [];
+                $sale->productTypeIds = isset($productTypes[$id]) ? array_unique($productTypes[$id]) : [];
+                $sale->groupIds = isset($groups[$id]) ? array_unique($groups[$id]) : [];
             }
             $this->_allSales = array_values($allSalesById);
         }
@@ -195,6 +194,15 @@ class Commerce_SalesService extends BaseApplicationComponent
             }
         }
 
+        //raising event
+        $event = new Event($this, ['product' => $product, 'sale' => $sale]);
+        $this->onBeforeMatchProductAndSale($event);
+
+        if (!$event->performAction)
+        {
+            return false;
+        }
+
         return true;
     }
 
@@ -251,7 +259,7 @@ class Commerce_SalesService extends BaseApplicationComponent
         $record->validate();
         $model->addErrors($record->getErrors());
 
-        CommerceDbHelper::beginStackedTransaction();
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
         try
         {
             if (!$model->hasErrors())
@@ -293,18 +301,27 @@ class Commerce_SalesService extends BaseApplicationComponent
                     $relation->insert();
                 }
 
-                CommerceDbHelper::commitStackedTransaction();
+                if ($transaction !== null)
+                {
+                    $transaction->commit();
+                }
 
                 return true;
             }
         }
         catch (\Exception $e)
         {
-            CommerceDbHelper::rollbackStackedTransaction();
+            if ($transaction !== null)
+            {
+                $transaction->rollback();
+            }
             throw $e;
         }
 
-        CommerceDbHelper::rollbackStackedTransaction();
+        if ($transaction !== null)
+        {
+            $transaction->rollback();
+        }
 
         return false;
     }
@@ -344,5 +361,30 @@ class Commerce_SalesService extends BaseApplicationComponent
         }
 
         return $this->_allActiveSales;
+    }
+
+    /**
+     * Before matching a product to a sale
+     *
+     * Event params: product(Commerce_ProductModel)
+     *
+     * @param \CEvent $event
+     *
+     * @throws \CException
+     */
+    public function onBeforeMatchProductAndSale(\CEvent $event)
+    {
+        $params = $event->params;
+        if (empty($params['product']) || !($params['product'] instanceof Commerce_ProductModel))
+        {
+            throw new Exception('onBeforeMatchProductAndSale event requires "product" param with Commerce_ProductModel instance');
+        }
+
+        if (empty($params['sale']) || !($params['sale'] instanceof Commerce_SaleModel))
+        {
+            throw new Exception('onBeforeMatchProductAndSale event requires "sale" param with Commerce_SaleModel instance');
+        }
+
+        $this->raiseEvent('onBeforeMatchProductAndSale', $event);
     }
 }

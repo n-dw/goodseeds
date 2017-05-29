@@ -35,5 +35,7 @@ return array(
     'Omnipay\\CardSave\\' => array($vendorDir . '/omnipay/cardsave/src'),
     'Omnipay\\Buckaroo\\' => array($vendorDir . '/omnipay/buckaroo/src'),
     'Omnipay\\AuthorizeNet\\' => array($vendorDir . '/omnipay/authorizenet/src'),
+    'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
+    'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
     'Commerce\\' => array($baseDir . '/commerce/Commerce'),
 );

@@ -287,7 +287,7 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
             {
                 if ($element->shippingMethod)
                 {
-                    return $element->shippingMethod->name;
+                    return $element->shippingMethod->getName();
                 }
                 else
                 {
@@ -312,7 +312,7 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
 
 				if ($element->$attribute == 0)
 				{
-					return "";
+					return craft()->numberFormatter->formatCurrency($element->$attribute, $element->currency);
 				}
 
 				if ($element->$attribute > 0)
@@ -362,6 +362,7 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
 			'email' => AttributeType::Mixed,
 			'isCompleted' => AttributeType::Mixed,
 			'dateOrdered' => AttributeType::Mixed,
+			'datePaid' => AttributeType::Mixed,
 			'updatedOn' => AttributeType::Mixed,
 			'updatedAfter' => AttributeType::Mixed,
 			'updatedBefore' => AttributeType::Mixed,
@@ -375,9 +376,7 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
 			'user' => AttributeType::Mixed,
 			'isPaid' => AttributeType::Bool,
 			'isUnpaid' => AttributeType::Bool,
-			'hasPurchasables' => AttributeType::Mixed,
-            'paymentMethod' => AttributeType::Mixed,
-            'paymentMethodId' => AttributeType::Mixed
+			'hasPurchasables' => AttributeType::Mixed
 		];
 	}
 
@@ -396,8 +395,9 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
 				orders.couponCode,
 				orders.itemTotal,
 				orders.baseDiscount,
-				orders.baseTax,
 				orders.baseShippingCost,
+				orders.baseTax,
+				orders.baseTaxIncluded,
 				orders.totalPrice,
 				orders.totalPaid,
 				orders.orderStatusId,
@@ -435,7 +435,11 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
 			$query->andWhere(DbHelper::parseParam('orders.dateOrdered', $criteria->dateOrdered, $query->params));
 		}
 
-		// If the 'number' parameter is set to any empty value besides `null`, don't return anything
+        if ($criteria->datePaid) {
+            $query->andWhere(DbHelper::parseParam('orders.datePaid', $criteria->datePaid, $query->params));
+        }
+
+        // If the 'number' parameter is set to any empty value besides `null`, don't return anything
 		if ($criteria->number !== null && empty($criteria->number))
 		{
 			return false;
@@ -517,11 +521,11 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
 		}
 
 		if ($criteria->isPaid == true) {
-			$query->andWhere(DbHelper::parseParam('orders.totalPaid', '>= orders.totalPrice', $query->params));
+            $query->andWhere('orders.totalPaid >= orders.totalPrice');
 		}
 
 		if ($criteria->isUnpaid == true) {
-			$query->andWhere(DbHelper::parseParam('orders.totalPaid', '< orders.totalPrice', $query->params));
+            $query->andWhere('orders.totalPaid < orders.totalPrice');
 		}
 
 		if ($criteria->hasPurchasables !== null)

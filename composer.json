@@ -1,0 +1,15 @@
+{
+    "name": "thcpost/thcpost",
+    "description": "ecommorce cannabis",
+    "authors": [
+        {
+            "name": "NdeWs",
+            "email": "nate@natedewaard.com"
+        }
+    ],
+    "require": {
+        "nystudio107/instantanalytics": "^1.1",
+        "nystudio107/seomatic": "^1.1.5",
+    	"crodas/text-rank": "@dev"
+    }
+}

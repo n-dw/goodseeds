@@ -1,0 +1,13 @@
+<nav class="app-menu-fixed">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/shop">Shop</a></li>
+        {% if currentUser %}
+        <li><a href="/account">Account</a></li>
+        {% else %}
+        <li><a href="/login">Login</a></li>
+        {% endif %}
+        <li><a href="/frequently-asked-questions">FAQ</a></li>
+        <li><a href="/cart">Cart</a></li>
+    </ul>
+</nav>

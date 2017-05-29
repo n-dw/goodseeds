@@ -6,7 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Svg\\' => array($vendorDir . '/phenx/php-svg-lib/src'),
     'Snowcap\\Vat' => array($vendorDir . '/snowcap/vat-validation/src'),
+    'Sabberworm\\CSS' => array($vendorDir . '/sabberworm/php-css-parser/lib'),
     'Omnipay\\Common\\' => array($vendorDir . '/omnipay/common/src'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
