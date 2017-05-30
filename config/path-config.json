@@ -4,12 +4,12 @@
 
   "javascripts": {
     "src": "javascripts",
-    "dest": "javascripts"
+    "dest": "js"
   },
 
   "stylesheets": {
-    "src": "stylesheets",
-    "dest": "stylesheets"
+    "src": "scss",
+    "dest": "css"
   },
 
   "images": {

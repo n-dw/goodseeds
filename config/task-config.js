@@ -12,12 +12,12 @@ module.exports = {
     },
     // This tells webpack middleware where to
     // serve js files from in development:
-    publicPath: "/assets/javascripts"
+    publicPath: "/assets/js"
   },
 
   browserSync: {
     // Update this to match your development URL
-    proxy: 'craft.dev',
+    proxy: 'queef.dev',
     files: ['craft/templates/**/*']
   },
 
