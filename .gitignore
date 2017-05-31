@@ -40,6 +40,8 @@ dwsync.xml
 yarn.lock
 logs/*
 node_modules
+#!node_modules/blendid/
+#node_modules/blendid/node_modules
 .idea/*
 
 /vendor/
