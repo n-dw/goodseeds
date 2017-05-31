@@ -6,6 +6,8 @@
   "author": "NdW",
   "license": "MIT",
   "dependencies": {
-    "blendid": "^4.1.1"
+    "blendid": "^4.1.1",
+    "flexboxgrid": "^6.3.1",
+    "normalize.css": "^7.0.0"
   }
 }

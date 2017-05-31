@@ -1,9 +1,9 @@
 <footer>
     <div class="main_footer text-center">
         <div class="main-footer__site-seals site-seals">
-            <div class="site-seals__site-seal--ssl"><img src="" alt="SSL Secured Seal" class="site-seal-image"></div>
-            <div class="site-seals__site-seal--etransfer"><img src="" alt="Interac E-Transer Seal" class="site-seal-image"></div>
-            <div class="site-seals__site-seal--canada-post"><img src="" alt="Canada Post Shipping" class="site-seal-image"></div>
+            <div class="site-seals__site-seal--ssl"><img src="{ craft.config.environmentVariables.baseUrl }}assets/images/canada-post.svg" alt="SSL Secured Seal" class="site-seal-image"></div>
+            <div class="site-seals__site-seal--etransfer"><img src="{ craft.config.environmentVariables.baseUrl }}assets/images/canada-post.svg" alt="Interac E-Transer Seal" class="site-seal-image"></div>
+            <div class="site-seals__site-seal--canada-post"><img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/canada-post.svg" alt="Canada Post Xpresspost Shipping" class="site-seal-image"></div>
         </div>
         <p class="main-footer__copyright">Copyright © {{"now"|date("Y")}} THCPOST.CA&nbsp;|&nbsp;<a href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a></p>
         <div class="footer_links">

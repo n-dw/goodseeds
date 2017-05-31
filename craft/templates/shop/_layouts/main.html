@@ -1,56 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="x-ua-compatible" content="ie=edge">
-
-	<title>{{ "THCPOST"|t }}</title>
-
-	<meta name="description" content="{{ "The example templates for Craft Commerce"|t }}">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-	{# -- inline since its small loadjs -- #}
-	<script>
-        {{ source('_inlinejs/loadjs.min.js') }}
-	</script>
+    {% block head %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    {# -- inline since its small loadjs -- #}
     <script>
-    // define a dependency bundle
-    loadjs(
-        [
-            '{{ siteUrl }}assets/js/vue.min.js'
-        ],
-        'vue'
-    );
-    loadjs.ready('vue', {
-        success: function() {
-            // Vue is now loaded and ready to use
-        }
-    });
+        {{ source('_inlinejs/loadjs.min.js') }}
     </script>
-	<link rel="stylesheet" type='text/css' href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600'>
-	<link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
-	<link rel="stylesheet" type='text/css' href="{{ url('shop/style.css') }}">
-	<link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}" />
-	<script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>
-
-
+    <script>
+        // define a dependency bundle
+        loadjs(
+            [
+                '{{ siteUrl }}assets/js/vue.min.js'
+            ],
+            'vue'
+        );
+        loadjs.ready('vue', {
+            success: function() {
+                // Vue is now loaded and ready to use
+            }
+        });
+    </script>
+    <link rel="stylesheet" href="{{ 'assets/css/flexboxgrid.min.css' }}" />
+    <link rel="stylesheet" type='text/css' href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600'>
+    <link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <link rel="stylesheet" type='text/css' href="{{ url('shop/style.css') }}">
+    <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}" />
+    <script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>
+    {% endblock %}
 </head>
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
-
+{{ d(craft.request) }}
 {% set cart = craft.commerce.cart %}
 
 {% block header %}
-	<div id="header" class="container">
-		<div class="row">
-			<div class="twelve columns">
-				<a href="{{ url('shop') }}">{%- include "shop/_images/logo" with {'class': 'logo'} -%}</a>
+	<header id="header" class="container">
 
+				<a id="header_logo" class="header__logo" href="{{ siteUrl }}">
+                    <img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/thcpost.svg"  alt="THCPOST - Organic Canadian Mail Order Marijuana">
+                </a>
+
+                <div id="search">
+                    <form action="{{ url('search/results') }}" class="search-form">
+                        <input type="search" name="q" placeholder="Search">
+                    </form>
+                </div>
 				{% include "shop/_includes/nav" %}
 
 				<div class="flash">{{ craft.session.getFlash('notice') }}</div>
@@ -67,7 +70,7 @@
 
             </div>
 		</div>
-	</div>
+	</header>
 {% endblock %}
 
 {% block body %}
@@ -84,6 +87,9 @@
 {% endblock %}
 {% block footer %}
     {% include "shop/_includes/footer" %}
+{% endblock %}
+{% block fixedMobileNav %}
+{% include "shop/_includes/fixedFooterNav" %}
 {% endblock %}
 </body>
 </html>
