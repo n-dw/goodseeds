@@ -1,16 +1,22 @@
 {% extends 'shop/_layouts/main' %}
 
 {% block main %}
-	<div class="row">
-		<div class="twelve columns">
-			<p>These are the Craft Commerce example templates.</p>
-			<p>Resources:</p>
-			<ul>
-				<li><a href="https://craftcommerce.com/docs">Craft Commerce Documentation</a>.</li>
-				<li><a href="https://craftcms.com/docs/introduction">Craft CMS Documentation</a>.</li>
-				<li><a href="http://craftcms.stackexchange.com">Craft CMS Stack Exchange</a>. Use the <code>plugin-craftcommerce</code> tag.</li>
-				<li><a href="https://craftcms.com/community#slack">Slack Community</a>. Use the <code>#craftcommerce</code> channel.</li>
-			</ul>
-		</div>
-	</div>
+	<section class="product">
+
+	</section>
+
+	<section class="about">
+		<h2 class="section-header">Farm to Bong</h2>
+		<a href="about"> Learn More</a>
+	</section>
+
+	<section class="customer-assurance">
+				
+	</section>
+	<section class="questions-concerns">
+		<h2 class="section-header">Questions or Concerns</h2>
+		<p>Let us put your mind at ease, please visit our FAQ for common questions or contact us us via <a href="/contact">contact</a> form or email
+			<a href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a> and we will get back to you as soon as possible.</p>
+	</section>
+<a href="/shop" class="button">Shop Now</a>
 {% endblock %}

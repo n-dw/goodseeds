@@ -8,7 +8,7 @@
   },
 
   "stylesheets": {
-    "src": "stylesheet",
+    "src": "stylesheets",
     "dest": "css"
   },
 

@@ -1,14 +1,14 @@
 <footer>
     <div class="main_footer text-center">
-        <div class="main-footer__site-seals site-seals">
-            <div class="site-seals__site-seal--ssl"><img src="{ craft.config.environmentVariables.baseUrl }}assets/images/canada-post.svg" alt="SSL Secured Seal" class="site-seal-image"></div>
-            <div class="site-seals__site-seal--etransfer"><img src="{ craft.config.environmentVariables.baseUrl }}assets/images/canada-post.svg" alt="Interac E-Transer Seal" class="site-seal-image"></div>
-            <div class="site-seals__site-seal--canada-post"><img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/canada-post.svg" alt="Canada Post Xpresspost Shipping" class="site-seal-image"></div>
+        <div class="main-footer__site-seals site-seals row">
+            <div class="site-seals__site-seal--ssl col-xs-4"><img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/lets_encrypt_icon.svg" alt="SSL Secured Seal" class="site-seal-image"></div>
+            <div class="site-seals__site-seal--etransfer col-xs-4"><img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/interac.png" alt="Interac E-Transer Seal" class="site-seal-image"></div>
+            <div class="site-seals__site-seal--canada-post col-xs-4"><img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/canada-post.svg" alt="Canada Post Xpresspost Shipping" class="site-seal-image"></div>
         </div>
         <p class="main-footer__copyright">Copyright © {{"now"|date("Y")}} THCPOST.CA&nbsp;|&nbsp;<a href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a></p>
         <div class="footer_links">
             <ul>
-                <li><a href="/shop" target="_blank">shop</a></li>
+                <li><a href="/shop">shop</a></li>
                 <li><a href="/contact">Contact</a></li>
                 <li> <a href="/frequently-asked-questions">FAQ</a></li>
                 <li><a href="/terms">Terms</a></li>

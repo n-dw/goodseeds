@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     {# -- inline since its small loadjs -- #}
     <script>
@@ -26,11 +25,9 @@
             }
         });
     </script>
-    <link rel="stylesheet" href="{{ 'assets/css/flexboxgrid.min.css' }}" />
-    <link rel="stylesheet" type='text/css' href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600'>
+    <link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" />
     <link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
-    <link rel="stylesheet" type='text/css' href="{{ url('shop/style.css') }}">
+    <!--<link rel="stylesheet" type='text/css' href="{{ url('shop/style.css') }}">-->
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}" />
     <script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>
     {% endblock %}
@@ -39,14 +36,13 @@
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
-{{ d(craft.request) }}
 {% set cart = craft.commerce.cart %}
 
 {% block header %}
 	<header id="header" class="container">
 
-				<a id="header_logo" class="header__logo" href="{{ siteUrl }}">
-                    <img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/thcpost.svg"  alt="THCPOST - Organic Canadian Mail Order Marijuana">
+				<a id="header_logo" class="header__logo thcpost-f" href="{{ siteUrl }}">
+                    THCPOST
                 </a>
 
                 <div id="search">
@@ -87,9 +83,6 @@
 {% endblock %}
 {% block footer %}
     {% include "shop/_includes/footer" %}
-{% endblock %}
-{% block fixedMobileNav %}
-{% include "shop/_includes/fixedFooterNav" %}
 {% endblock %}
 </body>
 </html>
