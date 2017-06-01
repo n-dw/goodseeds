@@ -1,0 +1,25 @@
+.site-footer{
+  width:100%;
+  display: block;
+  background-color: map-get($colors, mid-grey);
+}
+
+.site-seal{
+  & img{
+    max-width: 320px;
+  }
+}
+.footer-links{
+    ul{
+      li{
+        display: inline-block;
+      }
+    }
+}
+.site-footer__social-links{
+  ul{
+    li{
+      display: inline-block;
+    }
+  }
+}

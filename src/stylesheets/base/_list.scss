@@ -15,17 +15,46 @@
 
 	&--clean {
 		list-style-type: none;
+        padding: 0;
 	}
 }
 
 /*
 APP MENU
  */
-.app-menu{
+.c-menu-list{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.app-menu-wrapper{
+  width: 100%;
+  z-index: 5;
+  background-color: #FFED89;
+  margin-left: 0;
+  margin-right: 0;
 
   &--fixed{
-      position: fixed;
-      bottom: 0;
+    position: fixed;
+    bottom: 0;
+  }
+}
+.app-menu{
+
+  &__item{
+
+  }
+  &__item--active{
+
+  }
+  &__icon,&__link{
+    text-align: center;
+  }
+  &__icon{
+    display: block;
+  }
+  &__link{
+    display: block;
   }
 }
 
