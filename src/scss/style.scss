@@ -1,11 +1,11 @@
 @import "variables";
-@import "mixins/mixins";
-@import "functions";
+@import "../stylesheets/base/mixins/mixins";
+@import "../stylesheets/base/functions";
 @import "base";
 @import "typography";
-@import "list";
+@import "../stylesheets/base/list";
 @import "form";
-@import "button";
-@import "table";
+@import "../stylesheets/base/button";
+@import "../stylesheets/base/table";
 @import "code"; 
-@import "utilities";
+@import "../stylesheets/base/utilities";

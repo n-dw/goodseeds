@@ -17,3 +17,15 @@
 		list-style-type: none;
 	}
 }
+
+/*
+APP MENU
+ */
+.app-menu{
+
+  &--fixed{
+      position: fixed;
+      bottom: 0;
+  }
+}
+

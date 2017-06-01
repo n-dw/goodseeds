@@ -1,0 +1,32 @@
+
+<nav  data-mobile="true" class="app-menu app-menu--fixed">
+    <ul class="c-list c-list--clean row center-md">
+        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} ">
+            <i class="app-menu__icon icon-home"></i>
+            <a class="app-menu__link" href="/">Home</a>
+        </li>
+        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}">
+            <i class="app-menu__icon  icon-shopping-bag"></i>
+            <a class="app-menu__link" href="/shop">Shop</a>
+        </li>
+        {% if currentUser %}
+        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}">
+            <i class="app-menu__icon  icon-user"></i>
+            <a class="app-menu__link" href="/account">Account</a>
+        </li>
+        {% else %}
+        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}">
+            <i class="app-menu__icon  icon-user"></i>
+            <a class="app-menu__link" href="/login">Login</a>
+        </li>
+        {% endif %}
+        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}">
+            <i class="app-menu__icon  icon-help-circled"></i>
+            <a class="app-menu__link" href="/frequently-asked-questions">FAQ</a>
+        </li>
+        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}">
+            <i class="app-menu__icon  icon-basket"></i>
+            <a class="app-menu__link" href="/cart">Cart</a>
+        </li>
+    </ul>
+</nav>

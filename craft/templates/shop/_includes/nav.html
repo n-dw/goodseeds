@@ -1,7 +1,4 @@
 <nav class="main-nav">
-
-    {% set page = craft.request.getSegment(2) %}
-
     <a class="button {% if page == 'products' %}button-primary{% endif %}" href="{{ url('shop/products') }}">
         {{ "Products"|t }}
     </a>
@@ -19,18 +16,4 @@
           {{ "Guest"|t }}
         {% endif %}
     </span>
-
-</nav>
-<nav  data-mobile="true" class="app-menu app-menu--fixed">
-    <ul>
-        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}"><a href="/">Home</a></li>
-        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}"><a href="/shop">Shop</a></li>
-        {% if currentUser %}
-        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}"><a href="/account">Account</a></li>
-        {% else %}
-        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}"><a href="/login">Login</a></li>
-        {% endif %}
-        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}"><a href="/frequently-asked-questions">FAQ</a></li>
-        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %}"><a href="/cart">Cart</a></li>
-    </ul>
 </nav>

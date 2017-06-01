@@ -50,8 +50,9 @@
                         <input type="search" name="q" placeholder="Search">
                     </form>
                 </div>
+                {% set page = craft.request.getSegment(2) %}
 				{% include "shop/_includes/nav" %}
-
+                {% include "shop/_includes/fixedFooterNav" %}
 				<div class="flash">{{ craft.session.getFlash('notice') }}</div>
 				<div class="flash">{{ craft.session.getFlash('error') }}</div>
 
