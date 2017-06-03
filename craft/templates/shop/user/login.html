@@ -1,11 +1,13 @@
+{% extends 'shop/_layouts/main' %}
+
+{% block main %}
 <form method="post" accept-charset="UTF-8">
     {{ getCsrfInput() }}
     <input type="hidden" name="action" value="users/login">
     {% set redirect = craft.request.getUrlReferrer() %}
     <input type="hidden" name="redirect" value="{{ redirect }}" />
     <h3><label for="loginName">Username or email</label></h3>
-    <input id="loginName" type="text" name="loginName"
-           value="{{ craft.session.rememberedUsername }}">
+    <input id="loginName" type="text" name="loginName" value="{{ craft.session.rememberedUsername }}">
 
     <h3><label for="password">Password</label></h3>
     <input id="password" type="password" name="password">
@@ -21,5 +23,7 @@
     <p>{{ errorMessage }}</p>
     {% endif %}
 </form>
+<p><a href="/register">Register</a></p>
+<p><a href="/forgotten-password">Forget your password?</a></p>
 
-<p><a href="{{ url('forgotpassword') }}">Forget your password?</a></p>
+{% endblock %}

@@ -7,11 +7,10 @@ namespace Craft;
 class ContactFormController extends BaseController
 {
 	/**
-	 * @var Allows anonymous access to this controller's actions.
+	 * @var bool Allows anonymous access to this controller's actions.
 	 * @access protected
 	 */
 	protected $allowAnonymous = true;
-
 
 	/**
 	 * Sends an email based on the posted params.
@@ -54,17 +53,16 @@ class ContactFormController extends BaseController
 		$event = new ContactFormMessageEvent($this, array('postedMessage' => $postedMessage));
 		craft()->contactForm->onBeforeMessageCompile($event);
 
-		if ($event->message && $event->messageFields)
+		if ($event->message)
 		{
 			$message->message = $event->message;
-			$message->messageFields = $event->messageFields;
 
 			if (!empty($event->htmlMessage))
 			{
 				$message->htmlMessage = $event->htmlMessage;
 			}
 		}
-		elseif ($postedMessage)
+		else if ($postedMessage)
 		{
 			if (is_array($postedMessage))
 			{
@@ -126,10 +124,10 @@ class ContactFormController extends BaseController
 			}
 		}
 
-        if (empty($message->htmlMessage))
-        {
-            $message->htmlMessage = StringHelper::parseMarkdown($message->message);
-        }
+		if (empty($message->htmlMessage))
+		{
+			$message->htmlMessage = StringHelper::parseMarkdown($message->message);
+		}
 
 		if ($message->validate())
 		{
