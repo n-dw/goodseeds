@@ -1,3 +1,6 @@
+{% extends 'shop/_layouts/main' %}
+
+{% block main %}
 {% macro errorList(errors) %}
 {% if errors %}
 <ul class="errors">
@@ -33,3 +36,4 @@
 
     <input type="submit" value="Send">
 </form>
+{% endblock %}
