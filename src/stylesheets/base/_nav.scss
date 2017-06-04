@@ -1,0 +1,67 @@
+/*Account Nav
+
+
+
+
+
+
+/* Main Nav */
+
+
+
+/*
+APP MENU
+ */
+.app-menu-wrapper{
+  width: 100%;
+  z-index: 5;
+  background-color:  map-get($colorsCannabis, aqua);
+  margin-left: 0;
+  margin-right: 0;
+
+  &--fixed{
+    position: fixed;
+    bottom: 0;
+  }
+}
+.app-menu{
+
+  &__item{
+    padding: 0.7em;
+  }
+  &__item--active{
+
+  }
+  &__icon,&__link{
+    text-align: center;
+  }
+  &__icon{
+    display: block;
+  }
+  &__link{
+    display: block;
+  }
+}
+
+
+/*shared nav items */
+.cart-count{
+  backgrount : map-get($colorsPostIt, orange);
+}
+.count{
+  text-align: center;
+  line-height: 18px;
+  min-width: 18px;
+  float: right;
+  position: absolute;
+  vertical-align: baseline;
+  color: #FFFFFF;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  padding: 0 4px;
+  margin: 0 -22px 0 0;
+  top: 10px;
+  right: 50%;
+  box-sizing: border-box;
+  border-radius: 2px;
+}

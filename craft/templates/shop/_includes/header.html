@@ -1,0 +1,29 @@
+<header id="header" class="container">
+
+    <a id="header_logo" class="header__logo thcpost-f" href="{{ siteUrl }}">
+        THCPOST
+    </a>
+
+    <div id="search">
+        <form action="{{ url('search/results') }}" class="search-form">
+            <input type="search" name="q" placeholder="Search">
+        </form>
+    </div>
+    <div class="account-nav" data-mobile="false">
+        {% include "shop/_includes/accountNav" %}
+    </div>
+    </div>
+    <div class="main-nav-wrapper" data-mobile="false">
+        {% include "shop/_includes/nav" %}
+    </div>
+    <div class="mobile-nav-toggle" data-mobile="true" >
+        <div id="nav-icon" class="open">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</header>

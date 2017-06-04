@@ -89,9 +89,19 @@ $colorsPostIt: 	(
         cream: 				#E9F7CA,
         pink: 				#CEB5A7,
         yellow: 			#FFED89,
-        orange: 			#F9A03F,
+        orange: 			#F9A03F, //#F56400
         red: 				#E25538
 );
+
+//https://coolors.co/e9f7ca-ceb5a7-ffed89-f9a03f-e25538 for reference
+$colorsCannabis: 	(
+        cream: 				#E9F7CA,
+        pink: 				#CEB5A7,
+        yellow: 			#FFED89,
+        green: 			    #6ccd6c,
+        aqua: 				#6bb8ac
+);
+
 
 $headings-color: 	    map-get($colors, black);
 $text-color: 			map-get($colors, black);

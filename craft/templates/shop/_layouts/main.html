@@ -40,46 +40,27 @@
 {% set cart = craft.commerce.cart %}
 
 {% block header %}
-	<header id="header" class="container">
-
-				<a id="header_logo" class="header__logo thcpost-f" href="{{ siteUrl }}">
-                    THCPOST
-                </a>
-
-                <div id="search">
-                    <form action="{{ url('search/results') }}" class="search-form">
-                        <input type="search" name="q" placeholder="Search">
-                    </form>
-                </div>
-
-				{% include "shop/_includes/nav" %}
-
-				<div class="flash">{{ craft.session.getFlash('notice') }}</div>
-				<div class="flash">{{ craft.session.getFlash('error') }}</div>
-
-                <div class="row">
-                    <div class="twelve columns">
-                        {% for error in cart.errors %}
-                            <div class="flash">{{ error|join(' ') }}</div>
-                        {% endfor  %}
-                    </div>
-                </div>
-
-
-            </div>
-		</div>
-	</header>
+{% include "shop/_includes/header" %}
 {% endblock %}
 
 {% block body %}
 	<div id="main" class="container">
+        {% block messages %}
+            <div class="flash flash-notice">{{ craft.session.getFlash('notice') }}</div>
+            <div class="flash flash-errors">{{ craft.session.getFlash('error') }}</div>
+
+            <div class="row">
+                <div class="twelve columns">
+                    {% for error in cart.errors %}
+                    <div class="flash">{{ error|join(' ') }}</div>
+                    {% endfor  %}
+                </div>
+            </div>
+            {% endblock %}
+        {% block promotions %}
+        {% endblock %}
 		{% block main %}
-			<div class="row">
-				<div class="twelve columns">
-					<h4>Default Content</h4>
-					<p>You should not see this.</p>
-				</div>
-			</div>
+
 		{% endblock %}
 	</div>
 {% endblock %}
