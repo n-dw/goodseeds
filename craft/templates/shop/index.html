@@ -1,26 +1,27 @@
 {% extends 'shop/_layouts/main' %}
 
 {% block main %}
-	<section class="product">
-
+	<section class="product-categories">
+		<a href="/shop?q=sales" class="c-button sale-button">Sales</a>
 	</section>
 
 	<section class="about">
-		<h2 class="section-header">Farm to Bong</h2>
-		<a href="about"> Learn More</a>
+		<h2 class="about__section-header">{{entry.aboutSectionHeader}}</h2>
+		<div class="about__short-description">{{entry.aboutBlurb}}</div>
+		<a href="/about">Learn More</a>
 	</section>
 
 	<section class="customer-assurance">
+		<h2 class="faq-category">{{entry.toutSectionHeader}}</h2>
 		{% cache %}
-			{% for touts in entry.touts %}
-			{% if faq.type == "faqCategory" %}
-			<h2 class="faq-category">{{faq.category}}</h2>
-			{% else %}
-			<div class="faq" id="faq{{faq.sortOrder}}">
-				<h3 class="faq__question">{{faq.question}}</h3>
-				<div class="faq__answer">{{faq.answer}}</div>
+			{% for tout in entry.touts %}
+
+			<div class="tout" id="tout{{tout.sortOrder}}">
+				<img src="" class="tout__image" alt="" />
+				<h3 class="tout__title">{{tout.toutTitle}}</h3>
+				<p class="tout__text">{{tout.toutBlurb}}</p>
 			</div>
-			{% endif %}
+
 			{% endfor %}
 		{% endcache %}
 	</section>

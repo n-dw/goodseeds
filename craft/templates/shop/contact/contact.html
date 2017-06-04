@@ -1,0 +1,43 @@
+{% extends 'shop/_layouts/main' %}
+
+{% block main %}
+
+<form id="contact_form" class="c-form" method="post" action="" accept-charset="UTF-8">
+    {{ getCsrfInput() }}
+    <input type="hidden" name="action" value="contactForm/sendMessage">
+    <input type="hidden" name="redirect" value="contact/thanks">
+    {% macro errorList(errors) %}
+    {% if errors %}
+    <ul class="errors">
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endmacro %}
+
+    {% from _self import errorList %}
+
+    <h3><label for="fromName">Name</label></h3>
+    <input id="fromName" type="text" name="fromName" value="{% if message is defined %}{{ message.fromName }}{% endif %}">
+    {{ message is defined and message ? errorList(message.getErrors('fromName')) }}
+
+    <h3><label for="fromEmail">Email</label></h3>
+    <input id="fromEmail" type="email" name="fromEmail" value="{% if message is defined %}{{ message.fromEmail }}{% endif %}">
+    {{ message is defined and message ? errorList(message.getErrors('fromEmail')) }}
+
+    <h3><label for="message[inquiryType]">Inquiry Type</label></h3>
+    <select name="message[inquiryType]" id="inquiryType">
+        <option value="support" selected>Support</option>
+        <option value="question" selected>Question</option>
+        <option value="suggestion">Suggestion</option>
+    </select>
+
+    <input id="subject" type="hidden" name="subject" value="Contact Form Submission">
+    <h3><label for="message">Message</label></h3>
+    <textarea rows="10" cols="40" id="message" name="message">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
+    {{ message is defined and message ? errorList(message.getErrors('message')) }}
+    <input id="toName" name="toName" type="text">
+    <input type="submit"class="c-button" value="Send">
+</form>
+{% endblock %}

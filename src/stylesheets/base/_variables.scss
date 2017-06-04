@@ -84,7 +84,16 @@ $colors: 	(
         brown: 				#795548
 );
 
-$headings-color: 	map-get($colors, black);
+//https://coolors.co/e9f7ca-ceb5a7-ffed89-f9a03f-e25538 for reference
+$colorsPostIt: 	(
+        cream: 				#E9F7CA,
+        pink: 				#CEB5A7,
+        yellow: 			#FFED89,
+        orange: 			#F9A03F,
+        red: 				#E25538
+);
+
+$headings-color: 	    map-get($colors, black);
 $text-color: 			map-get($colors, black);
 $link-color: 			map-get($colors, purple);
 

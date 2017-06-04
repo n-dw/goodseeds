@@ -30,7 +30,7 @@ APP MENU
 .app-menu-wrapper{
   width: 100%;
   z-index: 5;
-  background-color: #FFED89;
+  background-color:  map-get($colorsPostIt, yellow);
   margin-left: 0;
   margin-right: 0;
 

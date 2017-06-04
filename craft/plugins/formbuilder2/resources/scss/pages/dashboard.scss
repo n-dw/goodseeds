@@ -1,0 +1,50 @@
+/* ============================================ *
+ * Dashboard
+ * ============================================ */
+
+.fb-dashboard {
+
+  #main > .padded {
+    padding: 0;
+  }
+
+  .pane {
+    margin: 0;
+    padding: 20px;
+    border-radius: 0;
+  }
+
+  // Forms & Entries
+  .d-forms, .d-entries {
+    @include align-items(center);
+    @include display(flex);
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+    & > div {
+      @include flex(1);
+    }
+    h2, p {
+      margin: 0;
+      padding: 0;
+      font-family: $opensans;
+      @include antialias;
+    }
+    h2 {
+      font-weight: 700;
+      font-size: 26px;
+    }
+    p {
+      font-size: 12px;
+      font-weight: 600;
+      padding-top: 5px;
+      margin-top: 5px;
+      color: rgba($c-blue, .8);
+    }
+    .action {
+      max-width: 33px;
+      a {
+        display: block;
+      }
+    }
+  }
+}

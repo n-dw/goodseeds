@@ -1,7 +1,9 @@
 .site-footer{
   width:100%;
   display: block;
-  background-color: map-get($colors, mid-grey);
+  background-color: map-get($colorsPostIt, orange);
+  position: fixed;
+  bottom: 0;
 }
 
 .site-seal{
