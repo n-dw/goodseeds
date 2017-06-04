@@ -1,4 +1,4 @@
-<ul id="account_nav" class="account-nav" data-mobile="false">
+<ul id="account_nav" class="account-nav c-list--clean" data-mobile="false">
     <li class="account-nav__item">
         <a class="button {% if page == 'products' %} active {% endif %}" href="{{ url('shop/products') }}">
             {{ "Shop"|t }}
@@ -21,7 +21,7 @@
             <i class="fa fa-shopping-cart">
                 {% if cart.lineItems|length > 0 %}
                 <span class="cart-count count">
-                ({{ cart.lineItems|length }})
+                {{ cart.lineItems|length }}
                 </span>
                 {% endif %}
             </i>

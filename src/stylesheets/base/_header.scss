@@ -1,3 +1,9 @@
+#header{
+  background: map_get($colorsPostIt, cream);
+  width: 100%;
+  padding: 0.5em;
+}
+
 /* mobile toggle */
 .mobile-nav-toggle{
   color: #fff;
@@ -9,6 +15,9 @@
   margin: 0 auto;
   transition: .5s ease-in-out;
   cursor: pointer;
+
+  width: 30px;
+  height: 20px;
 
   span{
     transform: rotate(0deg);
@@ -85,3 +94,5 @@
     }
   }
 }
+
+
