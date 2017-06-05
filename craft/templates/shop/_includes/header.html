@@ -17,8 +17,8 @@
             <div class="account-nav col-xs-3 col-sm-5" data-mobile="false">
                 {% include "shop/_includes/accountNav" %}
             </div>
-            <div class="mobile-nav-toggle col-xs-3" data-mobile="true" >
-                <div id="nav-icon" :class="{ open: menuOpen }" @click="toggle">
+            <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-3" data-mobile="true" >
+                <div id="nav-icon" v-bind:class="{ open: menuOpen }" v-on:click="toggle">
                     <span></span>
                     <span></span>
                     <span></span>

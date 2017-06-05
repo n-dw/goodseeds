@@ -26,9 +26,13 @@ APP MENU
 .app-menu-wrapper{
   width: 100%;
   z-index: 5;
-  background-color:  map-get($colorsCannabis, aqua);
+  background-color:  $fixed-nav-color;
   margin-left: 0;
   margin-right: 0;
+
+  a,i{
+    color: $footer-font-color;
+  }
 
   &--fixed{
     position: fixed;
@@ -60,7 +64,7 @@ APP MENU
   position: relative;
 }
 .cart-count{
-  background : map-get($colorsPostIt, orange);
+  background : $cart-num-items-color;
 }
 .count{
   text-align: center;

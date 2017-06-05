@@ -86,26 +86,41 @@ $colors: 	(
 
 //https://coolors.co/e9f7ca-ceb5a7-ffed89-f9a03f-e25538 for reference
 $colorsPostIt: 	(
-        cream: 				#E9F7CA,
-        pink: 				#CEB5A7,
+        cream: 				#f7dd00,
+        pink: 				#FF44E3,
         yellow: 			#FFED89,
         orange: 			#F9A03F, //#F56400
-        red: 				#E25538
+        red: 				#E25538,
+        taupe:              #4C3B4D,
+        licourice:          #171500,
+        lightgrey:          #D4D2D5,
+        lightgreyDarker:    #D4D2D5
 );
 
 //https://coolors.co/e9f7ca-ceb5a7-ffed89-f9a03f-e25538 for reference
 $colorsCannabis: 	(
         cream: 				#E9F7CA,
-        pink: 				#CEB5A7,
+        pink: 				#FF44E3,
         yellow: 			#FFED89,
         green: 			    #6ccd6c,
         aqua: 				#6bb8ac
 );
 
 
-$headings-color: 	    map-get($colors, black);
+$headings-color: 	    map-get($colorsPostIt, licourice);
 $text-color: 			map-get($colors, black);
-$link-color: 			map-get($colors, purple);
+$link-color: 			map-get($colors, black);
+$link-header-color:		map-get($colors, black);
+$footer-font-color:     map-get($colorsPostIt, lightgreyDarker);
+
+
+
+
+$header-bg-color: map_get($colorsPostIt, cream);
+
+$cart-num-items-color: map_get($colorsPostIt, pink);
+$footer-bg-color: map_get($colorsPostIt, lightgrey);
+$fixed-nav-color: map_get($colorsPostIt, cream);
 
 /**
  * EASINGS
