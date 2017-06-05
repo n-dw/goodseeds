@@ -56,7 +56,7 @@
                     {% endfor  %}
                 </div>
             </div>
-            {% endblock %}
+        {% endblock %}
         {% block promotions %}
         {% endblock %}
 		{% block main %}
@@ -68,5 +68,19 @@
     {% include "shop/_includes/footer" %}
 {% endblock %}
 {% include "shop/_includes/fixedFooterNav" %}
+<script>
+    new Vue({
+        el: '#nav-menu',
+        delimiters: ['${', '}'],
+        data: {
+            menuOpen: false,
+        },
+        methods: {
+            toggle: function() {
+                this.menuOpen = !this.menuOpen;
+            }
+        },
+    });
+</script>
 </body>
 </html>

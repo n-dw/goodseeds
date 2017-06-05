@@ -1,20 +1,24 @@
 <header id="header">
     <div class="container">
         <div class="row">
-            <a id="header_logo" class="header__logo thcpost-f col-xs-3" href="{{ siteUrl }}">
-                THCPOST
-            </a>
-
-            <div id="search" class="col-xs-6">
+            <div id="logo" class="col-xs-3 col-sm-2">
+                <a id="header_logo" class="header__logo thcpost-f" href="{{ siteUrl }}">
+                    THCPOST
+                </a>
+            </div>
+            <div id="search" class="col-xs-6 col-sm-5">
                 <form action="{{ url('search/results') }}" class="search-form">
                     <input type="search" name="q" placeholder="Search">
+                    <button class="button button--search" type="submit" value="Search">
+                        Search
+                    </button>
                 </form>
             </div>
-            <div class="account-nav" data-mobile="false">
+            <div class="account-nav col-xs-3 col-sm-5" data-mobile="false">
                 {% include "shop/_includes/accountNav" %}
             </div>
             <div class="mobile-nav-toggle col-xs-3" data-mobile="true" >
-                <div id="nav-icon">
+                <div id="nav-icon" :class="{ open: menuOpen }" @click="toggle">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -26,9 +30,18 @@
         </div>
             <div class="main-nav-wrapper" data-mobile="false">
                 <div class="row">
-                    {% include "shop/_includes/nav" %}
+                    <div class="col-xs-12">
+                        {% include "shop/_includes/nav" %}
+                    </div>
                 </div>
             </div>
+        <div class="main-nav-mobile-wrapper" data-mobile="true">
+            <div class="row">
+                <div class="col-xs-12">
+                    {% include "shop/_includes/navMobile" %}
+                </div>
+            </div>
+        </div>
 
         </div>
     </div>

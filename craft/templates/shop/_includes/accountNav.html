@@ -1,14 +1,29 @@
 <ul id="account_nav" class="account-nav c-list--clean" data-mobile="false">
     <li class="account-nav__item">
-        <a class="button {% if page == 'products' %} active {% endif %}" href="{{ url('shop/products') }}">
-            {{ "Shop"|t }}
-        </a>
+        <a class="account-nav__link" href="/about">{{ "About Us"|t }}</a>
     </li>
-        {% if currentUser %}
-          <a href="{{ url('shop/customer') }}">{{ "You"|t }}</a>
-          — <a href="{{ url('shop/customer/addresses') }}">{{ "My Addresses"|t }}</a>
-          — <a href="{{ logoutUrl }}">Logout</a>
-        {% else %}
+    <li class="account-nav__item">
+        <a class="account-nav__link" href="/frequently-asked-questions">{{ "FAQ"|t }}</a>
+    </li>
+    <li class="account-nav__item">
+        <a class="account-nav__link" href="/contact">{{ "Contact"|t }}</a>
+    </li>
+    {% if currentUser %}
+    <li class="account-nav__item">
+        <span class="account-nav__item">You</span>
+        <ul class="sub-menu user-menu">
+            <li class="user-menu__item user-menu__item--border-bottom">
+                <a href="{{ url('shop/customer') }}">My Account</a>
+            </li>
+            <li class="user-menu__item user-menu__item--border-top">
+                <a href="{{ logoutUrl }}">My Orders</a>
+            </li>
+            <li class="user-menu__item user-menu__item--border-top">
+                <a href="{{ logoutUrl }}">Sign out</a>
+            </li>
+        </ul>
+    </li>
+    {% else %}
             <li class="account-nav__item">
                    <a class="account-nav__link" href="/register">{{ "Register"|t }}</a>
             </li>
