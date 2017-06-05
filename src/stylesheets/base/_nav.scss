@@ -45,8 +45,11 @@ APP MENU
 
 
 /*shared nav items */
+.cart-count-wrapper{
+  position: relative;
+}
 .cart-count{
-  backgrount : map-get($colorsPostIt, orange);
+  background : map-get($colorsPostIt, orange);
 }
 .count{
   text-align: center;

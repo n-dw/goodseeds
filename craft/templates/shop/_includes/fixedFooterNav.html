@@ -24,7 +24,7 @@
                     <a class="app-menu__link" href="/frequently-asked-questions">FAQ</a>
                 </li>
                 <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} col-xs">
-                    <i class="app-menu__icon  icon-basket">
+                    <i class="app-menu__icon  icon-basket cart-count-wrapper">
                         {% if cart.lineItems|length > 0 %}
                             <span class="cart-count count">
                                 {{ cart.lineItems|length }}
