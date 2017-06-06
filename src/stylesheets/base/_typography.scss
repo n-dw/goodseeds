@@ -1,8 +1,74 @@
 body {
-  font-family: sans-serif;
+  font-family: $font-copy;
 }
 
 .thcpost-f{
-  font-family: 'Permanent Marker', cursive;
+  font-family: $font-copy-logo;
 }
 
+/*------------------------------------*\
+    #TYPOGRAPHY
+\*------------------------------------*/
+
+body {
+  font-size: $font-size-body;
+  color: $text-color;
+}
+
+p {
+  margin: 0 0 $base-space;
+}
+
+a {
+  color: $link-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: $line-height-headings;
+  font-weight: $font-weight-headings;
+  font-family: $font-headings;
+  color: $headings-color;
+}
+
+h1 {
+  font-size: map-get($heading-sizes, 1);
+  margin-bottom: $base-space;
+}
+
+h2 {
+  font-size: map-get($heading-sizes, 2);
+  margin-bottom: ($base-space / 1.618);
+}
+
+h3 {
+  font-size: map-get($heading-sizes, 3);
+  margin-bottom: ($base-space / 2.148);
+}
+
+h4 {
+  font-size: map-get($heading-sizes, 4);
+  margin-bottom: ($base-space / 2.618);
+}
+
+h5 {
+  font-size: map-get($heading-sizes, 5);
+  margin-bottom: ($base-space / 3.427);
+}
+
+h6 {
+  font-size: map-get($heading-sizes, 6);
+  margin-bottom: ($base-space / 4.236);
+}
+
+small {
+  font-size: 75%;
+}
+
+.underline {
+  text-decoration: underline;
+}

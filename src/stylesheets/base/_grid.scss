@@ -1,0 +1,68 @@
+/*------------------------------------*\
+		#GRID
+\*------------------------------------*/
+
+.c-grid {
+  display: block;
+  width: 100%;
+
+  &__col {
+    flex: 1;
+
+    @for $i from 1 through 12 {
+
+      &--#{$i} {
+        flex: $i;
+      }
+    }
+  }
+
+  @include bp(medium) {
+    display: flex;
+    flex-wrap: no-wrap;
+
+    &--col {
+      flex-direction: column;
+    }
+
+    &--center {
+      justify-content: center;
+    }
+
+    &--middle {
+      align-items: center;
+    }
+
+    &--start {
+      justify-content: flex-start;
+    }
+
+    &--top {
+      align-items: flex-start;
+    }
+
+    &--end {
+      justify-content: flex-end;
+    }
+
+    &--bottom {
+      align-items: flex-end;
+    }
+
+    &--space-h {
+      justify-content: space-between;
+    }
+
+    &--space-v {
+      align-items: space-between;
+    }
+
+    &__col {
+      margin-left: $grid-gutter;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}

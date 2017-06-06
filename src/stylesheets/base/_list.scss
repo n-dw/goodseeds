@@ -15,7 +15,9 @@
 
 	&--clean {
 		list-style-type: none;
-        padding: 0;
+	}
+	&--inline{
+		display: inline-block;
 	}
 }
 

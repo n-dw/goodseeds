@@ -7,7 +7,6 @@
     <meta charset="utf-8">
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     {# -- inline since its small loadjs -- #}
     <script>
         {{ source('shop/_inlinejs/loadjs.min.js') }}
@@ -33,7 +32,7 @@
     <script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>
     {% endblock %}
 </head>
-<body>
+<body class="u-bg-yellow">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
@@ -44,25 +43,18 @@
 {% endblock %}
 
 {% block body %}
-	<div id="main" class="container">
+	<main id="main" class="container">
         {% block messages %}
             <div class="flash flash-notice">{{ craft.session.getFlash('notice') }}</div>
             <div class="flash flash-errors">{{ craft.session.getFlash('error') }}</div>
-
-            <div class="row">
-                <div class="twelve columns">
-                    {% for error in cart.errors %}
-                    <div class="flash">{{ error|join(' ') }}</div>
-                    {% endfor  %}
-                </div>
-            </div>
         {% endblock %}
         {% block promotions %}
         {% endblock %}
-		{% block main %}
-
-		{% endblock %}
-	</div>
+        <div class="content-container">
+		    {% block main %}
+            {% endblock %}
+        </div>
+	</main>
 {% endblock %}
 {% block footer %}
     {% include "shop/_includes/footer" %}

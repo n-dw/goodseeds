@@ -7,14 +7,14 @@
  * 		allows for easy overriding and cascading.
  */
 
- /**,
+ *,
  *:before,
  *:after {
  	box-sizing: inherit; // 1
  	margin: 0;
  	padding: 0;
  	font-size: inherit;
- }*/
+ }
 
 /**
  * 1. Auto-hiding scrollbars are used if the element's content overflows
@@ -25,7 +25,7 @@
  * 4. Set root font-size to 0.625rem that 1rem == 10px.
  */
 
- /*:root {
+ :root {
  	-ms-overflow-style: -ms-autohiding-scrollbar; // 1
 	text-size-adjust: 100%; // 2
 	box-sizing: border-box; // 3
@@ -37,7 +37,7 @@
 	-moz-osx-font-smoothing: grayscale; // Smooth fonts in moz.
   text-rendering: optimizeLegibility;
 	cursor: default;
- }*/
+ }
 
 /**
  * 1. Hide auto element in Chrome 40+, iOS 8+, Safari 8+.
