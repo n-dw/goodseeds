@@ -21,7 +21,14 @@ craft/config/local/*
 craft/storage/runtime/*
 craft/storage/backups/*
 
+#
+#IMAGER
+#
+#----------------------------------------------------------
 
+public/imager
+
+#
 # MISC FILES
 # ------------------------------------------------------------
 /.env.php

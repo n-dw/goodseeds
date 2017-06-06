@@ -5,6 +5,12 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-12">
+					<img class="scale-with-grid"
+						 src="{{ transformedImages[1].url }}"
+						 sizes="100vw"
+						 srcset="{{ craft.imager.srcset(transformedImages) }}"
+						 alt="{{ image.title }}">
+
 			<a href="/shop?q=sales" class="c-button sale-button">Sales</a>
 				</div>
 			</div>
@@ -32,7 +38,11 @@
 						{% for tout in entry.touts %}
 
 						<div class="tout" id="tout{{tout.sortOrder}}">
-							<img src="" class="tout__image" alt="" />
+							<img class="tout__image"
+								 src="{{ transformedImages[1].url }}"
+								 sizes="100vw"
+								 srcset="{{ craft.imager.srcset(transformedImages) }}"
+								 alt="{{ image.title }}">
 							<h3 class="tout__title">{{tout.toutTitle}}</h3>
 							<p class="tout__text">{{tout.toutBlurb}}</p>
 						</div>
