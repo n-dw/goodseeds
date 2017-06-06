@@ -5,9 +5,13 @@
 
   a{
     color: $link-header-color;
+    &:hover{
+      color: $link-header-color-hover;
+    }
   }
   #header_logo{
-    font-size:2.5em;
+    font-size: 2.5em;
+    line-height: 1em;
   }
 }
 

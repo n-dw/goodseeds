@@ -15,17 +15,28 @@
         // define a dependency bundle
         loadjs(
             [
-                '{{ siteUrl }}assets/js/vue.min.js'
+                '{{ siteUrl }}static/assets/js/vue.min.js'
             ],
             'vue'
         );
         loadjs.ready('vue', {
             success: function() {
-                // Vue is now loaded and ready to use
+                new Vue({
+                    el: '#mobile_nav_toggle',
+                    delimiters: ['${', '}'],
+                    data: {
+                        menuOpen: false,
+                    },
+                    methods: {
+                        toggle: function() {
+                            this.menuOpen = !this.menuOpen;
+                        }
+                    },
+                });
             }
         });
     </script>
-    <link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" />
+    <!--<link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" />-->
     <link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <!--<link rel="stylesheet" type='text/css' href="{{ url('shop/style.css') }}">-->
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}" />
@@ -43,36 +54,20 @@
 {% endblock %}
 
 {% block body %}
-	<main id="main" class="container">
+	<main id="main" class="main">
         {% block messages %}
             <div class="flash flash-notice">{{ craft.session.getFlash('notice') }}</div>
             <div class="flash flash-errors">{{ craft.session.getFlash('error') }}</div>
         {% endblock %}
         {% block promotions %}
         {% endblock %}
-        <div class="content-container">
-		    {% block main %}
-            {% endblock %}
-        </div>
-	</main>
+        {% block main %}
+        {% endblock %}
+    </main>
 {% endblock %}
 {% block footer %}
     {% include "shop/_includes/footer" %}
 {% endblock %}
 {% include "shop/_includes/fixedFooterNav" %}
-<script>
-    new Vue({
-        el: '#mobile_nav_toggle',
-        delimiters: ['${', '}'],
-        data: {
-            menuOpen: false,
-        },
-        methods: {
-            toggle: function() {
-                this.menuOpen = !this.menuOpen;
-            }
-        },
-    });
-</script>
 </body>
 </html>

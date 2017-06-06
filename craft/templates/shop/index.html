@@ -1,34 +1,59 @@
 {% extends 'shop/_layouts/main' %}
 
 {% block main %}
-	<section class="product-categories">
-		<a href="/shop?q=sales" class="c-button sale-button">Sales</a>
-	</section>
-
-	<section class="about">
-		<h2 class="about__section-header">{{entry.aboutSectionHeader}}</h2>
-		<div class="about__short-description">{{entry.aboutBlurb}}</div>
-		<a href="/about">Learn More</a>
-	</section>
-
-	<section class="customer-assurance">
-		<h2 class="faq-category">{{entry.toutSectionHeader}}</h2>
-		{% cache %}
-			{% for tout in entry.touts %}
-
-			<div class="tout" id="tout{{tout.sortOrder}}">
-				<img src="" class="tout__image" alt="" />
-				<h3 class="tout__title">{{tout.toutTitle}}</h3>
-				<p class="tout__text">{{tout.toutBlurb}}</p>
+	<section class="content-section product-categories">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+			<a href="/shop?q=sales" class="c-button sale-button">Sales</a>
+				</div>
 			</div>
+		</div>
+	</section>
 
-			{% endfor %}
-		{% endcache %}
+	<section class="content-section about u-bg-pink-pastelle">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<h2 class="about__section-header">{{entry.aboutSectionHeader}}</h2>
+					<div class="about__short-description">{{entry.aboutBlurb}}</div>
+					<a href="/about">Learn More</a>
+				</div>
+			</div>
+		</div>
 	</section>
-	<section class="questions-concerns">
-		<h2 class="section-header">Questions or Concerns</h2>
-		<p>Let us put your mind at ease, please visit our FAQ for common questions or contact us us via <a href="/contact">contact</a> form or email
-			<a href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a> and we will get back to you as soon as possible.</p>
+
+	<section class="content-section customer-assurance u-bg-cyan">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<h2 class="customer-assurance__header">{{entry.toutSectionHeader}}</h2>
+					{% cache %}
+						{% for tout in entry.touts %}
+
+						<div class="tout" id="tout{{tout.sortOrder}}">
+							<img src="" class="tout__image" alt="" />
+							<h3 class="tout__title">{{tout.toutTitle}}</h3>
+							<p class="tout__text">{{tout.toutBlurb}}</p>
+						</div>
+
+						{% endfor %}
+					{% endcache %}
+				</div>
+			</div>
+		</div>
 	</section>
-<a href="/shop" class="button">Shop Now</a>
+	<section class=" content-sectionquestions-concerns u-bg-beige">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+				<h2 class="section-header">Questions or Concerns</h2>
+				<p>Let us put your mind at ease, please visit our FAQ for common questions or contact us us via <a href="/contact">contact</a> form or email
+					<a href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a> and we will get back to you as soon as possible.
+				</p><a href="/shop" class="c-button">Shop Now</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
 {% endblock %}

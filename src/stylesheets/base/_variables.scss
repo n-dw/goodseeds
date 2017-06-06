@@ -36,7 +36,7 @@ $font-weight-headings: 	300;
  */
 $font-copy-logo: 'Permanent Marker', cursive;
 $font-copy: 		'Roboto Condensed', sans-serif;//'Helvetica Neue', 'Source Sans Pro', 'Arial', sans-serif;
-$font-headings: 'Architects Daughter', cursive;
+$font-headings: 'Bitter', serif;
 
 /**
  * BASE SPACING VALUE
@@ -71,14 +71,18 @@ $colors: 	(
         dark-grey: 		    #424242,
         mid-grey: 	    	#BDBDBD,
         light-grey:     	#F1F1F1,
+        beige:              #DBCE97,
         white: 				#ffffff,
         red: 				#F44336,
         orange-red: 		#ff5252,
         pink: 				#E91E63,
+        pink-pastelle:      #fc8d87,
         purple: 			#9C27B0,
+        dark-purple: 		#673AB7,
         indigo: 			#3F51B5,
         blue: 				#2196F3,
         cyan: 				#00BCD4,
+
         green: 				#4CAF50,
         yellow: 			#FFEB3B,
         orange: 			#FF9800,
@@ -108,12 +112,15 @@ $colorsCannabis: 	(
 );
 
 
-$headings-color: 	    map-get($colorsPostIt, licourice);
+$headings-color: 	    map-get($colors, black);
 $text-color: 			map-get($colors, black);
-$link-color: 			map-get($colors, white);
+$link-color: 			map-get($colors, dark-purple);
+$link-color-hover: 		#252d31;
 $link-header-color:		map-get($colors, white);
+$link-header-color-hover: #fc8d87;
 $footer-font-color:     map-get($colorsPostIt, lightgreyDarker);
-
+$link-footer-color: 			map-get($colors, dark-purple);
+$link-footer-color-hover: 		#252d31;
 
 $body-bg-color: map-get($colors, yellow);
 $header-bg-color: map_get($colors, black);
