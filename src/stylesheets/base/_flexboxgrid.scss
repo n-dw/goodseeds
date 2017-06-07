@@ -14,10 +14,10 @@ $flexboxgrid-outer-margin: 2rem !default;
 // Syntax:
 // name SIZErem,
 $flexboxgrid-breakpoints:
-        sm 76.8em 76.8rem,
-        md 102.400em 102.400rem,
-        lg 120.000em 120.000rem,
-        xl 160.00em 160.000rem !default;
+        sm 48em 76.8rem,
+        md 64em 102.4rem,
+        lg 75em 120.0rem,
+        xl 100em 160rem !default;
 $flexboxgrid-max-width: 1600px !default;
 
 //
