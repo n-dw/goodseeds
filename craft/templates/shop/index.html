@@ -9,22 +9,25 @@
 						{% set image = entry.allProductsImage.first() %}
 						{% set transformedImages = craft.imager.transformImage(image,
 						[
-						{ width: 1200, height: 150 },
-						{ width: 1024, height: 150 },
-						{ width: 768, height: 150, jpegQuality: 75 },
-						{ width: 640, height: 150, jpegQuality: 75 },
+						{ width: 800, ratio: 16/9},
+						{ width: 600, ratio: 16/9},
+						{ width: 384, ratio: 1/1 , jpegQuality: 75},
 						],
-						{
-						format: 'jpg',
-						allowUpscale: false,
-						mode: 'crop',
-						jpegQuality: 90,
-						position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%',
-						interlace: true
-						}
+						{format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 90,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
 						) %}
+						{% if craft.imager.serverSupportsWebp() %}
+						{% set transformedImagesWebP = craft.imager.transformImage(image,[
+						{width: 800, ratio: 5/2 , webpQuality: 90 },
+						{width: 600, ratio:  5/2, webpQuality: 90 },
+						{ width: 384, ratio: 1/1, webpQuality: 75 },
+						],
+						{ format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
+						{% endif %}
+						{% if craft.imager.serverSupportsWebp() %}
+							<source sizes="100vw" srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
+						{% endif %}
 						<img class="scale-with-grid"
-							 src="{{ transformedImages[1].url }}"
+							 src="{{ transformedImages[2].url }}"
 							 sizes="100vw"
 							 srcset="{{ craft.imager.srcset(transformedImages) }}"
 							 alt="{{ image.title }}">
@@ -58,10 +61,10 @@
 						<div class="tout" id="tout{{tout.sortOrder}}">
 							<picture>
 								<img class="tout__image"
-									 src="{{ transformedImages[1].url }}"
+									 src=""
 									 sizes="100vw"
-									 srcset="{{ craft.imager.srcset(transformedImages) }}"
-									 alt="{{ image.title }}">
+									 srcset=""
+									 alt="">
 							</picture>
 							<h3 class="tout__title">{{tout.toutTitle}}</h3>
 							<p class="tout__text">{{tout.toutBlurb}}</p>
