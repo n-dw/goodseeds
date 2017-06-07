@@ -28,7 +28,7 @@ return array(
   'pngCompressionLevel' => 2,
   'webpQuality' => 80,
   'webpImagickOptions' => array(), // additional options you want to pass to Imagick via '$instance->setOption('webp:option', 'value')'.
-  'useCwebp' => false,
+  'useCwebp' => true,
   'cwebpPath' => '/usr/bin/cwebp',
   'cwebpOptions' => '', // additional options you want to pass to cwebp. Quality is set automatically.
   'interlace' => false, // false, true ('line'), 'none', 'line', 'plane', 'partition'
