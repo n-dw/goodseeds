@@ -7,6 +7,12 @@
   .account-nav__item{
     display: inline-block;
   }
+  .account-nav__link--login{
+    border: 1px solid $link-header-color;
+    &:hover{
+      border: 1px solid $link-header-color-hover;
+    }
+  }
 }
 
 
@@ -64,9 +70,11 @@ APP MENU
 /*shared nav items */
 .cart-count-wrapper{
   position: relative;
+  font-size: 2.5rem;
 }
 .cart-count{
   background : $cart-num-items-color;
+
 }
 .count{
   text-align: center;
@@ -80,7 +88,7 @@ APP MENU
   letter-spacing: 0.03em;
   padding: 0 4px;
   margin: 0 -22px 0 0;
-  top: 10px;
+  top: 0;
   right: 50%;
   box-sizing: border-box;
   border-radius: 2px;

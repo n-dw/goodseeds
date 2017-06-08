@@ -68,6 +68,7 @@ $grid-gutter: ($base-space / 1.6);
 
 $colors: 	(
         black: 				#222222,
+        rick-black:         #023C40,
         dark-grey: 		    #424242,
         mid-grey: 	    	#BDBDBD,
         light-grey:     	#F1F1F1,
@@ -82,8 +83,9 @@ $colors: 	(
         indigo: 			#3F51B5,
         blue: 				#2196F3,
         cyan: 				#00BCD4,
-
+        turqoise:           #39DeD1,
         green: 				#4CAF50,
+        pastel-green:       #7DDF64,
         yellow: 			#FFEB3B,
         orange: 			#FF9800,
         brown: 				#795548
@@ -117,7 +119,7 @@ $text-color: 			map-get($colors, black);
 $link-color: 			map-get($colors, dark-purple);
 $link-color-hover: 		#252d31;
 $link-header-color:		map-get($colors, white);
-$link-header-color-hover: #fc8d87;
+$link-header-color-hover: map-get($colors, pastel-green); //#fc8d87;
 $footer-font-color:     map-get($colorsPostIt, lightgreyDarker);
 $link-footer-color: 			map-get($colors, dark-purple);
 $link-footer-color-hover: 		#252d31;

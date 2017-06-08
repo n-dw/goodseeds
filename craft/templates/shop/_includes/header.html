@@ -1,23 +1,23 @@
 <header id="header">
     <div class="container">
         <div class="row">
-            <div id="logo" class="col-xs-3 col-sm-2">
+            <div id="logo" class="col-xs-3 col-sm-3 col-md-2">
                 <a id="header_logo" class="header__logo thcpost-f" href="{{ siteUrl }}">
                     THCPOST
                 </a>
             </div>
-            <div id="search" class="col-xs-6 col-sm-5">
+            <div id="search" class="col-xs-6 col-sm-4">
                 <form action="{{ url('search/results') }}" class="search-form">
                     <input type="search" name="q" placeholder="Search">
                     <button class="button button--search" type="submit" value="Search">
-                        Search
+                        <i class="icon-help-circled"></i>
                     </button>
                 </form>
             </div>
-            <div class="account-nav col-xs-3 col-sm-5" data-mobile="false">
+            <div class="account-nav col-xs-3 col-sm-5 col-md-6 end-xs" data-mobile="false">
                 {% include "shop/_includes/accountNav" %}
             </div>
-            <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-3" data-mobile="true" >
+            <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-3 end-xs" data-mobile="true" >
                 <div id="nav-icon" v-bind:class="{ open: menuOpen }" v-on:click="toggle">
                     <span></span>
                     <span></span>
