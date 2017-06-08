@@ -132,6 +132,16 @@ $footer-bg-color: map_get($colors, dark-grey);
 $fixed-nav-color: map_get($colors, black);
 $fixed-nav-hover-color: map_get($colors, yellow);
 
+
+/*
+Category colours
+ */
+
+$sativa-color: map-get($colors, dark-purple);
+$indica-color: map-get($colors, pink-pastelle);
+$hybrid-color: map-get($colors, turqoise);
+$concentrate-color: map-get($colors, yellow);
+
 /**
  * EASINGS
  */
