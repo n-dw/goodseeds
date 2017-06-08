@@ -18,6 +18,9 @@
   transition: all 0.3s ease-out 0s;
   margin-bottom: 1.5rem;
 
+  .product-cat__caption{
+
+  }
   &:hover{
     .product-cat__image{
       transform: scale3d(1.1, 1.1, 1);

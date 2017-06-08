@@ -5,16 +5,16 @@
 @import url(https://fonts.googleapis.com/css?family=Architects+Daughter);
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed);
 
+@import url(https://fonts.googleapis.com/css?family=Quicksand);
 
-//icons
 @font-face {
   font-family: 'thcpost-icons';
-  src: url('../fonts/thcpost-icons.eot?93012916');
-  src: url('../fonts/thcpost-icons.eot?93012916#iefix') format('embedded-opentype'),
-  url('../fonts/thcpost-icons.woff2?93012916') format('woff2'),
-  url('../fonts/thcpost-icons.woff?93012916') format('woff'),
-  url('../fonts/thcpost-icons.ttf?93012916') format('truetype'),
-  url('../fonts/thcpost-icons.svg?93012916#thcpost-icons') format('svg');
+  src: url('../fonts/thcpost-icons.eot?44449711');
+  src: url('../fonts/thcpost-icons.eot?44449711#iefix') format('embedded-opentype'),
+  url('../fonts/thcpost-icons.woff2?44449711') format('woff2'),
+  url('../fonts/thcpost-icons.woff?44449711') format('woff'),
+  url('../fonts/thcpost-icons.ttf?44449711') format('truetype'),
+  url('../fonts/thcpost-icons.svg?44449711#thcpost-icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,7 +24,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'thcpost-icons';
-    src: url('../font/thcpost-icons.svg?93012916#thcpost-icons') format('svg');
+    src: url('../font/thcpost-icons.svg?44449711#thcpost-icons') format('svg');
   }
 }
 */
@@ -75,8 +75,23 @@
 .icon-plus-1:before { content: '\e808'; } /* '' */
 .icon-bitcoin:before { content: '\e809'; } /* '' */
 .icon-mail:before { content: '\e80a'; } /* '' */
+.icon-search:before { content: '\e80b'; } /* '' */
+.icon-star-empty:before { content: '\e80c'; } /* '' */
+.icon-star:before { content: '\e80d'; } /* '' */
+.icon-star-half:before { content: '\e80e'; } /* '' */
+.icon-heart-empty:before { content: '\e80f'; } /* '' */
+.icon-heart:before { content: '\e810'; } /* '' */
+.icon-credit-card:before { content: '\e811'; } /* '' */
+.icon-camera:before { content: '\e812'; } /* '' */
 .icon-twitter:before { content: '\f058'; } /* '' */
+.icon-star-half-alt:before { content: '\f123'; } /* '' */
+.icon-cc-visa:before { content: '\f1f0'; } /* '' */
+.icon-cc-mastercard:before { content: '\f1f1'; } /* '' */
+.icon-cc-discover:before { content: '\f1f2'; } /* '' */
+.icon-cc-amex:before { content: '\f1f3'; } /* '' */
+.icon-cc-paypal:before { content: '\f1f4'; } /* '' */
+.icon-credit-card-alt:before { content: '\f283'; } /* '' */
 .icon-shopping-bag:before { content: '\f290'; } /* '' */
 .icon-instagram:before { content: '\f32d'; } /* '' */
+.icon-search-1:before { content: '\f50d'; } /* '' */
 .icon-lock:before { content: '\f512'; } /* '' */
-

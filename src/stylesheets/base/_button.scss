@@ -1,7 +1,9 @@
 /*------------------------------------*\
 		#BUTTON
 \*------------------------------------*/
-
+button{
+	cursor: pointer;
+}
 .c-button {
 
 	// Reset appearance
@@ -23,5 +25,39 @@
 	&:focus,
 	&:active {
 		outline: none;
+	}
+
+	&--large{
+		font-size: 2.6rem;
+		max-width: 30rem;
+		font-weight: 700;
+		width:100%;
+		background: none;
+		text-transform: uppercase;
+	}
+	&--red{
+
+	}
+	&--promotion{
+
+		border: 3px solid $promotion-color;
+		color: $promotion-color;
+
+
+		&:hover{
+			border: 3px solid $promotion-hover-color;
+			color: $promotion-hover-color;
+		}
+	}
+	&--cta-blue{
+
+		border: 3px solid $cta-blue-color;
+		color: $cta-blue-color;
+
+
+		&:hover{
+			border: 3px solid $cta-blue-hover-color;
+			color: $cta-blue-hover-color;
+		}
 	}
 }
