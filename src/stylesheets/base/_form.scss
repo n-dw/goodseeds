@@ -2,21 +2,21 @@
     #FORM
 \*------------------------------------*/
 
-.c-form {
+.c-form{
   margin: (0) (0) ($base-space);
 }
 
-.c-fieldset {
+.c-fieldset{
   border: none;
   margin: (0) (0) ($base-space / 2);
 }
 
-.c-label {
+.c-label{
   display: block;
   margin-bottom: ($base-space / 6);
 }
 
-.c-input {
+.c-input{
   box-sizing: border-box;
   display: block;
   width: 100%;
@@ -32,7 +32,7 @@
   border: none;
   border-bottom: 2px solid $formElementBorderColor;
 
-  &:focus {
+  &:focus{
     outline: none;
     border-bottom: 2px solid $formElementBorderColorFocus;
   }
@@ -46,14 +46,14 @@
   }
 }
 
-.c-textarea {
+.c-textarea{
   height: auto;
   min-height: ($base-space * 1.5);
   background: none;
   border: 2px solid $formElementBorderColor;
   width: 100%;
 
-  &:focus {
+  &:focus{
     outline: none;
     border: 2px solid $formElementBorderColorFocus;
   }
@@ -68,7 +68,7 @@
 
 }
 
-.c-input-option {
+.c-input-option{
   display: inline-block;
   margin-right: ($base-space / 6);
   padding: 0;
@@ -76,7 +76,7 @@
   width: 100%;
   border: 2px solid $formElementBorderColor;
   background: none;
-  &:focus {
+  &:focus{
     outline: none;
     border: 2px solid $formElementBorderColorFocus;
   }
@@ -84,6 +84,6 @@
 
 #contact_form{
   input#toName{
-      display: none;
+    display: none;
   }
 }

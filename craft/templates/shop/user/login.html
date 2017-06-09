@@ -1,29 +1,61 @@
+{% macro errorList(errors) %}
+{% if errors %}
+<ul class="c-list c-list--clean c-list--error">
+    {% for error in errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endmacro %}
+{% from _self import errorList %}
 {% extends 'shop/_layouts/main' %}
 
 {% block main %}
-<form method="post" accept-charset="UTF-8">
-    {{ getCsrfInput() }}
-    <input type="hidden" name="action" value="users/login">
-    {% set redirect = craft.request.getUrlReferrer() %}
-    <input type="hidden" name="redirect" value="{{ redirect }}" />
-    <h3><label for="loginName">Username or email</label></h3>
-    <input id="loginName" type="text" name="loginName" value="{{ craft.session.rememberedUsername }}">
+<section class="contact-us u-bg-beige">
+    <div class="wrapper container-fluid">
+        <div class="row center-xs">
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <h1>Sign In</h1>
+                <form method="post" accept-charset="UTF-8">
+                    {{ getCsrfInput() }}
+                    <input type="hidden" name="action" value="users/login">
+                    {% set redirect = craft.request.getUrlReferrer() %}
+                    <input type="hidden" name="redirect" value="{{ redirect }}"/>
+                    <div class="row">
+                        <div class="input-wrapper col-xs-12 c-fieldset">
+                            <input class="c-input {% if message is defined and message.getErrors('loginName') is not empty %}error{% endif %}"
+                                   aria-label="Email" placeholder="Email" id="loginName" type="email" name="loginName"
+                                   value="{{ craft.session.rememberedUsername }}">
+                        </div>
+                        <div class="input-wrapper col-xs-12 c-fieldset">
+                            <input class="c-input {% if message is defined and message.getErrors('password') is not empty %}error{% endif %}" aria-label="Password" id="password" type="password" placeholder="Password"
+                                   name="password">
+                            {{ message is defined and message ? errorList(message.getErrors('password')) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-wrapper col-xs-12 c-fieldset">
+                    <label>
+                        <input aria-label="Remember Me" checked type="checkbox" name="rememberMe" value="1">
+                        Remember me
+                    </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-wrapper col-xs-12">
+                            <input aria-label="Send" type="submit" class="c-button c-button--large c-button--cta-white"
+                                   value="Sign In">
+                        </div>
+                    </div>
 
-    <h3><label for="password">Password</label></h3>
-    <input id="password" type="password" name="password">
-
-    <label>
-        <input type="checkbox" name="rememberMe" value="1">
-        Remember me
-    </label>
-
-    <input type="submit" value="Login">
-
-    {% if errorMessage is defined %}
-    <p>{{ errorMessage }}</p>
-    {% endif %}
-</form>
-<p><a href="/register">Register</a></p>
-<p><a href="/forgotten-password">Forget your password?</a></p>
-
+                    {% if errorMessage is defined %}
+                    <p>{{ errorMessage }}</p>
+                    {% endif %}
+                </form>
+                <p><a href="/register">Register</a></p>
+                <p><a href="/forgotten-password">Forget your password?</a></p>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

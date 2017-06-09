@@ -5,54 +5,63 @@
     <div class="wrapper container-fluid">
         <div class="row center-xs">
             <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
-           <h1>Contact Us</h1>
-<form id="contact_form" class="c-form" method="post" action="" accept-charset="UTF-8">
-    {{ getCsrfInput() }}
-    <input type="hidden" name="action" value="contactForm/sendMessage">
-    <input type="hidden" name="redirect" value="contact">
-    {% macro errorList(errors) %}
-    {% if errors %}
-    <ul class="c-list c-list--clean c-list--error">
-        {% for error in errors %}
-        <li>{{ error }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endmacro %}
-    {% from _self import errorList %}
-    <div class="row">
-        <div class="input-wrapper col-xs-12 col-sm-6 c-fieldset">
-            <input  class="c-input {% if message is defined and message.getErrors('fromName') is not empty %}error{% endif %}" id="fromName" aria-label="Name" placeholder="Name" type="text" name="fromName" value="{% if message is defined %}{{ message.fromName }}{% endif %}">
-            {{ message is defined and message ? errorList(message.getErrors('fromName')) }}
-        </div>
-        <div class="input-wrapper col-xs-12 col-sm-6 c-fieldset">
-            <input class="c-input {% if message is defined and message.getErrors('fromEmail') is not empty %}error{% endif %}" id="fromEmail" aria-label="Email" placeholder="Email" type="email" name="fromEmail" value="{% if message is defined %}{{ message.fromEmail }}{% endif %}">
-            {{ message is defined and message ? errorList(message.getErrors('fromEmail')) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-wrapper col-xs-12 c-fieldset">
-    <select class="c-input-option" aria-label="Inquiry Type" name="message[inquiryType]" id="inquiryType">
-        <option value="support" selected>Support</option>
-        <option value="question" selected>Question</option>
-        <option value="suggestion">Suggestion</option>
-    </select>
-        </div>
-    </div>
-    <input id="subject" type="hidden" name="subject" value="Contact Form Submission">
-    <div class="row">
-        <div class="input-wrapper col-xs-12 c-fieldset">
-    <textarea class="c-textarea {% if message is defined and message.getErrors('message') is not empty %}error{% endif %}" aria-label="Message" placeholder="Message" rows="10" cols="40" id="message" name="message">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
-    {{ message is defined and message ? errorList(message.getErrors('message')) }}
-            </div>
-        </div>
-    <input id="toName" name="toName" type="text">
-    <div class="row">
-        <div class="input-wrapper col-xs-12">
-    <input aria-label="Send" type="submit"class="c-button c-button--large c-button--cta-blue" value="Send">
-    </div>
-    </div>
-</form>
+                <h1>Contact Us</h1>
+                <form id="contact_form" class="c-form" method="post" action="" accept-charset="UTF-8">
+                    {{ getCsrfInput() }}
+                    <input type="hidden" name="action" value="contactForm/sendMessage">
+                    <input type="hidden" name="redirect" value="contact">
+                    {% macro errorList(errors) %}
+                        {% if errors %}
+                            <ul class="c-list c-list--clean c-list--error">
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endmacro %}
+                    {% from _self import errorList %}
+                    <div class="row">
+                        <div class="input-wrapper col-xs-12 col-sm-6 c-fieldset">
+                            <input class="c-input {% if message is defined and message.getErrors('fromName') is not empty %}error{% endif %}"
+                                   id="fromName" aria-label="Name" placeholder="Name" type="text" name="fromName"
+                                   value="{% if message is defined %}{{ message.fromName }}{% endif %}">
+                            {{ message is defined and message ? errorList(message.getErrors('fromName')) }}
+                        </div>
+                        <div class="input-wrapper col-xs-12 col-sm-6 c-fieldset">
+                            <input class="c-input {% if message is defined and message.getErrors('fromEmail') is not empty %}error{% endif %}"
+                                   id="fromEmail" aria-label="Email" placeholder="Email" type="email" name="fromEmail"
+                                   value="{% if message is defined %}{{ message.fromEmail }}{% endif %}">
+                            {{ message is defined and message ? errorList(message.getErrors('fromEmail')) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-wrapper col-xs-12 c-fieldset">
+                            <select class="c-input-option" aria-label="Inquiry Type" name="message[inquiryType]"
+                                    id="inquiryType">
+                                <option value="support" selected>Support</option>
+                                <option value="question" selected>Question</option>
+                                <option value="suggestion">Suggestion</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input id="subject" type="hidden" name="subject" value="Contact Form Submission">
+                    <div class="row">
+                        <div class="input-wrapper col-xs-12 c-fieldset">
+                            <textarea
+                                    class="c-textarea {% if message is defined and message.getErrors('message') is not empty %}error{% endif %}"
+                                    aria-label="Message" placeholder="Message" rows="10" cols="40" id="message"
+                                    name="message">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
+                            {{ message is defined and message ? errorList(message.getErrors('message')) }}
+                        </div>
+                    </div>
+                    <input id="toName" name="toName" type="text">
+                    <div class="row">
+                        <div class="input-wrapper col-xs-12">
+                            <input aria-label="Send" type="submit" class="c-button c-button--large c-button--cta-white"
+                                   value="Send">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

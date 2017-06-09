@@ -60,4 +60,15 @@ button{
 			color: $cta-blue-hover-color;
 		}
 	}
+	&--cta-white{
+
+		border: 3px solid map_get($colors, white);
+		color: map_get($colors, white);
+
+
+		&:hover{
+			border: 3px solid $cta-blue-color;
+			color: $cta-blue-color;
+		}
+	}
 }
