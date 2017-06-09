@@ -1,7 +1,7 @@
 <header id="header">
-    <div class="container">
+    <div class="container-fluid wrapper">
         <div class="row">
-            <div id="logo" class="col-xs-3 col-sm-3 col-md-2">
+            <div id="logo" class="col-xs-4 col-sm-3 col-md-2">
                 <a id="header_logo" class="header__logo thcpost-f" href="{{ siteUrl }}">
                     THCPOST
                 </a>
@@ -17,7 +17,7 @@
             <div class="account-nav col-xs-3 col-sm-5 col-md-6 end-xs" data-mobile="false">
                 {% include "shop/_includes/accountNav" %}
             </div>
-            <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-3 end-xs" data-mobile="true" >
+            <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-1 end-xs" data-mobile="true" >
                 <div id="nav-icon" v-bind:class="{ open: menuOpen }" v-on:click="toggle">
                     <span></span>
                     <span></span>

@@ -19,7 +19,7 @@
     }
   }
   #header_logo{
-    font-size: 5rem;
+    font-size: 3rem;
     line-height: 1em;
     padding: 0;
   }
@@ -156,4 +156,9 @@
   }
 }
 
+@include bp(small){
+ #header #header_logo{
+    font-size: 5rem;
+  }
+}
 

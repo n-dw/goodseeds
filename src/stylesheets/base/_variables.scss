@@ -150,6 +150,14 @@ $promotion-hover-color: darken(map-get($colors, pastel-green), 10%);
 
 $cta-blue-color: map-get($colors, cyan);
 $cta-blue-hover-color: darken(map-get($colors, cyan), 10%);
+
+/*
+Forms
+ */
+$formElementBorderColor: map-get($colors, white);
+$formElementBorderColorFocus: map-get($colors, cyan);
+$formElementBorderColorError: map-get($colors, red);
+
 /**
  * EASINGS
  */

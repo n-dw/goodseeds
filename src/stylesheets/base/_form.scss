@@ -28,10 +28,21 @@
   border: 1px solid color(light-grey);
   font: inherit;
   color: inherit;
-  background: white;
+  background: none;
+  border: none;
+  border-bottom: 2px solid $formElementBorderColor;
 
   &:focus {
     outline: none;
+    border-bottom: 2px solid $formElementBorderColorFocus;
+  }
+
+  &.error{
+    border-bottom: 2px solid $formElementBorderColorError;
+
+    &:focus{
+      border-bottom: 2px solid $formElementBorderColorError;
+    }
   }
 }
 
@@ -52,6 +63,7 @@
 }
 
 #contact_form{
+  max-width: 76.8rem;
   input#toName{
       display: none;
   }

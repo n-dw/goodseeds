@@ -56,8 +56,33 @@
 {% block body %}
 	<main id="main" class="main">
         {% block messages %}
-            <div class="flash flash-notice">{{ craft.session.getFlash('notice') }}</div>
-            <div class="flash flash-errors">{{ craft.session.getFlash('error') }}</div>
+            {% set messageNotice = craft.session.getFlash( 'notice' ) %}
+            {% set messageError = craft.session.getFlash( 'error' ) %}
+            {% if messageNotice %}
+                <div class="flash flash-notice u-bg-pastel-green">
+                    <div class="wrapper container-fluid">
+                        <div class="row center-xs">
+                            <div class="col-xs-12">
+                                {{messageNotice }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if messageError %}
+
+
+                <div class="flash flash-errors u-bg-red">
+                    <div class="wrapper container-fluid">
+                        <div class="row center-xs">
+                            <div class="col-xs-12">
+                    {{ messageError }}
+                    </div>
+            </div>
+            </div>
+            </div>
+                </div>
+            {% endif %}
         {% endblock %}
         {% block promotions %}
         {% endblock %}
