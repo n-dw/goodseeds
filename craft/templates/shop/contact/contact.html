@@ -9,7 +9,7 @@
 <form id="contact_form" class="c-form" method="post" action="" accept-charset="UTF-8">
     {{ getCsrfInput() }}
     <input type="hidden" name="action" value="contactForm/sendMessage">
-    <input type="hidden" name="redirect" value="contact/thanks">
+    <input type="hidden" name="redirect" value="contact">
     {% macro errorList(errors) %}
     {% if errors %}
     <ul class="errors">
@@ -19,15 +19,14 @@
     </ul>
     {% endif %}
     {% endmacro %}
-
     {% from _self import errorList %}
     <div class="row">
         <div class="input-wrapper col-xs-12 col-sm-6">
-            <input  class="c-input {% if errorList(message.getErrors('fromName')) %}error{% endif %}" id="fromName" aria-label="Name" placeholder="Name" type="text" name="fromName" value="{% if message is defined %}{{ message.fromName }}{% endif %}">
+            <input  class="c-input {% if message is defined and message.getErrors('fromName') is not empty %}error{% endif %}" id="fromName" aria-label="Name" placeholder="Name" type="text" name="fromName" value="{% if message is defined %}{{ message.fromName }}{% endif %}">
             {{ message is defined and message ? errorList(message.getErrors('fromName')) }}
         </div>
         <div class="input-wrapper col-xs-12 col-sm-6">
-            <input class="c-input {% if message is defined and message %}error{% endif %}" id="fromEmail" aria-label="Email" placeholder="Email" type="email" name="fromEmail" value="{% if message is defined %}{{ message.fromEmail }}{% endif %}">
+            <input class="c-input {% if message is defined and message.getErrors('fromEmail') is not empty %}error{% endif %}" id="fromEmail" aria-label="Email" placeholder="Email" type="email" name="fromEmail" value="{% if message is defined %}{{ message.fromEmail }}{% endif %}">
             {{ message is defined and message ? errorList(message.getErrors('fromEmail')) }}
         </div>
     </div>
@@ -38,7 +37,7 @@
     </select>
 
     <input id="subject" type="hidden" name="subject" value="Contact Form Submission">
-    <textarea class="c-textarea {% if message is defined and message %}error{% endif %}" aria-label="Message" placeholder="Message" rows="10" cols="40" id="message" name="message">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
+    <textarea class="c-textarea {% if message is defined and message.getErrors('message') is not empty %}error{% endif %}" aria-label="Message" placeholder="Message" rows="10" cols="40" id="message" name="message">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
     {{ message is defined and message ? errorList(message.getErrors('message')) }}
     <input id="toName" name="toName" type="text">
     <input aria-label="Send" type="submit"class="c-button c-button--large c-button--promotion" value="Send">
