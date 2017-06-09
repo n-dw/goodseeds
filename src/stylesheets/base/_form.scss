@@ -49,6 +49,23 @@
 .c-textarea {
   height: auto;
   min-height: ($base-space * 1.5);
+  background: none;
+  border: 2px solid $formElementBorderColor;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border: 2px solid $formElementBorderColorFocus;
+  }
+
+  &.error{
+    border: 2px solid $formElementBorderColorError;
+
+    &:focus{
+      border: 2px solid $formElementBorderColorError;
+    }
+  }
+
 }
 
 .c-input-option {
@@ -56,14 +73,16 @@
   margin-right: ($base-space / 6);
   padding: 0;
   height: auto;
-
+  width: 100%;
+  border: 2px solid $formElementBorderColor;
+  background: none;
   &:focus {
     outline: none;
+    border: 2px solid $formElementBorderColorFocus;
   }
 }
 
 #contact_form{
-  max-width: 76.8rem;
   input#toName{
       display: none;
   }

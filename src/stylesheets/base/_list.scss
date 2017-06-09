@@ -19,6 +19,14 @@
 	&--inline{
 		display: inline-block;
 	}
+	&--error{
+		margin-bottom: 0.65448rem;
+		li{
+			font-size: 1.4rem;
+			color: $errorColor;
+			text-align: left;
+		}
+	}
 }
 
 .c-menu-list{

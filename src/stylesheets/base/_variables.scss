@@ -158,6 +158,11 @@ $formElementBorderColor: map-get($colors, white);
 $formElementBorderColorFocus: map-get($colors, cyan);
 $formElementBorderColorError: map-get($colors, red);
 
+
+/*
+*ERROR
+*/
+$errorColor: map-get($colors, red);
 /**
  * EASINGS
  */
