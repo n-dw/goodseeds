@@ -16,19 +16,19 @@
         <div class="row center-xs">
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <h1>Sign In</h1>
-                <form method="post" accept-charset="UTF-8">
+                <form method="post" class="login-form" accept-charset="UTF-8">
                     {{ getCsrfInput() }}
                     <input type="hidden" name="action" value="users/login">
                     {% set redirect = craft.request.getUrlReferrer() %}
                     <input type="hidden" name="redirect" value="{{ redirect }}"/>
                     <div class="row">
                         <div class="input-wrapper col-xs-12 c-fieldset">
-                            <input class="c-input {% if message is defined and message.getErrors('loginName') is not empty %}error{% endif %}"
+                            <input class="login-form__login-email c-input {% if message is defined and message.getErrors('loginName') is not empty %}error{% endif %}"
                                    aria-label="Email" placeholder="Email" id="loginName" type="email" name="loginName"
                                    value="{{ craft.session.rememberedUsername }}">
                         </div>
                         <div class="input-wrapper col-xs-12 c-fieldset">
-                            <input class="c-input {% if message is defined and message.getErrors('password') is not empty %}error{% endif %}" aria-label="Password" id="password" type="password" placeholder="Password"
+                            <input class="login-form__login-password c-input {% if message is defined and message.getErrors('password') is not empty %}error{% endif %}" aria-label="Password" id="password" type="password" placeholder="Password"
                                    name="password">
                             {{ message is defined and message ? errorList(message.getErrors('password')) }}
                         </div>
@@ -36,7 +36,7 @@
                     <div class="row">
                         <div class="input-wrapper col-xs-12 c-fieldset">
                     <label>
-                        <input aria-label="Remember Me" checked type="checkbox" name="rememberMe" value="1">
+                        <input class="login-form__remember" aria-label="Remember Me" checked type="checkbox" name="rememberMe" value="1">
                         Remember me
                     </label>
                         </div>
@@ -47,13 +47,11 @@
                                    value="Sign In">
                         </div>
                     </div>
-
-                    {% if errorMessage is defined %}
-                    <p>{{ errorMessage }}</p>
-                    {% endif %}
                 </form>
-                <p><a href="/register">Register</a></p>
-                <p><a href="/forgotten-password">Forget your password?</a></p>
+                <p class="account-links">
+                    <a class="account-link account-link--register" href="/register">Register</a>
+                    <a class="account-link account-link--forgotten-password"  href="/forgotten-password">Forget your password?</a>
+                </p>
             </div>
         </div>
     </div>

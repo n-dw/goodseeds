@@ -9,6 +9,37 @@
 #account_nav{
   .account-nav__item{
     display: inline-block;
+
+    &:hover{
+      .sub-menu{
+        position: absolute;
+        display: inline-block;
+        z-index: 5;
+        background-color: $header-bg-color;
+        left: -9rem;
+        width: 15rem;
+        padding: 1.8rem 0.8rem 0.8rem;
+
+        li{
+          a{
+            text-align: left;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+  .account-nav__item--user{
+    position: relative;
+    cursor: pointer;
+    i{
+      color: $link-header-color;
+    }
+    &:hover{
+      i{
+        color: $link-header-color-hover;
+      }
+    }
   }
   .account-nav__link--login{
     padding: 0.5rem 1.2rem;
@@ -98,4 +129,7 @@ APP MENU
   right: 50%;
   box-sizing: border-box;
   border-radius: 2px;
+}
+.down-arrow:before{
+  content: '▾';
 }

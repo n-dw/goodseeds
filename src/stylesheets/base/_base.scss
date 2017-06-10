@@ -116,12 +116,12 @@ samp {
 	font-family: monospace;
 }
 
-@media only screen and (max-width: 48em){
+@media only screen and (max-width: 64.063em){
 	[data-mobile="false"]{
 		display: none;
 	}
 }
-@media only screen and (min-width: 48em){
+@media only screen and (min-width: 64.063em){
 	[data-mobile="true"]{
 		display: none;
 	}

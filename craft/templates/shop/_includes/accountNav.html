@@ -9,9 +9,9 @@
         <a class="account-nav__link" href="/contact">{{ "Contact"|t }}</a>
     </li>
     {% if currentUser %}
-    <li class="account-nav__item">
-        <i class="icon-user">You</i>
-        <ul class="sub-menu user-menu">
+    <li class="account-nav__item account-nav__item--user">
+        <i class="icon-user">You <span class="down-arrow"></span></i>
+        <ul class="sub-menu user-menu c-list--clean">
             <li class="user-menu__item user-menu__item--border-bottom">
                 <a href="{{ url('shop/customer') }}">My Account</a>
             </li>
