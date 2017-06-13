@@ -74,7 +74,7 @@ APP MENU
   margin-right: 0;
 
   a,i{
-    color: $footer-font-color;
+    color: $link-header-color;
   }
 
   &--fixed{
@@ -89,7 +89,9 @@ APP MENU
     cursor: pointer;
   }
   &__item--active{
-    background-color:  $fixed-nav-color;
+    a,i{
+      color: $link-header-color-hover;
+    }
   }
   &__icon,&__link{
     text-align: center;
@@ -132,4 +134,23 @@ APP MENU
 }
 .down-arrow:before{
   content: '▾';
+}
+
+@media only screen and (max-width: 23.438em){
+  .app-menu__item {
+    padding: 0.7em 0.5em;
+  }
+}
+/*
+Mobile Nav
+ */
+nav.mobile-nav{
+  transition: .5s ease-in-out;
+
+  &--closed{
+    display: none;
+  }
+  &--open{
+    display: none;
+  }
 }

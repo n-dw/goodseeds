@@ -1,10 +1,25 @@
+
+
 .site-footer{
   width:100%;
   padding: 5rem .5rem;
   display: block;
   color: $footer-font-color;
-}
 
+  h5{
+    margin-top: 0.76391rem;
+    color: $footer-font-color;
+  }
+  a{
+    color: $link-header-color-hover;
+    &:hover{
+      color:  $footer-font-color;
+    }
+  }
+}
+.site-seals{
+  margin-bottom: 1.5rem;
+}
 .site-seal{
   & img{
     max-width: 100%;
@@ -23,5 +38,11 @@
     li{
       display: inline-block;
     }
+  }
+}
+
+@media only screen and (max-width: 64.063em){
+  [data-mobile-padding="true"]{
+    padding-bottom: 9rem;
   }
 }

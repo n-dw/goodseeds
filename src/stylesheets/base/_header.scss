@@ -2,7 +2,7 @@
   background: $header-bg-color;
   width: 100%;
   padding: 1rem 0;
-  //position:fixed;
+  position:fixed;
   z-index: 500;
 
   &.fixed{
@@ -157,11 +157,18 @@
     }
   }
 }
-
-
-@media only screen and (min-width: 64.063em){
-  [data-mobile="true"]{
-    display: none;
+// for fixed menu
+#main{
+  padding-top: 4rem;
+}
+@include bp(small){
+  #main{
+    padding-top: 5rem;
+  }
+}
+@include bp(medium){
+  #main{
+    padding-top: 12rem;
   }
 }
 

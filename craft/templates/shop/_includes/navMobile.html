@@ -1,10 +1,26 @@
-<nav class="shopping-nav" data-mobile="false">
+<nav class="mobile-nav mobile-nav--closed">
     <ul class="c-list--clean">
-        <li class="shopping-nav__item"><a href="/shop/products" class="shopping-nav__link">All Products</a></li>
+        <li class="shopping-nav__item"><a href="/" class="shopping-nav__link">Home  <i class="app-menu__icon icon-home"></i></a></li>
+        <li class="shopping-nav__item"><a href="/shop" class="shopping-nav__link">Shop <i class="app-menu__icon  icon-shopping-bag"></i></a></li>
         <li class="shopping-nav__item"><a href="" class="shopping-nav__link">Sativa</a></li>
         <li class="shopping-nav__item"><a href="" class="shopping-nav__link">Indica</a></li>
         <li class="shopping-nav__item"><a href="" class="shopping-nav__link">Hybrids</a></li>
         <li class="shopping-nav__item"><a href="" class="shopping-nav__link">Concentrates</a></li>
         <li class="shopping-nav__item"><a href="/sales" class="shopping-nav__link">Sales</a></li>
+        <li class="shopping-nav__item"><a href="/our-story" class="shopping-nav__link">Our Story</a></li>
+        <li class="shopping-nav__item"><a href="/frequently-asked-questions" class="shopping-nav__link">FAQ <i class="app-menu__icon  icon-help-circled"></i></a></li>
+        <li class="shopping-nav__item"><a href="/contact" class="shopping-nav__link">Contact Us</a></li>
+        <li class="shopping-nav__item">
+            <a href="/contact" class="shopping-nav__link">Cart
+                <i class="app-menu__icon  icon-basket cart-count-wrapper">
+                {% if cart.lineItems|length > 0 %}
+                    <span class="cart-count count">
+                        {{ cart.lineItems|length }}
+                    </span>
+                {% endif %}
+                </i>
+            </a>
+        </li>
+
     </ul>
 </nav>
