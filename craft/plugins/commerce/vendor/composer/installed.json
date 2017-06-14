@@ -191,12 +191,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/event-dispatcher.git",
-            "reference": "d7ecd7359bbf4f469f24df923a62e0763c0671f1"
+            "reference": "1377400fd641d7d1935981546aaef780ecd5bf6d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/d7ecd7359bbf4f469f24df923a62e0763c0671f1",
-            "reference": "d7ecd7359bbf4f469f24df923a62e0763c0671f1",
+            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/1377400fd641d7d1935981546aaef780ecd5bf6d",
+            "reference": "1377400fd641d7d1935981546aaef780ecd5bf6d",
             "shasum": ""
         },
         "require": {
@@ -213,7 +213,7 @@
             "symfony/dependency-injection": "",
             "symfony/http-kernel": ""
         },
-        "time": "2017-04-12T14:07:15+00:00",
+        "time": "2017-06-02T07:47:27+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -351,12 +351,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-mbstring.git",
-            "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
+            "reference": "adebc086600bc93b45d8d6721c8f21088a2be4dc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
-            "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
+            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/adebc086600bc93b45d8d6721c8f21088a2be4dc",
+            "reference": "adebc086600bc93b45d8d6721c8f21088a2be4dc",
             "shasum": ""
         },
         "require": {
@@ -365,7 +365,7 @@
         "suggest": {
             "ext-mbstring": "For best performance"
         },
-        "time": "2016-11-14T01:06:16+00:00",
+        "time": "2017-05-29T15:51:17+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -407,17 +407,17 @@
     },
     {
         "name": "symfony/http-foundation",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "3.4.x-dev",
+        "version_normalized": "3.4.9999999.9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/http-foundation.git",
-            "reference": "28d13bcd304e973dc41cc03c22406eb5f16a75a1"
+            "reference": "94a0d221bc99679c7f45e0e3bca124724789305c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/28d13bcd304e973dc41cc03c22406eb5f16a75a1",
-            "reference": "28d13bcd304e973dc41cc03c22406eb5f16a75a1",
+            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/94a0d221bc99679c7f45e0e3bca124724789305c",
+            "reference": "94a0d221bc99679c7f45e0e3bca124724789305c",
             "shasum": ""
         },
         "require": {
@@ -425,13 +425,13 @@
             "symfony/polyfill-mbstring": "~1.1"
         },
         "require-dev": {
-            "symfony/expression-language": "~2.8|~3.0"
+            "symfony/expression-language": "~2.8|~3.0|~4.0"
         },
-        "time": "2017-04-19T20:25:39+00:00",
+        "time": "2017-06-06T04:51:36+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.3-dev"
+                "dev-master": "3.4-dev"
             }
         },
         "installation-source": "source",
@@ -684,17 +684,17 @@
     },
     {
         "name": "omnipay/buckaroo",
-        "version": "v2.1",
-        "version_normalized": "2.1.0.0",
+        "version": "v2.2.0",
+        "version_normalized": "2.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/omnipay-buckaroo.git",
-            "reference": "7fccd4382ba87f6535cb399892c687928615dad7"
+            "reference": "b1d74b4121a9c889fe8cc77715e6cffb14b8833c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/omnipay-buckaroo/zipball/7fccd4382ba87f6535cb399892c687928615dad7",
-            "reference": "7fccd4382ba87f6535cb399892c687928615dad7",
+            "url": "https://api.github.com/repos/thephpleague/omnipay-buckaroo/zipball/b1d74b4121a9c889fe8cc77715e6cffb14b8833c",
+            "reference": "b1d74b4121a9c889fe8cc77715e6cffb14b8833c",
             "shasum": ""
         },
         "require": {
@@ -703,7 +703,7 @@
         "require-dev": {
             "omnipay/tests": "~2.0"
         },
-        "time": "2016-08-10T04:41:17+00:00",
+        "time": "2017-05-30T09:43:42+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1278,17 +1278,17 @@
     },
     {
         "name": "omnipay/multisafepay",
-        "version": "v2.3.4",
-        "version_normalized": "2.3.4.0",
+        "version": "v2.3.5",
+        "version_normalized": "2.3.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/omnipay-multisafepay.git",
-            "reference": "9163f9b41c4bc658161bdd140b690d186ca535a1"
+            "reference": "9c086904894c98277e01826445660d849033cef0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/omnipay-multisafepay/zipball/9163f9b41c4bc658161bdd140b690d186ca535a1",
-            "reference": "9163f9b41c4bc658161bdd140b690d186ca535a1",
+            "url": "https://api.github.com/repos/thephpleague/omnipay-multisafepay/zipball/9c086904894c98277e01826445660d849033cef0",
+            "reference": "9c086904894c98277e01826445660d849033cef0",
             "shasum": ""
         },
         "require": {
@@ -1297,7 +1297,7 @@
         "require-dev": {
             "omnipay/tests": "~2.0"
         },
-        "time": "2017-02-22T06:42:13+00:00",
+        "time": "2017-04-09T10:57:36+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1515,17 +1515,17 @@
     },
     {
         "name": "omnipay/payflow",
-        "version": "v2.2.1",
-        "version_normalized": "2.2.1.0",
+        "version": "v2.2.2",
+        "version_normalized": "2.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/omnipay-payflow.git",
-            "reference": "4a89c0450b356fca57c0ee4d3ea08145ea93449f"
+            "reference": "8dbfaf9accc1c2b388c9ab89c4b30176396c973a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/omnipay-payflow/zipball/4a89c0450b356fca57c0ee4d3ea08145ea93449f",
-            "reference": "4a89c0450b356fca57c0ee4d3ea08145ea93449f",
+            "url": "https://api.github.com/repos/thephpleague/omnipay-payflow/zipball/8dbfaf9accc1c2b388c9ab89c4b30176396c973a",
+            "reference": "8dbfaf9accc1c2b388c9ab89c4b30176396c973a",
             "shasum": ""
         },
         "require": {
@@ -1534,7 +1534,7 @@
         "require-dev": {
             "omnipay/tests": "~2.0"
         },
-        "time": "2016-07-30T08:33:58+00:00",
+        "time": "2017-05-12T08:10:23+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1878,17 +1878,17 @@
     },
     {
         "name": "omnipay/stripe",
-        "version": "v2.4.2",
-        "version_normalized": "2.4.2.0",
+        "version": "v2.4.5",
+        "version_normalized": "2.4.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/omnipay-stripe.git",
-            "reference": "50bdec8d7d1562c52dd56928243be4a04bcf20e6"
+            "reference": "a88b94d6b2228ec29ab8dcef84050ffaaccc4fac"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/omnipay-stripe/zipball/50bdec8d7d1562c52dd56928243be4a04bcf20e6",
-            "reference": "50bdec8d7d1562c52dd56928243be4a04bcf20e6",
+            "url": "https://api.github.com/repos/thephpleague/omnipay-stripe/zipball/a88b94d6b2228ec29ab8dcef84050ffaaccc4fac",
+            "reference": "a88b94d6b2228ec29ab8dcef84050ffaaccc4fac",
             "shasum": ""
         },
         "require": {
@@ -1897,7 +1897,7 @@
         "require-dev": {
             "omnipay/tests": "~2.0"
         },
-        "time": "2016-12-15T09:42:45+00:00",
+        "time": "2017-05-28T07:05:31+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1996,17 +1996,17 @@
     },
     {
         "name": "omnipay/worldpay",
-        "version": "v2.2",
-        "version_normalized": "2.2.0.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
-            "url": "https://github.com/thephpleague/omnipay-worldpay.git",
-            "reference": "26ead4ca2c6ec45c9a3b3dad0be8880e0b1df083"
+            "url": "https://github.com/lukeholder/omnipay-worldpay.git",
+            "reference": "6c88b13e3549b962b396da69a3efa11ff05f3d90"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/omnipay-worldpay/zipball/26ead4ca2c6ec45c9a3b3dad0be8880e0b1df083",
-            "reference": "26ead4ca2c6ec45c9a3b3dad0be8880e0b1df083",
+            "url": "https://api.github.com/repos/lukeholder/omnipay-worldpay/zipball/6c88b13e3549b962b396da69a3efa11ff05f3d90",
+            "reference": "6c88b13e3549b962b396da69a3efa11ff05f3d90",
             "shasum": ""
         },
         "require": {
@@ -2015,20 +2015,19 @@
         "require-dev": {
             "omnipay/tests": "~2.0"
         },
-        "time": "2016-01-28T12:55:58+00:00",
+        "time": "2017-05-22T07:42:36+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
                 "dev-master": "2.0.x-dev"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "Omnipay\\WorldPay\\": "src/"
             }
         },
-        "notification-url": "https://packagist.org/downloads/",
         "license": [
             "MIT"
         ],
@@ -2051,7 +2050,10 @@
             "pay",
             "payment",
             "worldpay"
-        ]
+        ],
+        "support": {
+            "source": "https://github.com/lukeholder/omnipay-worldpay/tree/master"
+        }
     },
     {
         "name": "php-units-of-measure/php-units-of-measure",

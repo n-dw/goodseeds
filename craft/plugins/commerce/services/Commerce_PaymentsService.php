@@ -329,9 +329,6 @@ class Commerce_PaymentsService extends BaseApplicationComponent
         $request['order'] = $transaction->order;
         $request['orderId'] = $transaction->order->id;
 
-        // Stripe only params
-        $request['receiptEmail'] = $transaction->order->email;
-
         // Paypal only params
         $request['noShipping'] = 1;
         $request['allowNote'] = 0;
@@ -760,6 +757,7 @@ class Commerce_PaymentsService extends BaseApplicationComponent
         {
             if ($transaction->status == Commerce_TransactionRecord::STATUS_SUCCESS)
             {
+                craft()->commerce_orders->updateOrderPaidTotal($transaction->order);
                 return true;
             }
             else

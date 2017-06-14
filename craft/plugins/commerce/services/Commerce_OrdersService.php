@@ -113,9 +113,10 @@ class Commerce_OrdersService extends BaseApplicationComponent
             }
         }
 
+        $originalShouldRecalculate = $order->getShouldRecalculateAdjustments();
         $order->setShouldRecalculateAdjustments(false);
         $this->saveOrder($order);
-        $order->setShouldRecalculateAdjustments(true);
+        $order->setShouldRecalculateAdjustments($originalShouldRecalculate);
 
         if (!$order->isCompleted)
         {
@@ -571,16 +572,9 @@ class Commerce_OrdersService extends BaseApplicationComponent
         $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
         try
         {
-            if (!$order->id)
+            if (!$order->id && !$this->saveOrder($order))
             {
-                if (!$this->saveOrder($order))
-                {
-                    if ($transaction !== null)
-                    {
-                        $transaction->rollback();
-                    }
-                    throw new Exception(Craft::t('Error on creating empty cart'));
-                }
+                throw new Exception(Craft::t('Error on creating empty cart'));
             }
 
             $customerId = $order->customerId;
@@ -631,8 +625,7 @@ class Commerce_OrdersService extends BaseApplicationComponent
 
                 return true;
             }
-        }
-        catch (\Exception $e)
+        } catch (\Exception $e)
         {
             if ($transaction !== null)
             {

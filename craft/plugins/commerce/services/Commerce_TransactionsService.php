@@ -83,9 +83,9 @@ class Commerce_TransactionsService extends BaseApplicationComponent
         $paymentAmount = $order->outstandingBalance() * $paymentCurrency->rate;
 
         $transaction = new Commerce_TransactionModel;
+        $transaction->setOrder($order);
         $transaction->status = Commerce_TransactionRecord::STATUS_PENDING;
         $transaction->amount = $order->outstandingBalance();
-        $transaction->orderId = $order->id;
         $transaction->currency = $currency->iso;
         $transaction->paymentAmount = CommerceCurrencyHelper::round($paymentAmount, $paymentCurrency);
         $transaction->paymentCurrency = $paymentCurrency->iso;
@@ -97,6 +97,11 @@ class Commerce_TransactionsService extends BaseApplicationComponent
         {
             $transaction->userId = $user->id;
         }
+
+        $event = new Event($this, [
+            'transaction' => $transaction
+        ]);
+        $this->onCreateTransaction($event);
 
         return $transaction;
     }
@@ -168,6 +173,25 @@ class Commerce_TransactionsService extends BaseApplicationComponent
     {
         Commerce_TransactionRecord::model()->deleteByPk($transaction->id);
     }
+
+
+    /**
+     * Event: When a new transactions is created for an order.
+     * Event params: transaction(Commerce_TransactionModel)
+     *
+     * @param \CEvent $event
+     *
+     * @throws \CException
+     */
+    public function onCreateTransaction(\CEvent $event)
+    {
+        $params = $event->params;
+        if (empty($params['transaction']) || !($params['transaction'] instanceof Commerce_TransactionModel)) {
+            throw new Exception('onCreateTransaction event requires "transaction" param with Commerce_TransactionModel instance');
+        }
+        $this->raiseEvent('onCreateTransaction', $event);
+    }
+
 
     /**
      * Event: After successfully saving a transaction

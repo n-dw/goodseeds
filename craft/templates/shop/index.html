@@ -11,7 +11,7 @@
                     {% set image = pc.productLinkBackgroundImage.first() %}
                     <a id="pc_{{pc.sortOrder}}"
                        class="product-cat-card product-cat-card--link col-xs-6 col-md-4 product-cat-card--{{pc.productLinkUrl}}"
-                       href="/shop/products?cat={{pc.productLinkUrl}}">
+                       href="/shop?cat={{pc.productLinkUrl}}">
                         <picture class="full-width">
                             <img class="product-cat__image"
                                  src="{{image.url}}"

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83
+class ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -245,6 +245,7 @@ class ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83
         'Commerce\\Gateways\\OffsiteGatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/OffsiteGatewayAdapter.php',
         'Commerce\\Gateways\\Omnipay\\AuthorizeNet_AIM_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/AuthorizeNet_AIM_GatewayAdapter.php',
         'Commerce\\Gateways\\Omnipay\\AuthorizeNet_SIM_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/AuthorizeNet_SIM_GatewayAdapter.php',
+        'Commerce\\Gateways\\Omnipay\\Buckaroo_CreditCard_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/Buckaroo_CreditCard_GatewayAdapter.php',
         'Commerce\\Gateways\\Omnipay\\Buckaroo_Ideal_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/Buckaroo_Ideal_GatewayAdapter.php',
         'Commerce\\Gateways\\Omnipay\\Buckaroo_PayPal_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/Buckaroo_PayPal_GatewayAdapter.php',
         'Commerce\\Gateways\\Omnipay\\CardSave_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/CardSave_GatewayAdapter.php',
@@ -282,11 +283,13 @@ class ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83
         'Commerce\\Gateways\\Omnipay\\TargetPay_Mrcash_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/TargetPay_Mrcash_GatewayAdapter.php',
         'Commerce\\Gateways\\Omnipay\\TwoCheckout_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/TwoCheckout_GatewayAdapter.php',
         'Commerce\\Gateways\\Omnipay\\WorldPay_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/WorldPay_GatewayAdapter.php',
+        'Commerce\\Gateways\\Omnipay\\WorldPay_Json_GatewayAdapter' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/Omnipay/WorldPay_Json_GatewayAdapter.php',
         'Commerce\\Gateways\\PaymentFormModels\\BasePaymentFormModel' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/PaymentFormModels/BasePaymentFormModel.php',
         'Commerce\\Gateways\\PaymentFormModels\\CreditCardPaymentFormModel' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/PaymentFormModels/CreditCardPaymentFormModel.php',
         'Commerce\\Gateways\\PaymentFormModels\\EwayRapidDirectPaymentFormModel' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/PaymentFormModels/EwayRapidDirectPaymentFormModel.php',
         'Commerce\\Gateways\\PaymentFormModels\\OffsitePaymentFormModel' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/PaymentFormModels/OffsitePaymentFormModel.php',
         'Commerce\\Gateways\\PaymentFormModels\\StripePaymentFormModel' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/PaymentFormModels/StripePaymentFormModel.php',
+        'Commerce\\Gateways\\PaymentFormModels\\WorldpayJsonPaymentFormModel' => __DIR__ . '/../../..' . '/commerce/Commerce/Gateways/PaymentFormModels/WorldpayJsonPaymentFormModel.php',
         'Commerce\\Helpers\\CommerceCurrencyHelper' => __DIR__ . '/../../..' . '/commerce/Commerce/Helpers/CommerceCurrencyHelper.php',
         'Commerce\\Helpers\\CommerceDbHelper' => __DIR__ . '/../../..' . '/commerce/Commerce/Helpers/CommerceDbHelper.php',
         'Commerce\\Helpers\\CommerceProductHelper' => __DIR__ . '/../../..' . '/commerce/Commerce/Helpers/CommerceProductHelper.php',
@@ -1228,6 +1231,7 @@ class ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83
         'Omnipay\\Stripe\\Message\\FetchTokenRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/FetchTokenRequest.php',
         'Omnipay\\Stripe\\Message\\FetchTransactionRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/FetchTransactionRequest.php',
         'Omnipay\\Stripe\\Message\\ListInvoicesRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/ListInvoicesRequest.php',
+        'Omnipay\\Stripe\\Message\\ListPlansRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/ListPlansRequest.php',
         'Omnipay\\Stripe\\Message\\PurchaseRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/PurchaseRequest.php',
         'Omnipay\\Stripe\\Message\\RefundRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/RefundRequest.php',
         'Omnipay\\Stripe\\Message\\Response' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Response.php',
@@ -1259,8 +1263,17 @@ class ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83
         'Omnipay\\TwoCheckout\\Message\\PurchaseRequest' => __DIR__ . '/..' . '/omnipay/2checkout/src/Message/PurchaseRequest.php',
         'Omnipay\\TwoCheckout\\Message\\PurchaseResponse' => __DIR__ . '/..' . '/omnipay/2checkout/src/Message/PurchaseResponse.php',
         'Omnipay\\WorldPay\\Gateway' => __DIR__ . '/..' . '/omnipay/worldpay/src/Gateway.php',
+        'Omnipay\\WorldPay\\JsonGateway' => __DIR__ . '/..' . '/omnipay/worldpay/src/JsonGateway.php',
         'Omnipay\\WorldPay\\Message\\CompletePurchaseRequest' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/CompletePurchaseRequest.php',
         'Omnipay\\WorldPay\\Message\\CompletePurchaseResponse' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/CompletePurchaseResponse.php',
+        'Omnipay\\WorldPay\\Message\\JsonAbstractRequest' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/JsonAbstractRequest.php',
+        'Omnipay\\WorldPay\\Message\\JsonAuthorizeRequest' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/JsonAuthorizeRequest.php',
+        'Omnipay\\WorldPay\\Message\\JsonAuthorizeResponse' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/JsonAuthorizeResponse.php',
+        'Omnipay\\WorldPay\\Message\\JsonCaptureRequest' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/JsonCaptureRequest.php',
+        'Omnipay\\WorldPay\\Message\\JsonPurchaseRequest' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/JsonPurchaseRequest.php',
+        'Omnipay\\WorldPay\\Message\\JsonPurchaseResponse' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/JsonPurchaseResponse.php',
+        'Omnipay\\WorldPay\\Message\\JsonRefundRequest' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/JsonRefundRequest.php',
+        'Omnipay\\WorldPay\\Message\\JsonResponse' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/JsonResponse.php',
         'Omnipay\\WorldPay\\Message\\PurchaseRequest' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/PurchaseRequest.php',
         'Omnipay\\WorldPay\\Message\\PurchaseResponse' => __DIR__ . '/..' . '/omnipay/worldpay/src/Message/PurchaseResponse.php',
         'PhpUnitsOfMeasure\\AbstractPhysicalQuantity' => __DIR__ . '/..' . '/php-units-of-measure/php-units-of-measure/source/AbstractPhysicalQuantity.php',
@@ -1429,10 +1442,10 @@ class ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbc611cbc6e146696b0a9f805d25aff83::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd::$classMap;
 
         }, null, ClassLoader::class);
     }
