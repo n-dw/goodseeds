@@ -15,6 +15,7 @@
             }]) %}
             {% set products = craft.commerce.products({
                     relatedTo: categoriesArray,
+                    with: ['productImages']
                 })
 
             %}
@@ -33,7 +34,6 @@
 {% macro productForm(params) %}
 {% if params %}
     <form id="product-filters-form" action="{{ url('shop/') }}" method="get">
-
     </form>
 {% endif %}
 {% endmacro %}
@@ -48,17 +48,18 @@
                 </div>
                 <div class="products-list row">
                     {% for product in products %}
-                        <a id="product_card_{{loop.index}}" class="product-card product-card-- product-card--{{ product.type }} col-xs-6 col-md-4 col-lg-3" href="{{ product.url }}">
-                        {% set image = product.productImages.first() %}
-                            <picture class="full-width">
-                                <img class="product-cat__image"
-                                     src="{{image.url}}"
-                                     sizes="100vw"
-                                     srcset=""
-                                     alt="{{image.title}}">
-                            </picture>
-
-                            <div class="product-cat-card__overlay">
+                        <a id="product_card_{{loop.index}}" class="product-card product-card--{{ product.strainType.first().slug }} product-card--{{ product.type }} col-xs-12 col-sm-6 col-md-4 col-lg-3" href="{{ product.url }}">
+                        {% set image = product.productImages[0] ?? null  %}
+                            {% if image %}
+                                <picture class="full-width">
+                                    <img class="product-cat__image"
+                                         src="{{image.url}}"
+                                         sizes="100vw"
+                                         srcset=""
+                                         alt="{{image.title}}">
+                                </picture>
+                            {% endif %}
+                            <div class="product-card__overlay">
                             {% if product.defaultVariant.onSale %}
                                 <div class="product-card__ribbon product-card__ribbon--sale">
                                     <span>Sale</span>

@@ -1,0 +1,98 @@
+.product-card--link{
+  display: block;
+  overflow: hidden;
+  max-width: 100%;
+  max-height: 35rem;
+  cursor: pointer;
+}
+.product-card{
+  position: relative;
+  transition: all 0.3s ease-out 0s;
+  margin-bottom: 1.5rem;
+
+  .product-card__caption{
+
+  }
+  &:hover{
+    .product-card__image{
+      transform: scale3d(1.1, 1.1, 1);
+    }
+    .product-card__overlay{
+      border: 2px solid map-get($colors, white);
+
+      .product-card__caption{
+        color:  map-get($colors, white);
+      }
+    }
+
+  }
+
+  .product-card__overlay{
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &--all{
+    .product-card__overlay{
+      border: 2px solid map-get($colors, pastel-green);
+
+      .product-card__caption{
+        color: map-get($colors, pastel-green);
+      }
+    }
+  }
+  &--sale{
+    .product-card__overlay{
+      border: 2px solid map-get($colors, red);
+
+      .product-card__caption{
+        color: map-get($colors, red);
+      }
+    }
+  }
+  &--sativa{
+    .product-card__overlay{
+      border: 2px solid $sativa-color;
+
+      .product-card__caption{
+        color: $sativa-color;
+      }
+    }
+  }
+  &--indica{
+    .product-card__overlay{
+      border: 2px solid $indica-color;
+
+      .product-card__caption{
+        color: $indica-color;
+      }
+    }
+  }
+  &--hybrid{
+    .product-card__overlay{
+      border: 2px solid $hybrid-color;
+
+      .product-card__caption{
+        color: $hybrid-color;
+      }
+    }
+  }
+  &--oil{
+    .product-card__overlay{
+      border: 2px solid $concentrate-color;
+
+      .product-card__caption{
+        color: $concentrate-color;
+      }
+    }
+  }
+}
+.product-card__image{
+  transition: opacity 0.5s, transform 0.5s;
+}

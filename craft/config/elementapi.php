@@ -3,6 +3,29 @@ namespace Craft;
 
 return [
     'endpoints' => [
+        'api/search' => [
+            'elementType' => 'Entry',
+            'paginate' => false,
+            'criteria' => [
+                'section' => 'blog',
+                'limit' => 9,
+                'search' => (craft()->request->getParam('q')) ? 'title:'.'*'.craft()->request->getParam('q').'*'.' OR ' . 'blogSummary:'.'*'.craft()->request->getParam('q').'*' : ''
+            ],
+            'transformer' => function(EntryModel $entry) {
+                $categories = [];
+                foreach ($entry->blogCategory as $cat)
+                    $categories[] = $cat->title;
+                $tags = [];
+                foreach ($entry->blogTags as $tag)
+                    $tags[] = $tag->title;
+                return [
+                    'title' => $entry->title,
+                    'url' => $entry->url,
+                    'blogSummary' => $entry->blogSummary,
+                    'blogCategory' => $categories,
+                    'blogTags' => $tags,
+                ];
+            },
         'api/products.json' => [
             'elementType' => 'Purchasable',
             'elementsPerPage' => 4,
