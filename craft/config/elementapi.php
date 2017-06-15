@@ -6,14 +6,15 @@ return [
         'api/search' => [
             'elementType' => 'Entry',
             'paginate' => false,
+            'cache' => 'PT1M',
             'criteria' => [
-                'section' => 'blog',
-                'limit' => 9,
-                'search' => (craft()->request->getParam('q')) ? 'title:'.'*'.craft()->request->getParam('q').'*'.' OR ' . 'blogSummary:'.'*'.craft()->request->getParam('q').'*' : ''
+                'limit' => 100,
+                'order' => score,
+                'search' => (craft()->request->getParam('q')) ? 'title:'.'*'.craft()->request->getParam('q').'*'.' OR ' . 'FAQGroups.faq.question:'.'*'.craft()->request->getParam('q').'*'.' OR ' . 'FAQGroups.faq.answer:'.'*'.craft()->request->getParam('q').'*' : ''
             ],
             'transformer' => function(EntryModel $entry) {
                 $categories = [];
-                foreach ($entry->blogCategory as $cat)
+                foreach ($entry->FAQGroups as $cat)
                     $categories[] = $cat->title;
                 $tags = [];
                 foreach ($entry->blogTags as $tag)
@@ -21,11 +22,10 @@ return [
                 return [
                     'title' => $entry->title,
                     'url' => $entry->url,
-                    'blogSummary' => $entry->blogSummary,
-                    'blogCategory' => $categories,
-                    'blogTags' => $tags,
                 ];
             },
+            'jsonOptions' => JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES,
+        ],
         'api/products.json' => [
             'elementType' => 'Purchasable',
             'elementsPerPage' => 4,

@@ -1,0 +1,31 @@
+{% set query = craft.request.getParam('q') %}
+{% if query|length %}
+    {% set productResults = craft.commerce.products.search(query).order('score') %}
+    {% set articleResults = craft.entries.search(query).order('score') %}
+    {% set categoryResults = craft.categories.search(query).order('score')%}
+
+    {% set allResults = [] %}
+
+    {% if productResults|length %}
+        {% set allResults = allResults|merge(productResults) %}
+    {% endif %}
+    {% if articleResults|length %}
+        {% set allResults = allResults|merge(articleResults) %}
+    {% endif %}
+    {% if categoryResults|length %}
+        {% set allResults = allResults|merge(categoryResults) %}
+    {% endif %}
+
+    {% if allResults|length %}
+
+
+
+        {% set allResults = allResults|sortByField('searchScore', 'desc') %}
+        
+        {% for result in allResults %}
+
+        {% endfor %}
+
+        {% if jsonResults|length %}
+        {% endif %}
+{% endif %}
