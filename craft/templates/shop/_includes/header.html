@@ -1,4 +1,4 @@
-<header id="header">
+<header id="header" class="site-header">
     <div class="container-fluid wrapper">
         <div class="row">
             <div id="logo" class="col-xs-4 col-sm-4 col-md-3 col-lg-3 col-xl-2">
@@ -18,7 +18,7 @@
                 {% include "shop/_includes/accountNav" %}
             </div>
             <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-2 end-xs" data-mobile="true" >
-                <div id="nav-icon" v-bind:class="{ open: menuOpen }" v-on:click="toggle">
+                <div id="nav-icon" :class="{ open: menuOpen }" @click="toggle">
                     <span></span>
                     <span></span>
                     <span></span>

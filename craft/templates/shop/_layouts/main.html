@@ -3,86 +3,34 @@
 <html lang="en">
 <head>
     {% block head %}
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {# -- inline since its small loadjs -- #}
-    <script>
-        {{ source('shop/_inlinejs/loadjs.min.js') }}
-    </script>
-    <script>
-        // define a dependency bundle
-        loadjs(
-            [
-                '{{ siteUrl }}static/assets/js/vue.min.js'
-            ],
-            'vue'
-        );
-        loadjs(
-            [
-                '{{ siteUrl }}static/assets/js/vue2-autocomplete.js',
-            ],
-            'vue-autocomplete'
-        );
-        loadjs.ready(['vue','vue-autocomplete'], {
-            success: function() {
-                new Vue({
-                    el: '#mobile_nav_toggle',
-                    delimiters: ['${', '}'],
-                    data: {
-                        menuOpen: false,
-                    },
-                    methods: {
-                        toggle: function() {
-                            this.menuOpen = !this.menuOpen;
-                        },
-                        itemSelected: function(data) {
-                            window.location.href = data.url;
-                        },
-                        processJsonData: function(json) {
-                            return json.data;
-                        },
-                        prerenderLink: function(e) {
-                            var head = document.getElementsByTagName("head")[0];
-                            var refs = head.childNodes;
-                            ref = refs[ refs.length - 1];
-
-                            var elements = head.getElementsByTagName("link");
-                            Array.prototype.forEach.call(elements, function(el, i) {
-                                if (("rel" in el) && (el.rel === "prerender"))
-                                    el.parentNode.removeChild(el);
-                            });
-
-                            var prerenderTag = document.createElement("link");
-                            prerenderTag.rel = "prerender";
-                            prerenderTag.href = e.currentTarget.href;
-                            ref.parentNode.insertBefore(prerenderTag,  ref);
-                        }
-                    },
-                });
-            }
-        });
-    </script><script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!--<link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" />-->
-    <link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
-    <!--<link rel="stylesheet" type='text/css' href="{{ url('shop/style.css') }}">-->
-    <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}" />
-    <script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="utf-8">
+        <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://unpkg.com/vue"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!--<link rel="stylesheet" type='text/css' href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" />-->
+        <link rel="stylesheet" type='text/css'
+              href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+        <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
     {% endblock %}
 </head>
 <body class="u-bg-pastel-green">
 <!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
 <![endif]-->
+{% if not currentUser %}
+    {% include "shop/_includes/header" %}
+{% endif %}
 {% set cart = craft.commerce.cart %}
 
 {% block header %}
-{% include "shop/_includes/header" %}
+    {% include "shop/_includes/header" %}
 {% endblock %}
 
 {% block body %}
-	<main id="main" class="main">
+    <main id="main" class="main">
         {% block messages %}
             {% set messageNotice = craft.session.getFlash( 'notice' ) %}
             {% set messageError = craft.session.getFlash( 'error' ) %}
@@ -91,7 +39,7 @@
                     <div class="wrapper container-fluid">
                         <div class="row center-xs">
                             <div class="col-xs-12">
-                                {{messageNotice }}
+                                {{ messageNotice }}
                             </div>
                         </div>
                     </div>
@@ -103,11 +51,11 @@
                     <div class="wrapper container-fluid">
                         <div class="row center-xs">
                             <div class="col-xs-12">
-                    {{ messageError }}
+                                {{ messageError }}
+                            </div>
+                        </div>
                     </div>
-            </div>
-            </div>
-            </div>
+                </div>
                 </div>
             {% endif %}
         {% endblock %}
@@ -121,5 +69,6 @@
     {% include "shop/_includes/footer" %}
 {% endblock %}
 {% include "shop/_includes/fixedFooterNav" %}
+<script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>
 </body>
 </html>

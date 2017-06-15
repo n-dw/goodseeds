@@ -146,11 +146,25 @@ Mobile Nav
  */
 nav.mobile-nav{
   transition: .5s ease-in-out;
+  display: none;
+  padding: 1rem;
 
   &--closed{
     display: none;
   }
   &--open{
-    display: none;
+    display: block;
+  }
+  .mobile-nav__item{
+    width: 100%;
+    ul{
+      padding-left: 2.5rem;
+    }
+  }
+  a.mobile-nav__link{
+    font-size: 2rem;
+    padding: 0.7rem 0;
+    width: 100%;
+    display: inline-block;
   }
 }
