@@ -149,6 +149,12 @@ nav.mobile-nav{
   display: none;
   padding: 1rem;
 
+
+  max-height: 95vh;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
   &--closed{
     display: none;
   }

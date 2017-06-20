@@ -1,19 +1,30 @@
 {% extends 'shop/_layouts/main' %}
 {% block main %}
+
+    {% set currentFaq = 0 %}
+    {% set activeFaqs = {} %}
+    {% if craft.request.getParam('aq') is not null %}
+        {% set activeFaqs = craft.request.getParam('aq') | split('-') %}
+    {% endif %}
 <section class="frequently-asked-questions u-bg-beige">
     <div class="wrapper container-fluid">
-        <div class="row">
-            <div class="col-xs-12">
+        <div class="row center-md">
+            <div class="col-xs-12 col-md-10">
 <h1>{{ entry.title }}</h1>
-<div class="faqs">
+<div id="faqs" class="faqs">
     {% for faq in entry.FAQGroups %}
     {% if faq.type == "faqCategory" %}
         <h2 class="faq-category">{{faq.category}}</h2>
     {% else %}
-        <div class="faq" id="faq{{faq.sortOrder}}">
-            <h3 class="faq__question">{{faq.question}}</h3>
-            <div class="faq__answer">{{faq.answer}}</div>
-        </div>
+        {% set faqActive = false %}
+        {% set currentFaq = currentFaq + 1 %}
+        {% if currentFaq in activeFaqs %}
+            {% set faqActive = true %}
+        {% endif %}
+        <faq :open="{{faqActive ? 'true' : 'false'}}" :fid="faq_{{ currentFaq }}">
+            <template slot="question">{{faq.faqReference.first.title}}</template>
+            <template slot="answer">{{faq.faqReference.first.answer}}</template>
+        </faq>
     {% endif %}
     {% endfor %}
 </div>

@@ -1,0 +1,20 @@
+.faqs{
+
+  .faq-category{
+
+  }
+
+  .faq{
+    transition: .5s ease-in-out;
+    .faq__question{
+      cursor: pointer;
+    }
+
+    .faq__answer{
+      display: none;
+    }
+    &--active{
+      .faq__answer{display: block;}
+    }
+  }
+}
