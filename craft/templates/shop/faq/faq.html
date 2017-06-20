@@ -21,7 +21,7 @@
         {% if currentFaq in activeFaqs %}
             {% set faqActive = true %}
         {% endif %}
-        <faq :open="{{faqActive ? 'true' : 'false'}}" :fid="faq_{{ currentFaq }}">
+        <faq :open="{{faqActive ? 'true' : 'false'}}" faqid="faq_{{ currentFaq }}">
             <template slot="question">{{faq.faqReference.first.title}}</template>
             <template slot="answer">{{faq.faqReference.first.answer}}</template>
         </faq>

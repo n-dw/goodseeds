@@ -9,6 +9,9 @@
   position: relative;
   transition: all 0.3s ease-out 0s;
   margin-bottom: 1.5rem;
+  overflow: hidden;
+
+
 
   .product-card__caption{
 
@@ -37,7 +40,10 @@
     align-items: center;
     justify-content: center;
   }
-
+  .product-title-wrapper{
+    width: 100%;
+    background: rgba(255,255,255,0.85);
+  }
   &--all{
     .product-card__overlay{
       border: 2px solid map-get($colors, pastel-green);
@@ -63,6 +69,9 @@
       .product-card__caption{
         color: $sativa-color;
       }
+      .product-title{
+        color: $sativa-color;
+      }
     }
   }
   &--indica{
@@ -70,6 +79,9 @@
       border: 2px solid $indica-color;
 
       .product-card__caption{
+        color: $indica-color;
+      }
+      .product-title{
         color: $indica-color;
       }
     }
@@ -81,6 +93,9 @@
       .product-card__caption{
         color: $hybrid-color;
       }
+      .product-title{
+        color: $hybrid-color;
+      }
     }
   }
   &--oil{
@@ -88,6 +103,9 @@
       border: 2px solid $concentrate-color;
 
       .product-card__caption{
+        color: $concentrate-color;
+      }
+      .product-title{
         color: $concentrate-color;
       }
     }

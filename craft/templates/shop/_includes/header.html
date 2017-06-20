@@ -17,7 +17,7 @@
             <div class="account-nav col-xs-3 col-sm-5 col-md-6 end-xs" data-mobile="false">
                 {% include "shop/_includes/accountNav" %}
             </div>
-            <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-2 end-xs" data-mobile="true" >
+            <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-2 end-xs" data-mobile="true">
                 <div id="nav-icon" :class="{ open: menuOpen }" @click="toggle">
                     <span></span>
                     <span></span>
@@ -28,13 +28,13 @@
                 </div>
             </div>
         </div>
-            <div class="main-nav-wrapper" data-mobile="false">
-                <div class="row">
-                    <div class="col-xs-12">
-                        {% include "shop/_includes/nav" %}
-                    </div>
+        <div class="main-nav-wrapper" data-mobile="false">
+            <div class="row">
+                <div class="col-xs-12">
+                    {% include "shop/_includes/nav" %}
                 </div>
             </div>
+        </div>
         <div class="main-nav-mobile-wrapper" data-mobile="true">
             <div class="row">
                 <div class="col-xs-12">
@@ -43,6 +43,5 @@
             </div>
         </div>
 
-        </div>
     </div>
 </header>

@@ -1,4 +1,3 @@
-
 Vue.component('faq', {
     template: `<div :class="{'faq--active' : isActive}" class="faq" :id="faqId">
             <h3 @click="activate" class="faq__question">
@@ -12,7 +11,7 @@ Vue.component('faq', {
             type: Boolean,
             default: false
         },
-        faqid: {default: "faq_un"},
+        fid: {default: "faq_un"},
         openIcon: {default:'icon-plus-1'},
         closeIcon: {default: 'icon-minus'}
     },
@@ -20,12 +19,12 @@ Vue.component('faq', {
         return {
             isActive: false,
             icon: 'icon-plus-1',
-            faqId : 'faq_#'
+            faqId : 'null'
         };
     },
     mounted(){
         this.isActive = this.open;
-        this.faqId = this.faqid;
+        this.faqId = this.fid;
         if(this.isActive){
             this.icon = 'icon-minus';
         }
@@ -38,25 +37,3 @@ Vue.component('faq', {
     },
 
 })
-
-new Vue({
-    el: '#app',
-    delimiters: ['{|', '|}'],
-    data: {
-        menuOpen: false,
-        navMenuStatus: "mobile-nav--closed",
-       /* form: new Form({
-
-        })*/
-    },
-    methods: {
-        toggle: function() {
-            this.menuOpen = !this.menuOpen;
-            this.menuOpen ? this.navMenuStatus = "mobile-nav--open" : this.navMenuStatus = "mobile-nav--closed";
-        },
-        getProducts(){
-            this.form.post('/shop')
-                .then(response => alert('Wahoo!'));
-        }
-    },
-});
