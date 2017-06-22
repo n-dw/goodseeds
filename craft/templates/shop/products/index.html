@@ -1,13 +1,40 @@
 {% extends 'shop/_layouts/main' %}
 {% block main %}
+
     {% set params = {with: ['productImages']} %}
     {% set formParams = {'productParam' : ''} %}
+
+    {% set categoriesArray = ['or'] %}
+    {% if craft.request.getPost() %}
+        {% set formResults = craft.request.getPost() %}
+        {% set formParams = formParams|merge(formResults) %}
+        {{ d(formResults) }}
+        {% for postVarName,postVarValue in formResults  %}
+            {% switch postVarName %}
+            {% case "sale" %}
+                {% set params = params|merge({hasSales : true}) %}
+            {% case "sativa" or "indica" or "hybrid" %}
+                {% set category = craft.categories.slug(postVarName).ids() %}
+                {% set categoriesArray = categoriesArray|merge([{targetElement: category,}]) %}
+                {% set params = params|merge({relatedTo : categoriesArray}) %}
+            {% case "oil" %}
+                {% set params = params|merge({type : 'Oil'}) %}
+            {% case "stock" %}
+                {% set params = params|merge({hasVariant:{hasStock : true}}) %}
+            {% case "sortBy" %}
+                    {% if postVarValue == "new" %}
+                        {% set params = params|merge({order : 'postDate DESC'}) %}
+                    {% elseif postVarValue == "htl" %}
+                        {% set params = params|merge({order : 'defaultPrice DESC'}) %}
+                    {% elseif postVarValue == "lth" %}
+                        {% set params = params|merge({order : 'defaultPrice ASC'}) %}
+                    {% endif %}
+            {% endswitch %}
+        {% endfor %}
+    {% endif %}
     {% if craft.request.getParam('cat') is not null %}
         {% set productParam = craft.request.getParam('cat') %}
-        {#{% set formParams[0].productParam = productParam %}#}
-
-        {% set categoriesArray = ['and'] %}
-
+        {% set formParams = {'productParam' : productParam} %}
         {% switch productParam %}
         {% case "sale" %}
             {% set params = params|merge({hasSales : true}) %}
@@ -19,58 +46,49 @@
 
         {% case "concentrates" %}
             {% set params = params|merge({type : 'Oil'}) %}
-        {% endswitch %}s
-        {% set products = craft.commerce.products(params) %}
-
-    {% else %}
-        {% set products = craft.commerce.products.find() %}
+        {% endswitch %}
     {% endif %}
-    {{ d(formParams) }}
+    {% set products = craft.commerce.products(params) %}
+{{ d(params) }}
+
     {% macro productForm(params) %}
         {% if params %}
             <form id="product_filters_form" action="{{ url('shop/') }}" method="POST" @submit.prevent="getProducts">
+                {{ getCsrfInput() }}
+                {% set form = {'checkboxes' : [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'},{name: 'oil', value: '1'},{name: 'sale',value: '1'},
+                    {name: 'stock', value: '1', label: 'In Stock'}],
+                'select' : {
+                    name:'sortBy',
+                    options: [{name: 'Latest Products', value: 'new'},{name: 'Price: Low to High', value: 'lth'},{name: 'Price: High to Low', value: 'htl'}]
+                }
+                } %}
                 <fieldset>
-                <div class="product-cat-checkboxes row">
-                    <div class="col-xs-3">
-                        <input v-model="form.sativa" @click="this.submit" {% if params.productParam == "sativa" %}checked{% endif %} type="checkbox" @click="this.submit" id="sativa" name="sativa" value="1">
-                        <label for="sativa">Sativa</label>
+                    <div class="product-cat-checkboxes row">
+                        {% for cbk in form.checkboxes %}
+                            <div class="col-xs-4">
+                                <input v-model="form.{{ cbk.name }}" @click="this.submit"
+                                       {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
+                                       type="checkbox"
+                                       @click="this.submit" id="{{ cbk.name }}" name="{{ cbk.name }}"
+                                       value="{{ cbk.value }}">
+                                <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div class="col-xs-3">
-                        <input type="checkbox" v-model="form.indica" {% if params.productParam == "indica" %}checked{% endif %}  id="indica" name="indica" value="1">
-                        <label for="indica">Indica</label>
-                    </div>
-                    <div class="col-xs-3">
-                        <input type="checkbox" v-model="form.hybrid" {% if params.productParam == "hybrid" %}checked{% endif %} id="hybrid" name="hybrid" value="1">
-                        <label for="hybrid">Hybrid</label>
-                    </div>
-                    <div class="col-xs-3">
-                        <input type="checkbox" v-model="form.oil" {% if params.productParam == "concentrates" %}checked{% endif %} id="oil" name="oil" value="1">
-                        <label for="oil">Concentrates</label>
-                    </div>
-                </div>
-                </fieldset>
-                <fieldset class="c-fieldset">
-                <div class="filter-checkboxes row">
-                    <div class="col-xs-3">
-                        <input type="checkbox" id="onsale" name="onsale" value="1">
-                        <label for="onsale">Sale</label>
-                    </div>
-                    <div class="col-xs-3">
-                        <input type="checkbox" id="instock" name="instock" value="1">
-                        <label for="instock">In Stock</label>
-                    </div>
-                </div>
                 </fieldset>
                 <div class="row">
                     <div class="input-wrapper col-xs-12 c-fieldset">
-                        <select class="c-input-option" aria-label="Inquiry Type" v-model="selected" name="message[inquiryType]"
-                                id="inquiryType">
-                            <option value="new" selected>Newest</option>
-                            <option value="lth" >Price: Low to High</option>
-                            <option value="htl">Price: High to Low</option>
+                        <select class="c-input-option" aria-label="Sort Product By" v-model="selected"
+                                name="sortBy"
+                                id="sortBy">
+                            {% for option in form.select.options %}
+                                <option value="{{ option.value }}"
+                                        {% if params[form.select.name] is defined and params[form.select.name] == option.value %}selected{% endif %}>{{ option.name | title }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
+                <button class="c-button" type="submit">submut</button>
             </form>
         {% endif %}
     {% endmacro %}
