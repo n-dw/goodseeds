@@ -1,6 +1,6 @@
-import './Errors.js'
+import Errors from './Errors';
 
-class Form {
+export default class Form {
     /**
      * Create a new Form instance.
      *

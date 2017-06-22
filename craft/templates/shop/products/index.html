@@ -1,10 +1,11 @@
 {% extends 'shop/_layouts/main' %}
 {% block main %}
     {% set params = {with: ['productImages']} %}
-    {% set formParams = [] %}
+    {% set formParams = {'productParam' : ''} %}
     {% if craft.request.getParam('cat') is not null %}
         {% set productParam = craft.request.getParam('cat') %}
-        {% set formParams = formParams|merge([{'productParam' : productParam}]) %}
+        {#{% set formParams[0].productParam = productParam %}#}
+
         {% set categoriesArray = ['and'] %}
 
         {% switch productParam %}
@@ -18,33 +19,32 @@
 
         {% case "concentrates" %}
             {% set params = params|merge({type : 'Oil'}) %}
-        {% endswitch %}
-{{ d(params) }}
+        {% endswitch %}s
         {% set products = craft.commerce.products(params) %}
 
     {% else %}
         {% set products = craft.commerce.products.find() %}
     {% endif %}
-
+    {{ d(formParams) }}
     {% macro productForm(params) %}
         {% if params %}
             <form id="product_filters_form" action="{{ url('shop/') }}" method="POST" @submit.prevent="getProducts">
                 <fieldset>
                 <div class="product-cat-checkboxes row">
                     <div class="col-xs-3">
-                        <input v-model="form.sativa" @click="this.submit" type="checkbox" @click="this.submit" id="sativa" name="sativa" value="1">
+                        <input v-model="form.sativa" @click="this.submit" {% if params.productParam == "sativa" %}checked{% endif %} type="checkbox" @click="this.submit" id="sativa" name="sativa" value="1">
                         <label for="sativa">Sativa</label>
                     </div>
                     <div class="col-xs-3">
-                        <input type="checkbox" v-model="form.indica" id="indica" name="indica" value="1">
+                        <input type="checkbox" v-model="form.indica" {% if params.productParam == "indica" %}checked{% endif %}  id="indica" name="indica" value="1">
                         <label for="indica">Indica</label>
                     </div>
                     <div class="col-xs-3">
-                        <input type="checkbox" v-model="form.hybrid" id="hybrid" name="hybrid" value="1">
+                        <input type="checkbox" v-model="form.hybrid" {% if params.productParam == "hybrid" %}checked{% endif %} id="hybrid" name="hybrid" value="1">
                         <label for="hybrid">Hybrid</label>
                     </div>
                     <div class="col-xs-3">
-                        <input type="checkbox" v-model="form.oil" id="oil" name="oil" value="1">
+                        <input type="checkbox" v-model="form.oil" {% if params.productParam == "concentrates" %}checked{% endif %} id="oil" name="oil" value="1">
                         <label for="oil">Concentrates</label>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="col-xs-12">
                     <h1>Shop</h1>
                     <div class="product-filters-wrapper">
-                        {{ params is defined and params ? productForm(params) }}
+                        {{ params is defined and params ? productForm(formParams) }}
                     </div>
                     <div class="products-list row">
                         {% for product in products %}

@@ -1,3 +1,6 @@
+import Form from './modules/forms/Form';
+
+window.Form = Form;
 
 Vue.component('faq', {
     template: `<div :class="{'faq--active' : isActive}" class="faq" :id="faqId">
@@ -40,20 +43,32 @@ Vue.component('faq', {
 })
 
 new Vue({
-    el: '#app',
+    el: '#header',
     delimiters: ['{|', '|}'],
     data: {
         menuOpen: false,
-        navMenuStatus: "mobile-nav--closed",
-       /* form: new Form({
-
-        })*/
+        navMenuStatus: "mobile-nav--closed"
     },
     methods: {
         toggle: function() {
             this.menuOpen = !this.menuOpen;
             this.menuOpen ? this.navMenuStatus = "mobile-nav--open" : this.navMenuStatus = "mobile-nav--closed";
-        },
+        }
+    },
+});
+
+new Vue({
+    el: '.v',
+    delimiters: ['{|', '|}'],
+    data: {
+        form: new Form({
+            sativa: false,
+            indica: false,
+            hybrid: false,
+            oil: false
+        })
+    },
+    methods: {
         getProducts(){
             this.form.post('/shop')
                 .then(response => alert('Wahoo!'));
