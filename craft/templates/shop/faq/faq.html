@@ -11,7 +11,7 @@
         <div class="row center-md">
             <div class="col-xs-12 col-md-10">
 <h1>{{ entry.title }}</h1>
-<div id="faqs" class="faqs v">
+<div id="faqs" class="faqs app">
     {% for faq in entry.FAQGroups %}
     {% if faq.type == "faqCategory" %}
         <h2 class="faq-category">{{faq.category}}</h2>

@@ -85,7 +85,7 @@ APP MENU
 .app-menu{
 
   &__item{
-    padding: 0.7em;
+    padding: 0;
     cursor: pointer;
   }
   &__item--active{
@@ -101,7 +101,12 @@ APP MENU
     font-size: 2rem;
   }
   &__link{
+    padding: 0.7em;
+    height: 100%;
     display: block;
+  }
+  .cart-count-wrapper{
+    font-size: 2rem;
   }
 }
 
@@ -137,7 +142,7 @@ APP MENU
 }
 
 @media only screen and (max-width: 23.438em){
-  .app-menu__item {
+  .app-menu__link {
     padding: 0.7em 0.5em;
   }
 }

@@ -9,6 +9,9 @@
 .c-fieldset{
   border: none;
   margin: (0) (0) ($base-space / 2);
+  &--border{
+    border: 2px solid $formElementBorderColor;
+  }
 }
 
 .c-label{

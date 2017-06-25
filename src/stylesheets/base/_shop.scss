@@ -1,3 +1,19 @@
+.form-filter-toggle{
+    cursor: pointer;
+    color: $white;
+    text-align: left;
+}
+.product-filters-form{
+  &--open{
+    display: block;
+  }
+  &--closed{
+    display: none;
+  }
+}
+.products-list{
+  padding-top: 3rem;
+}
 .product-card--link{
   display: block;
   overflow: hidden;
@@ -39,6 +55,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .product-card__information{
+
   }
   .product-title-wrapper{
     width: 100%;
@@ -113,4 +132,30 @@
 }
 .product-card__image{
   transition: opacity 0.5s, transform 0.5s;
+}
+.product-card__ribbon{
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  p{
+    width:100%;
+    color: $white;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  &--out-of-stock{
+      align-self: flex-end;
+      background-color: $errorColor;
+  }
+  &--sale{
+    width: auto;
+    align-self: flex-start;
+    background-color: $promotion-color;
+    top:0;
+    left: 0;
+    padding: 1.5rem;
+    span{
+      color: $white
+    }
+  }
 }

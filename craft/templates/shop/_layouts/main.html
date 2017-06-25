@@ -1,4 +1,10 @@
 {% set page = craft.request.getSegment(2) %}
+{% if craft.request.getPost('ageVerification') %}
+    {% set isOld = craft.request.getPost('ageVerification') %}
+    {% if isOld == '1' %}
+        {% do craft.cookies.setSecure('ageVerified', 'true',  now | date_modify("+30 days").timestamp  ) %}
+    {% endif %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,16 +22,13 @@
     {% endblock %}
 </head>
 <body class="u-bg-yellow">
-<div id="app">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
-{% if not currentUser and not getSecureCookie('ageVerified') %}
+{% if not currentUser and getSecureCookie('ageVerified') != 'true' %}
     {% include "shop/_includes/ageVerificationModal" %}
-    {% do craft.cookies.setSecure('ageVerified', 'true',  now | date_modify("+30 days").timestamp  ) %}
 {% endif %}
-
 {% set cart = craft.commerce.cart %}
 
 {% block header %}
@@ -68,7 +71,6 @@
         {% endblock %}
     </main>
 {% endblock %}
-</div>
 {% block footer %}
     {% include "shop/_includes/footer" %}
 {% endblock %}

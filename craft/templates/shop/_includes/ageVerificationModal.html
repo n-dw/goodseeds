@@ -6,9 +6,12 @@
             <span class="modal-heading">
                 Are you 18 or Older?
             </span>
-            <input type="checkbox" id="subscribeNews" name="subscribe" value="indica">
-            <label for="subscribeNews">I am at least 18 years old</label>
-            <button class="c-button">Submit</button>
+            <form action="/{{ craft.request.getPath() }}" method="post" id="age_verification_form">
+                {{ getCsrfInput() }}
+                <input required type="checkbox" id="ageVerification" name="ageVerification" value="1">
+                <label for="ageVerification">I am at least 18 years old</label>
+                <button type="submit" class="c-button">Submit</button>
+            </form>
         </div>
     </div>
     <button class="modal-close"></button>
