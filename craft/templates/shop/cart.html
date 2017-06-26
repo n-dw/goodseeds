@@ -121,11 +121,11 @@
                 </tbody>
             </table>
 
-            <a class="button button-primary" href="{{ url('shop/checkout') }}">Checkout</a>
+            <button class="c-button" href="{{ url('shop/checkout') }}">Checkout</button>
             {% endif %}
 
             {% if not cart.lineItems|length %}
-                <p>You have no items in your cart, add some on the <a href="{{ url('shop/products') }}">products page</a>.</p>
+                <p>You have no items in your cart, add some on the <a href="{{ url('shop/') }}">products page</a>.</p>
             {% endif %}
 
         </div>

@@ -1,14 +1,20 @@
 {% extends 'shop/_layouts/main' %}
 {% block main %}
-
-<section class="privacy-policy u-bg-beige">
-    <div class="wrapper container-fluid">
-        <div class="row">
-            <div class="col-xs-12">
-<h1>Privacy Policy</h1>
-    </div>
-    </div>
-    </div>
-</section>
-
+    <section class="terms-conditions u-bg-beige">
+        <div class="wrapper container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    {% cache %}
+                    <h1>{{ entry.title }}</h1>
+                    {% for termsGroup in entry.headerText %}
+                        <div class="terms-conditions__tc">
+                            <h2 class="tc__heading">{{termsGroup.header}}</h2>
+                            <p class="tc__text">{{termsGroup.text}}</p>
+                        </div>
+                    {% endfor %}
+                    {% endcache %}
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

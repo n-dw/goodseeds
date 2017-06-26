@@ -3,7 +3,7 @@
 
     {% set params = {with: ['productImages']} %}
     {% set formParams = {'productParam' : ''} %}
-
+{{ d(craft.request.getPost()) }}
     {% set categoriesArray = ['or'] %}
     {% if craft.request.getPost() %}
         {% set formResults = craft.request.getPost() %}
@@ -48,11 +48,12 @@
         {% endswitch %}
     {% endif %}
     {% set products = craft.commerce.products(params) %}
+    {{ d(formParams) }}
     {% macro productForm(params) %}
         {% if params %}
             <div class="form-filter-wrapper">
             <h5 class="form-filter-toggle" @click="toggleFilters"><i :class="icon"></i>Filters</h5>
-            <form id="product_filters_form" :class="formState" action="{{ url('shop/') }}" method="POST" @submit.prevent="getProducts">
+            <form id="product_filters_form" :class="formState" action="{{ url('shop/') }}" method="POST" {#@submit.prevent="getProducts"#}>
                 {{ getCsrfInput() }}
                 {% set form = {'checkboxes' : [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'},{name: 'oil', value: '1'},{name: 'sale',value: '1'},
                     {name: 'stock', value: '1', label: 'In Stock'}],
@@ -67,24 +68,27 @@
                             <div class="col-xs-4">
                                 <div class="row start-xs">
                                     <div class="col-xs-12">
-                                <input v-model="form.{{ cbk.name }}" @click="this.submit"
+                                <input  v-model="form.{{ cbk.name }}"
                                        {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
                                        type="checkbox"
-                                       @click="form.submit" id="{{ cbk.name }}" name="{{ cbk.name }}"
+                                         id="{{ cbk.name }}" name="{{ cbk.name }}"
                                        value="{{ cbk.value }}">
                                 <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>
                             </div>
                                 </div>
                             </div>
                         {% endfor %}
+
                         <div class="input-wrapper col-xs-12 col-sm-6 col-md-6">
                             <select v-model="form.sortBy" class="c-input-option" aria-label="Sort Product By" name="sortBy" id="sortBy">
                                 {% for option in form.select.options %}
-                                    <option value="{{ option.value }}"
+                                    <option {% if loop.index == 1 and params[form.select.name] is not defined %}selected{% endif %} value="{{ option.value }}"
                                             {% if params[form.select.name] is defined and params[form.select.name] == option.value %}selected{% endif %}>{{ option.name | title }}</option>
                                 {% endfor %}
                             </select>
                         </div>
+                        <button class="c-button" type="submit">Submit</button>
+                        <button class="c-button" @click="resetForm" type="reset">Reset</button>
                     </div>
                 </div>
                 </fieldset>
@@ -92,8 +96,44 @@
             </div>
         {% endif %}
     {% endmacro %}
+    {%  set vue %}
+        new Vue({
+        el: '.product-listing-app',
+        delimiters: ['{|', '|}'],
+        data: {
+            form: new Form({
+                sativa: {{ formParams['sativa'] is defined or formParams['productParam'] == 'sativa' ? 'true' : 'false' }},
+                indica: {{ formParams['indica'] is defined or formParams['productParam'] == 'indica' ? 'true' : 'false' }},
+                hybrid: {{ formParams['hybrid'] is defined or formParams['productParam'] == 'hybrid' ? 'true' : 'false' }},
+                oil: {{ formParams['oil'] is defined or formParams['productParam'] == 'concentrates' ? 'true' : 'false' }},
+                stock: {{ formParams['stock'] is defined ? 'true' : 'false' }},
+                sale: {{ formParams['sale'] is defined or formParams['productParam'] == 'sale' ? 'true' : 'false' }},
+                sortBy: '{{ formParams['sortBy'] is defined ?  formParams['sortBy']  : 'new' }}'
+            }),
+            filtersExposed: false,
+            icon: 'icon-plus-1',
+            formState: 'product-filters-form--closed'
+        },
+        methods: {
+            toggleFilters: function() {
+                this.filtersExposed = !this.filtersExposed;
+                this.filtersExposed ? this.icon = "icon-minus" : this.icon = "icon-plus-1";
+                this.filtersExposed ? this.formState = "product-filters-form--open" : this.formState = "product-filters-form--closed";
+            },
+            getProducts(){
+                this.form.submit;
+            },
+            resetForm(){
+                this.form.reset();
+            }
+        },
+        });
+        {% endset %}
+    {%  includeJs vue %}
     {% from _self import productForm %}
-    <section class="shop product-listings u-bg-yellow app">
+    {{ d(formParams) }}
+    <section class="shop product-listings u-bg-pastel-green product-listing-app">
+
         <div class="wrapper container-fluid">
             <div class="row">
                 <div class="col-xs-12">
@@ -101,6 +141,7 @@
                     <div class="product-filters-wrapper row center-xs">
                         <div class="col-xs-12 col-sm-8">
                             {{ params is defined and params ? productForm(formParams) }}
+
                         </div>
                     </div>
                     <div class="products-list row">

@@ -57,33 +57,3 @@ new Vue({
     },
 });
 
-new Vue({
-    el: '.app',
-    delimiters: ['{|', '|}'],
-    data: {
-        form: new Form({
-            sativa: false,
-            indica: false,
-            hybrid: false,
-            oil: false,
-            stock: false,
-            sale: false,
-            sortBy: false,
-        }),
-        filtersExposed: false,
-        icon: 'icon-plus-1',
-        formState: 'product-filters-form--closed'
-    },
-    methods: {
-        toggleFilters: function() {
-            this.filtersExposed = !this.filtersExposed;
-            this.filtersExposed ? this.icon = "icon-minus" : this.icon = "icon-plus-1";
-            this.filtersExposed ? this.formState = "product-filters-form--open" : this.formState = "product-filters-form--closed";
-        },
-        getProducts(){
-            console.log(this.form);
-            this.form.post('/shop')
-                .then(response => alert('Wahoo!'));
-        }
-    },
-});

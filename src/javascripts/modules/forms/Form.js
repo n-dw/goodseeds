@@ -36,7 +36,7 @@ export default class Form {
      */
     reset() {
         for (let field in this.originalData) {
-            this[field] = '';
+            this[field] = this.originalData[field];
         }
 
         this.errors.clear();

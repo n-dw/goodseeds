@@ -11,7 +11,7 @@
         <div class="row center-md">
             <div class="col-xs-12 col-md-10">
 <h1>{{ entry.title }}</h1>
-<div id="faqs" class="faqs app">
+<div id="faqs" class="faqs">
     {% for faq in entry.FAQGroups %}
     {% if faq.type == "faqCategory" %}
         <h2 class="faq-category">{{faq.category}}</h2>
@@ -28,8 +28,22 @@
     {% endif %}
     {% endfor %}
 </div>
+                <div class="other-inquiries">
+                    <div class="row center-xs">
+                        <div class="col-xs-12">
+                        <h3>Have more Questions?</h3>
+                        <p>Please use our, <a href="/contact">Contact Form</a>, or email
+                            <a href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a> and
+                            we will get back to you as soon as possible.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
+    {%  set viewInstance %}
+    new Vue({el: '.faqs', delimiters: ['{|', '|}']});
+    {%  endset %}
+    {% includeJs viewInstance %}
 {% endblock %}

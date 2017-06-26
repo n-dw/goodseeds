@@ -1,5 +1,9 @@
 {% extends 'shop/_layouts/main' %}
+{% set qualifyFreeShipping = craft.commerce.cart.totalPrice < siteSettings.freeShipping %}
+{% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
+
 {% block main %}
+    {{ d(amountQualify) }}
 <article class="product">
     <header class="product-header">
         <div class="product-header-left">
@@ -13,21 +17,33 @@
             </div>
         </div>
         <div class="product-images">
+            {% for productImage in product.productImages %}
 
+            {% endfor %}
         </div>
         <div class="product-price-hook">
-
+            {% if product.defaultVariant.onSale %}
+                <span class="sale-price">Save  {{ (product.defaultVariant.price - product.defaultVariant.salePrice)| commerceCurrency(cart.currency) }} (reg {{product.defaultVariant.price | commerceCurrency(cart.currency)}})</span>
+            {% endif %}
         </div>
     </header>
     <section class="product-commerce">
+
         <form method="POST" id="addToCartForm">
             {{ getCsrfInput() }}
             <input type="hidden" name="action" value="commerce/cart/updateCart">
-            <input type="hidden" name="redirect" value="/cart">
-            <input type="hidden" name="purchasableId" value="{{ product.id }}">
+
+            <select name="purchasableId">
+                {% for purchasable in product.variants %}
+                    <option {% if purchasable.stock <= 0 and purchasable.unlimitedStock == false %}disabled {% endif %}
+                            value="{{ purchasable.purchasableId }}">{{ purchasable.sku }} {{ purchasable.description }} {{ purchasable.price|commerceCurrency(cart.currency) }}</option>
+                {% endfor %}
+            </select>
+            </select>
             <input type="number" name="qty">
+            <button type="submit" class="c-button add-to-cart">Add to Cart</button>
         </form>
-        <button class="c-button add-to-cart">Add to Cart</button>
+
         <div class="share-links"></div>
     </section>
 
