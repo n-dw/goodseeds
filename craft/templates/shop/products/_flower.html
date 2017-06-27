@@ -2,7 +2,7 @@
 {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
 {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
 {% block main %}
-<div class="row container-fluid">
+<div class="row container-fluid u-bg-cyan">
     <div class="col-xs-12">
 <article class="product">
     <header class="product-header">
@@ -69,7 +69,18 @@
         <div class="tabs-content">
             <div class="tab-content">
                 <div class="product-description">
-                    {{ product. }}
+                    {{ product.productDescription }}
+                </div>
+                <div class="product-attributes">
+                    {%  for attribute in product.productAttributes %}
+                        {% if attribute.type == 'effects' %}
+                            {{ attribute.effectTerm.first.title | t }}
+                            <meter value="{{  attribute.effectPercentage }}" max="100"></meter>
+                            {% else %}
+                                {{attribute.medicalSymptom.first.title |t }}
+                                <meter value="{{  attribute.medicalEffectPercentage }}" max="100"></meter>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="tab-content"></div>
@@ -82,7 +93,7 @@
     </div>
 </div>
     {% set vue %}
-        new Vue({
+      {#  new Vue({
         el: '.product',
         delimiters: ['{|', '|}'],
         data: {
@@ -91,7 +102,7 @@
         methods: {
 
         },
-        });
+        });#}
     {% endset %}
     {% includeJs vue %}
 {% endblock %}
