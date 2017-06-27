@@ -1,13 +1,13 @@
 {% extends 'shop/_layouts/main' %}
-{% set qualifyFreeShipping = craft.commerce.cart.totalPrice < siteSettings.freeShipping %}
+{% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
 {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
-
 {% block main %}
-    {{ d(amountQualify) }}
+<div class="row container-fluid">
+    <div class="col-xs-12">
 <article class="product">
     <header class="product-header">
         <div class="product-header-left">
-            <h1>{{ product.title }}</h1>
+            <h1 class="product-heading">{{ product.title }}</h1>
         </div>
         <div class="product-header-right">
             <div class="product-potency">
@@ -22,31 +22,76 @@
             {% endfor %}
         </div>
         <div class="product-price-hook">
+            {% set shippingamount = qualifyFreeShipping ? '<span class="product-shipping-cost product-shipping-cost--free">Free Shipping</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">'~ siteSettings.shippingFlatCost  ~' Shipping</span>'%}
+            <div class="price">{{ (product.defaultVariant.salePrice)| commerceCurrency(cart.currency) }}  {{  shippingamount | raw }}</div>
             {% if product.defaultVariant.onSale %}
                 <span class="sale-price">Save  {{ (product.defaultVariant.price - product.defaultVariant.salePrice)| commerceCurrency(cart.currency) }} (reg {{product.defaultVariant.price | commerceCurrency(cart.currency)}})</span>
             {% endif %}
+            {% if not qualifyFreeShipping %}<div class="shipping-message"> Order <span class="amount-to-free-shipping">{{ amountQualify | commerceCurrency(cart.currency) }}</span> more to qualify for free shipping. </div>{% endif %}
         </div>
     </header>
     <section class="product-commerce">
-
         <form method="POST" id="addToCartForm">
             {{ getCsrfInput() }}
             <input type="hidden" name="action" value="commerce/cart/updateCart">
-
-            <select name="purchasableId">
+            {% set variantWeights =[
+                {weight: '1g'},{weight: '1/8oz'},{weight: '1/4oz'},{weight: '1/2oz'},{weight: '1oz'}
+            ]%}
+            {{ d(variantWeights) }}
+           <div class="product-variants">
+               {#<div class="variant" data-sale-price="{{ purchasable.salePrice|commerceCurrency(cart.currency) }}" data-reg-price="{{ purchasable.price|commerceCurrency(cart.currency) }}">
+               </div>#}
+           </div>
                 {% for purchasable in product.variants %}
                     <option {% if purchasable.stock <= 0 and purchasable.unlimitedStock == false %}disabled {% endif %}
-                            value="{{ purchasable.purchasableId }}">{{ purchasable.sku }} {{ purchasable.description }} {{ purchasable.price|commerceCurrency(cart.currency) }}</option>
+                            value="{{ purchasable.purchasableId }}">{{ purchasable.variantWeight }} {{ purchasable.description }} {{ purchasable.price|commerceCurrency(cart.currency) }}</option>
                 {% endfor %}
-            </select>
-            </select>
+
             <input type="number" name="qty">
+            <div class="stock-delivery-message">
+                {{  product.defaultVariant.stock > 0 ? 'In Stock!'}} Usually delivers in {{ siteSettings.averageShippingDays }} business days.
+            </div>
             <button type="submit" class="c-button add-to-cart">Add to Cart</button>
         </form>
 
-        <div class="share-links"></div>
+        <div class="share-links">
+            <span>Share</span>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | url_encode}}" class="fb-share share-link" target="_blank"><i class="icon-facebook-official"></i></a>
+            <a href="https://twitter.com/home?status={{ product.url | url_encode}}" class="tw-share share-link" target="_blank"><i class="icon-twitter"></i></a>
+            <a href="mailto:?&body={{ product.url | url_encode}}" class="email-share share-link" target="_blank"><i class="icon-mail"></i></a>
+            <a href="https://pinterest.com/pin/create/button/?url={{ product.url | url_encode}}" class="pin-share share-link" target="_blank"><i class="icon-pinterest-squared"></i></a>
+        </div>
     </section>
+    <footer class="product-footer">
+        <div class="tabs is-fullwidth">
+            <div class="tab">Details</div><div class="tab">Reviews <div class="review-icons"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></div></div>
+        </div>
+        <div class="tabs-content">
+            <div class="tab-content">
+                <div class="product-description">
+                    {{ product. }}
+                </div>
+            </div>
+            <div class="tab-content"></div>
+        </div>
+    </footer>
+    <div class="app-messages product-messages">
 
+    </div>
 </article>
+    </div>
+</div>
+    {% set vue %}
+        new Vue({
+        el: '.product',
+        delimiters: ['{|', '|}'],
+        data: {
 
+        },
+        methods: {
+
+        },
+        });
+    {% endset %}
+    {% includeJs vue %}
 {% endblock %}
