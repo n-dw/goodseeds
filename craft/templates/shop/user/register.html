@@ -6,7 +6,7 @@
             <div class="row center-xs">
                 <div class="col-xs-12 col-sm-6 col-md-4">
                     <h1>Register</h1>
-                    <form id="user_register" method="post" accept-charset="UTF-8">
+                    <form enctype="multipart/form-data"  id="user_register" method="post" accept-charset="UTF-8">
                         {{ getCsrfInput() }}
                         <input type="hidden" name="action" value="users/saveUser">
                         <input type="hidden" name="redirect" value="">
@@ -45,10 +45,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-wrapper col-xs-12 c-fieldset">
+                            <div class="input-wrapper col-xs-12 c-fieldset c-file-upload">
                                 <label for="fields[userGovernmentId]">Upload ID *</label>
-                                <p>Please upload a valid Canadian government photo ID clearly stating you are over the age of {{ siteSettings.minAge }}, such as a drivers license or passport.</p>
-                                 <input id="userGovernmentId" required name="fields[userGovernmentId]" type="file" accept="image/*;capture=camera">
+                                <p>Please upload a valid Canadian government photo ID, showing you are over the age of {{ siteSettings.minAge }}, such as a drivers license or passport.</p>
+                                 <input required name="fields[userGovernmentId]" type="file" accept="image/*;capture=camera">
                             </div>
                             {% if account is defined %}
                                 {{ errorList(account.getErrors('fields[userGovernmentId]')) }}
