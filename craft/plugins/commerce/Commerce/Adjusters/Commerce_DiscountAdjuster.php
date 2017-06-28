@@ -4,6 +4,7 @@ namespace Commerce\Adjusters;
 
 use Commerce\Helpers\CommerceCurrencyHelper;
 use Craft\Commerce_DiscountModel;
+use Craft\Commerce_DiscountRecord;
 use Craft\Commerce_LineItemModel;
 use Craft\Commerce_OrderAdjustmentModel;
 use Craft\Commerce_OrderModel;
@@ -74,7 +75,7 @@ class Commerce_DiscountAdjuster implements Commerce_AdjusterInterface
 
 
         // Handle special coupon rules
-        if ($order->couponCode == $discount->code)
+        if (strcasecmp($order->couponCode, $discount->code) == 0)
         {
             // Since we will allow the coupon to be added to an anonymous cart with no email, we need to remove it
             // if a limit has been set.
@@ -85,15 +86,15 @@ class Commerce_DiscountAdjuster implements Commerce_AdjusterInterface
                 $usedCount = 0;
                 foreach ($previousOrders as $previousOrder)
                 {
-                    if ($previousOrder->couponCode == $discount->code)
+                    if (strcasecmp($previousOrder->couponCode, $discount->code) == 0)
                     {
-                        $usedCount = $usedCount + 1;
+                        $usedCount += 1;
                     }
                 }
 
                 if ($usedCount >= $discount->perEmailLimit)
                 {
-                    $order->couponCode = "";
+                    $order->couponCode = '';
 
                     return false;
                 }
@@ -113,13 +114,28 @@ class Commerce_DiscountAdjuster implements Commerce_AdjusterInterface
         $matchingQty = 0;
         $matchingTotal = 0;
         $matchingLineIds = [];
-        foreach ($lineItems as $item)
-        {
+        /** @var Commerce_LineItemModel $item */
+        foreach ($lineItems as $item) {
             if (\Craft\craft()->commerce_discounts->matchLineItem($item, $discount))
             {
-                $matchingLineIds[] = $item->id;
-                $matchingQty += $item->qty;
-                $matchingTotal += $item->getSubtotal();
+                if (!$discount->allGroups)
+                {
+                    $customer = $order->getCustomer();
+                    $user = $customer ? $customer->getUser() : null;
+                    $userGroups = \Craft\craft()->commerce_discounts->getCurrentUserGroupIds($user);
+                    if ($user && array_intersect($userGroups, $discount->getGroupIds()))
+                    {
+                        $matchingLineIds[] = $item->id;
+                        $matchingQty += $item->qty;
+                        $matchingTotal += $item->getSubtotal();
+                    }
+                }
+                else
+                {
+                    $matchingLineIds[] = $item->id;
+                    $matchingQty += $item->qty;
+                    $matchingTotal += $item->getSubtotal();
+                }
             }
         }
 
@@ -129,12 +145,9 @@ class Commerce_DiscountAdjuster implements Commerce_AdjusterInterface
         }
 
         // Have they entered a max qty?
-        if ($discount->maxPurchaseQty > 0)
+        if ($discount->maxPurchaseQty > 0 && $matchingQty > $discount->maxPurchaseQty)
         {
-            if ($matchingQty > $discount->maxPurchaseQty)
-            {
                 return false;
-            }
         }
 
         // Reject if they have not added enough matching items
@@ -157,7 +170,14 @@ class Commerce_DiscountAdjuster implements Commerce_AdjusterInterface
             if (in_array($item->id, $matchingLineIds))
             {
                 $amountPerItem = CommerceCurrencyHelper::round($discount->perItemDiscount * $item->qty);
-                $amountPercentage = CommerceCurrencyHelper::round($discount->percentDiscount * $item->getSubtotal());
+
+                //Default is off discounted price
+                $amountPercentage = CommerceCurrencyHelper::round($discount->percentDiscount * ($item->getSubtotal() + $item->discount));
+
+                if($discount->percentageOffSubject == Commerce_DiscountRecord::TYPE_ORIGINAL_SALEPRICE)
+                {
+                    $amountPercentage = CommerceCurrencyHelper::round($discount->percentDiscount * $item->getSubtotal());
+                }
 
                 $amount += $amountPerItem + $amountPercentage;
                 $item->discount += $amountPerItem + $amountPercentage;

@@ -88,6 +88,9 @@ textarea {
 
 a {
 	text-decoration: none;
+	&:hover{
+		cursor: pointer;
+	}
 }
 
 audio,

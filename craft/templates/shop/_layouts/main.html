@@ -8,17 +8,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% hook 'seomaticRender' %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" type='text/css'
+          href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
     {% block head %}
-        {% hook 'seomaticRender' %}
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta charset="utf-8">
-        <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://unpkg.com/vue"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <link rel="stylesheet" type='text/css'
-              href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
-        <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
+
     {% endblock %}
 </head>
 <body class="u-bg-yellow">

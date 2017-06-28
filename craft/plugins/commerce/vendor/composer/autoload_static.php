@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd
+class ComposerStaticInit393b357eda28d566722d8b53289660cf
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -1235,6 +1235,14 @@ class ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd
         'Omnipay\\Stripe\\Message\\PurchaseRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/PurchaseRequest.php',
         'Omnipay\\Stripe\\Message\\RefundRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/RefundRequest.php',
         'Omnipay\\Stripe\\Message\\Response' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Response.php',
+        'Omnipay\\Stripe\\Message\\Transfers\\CreateTransferRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Transfers/CreateTransferRequest.php',
+        'Omnipay\\Stripe\\Message\\Transfers\\CreateTransferReversalRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Transfers/CreateTransferReversalRequest.php',
+        'Omnipay\\Stripe\\Message\\Transfers\\FetchTransferRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Transfers/FetchTransferRequest.php',
+        'Omnipay\\Stripe\\Message\\Transfers\\FetchTransferReversalRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Transfers/FetchTransferReversalRequest.php',
+        'Omnipay\\Stripe\\Message\\Transfers\\ListTransferReversalsRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Transfers/ListTransferReversalsRequest.php',
+        'Omnipay\\Stripe\\Message\\Transfers\\ListTransfersRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Transfers/ListTransfersRequest.php',
+        'Omnipay\\Stripe\\Message\\Transfers\\UpdateTransferRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Transfers/UpdateTransferRequest.php',
+        'Omnipay\\Stripe\\Message\\Transfers\\UpdateTransferReversalRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/Transfers/UpdateTransferReversalRequest.php',
         'Omnipay\\Stripe\\Message\\UpdateCardRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/UpdateCardRequest.php',
         'Omnipay\\Stripe\\Message\\UpdateCustomerRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/UpdateCustomerRequest.php',
         'Omnipay\\Stripe\\Message\\UpdateSubscriptionRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/UpdateSubscriptionRequest.php',
@@ -1442,10 +1450,10 @@ class ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit9a1709e8f39e353e11c82d0e10c0a2dd::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit393b357eda28d566722d8b53289660cf::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit393b357eda28d566722d8b53289660cf::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit393b357eda28d566722d8b53289660cf::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit393b357eda28d566722d8b53289660cf::$classMap;
 
         }, null, ClassLoader::class);
     }

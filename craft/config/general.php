@@ -28,6 +28,8 @@ return array(
         'environmentVariables' => array(
             'baseUrl'  => getenv('CRAFTENV_BASE_URL'),
             'basePath' => getenv('CRAFTENV_BASE_PATH'),
+            'baseUrlPrivate'  => getenv('CRAFTENV_PRIVATE_BASE_URL'),
+            'basePathPrivate' => getenv('CRAFTENV_PRIVATE_BASE_PATH'),
         ),
     ),
 

@@ -1,4 +1,9 @@
 {% extends 'shop/_layouts/main' %}
+{% block head %}
+    <link rel="stylesheet" href="/static/assets/zoom/magiczoomplus.css"/>
+    <script src="/static/assets/zoom/magiczoomplus.js"></script>
+{% endblock %}
+
 {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
 {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
 {% block main %}
@@ -18,7 +23,18 @@
         </div>
         <div class="product-images">
             {% for productImage in product.productImages %}
-
+                    {% set image = productImage %}
+                    {% set transformedImages = craft.imager.transformImage(image,
+                    [
+                    { width: 800, ratio: 16/9},
+                    { width: 600, ratio: 16/9},
+                    { width: 384, ratio: 1/1 , jpegQuality: 95}
+                    ],
+                    {format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 95,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
+                    ) %}
+                    <a class="MagicZoom"  {% if loop.index == 1 %}id="flower-group" {% else %} data-zoom-id="flower-group"{% endif %} href="{{ transformedImages[0].url }}" data-mobile-options="lazyZoom: true" data-options="zoomMode: magnifier; cssClass: mz-square; hint:once; zoomPosition: inner; zoomOn: click; expand: off;">
+                        <img src="{{ transformedImages[1].url }}" alt="{{ image.title }}">
+                    </a>
             {% endfor %}
         </div>
         <div class="product-price-hook">
@@ -39,6 +55,9 @@
             ]%}
             {{ d(variantWeights) }}
            <div class="product-variants">
+               {% for variant in variantWeights %}
+
+               {% endfor %}
                {#<div class="variant" data-sale-price="{{ purchasable.salePrice|commerceCurrency(cart.currency) }}" data-reg-price="{{ purchasable.price|commerceCurrency(cart.currency) }}">
                </div>#}
            </div>
@@ -83,7 +102,13 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="tab-content"></div>
+            <div class="tab-content">
+                {% set params = {
+                order: 'dateCreated asc',
+                } %}
+
+                {{ craft.comments.form(product.id, params) }}
+            </div>
         </div>
     </footer>
     <div class="app-messages product-messages">

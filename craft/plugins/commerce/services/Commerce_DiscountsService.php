@@ -157,9 +157,9 @@ class Commerce_DiscountsService extends BaseApplicationComponent
                 $usedCount = 0;
                 foreach ($previousOrders as $order)
                 {
-                    if ($order->couponCode == $code)
+                    if (strcasecmp($order->couponCode, $code) == 0)
                     {
-                        $usedCount = $usedCount + 1;
+                        $usedCount += 1;
                     }
                 }
 
@@ -253,18 +253,6 @@ class Commerce_DiscountsService extends BaseApplicationComponent
             }
         }
 
-        if (!$discount->allGroups)
-        {
-            $customer = $lineItem->getOrder()->getCustomer();
-            $user = $customer ? $customer->getUser() : null;
-            $userGroups = $this->getCurrentUserGroupIds($user);
-            if (!$user || !array_intersect($userGroups, $discount->getGroupIds()))
-            {
-                return false;
-            }
-        }
-
-
         //raising event
         $event = new Event($this, ['lineItem' => $lineItem, 'discount' => $discount]);
         $this->onBeforeMatchLineItem($event);
@@ -302,7 +290,7 @@ class Commerce_DiscountsService extends BaseApplicationComponent
             $record = new Commerce_DiscountRecord();
         }
 
-        $fields = ['id', 'name', 'description', 'dateFrom', 'dateTo', 'enabled', 'stopProcessing', 'purchaseTotal', 'purchaseQty', 'maxPurchaseQty', 'baseDiscount', 'perItemDiscount', 'percentDiscount', 'freeShipping', 'excludeOnSale', 'perUserLimit', 'perEmailLimit', 'totalUseLimit'];
+        $fields = ['id', 'name', 'description', 'dateFrom', 'dateTo', 'enabled', 'stopProcessing', 'purchaseTotal', 'purchaseQty', 'maxPurchaseQty', 'baseDiscount', 'perItemDiscount', 'percentDiscount', 'percentageOffSubject', 'freeShipping', 'excludeOnSale', 'perUserLimit', 'perEmailLimit', 'totalUseLimit'];
         foreach ($fields as $field)
         {
             $record->$field = $model->$field;

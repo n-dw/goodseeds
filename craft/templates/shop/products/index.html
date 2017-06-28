@@ -65,7 +65,7 @@
                 <fieldset class="c-fieldset c-fieldset--border">
                     <div class="product-cat-checkboxes row">
                         {% for cbk in form.checkboxes %}
-                            <div class="col-xs-4">
+                            <div class="col-xs-4 col-sm-3">
                                 <div class="row start-xs">
                                     <div class="col-xs-12">
                                 <input  v-model="form.{{ cbk.name }}"
@@ -139,7 +139,7 @@
                 <div class="col-xs-12">
                     <h1>Shop</h1>
                     <div class="product-filters-wrapper row center-xs">
-                        <div class="col-xs-12 col-sm-8">
+                        <div class="col-xs-12 col-sm-8 col-md-6">
                             {{ params is defined and params ? productForm(formParams) }}
 
                         </div>
