@@ -6,137 +6,187 @@
 
 {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
 {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
+{% set productStock = product.defaultVariant.stock %}
+{% set isStockLessOunce = (productStock < 28) ? true : false %}
+{% set variantInfo = {} %}
 {% block main %}
-<div class="row container-fluid u-bg-cyan">
-    <div class="col-xs-12">
-<article class="product">
-    <header class="product-header">
-        <div class="product-header-left">
-            <h1 class="product-heading">{{ product.title }}</h1>
-        </div>
-        <div class="product-header-right">
-            <div class="product-potency">
-                <span class="chem-amount thc-amount">{{ product.thcPercentage }}</span>
-                :
-                <span class="chem-amount cbd-amount">{{ product.cbdPercentage }}</span>
-            </div>
-        </div>
-        <div class="product-images">
-            {% for productImage in product.productImages %}
-                {% set image = productImage %}
-                {% set transformedImages = craft.imager.transformImage(image,
-                [
-                { width: 800, ratio: 16/9},
-                { width: 640, ratio: 16/9},
-                { width: 75, ratio: 1/1 , jpegQuality: 60}
-                ],
-                {format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 95,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
-                ) %}
-                {% if loop.index == 1 %}
-                    <a  id="flower-group" class="MagicZoom" href="{{ transformedImages[0].url }}" data-mobile-options="lazyZoom: true; zoomPosition: inner;" data-options="cssClass: mz-square; hint:always; zoomPosition: outer; zoomOn: click; lazyZoom: true; variableZoom: true;">
-                        <img src="{{ transformedImages[1].url }}" alt="{{ image.title }}">
-                    </a>
-                    <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}" href="{{ transformedImages[0].url }}" >
-                        <img src="{{ transformedImages[2].url }}" alt="{{ image.title }}">
-                    </a>
-                {% else %}
-                    <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}" href="{{ transformedImages[0].url }}" >
-                        <img src="{{ transformedImages[2].url }}" alt="{{ image.title }}">
-                    </a>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="product-price-hook">
-            {% set shippingamount = qualifyFreeShipping ? '<span class="product-shipping-cost product-shipping-cost--free">Free Shipping</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">'~ siteSettings.shippingFlatCost  ~' Shipping</span>'%}
-            <div class="price">{{ (product.defaultVariant.salePrice)| commerceCurrency(cart.currency) }}  {{  shippingamount | raw }}</div>
-            {% if product.defaultVariant.onSale %}
-                <span class="sale-price">Save  {{ (product.defaultVariant.price - product.defaultVariant.salePrice)| commerceCurrency(cart.currency) }} (reg {{product.defaultVariant.price | commerceCurrency(cart.currency)}})</span>
-            {% endif %}
-            {% if not qualifyFreeShipping %}<div class="shipping-message"> Order <span class="amount-to-free-shipping">{{ amountQualify | commerceCurrency(cart.currency) }}</span> more to qualify for free shipping. </div>{% endif %}
-        </div>
-    </header>
-    <section class="product-commerce">
-        <form method="POST" id="addToCartForm">
-            {{ getCsrfInput() }}
-            <input type="hidden" name="action" value="commerce/cart/updateCart">
-            {% set variantWeights =[
-                {weight: '1g'},{weight: '1/8oz'},{weight: '1/4oz'},{weight: '1/2oz'},{weight: '1oz'}
-            ]%}
-            {{ d(variantWeights) }}
-           <div class="product-variants">
-               {% for variant in variantWeights %}
-
-               {% endfor %}
-               {#<div class="variant" data-sale-price="{{ purchasable.salePrice|commerceCurrency(cart.currency) }}" data-reg-price="{{ purchasable.price|commerceCurrency(cart.currency) }}">
-               </div>#}
-           </div>
-                {% for purchasable in product.variants %}
-                    <option {% if purchasable.stock <= 0 and purchasable.unlimitedStock == false %}disabled {% endif %}
-                            value="{{ purchasable.purchasableId }}">{{ purchasable.variantWeight }} {{ purchasable.description }} {{ purchasable.price|commerceCurrency(cart.currency) }}</option>
-                {% endfor %}
-
-            <input type="number" name="qty">
-            <div class="stock-delivery-message">
-                {{  product.defaultVariant.stock > 0 ? 'In Stock!'}} Usually delivers in {{ siteSettings.averageShippingDays }} business days.
-            </div>
-            <button type="submit" class="c-button add-to-cart">Add to Cart</button>
-        </form>
-
-        <div class="share-links">
-            <span>Share</span>
-            <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | url_encode}}" class="fb-share share-link" target="_blank"><i class="icon-facebook-official"></i></a>
-            <a href="https://twitter.com/home?status={{ product.url | url_encode}}" class="tw-share share-link" target="_blank"><i class="icon-twitter"></i></a>
-            <a href="mailto:?&body={{ product.url | url_encode}}" class="email-share share-link" target="_blank"><i class="icon-mail"></i></a>
-            <a href="https://pinterest.com/pin/create/button/?url={{ product.url | url_encode}}" class="pin-share share-link" target="_blank"><i class="icon-pinterest-squared"></i></a>
-        </div>
-    </section>
-    <footer class="product-footer">
-        <div class="tabs is-fullwidth">
-            <div class="tab">Details</div><div class="tab">Reviews <div class="review-icons"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></div></div>
-        </div>
-        <div class="tabs-content">
-            <div class="tab-content">
-                <div class="product-description">
-                    {{ product.productDescription }}
-                </div>
-                <div class="product-attributes">
-                    {%  for attribute in product.productAttributes %}
-                        {% if attribute.type == 'effects' %}
-                            {{ attribute.effectTerm.first.title | t }}
-                            <meter value="{{  attribute.effectPercentage }}" max="100"></meter>
+    <div class="row center-xs container-fluid u-bg-beige">
+        <div class="col-xs-12 col-md-8 col-lg-6">
+            <article class="product">
+                <header class="product-header">
+                    <div class="product-header-left">
+                        <h1 class="product-heading">{{ product.title }}</h1>
+                    </div>
+                    <div class="product-header-right">
+                        <div class="product-potency">
+                            <span class="chem-amount thc-amount">{{ product.thcPercentage }}</span>
+                            :
+                            <span class="chem-amount cbd-amount">{{ product.cbdPercentage }}</span>
+                        </div>
+                    </div>
+                    <div class="product-images">
+                       {# {% cache %}
+                        {% for productImage in product.productImages %}
+                            {% set image = productImage %}
+                            {% set transformedImages = craft.imager.transformImage(image,
+                            [
+                            { width: 800, ratio: 16/9},
+                            { width: 640, ratio: 16/9},
+                            { width: 75, ratio: 1/1 , jpegQuality: 60}
+                            ],
+                            {format: 'jpg',    allowUpscale: false, mode: 'crop', jpegQuality: 95,    position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
+                            ) %}
+                            {% if loop.index == 1 %}
+                                <a id="flower-group" class="MagicZoom" href="{{ transformedImages[0].url }}"
+                                   data-mobile-options="lazyZoom: true; zoomPosition: inner;"
+                                   data-options="cssClass: mz-square; hint:always; zoomPosition: outer; zoomOn: click; lazyZoom: true; variableZoom: true;">
+                                    <img src="{{ transformedImages[1].url }}" alt="{{ image.title }}">
+                                </a>
+                                <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}"
+                                   href="{{ transformedImages[0].url }}">
+                                    <img src="{{ transformedImages[2].url }}" alt="{{ image.title }}">
+                                </a>
                             {% else %}
-                                {{attribute.medicalSymptom.first.title |t }}
-                                <meter value="{{  attribute.medicalEffectPercentage }}" max="100"></meter>
-                    {% endif %}
-                    {% endfor %}
+                                <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}"
+                                   href="{{ transformedImages[0].url }}">
+                                    <img src="{{ transformedImages[2].url }}" alt="{{ image.title }}">
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        {% endcache %}#}
+                    </div>
+                    <div class="product-price-hook">
+                        {% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
+                        <div class="price"><span class="final-price">{{ (product.defaultVariant.salePrice)| commerceCurrency(cart.currency) }}</span>  {{ shippingamount | raw }}</div>
+                        {% if product.defaultVariant.onSale %}
+                            <span class="sale-price">Save {{ (product.defaultVariant.price - product.defaultVariant.salePrice)| commerceCurrency(cart.currency) }}
+                                (reg {{ product.defaultVariant.price | commerceCurrency(cart.currency) }})</span>
+                        {% endif %}
+                        {% if not qualifyFreeShipping %}
+                            <div class="shipping-message"> Order <span
+                                    class="amount-to-free-shipping">{{ amountQualify | commerceCurrency(cart.currency) }}</span>
+                            more to qualify for free shipping. </div>
+                        {% endif %}
+                    </div>
+                </header>
+                <section class="product-commerce">
+                    <form method="POST" id="addToCartForm">
+                        {{ getCsrfInput() }}
+                        <input type="hidden" name="action" value="commerce/cart/updateCart">
+                        {% set variantWeights =[
+                        {weight: '1g', gramWeight: 1},{weight: '1/8oz', gramWeight: 3.5},{weight: '1/4oz', gramWeight: 7},{weight: '1/2oz', gramWeight: 14},{weight: '1oz', gramWeight: 28}
+                        ] %}
+
+                        {% for variant in product.variants  %}
+                            {% set placement = variant.variantWeight.value - 1 %}
+                            {% if variantInfo is defined %}
+                                {% set variantInfo = variantInfo | merge({(placement): {salePrice: variant.salePrice, price: variant.price, purchasableId: variant.purchasableId}}) %}
+                            {% else %}
+                                {% set variantInfo =  {'(placement)' : {salePrice: variant.salePrice, price: variant.price, purchasableId: variant.purchasableId}} %}
+                            {% endif %}
+
+                        {% endfor %}
+                        {{ d(variantInfo) }}
+                        <div class="product-variants row center-xs">
+                            {% for variant in variantWeights %}
+                                {% set noVariant = true %}
+                                {% set purchasableId = '' %}
+                                {% set price = '' %}
+                                {% set salePrice = '' %}
+
+                                {# Check stock if we have the multiples of these left #}
+                                <div class="col-xs">
+                                    <div class="radio-wrapper">
+                                        {% if variantInfo[loop.index -1 ] is defined  %}
+                                            {% set noVariant = false %}
+                                            {% set purchasableId = variantInfo[loop.index -1 ].purchasableId %}
+                                            {% set price = variantInfo[loop.index -1 ].price %}
+                                            {% set salePrice = variantInfo[loop.index -1 ].salePrice %}
+                                        {% endif %}
+                                        <input id="variant_{{ loop.index }}" name="purchasableId" type="radio"
+                                               value="{{ noVariant ? 'none' : purchasableId }}" {% if productStock < variant.gramWeight or noVariant %} disabled {% endif %}>
+                                        <label for="variant_{{ loop.index }}">
+                                            <div class="radio-face" data-price="{{ price  }}" data-sale-price="{{ salePrice }}">
+                                                <span class="variant-weight">{{ variant.weight }}</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <input aria-label="Amount" type="number" name="qty" value="1">
+                        <div class="stock-delivery-message">
+                            {{ productStock > 0 ? 'In Stock!' : "Out of Stock." }} Usually delivers
+                            in {{ siteSettings.averageShippingDays }} business days.
+                        </div>
+                        <button type="submit" class="c-button add-to-cart">Add to Cart</button>
+                    </form>
+
+                    <div class="share-links">
+                        <span>Share</span>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | url_encode }}"
+                           class="fb-share share-link" target="_blank"><i class="icon-facebook-official"></i></a>
+                        <a href="https://twitter.com/home?status={{ product.url | url_encode }}"
+                           class="tw-share share-link" target="_blank"><i class="icon-twitter"></i></a>
+                        <a href="mailto:?&body={{ product.url | url_encode }}" class="email-share share-link"
+                           target="_blank"><i class="icon-mail"></i></a>
+                        <a href="https://pinterest.com/pin/create/button/?url={{ product.url | url_encode }}"
+                           class="pin-share share-link" target="_blank"><i class="icon-pinterest-squared"></i></a>
+                    </div>
+                </section>
+                <footer class="product-footer">
+                    <div class="tabs is-fullwidth is-boxed">
+                        <ul>
+                            <li class="is-active"><a><span>Details</span></a></li>
+                            <li class="is-active"><a><span>Reviews
+                            <div class="review-icons"><i class="icon-star"></i><i class="icon-star"></i><i
+                                        class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></div></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="tabs-content">
+                        <div class="tab-content">
+                            <div class="product-description">
+                                {{ product.productDescription }}
+                            </div>
+                            <div class="product-attributes">
+                                {% for attribute in product.productAttributes %}
+                                    {% if attribute.type == 'effects' %}
+                                        {{ attribute.effectTerm.first.title | t }}
+                                        <meter value="{{ attribute.effectPercentage }}" max="100"></meter>
+                                    {% else %}
+                                        {{ attribute.medicalSymptom.first.title |t }}
+                                        <meter value="{{ attribute.medicalEffectPercentage }}" max="100"></meter>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            {% set params = {
+                            order: 'dateCreated asc',
+                            } %}
+
+                            {{ craft.comments.form(product.id, params) }}
+                        </div>
+                    </div>
+                </footer>
+                <div class="app-messages product-messages">
+
                 </div>
-            </div>
-            <div class="tab-content">
-                {% set params = {
-                order: 'dateCreated asc',
-                } %}
-
-                {{ craft.comments.form(product.id, params) }}
-            </div>
+            </article>
         </div>
-    </footer>
-    <div class="app-messages product-messages">
-
     </div>
-</article>
-    </div>
-</div>
     {% set vue %}
-      {#  new Vue({
-        el: '.product',
-        delimiters: ['{|', '|}'],
-        data: {
+        {#  new Vue({
+          el: '.product',
+          delimiters: ['{|', '|}'],
+          data: {
 
-        },
-        methods: {
+          },
+          methods: {
 
-        },
-        });#}
+          },
+          });#}
     {% endset %}
     {% includeJs vue %}
 {% endblock %}

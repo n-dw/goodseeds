@@ -21,3 +21,43 @@
     padding: 0 !important;
   }
 }
+
+.product-variants{
+
+  .radio-wrapper{
+    position: relative;
+    input[type="radio"]{
+      opacity: 0;
+      height: 0;
+      width: 0;
+      visibility: hidden;
+    }
+    label{
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+
+      .radio-face{
+       height: 6rem;
+        width: 6rem;
+        border: grey 2px solid;
+      }
+    }
+
+    input[type="radio"]:checked ~ label .radio-face {
+      border: 2px solid black;
+
+      .variant-weight{
+
+      }
+    }
+  }
+
+}
+.product-attributes{
+    meter{
+      height: 7.5rem;
+      width: 100%;
+
+    }
+}
