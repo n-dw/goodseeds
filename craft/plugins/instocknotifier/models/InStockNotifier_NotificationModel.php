@@ -22,17 +22,13 @@ namespace Craft;
 /**
  * Notification model.
  *
+ * @property int $id
  * @property int $productId
  * @property string $customerEmail
  * @property string $dateNotified
  * @property bool $sendFail
  *
  * @author    Nathan de Waard
- * @copyright Copyright (c) 2015, Pixel & Tonic, Inc.
- * @license   https://craftcommerce.com/license Craft Commerce License Agreement
- * @see       https://craftcommerce.com
- * @package   craft.plugins.commerce.models
- * @since     1.0
  */
 
 class InStockNotifier_NotificationModel extends BaseModel
@@ -45,6 +41,7 @@ class InStockNotifier_NotificationModel extends BaseModel
     protected function defineAttributes()
     {
         return array_merge(parent::defineAttributes(), array(
+            'id' => AttributeType::Number,
             'productId'         => array(AttributeType::Number, 'default' => null),
             'customerEmail'     => array(AttributeType::String, 'default' => null),
             'dateNotified'      => array(AttributeType::DateTime, 'default' => null),
@@ -52,16 +49,24 @@ class InStockNotifier_NotificationModel extends BaseModel
         ));
     }
 
-    public function getProductId(){
+    public function getId()
+    {
+        return $this->id;
+    }
+    public function getProductId()
+    {
         return $this->productId;
     }
-    public function getCustomerEmail(){
+    public function getCustomerEmail()
+    {
         return $this->customerEmail;
     }
-    public function getDateNotified(){
+    public function getDateNotified()
+    {
         return $this->dateNotified;
     }
-    public function sendFailed(){
+    public function sendFailed()
+    {
         return $this->sendFail;
     }
 

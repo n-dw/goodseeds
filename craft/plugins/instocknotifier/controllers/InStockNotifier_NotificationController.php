@@ -40,10 +40,22 @@ class InStockNotifier_NotificationController extends BaseController
         $productId =  craft()->request->getPost('productId');
         $productName =  craft()->request->getPost('productName');
 
-        //add record of user
-        //first check to see if its already inplace if so sent a message sayting you have already requested for this product
-        //then add record
-        //on error through error
-        craft()->userSession->setNotice(Craft::t($customerEmail . ' has been added and you will be notified when ' . $productName . ' is restocked.'));
+        if($customerEmail == '')
+        {
+            craft()->userSession->setError(Craft::t('You have already requested notification upon restock for this product.'));
+            return false;
+        }
+
+        $model = new InStockNotifier_NotificationModel();
+        $model->productId = $productId;
+        $model->customerEmail = $customerEmail;
+
+        if(craft()->inStockNotifier_notification->saveNotificationRequest($model)){
+            craft()->userSession->setNotice(Craft::t($customerEmail . ' has been added and you will be notified when ' . $productName . ' is restocked.'));
+        }
+        else{
+            craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+        }
+
     }
 }
