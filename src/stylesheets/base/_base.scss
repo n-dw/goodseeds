@@ -39,6 +39,9 @@
 	cursor: default;
  }
 
+ :disabled{
+	 cursor: not-allowed;
+ }
 /**
  * 1. Hide auto element in Chrome 40+, iOS 8+, Safari 8+.
  */

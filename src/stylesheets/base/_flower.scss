@@ -52,6 +52,9 @@
       }
     }
   }
+  input[type="radio"]:disabled ~ label{
+    cursor: not-allowed;
+  }
 
 }
 .product-attributes{

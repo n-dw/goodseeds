@@ -82,7 +82,7 @@
                             {% if variantInfo is defined %}
                                 {% set variantInfo = variantInfo | merge({(placement): {salePrice: variant.salePrice, price: variant.price, purchasableId: variant.purchasableId}}) %}
                             {% else %}
-                                {% set variantInfo =  {'(placement)' : {salePrice: variant.salePrice, price: variant.price, purchasableId: variant.purchasableId}} %}
+                                {% set variantInfo =  {('var_' ~ placement) : {salePrice: variant.salePrice, price: variant.price, purchasableId: variant.purchasableId}} %}
                             {% endif %}
 
                         {% endfor %}
@@ -120,7 +120,7 @@
                             {{ productStock > 0 ? 'In Stock!' : "Out of Stock." }} Usually delivers
                             in {{ siteSettings.averageShippingDays }} business days.
                         </div>
-                        <button type="submit" class="c-button add-to-cart">Add to Cart</button>
+                        <button type="submit" {%  if not productStock > 0 %} disabled{% endif %} class="c-button add-to-cart"> {{ productStock > 0 ? 'Add to Cart' : "Out of Stock." }}</button>
                     </form>
 
                     <div class="share-links">
