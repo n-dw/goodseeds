@@ -6,7 +6,7 @@
                 {% for navItem in fixedFooterNav  %}
                     {% if (navItem.currentUser and not currentUser) or (navItem.guestUser is defined and navItem.guestUser and currentUser) %}
 
-                    {% elseif navItem.label != 'Cart' %}
+                    {% elseif navItem.label|lower != 'cart' %}
                     <li class="app-menu__item {% if page == navItem.url %}app-menu__item--active {% elseif navItem.label|lower == 'shop' and navItem.url in page %} app-menu__item--active {% endif %} col-xs">
                         <a class="app-menu__link" href="/{{ navItem.url }}">
                             <i class="app-menu__icon {{ navItem.iconClass }}"></i>

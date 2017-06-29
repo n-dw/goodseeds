@@ -64,7 +64,7 @@ currentUser: false
 
     {% endblock %}
 </head>
-<body class="u-bg-yellow">
+<body class="u-bg-light-grey">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -117,9 +117,8 @@ currentUser: false
 {% endblock %}
 {% block footer %}
     {% include "shop/_includes/footer" %}
+    {% include "shop/_includes/fixedFooterNav" %}
 {% endblock %}
-{% include "shop/_includes/fixedFooterNav" %}
-
 <script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>
 </body>
 </html>
