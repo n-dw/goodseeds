@@ -70,9 +70,19 @@
                     </div>
                 </header>
                 <section class="product-commerce">
+
                     <form method="POST" id="addToCartForm">
                         {{ getCsrfInput() }}
-                        <input type="hidden" name="action" value="commerce/cart/updateCart">
+                        {% if productStock > 0 %}
+                            <input type="hidden" name="action" value="commerce/cart/updateCart">
+                        {% else %}
+                            <input type="hidden" name="action" value="inStockNotifier/notification/requestRestockNotification">
+                            <input type="hidden" name="productId" value="{{product.id}}">
+                            {% if currentUser %}
+                                <input type="hidden" name="customerEmail" value="{{ currentUser.email }}">
+                            {% endif %}
+                            <input type="hidden" name="productName" value="{{product.title}}">
+                        {% endif %}
                         {% set variantWeights =[
                         {weight: '1g', gramWeight: 1},{weight: '1/8oz', gramWeight: 3.5},{weight: '1/4oz', gramWeight: 7},{weight: '1/2oz', gramWeight: 14},{weight: '1oz', gramWeight: 28}
                         ] %}
@@ -115,12 +125,16 @@
                             {% endfor %}
                         </div>
 
-                        <input aria-label="Amount" type="number" name="qty" value="1">
+                        <input aria-label="Amount" {%  if not productStock > 0 %} disabled{% endif %} type="number" name="qty" value="1">
                         <div class="stock-delivery-message">
                             {{ productStock > 0 ? 'In Stock!' : "Out of Stock." }} Usually delivers
                             in {{ siteSettings.averageShippingDays }} business days.
                         </div>
-                        <button type="submit" {%  if not productStock > 0 %} disabled{% endif %} class="c-button add-to-cart"> {{ productStock > 0 ? 'Add to Cart' : "Out of Stock." }}</button>
+                        {%  if  productStock > 0 %}
+                            <button type="submit" class="c-button add-to-cart">Add to Cart</button>
+                           {% else %}
+                               <button type="submit" class="c-button add-to-cart">Notify Me Upon Restock</button>
+                        {% endif %}
                     </form>
 
                     <div class="share-links">
