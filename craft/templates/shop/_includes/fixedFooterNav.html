@@ -3,50 +3,31 @@
     <div class="row center-sm">
         <div class="col-xs-12 col-sm-8">
             <ul class="c-menu-list row">
-                <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} col-xs">
-                    <a class="app-menu__link" href="/">
-                        <i class="app-menu__icon icon-home"></i>
-                        Home
-                    </a>
-                </li>
-                <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} col-xs">
-                    <a class="app-menu__link" href="/shop">
-                        <i class="app-menu__icon  icon-shopping-bag"></i>
-                        Shop
-                    </a>
-                </li>
-                <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} col-xs">
-                    {% if currentUser %}
-                        <a class="app-menu__link" href="/account">
-                            <i class="app-menu__icon  icon-user"></i>
-                            You
-                        </a>
-                    {% else %}
-                        <a class="app-menu__link" href="/login">
-                            <i class="app-menu__icon  icon-user"></i>
-                            Sign in
-                        </a>
-                    {% endif %}
-                </li>
-                <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} col-xs">
+                {% for navItem in fixedFooterNav  %}
+                    {% if (navItem.currentUser and not currentUser) or (navItem.guestUser is defined and navItem.guestUser and currentUser) %}
 
-                    <a class="app-menu__link" href="/frequently-asked-questions">
-                        <i class="app-menu__icon  icon-help-circled"></i>
-                        FAQ
-                    </a>
-                </li>
-                <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} col-xs">
-                    <a class="app-menu__link" href="/cart">
-                        <i class="app-menu__icon  icon-basket cart-count-wrapper">
-                            {% if cart.lineItems|length > 0 %}
-                            <span class="cart-count count">
+                    {% elseif navItem.label != 'Cart' %}
+                    <li class="app-menu__item {% if page == navItem.url %}app-menu__item--active {% elseif navItem.label|lower == 'shop' and navItem.url in page %} app-menu__item--active {% endif %} col-xs">
+                        <a class="app-menu__link" href="/{{ navItem.url }}">
+                            <i class="app-menu__icon {{ navItem.iconClass }}"></i>
+                            {{ navItem.label }}
+                        </a>
+                    </li>
+                    {% else %}
+                        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} col-xs">
+                            <a class="app-menu__link" href="/{{ navItem.url }}">
+                                <i class="app-menu__icon {{ navItem.iconClass }}   cart-count-wrapper">
+                                    {% if cart.lineItems|length > 0 %}
+                                        <span class="cart-count count">
                                 {{ cart.lineItems|length }}
                             </span>
-                            {% endif %}
-                        </i>
-                        Cart
-                    </a>
-                </li>
+                                    {% endif %}
+                                </i>
+                                {{ navItem.label }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
             </ul>
         </div>
     </div>
