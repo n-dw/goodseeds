@@ -53,7 +53,7 @@ class InStockNotifier_NotificationRecord extends BaseRecord
    protected function defineAttributes()
     {
         return array(
-            'productId'         => array(AttributeType::Number, 'unsigned' => true, 'required' => true),
+            'productId'         => array(AttributeType::Number, 'required' => true),
             'customerEmail'     => array(AttributeType::String, 'required' => true),
             'dateNotified'      => array(AttributeType::DateTime, 'default' => null),
             'sendFail'          => array(AttributeType::Bool, 'default' => false),
