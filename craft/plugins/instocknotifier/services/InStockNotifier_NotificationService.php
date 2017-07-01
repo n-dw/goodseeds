@@ -31,65 +31,62 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
      */
     public function saveNotificationRequest(InStockNotifier_NotificationModel $model)
     {
-        $isNew = !$model->id;
-
-        if (!$isNew)
+        if ($model->productId && $model->customerEmail)
         {
-            $record = InStockNotifier_NotificationRecord::model()->findById($model->id);
+            $record = InStockNotifier_NotificationRecord::model()->findByAttributes(array('productId' => $model->productId, 'customerEmail' => $model->customerEmail));
 
             //we already have a record
             if($record){
-                craft()->userSession->setError(Craft::t('You have already requested notification upon restock for this product.'));
-                return false;
+                return true;
             }
 
         }
-        else
+
+        $record = new InStockNotifier_NotificationRecord();
+
+        $fields = ['productId', 'customerEmail'];
+        foreach ($fields as $field)
         {
-            $record = new InStockNotifier_NotificationRecord();
-
-            $record->setAttributes($model->getAttributes(), false);
-                
-            $record->validate();
-            $model->addErrors($record->getErrors());
-            
-             if (!$model->hasErrors())
-             {
-                 $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
-                 try
-                 {
-                     if (craft()->elements->saveElement($model))
-                     {
-                         if ($isNew)
-                         {
-                             $record->id = $model->id;
-                         }
-                         $record->save(false);
-
-                         if ($transaction !== null)
-                         {
-                             $transaction->commit();
-                         }
-
-                         return true;
-                     }
-                 }
-                 catch (\Exception $e)
-                 {
-                     if ($transaction !== null)
-                     {
-                         $transaction->rollback();
-                     }
-
-                     throw $e;
-                 }
-             }
-             else{
-                 return false;
-             }
+            $record->$field = $model->$field;
         }
 
+        $record->validate();
+        $model->addErrors($record->getErrors());
+
+
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+
+        try
+        {
+            if (!$model->hasErrors())
+            {
+                $record->save(false);
+                $model->id = $record->id;
+
+                if ($transaction !== null)
+                {
+                    $transaction->commit();
+                }
+
+                return true;
+            }
+        } catch (\Exception $e)
+        {
+            if ($transaction !== null)
+            {
+                $transaction->rollback();
+            }
+            throw $e;
+        }
+
+        if ($transaction !== null)
+        {
+            $transaction->rollback();
+        }
+
+        return false;
     }
+
 
     public function deleteNotificationRequest($id)
     {

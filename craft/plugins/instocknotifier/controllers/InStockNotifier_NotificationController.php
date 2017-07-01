@@ -38,13 +38,18 @@ class InStockNotifier_NotificationController extends BaseController
 
         $customerEmail = craft()->request->getPost('customerEmail');
         $productId =  craft()->request->getPost('productId');
-        $productName =  craft()->request->getPost('productName');
 
-        if($customerEmail == '')
+        if($customerEmail == '' ||  $productId == '' || !is_numeric($productId))
         {
-            craft()->userSession->setError(Craft::t('You have already requested notification upon restock for this product.'));
             return false;
         }
+
+        //check is product exists and is actually out of stock
+        $product = craft()->commerce_products->getProductById($productId);
+        if(!$product || $product->getTotalStock() > 0)
+            return false;
+
+        $productName = $product->getName();
 
         $model = new InStockNotifier_NotificationModel();
         $model->productId = $productId;
@@ -54,7 +59,7 @@ class InStockNotifier_NotificationController extends BaseController
             craft()->userSession->setNotice(Craft::t($customerEmail . ' has been added and you will be notified when ' . $productName . ' is restocked.'));
         }
         else{
-            craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+           craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
         }
 
     }

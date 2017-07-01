@@ -60,15 +60,4 @@ class InStockNotifier_NotificationRecord extends BaseRecord
         );
     }
 
-    /**
-     * If your record should have any relationships with other tables, you can specify them with the
-     * defineRelations() function
-     *
-     * @return array
-     */
-    public function defineRelations()
-    {
-        return array(
-        );
-    }
 }

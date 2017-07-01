@@ -35,7 +35,7 @@ class InStockNotifier_NotificationModel extends BaseModel
 {
 
 
-    public function __get($name)
+   /* public function __get($name)
     {
         $getter = 'get'.$name;
         if (method_exists($this, $getter))
@@ -44,7 +44,7 @@ class InStockNotifier_NotificationModel extends BaseModel
         }
 
         return parent::__get($name);
-    }
+    }*/
 
     /**
      * Defines this model's attributes.
@@ -54,33 +54,11 @@ class InStockNotifier_NotificationModel extends BaseModel
     protected function defineAttributes()
     {
         return array_merge(parent::defineAttributes(), array(
-            'id'                => array(AttributeType::Number, 'default' => null),
+            'id'                => AttributeType::Number,
             'productId'         => array(AttributeType::Number, 'default' => null),
             'customerEmail'     => array(AttributeType::String, 'default' => null),
             'dateNotified'      => array(AttributeType::DateTime, 'default' => null),
             'sendFail'          => array(AttributeType::Bool, 'default' => false),
         ));
     }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-    public function getProductId()
-    {
-        return $this->productId;
-    }
-    public function getCustomerEmail()
-    {
-        return $this->customerEmail;
-    }
-    public function getDateNotified()
-    {
-        return $this->dateNotified;
-    }
-    public function sendFailed()
-    {
-        return $this->sendFail;
-    }
-
 }
