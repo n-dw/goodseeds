@@ -36,7 +36,8 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
             $record = InStockNotifier_NotificationRecord::model()->findByAttributes(array('productId' => $model->productId, 'customerEmail' => $model->customerEmail));
 
             //we already have a record
-            if($record){
+            if ($record)
+            {
                 return true;
             }
 
@@ -53,9 +54,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         $record->validate();
         $model->addErrors($record->getErrors());
 
-
         $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
-
         try
         {
             if (!$model->hasErrors())
@@ -87,17 +86,90 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         return false;
     }
 
-
-    public function deleteNotificationRequest($id)
+    public function processNotifications()
     {
-        InStockNotifier_NotificationRecord::model()->deleteByPk($id);
+
+        $products = [];
+        $notificationsForSending = $this->getNotificationRequestsToSend();
+
+        if(!$this->sendNotificationEmails())
+        {
+            throw new Exception('Error sending notificationdeleting Emails.');
+            return false;
+        }
+
+        if (!$this->cleanNotificationRequests())
+        {
+            throw new Exception('Error deleting sent notifications.');
+        }
+
+        return true;
+    }
+    //returns a model array of notification requests where the product is in stock
+    private function getNotificationRequestsToSend()
+    {
+        $records = InStockNotifier_NotificationRecord::model()->findByAttributes('dateNotified IS NULL');
+        $models = InStockNotifier_NotificationModel::populateModel($records);
+        $notifications = $models;
+
+        foreach ($notifications as $key=>$notification)
+        {
+            if($notification->productId != '' && is_numeric($notification->productId))
+            {
+                throw new Exception('No product in notification model');
+                return false;
+            }
+
+            $product  = craft()->commerce_products->getProductById($notification->productId);
+            //still no stock take out the model as we don't need to send anything
+            if(!$product || $product->getTotalStock() <= 0)
+            {
+                unset($models[$key]);
+                continue;
+            }
+
+        }
+
+        return $models;
+    }
+    /*
+     * deletes sent ones
+     */
+    private function cleanNotificationRequests()
+    {
+        return InStockNotifier_NotificationRecord::model()->deleteAllByAttributes(array('sendFail' => 0), 'dateNotified IS NOT NULL');
     }
 
-    /*
-     * Cleans up the
-     */
-    public function cleanNotificationRequests()
+
+    public function sendNotificationMessage(InStockNotifier_NotificationModel $model)
     {
+
+        if (!filter_var($model->customerEmail, FILTER_VALIDATE_EMAIL) || $model->productId == '' || !is_numeric($model->productId))
+            return false;
+
+        //check is product exists and has stock
+        $product = craft()->commerce_products->getProductById($productId);
+        if (!$product || $product->getTotalStock() <= 0)
+            return false;
+
+
+        $customerEmail = $model->customerEmail;
+
+        $email = new EmailModel();
+        $emailSettings = craft()->email->getSettings();
+
+        $email->fromEmail = $emailSettings['emailAddress'];
+        $email->replyTo = $emailSettings['emailAddress'];
+        $email->sender = $emailSettings['emailAddress'];
+        $email->fromName = craft()->getSiteName();
+        $email->toEmail = $customerEmail;
+        $email->subject = $product->getName() . ' is back in stock';
+        $email->body = 'Dear ' . $customerEmail . ' <a href="' . $product->getUrl() . '">' . $product->getName() . '</a> is in stock. We hope you enjoy it!';
+
+        if (craft()->email->sendEmail($email))
+            return true;
+
+        return false;
     }
 
 }
