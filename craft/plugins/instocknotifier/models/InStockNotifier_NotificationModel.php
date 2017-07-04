@@ -33,19 +33,6 @@ namespace Craft;
 
 class InStockNotifier_NotificationModel extends BaseModel
 {
-
-
-   /* public function __get($name)
-    {
-        $getter = 'get'.$name;
-        if (method_exists($this, $getter))
-        {
-            return $this->$getter();
-        }
-
-        return parent::__get($name);
-    }*/
-
     /**
      * Defines this model's attributes.
      *

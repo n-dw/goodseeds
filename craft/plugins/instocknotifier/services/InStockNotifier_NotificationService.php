@@ -92,45 +92,54 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         $products = [];
         $notificationsForSending = $this->getNotificationRequestsToSend();
 
-        if(!$this->sendNotificationEmails())
+        if(!$this->sendNotificationEmails($notificationsForSending))
         {
-            throw new Exception('Error sending notificationdeleting Emails.');
+           // throw new Exception('Error sending notificationdeleting Emails.');
             return false;
         }
 
-        if (!$this->cleanNotificationRequests())
+      /*  if (!$this->cleanNotificationRequests())
         {
             throw new Exception('Error deleting sent notifications.');
-        }
+        }*/
 
         return true;
     }
     //returns a model array of notification requests where the product is in stock
     private function getNotificationRequestsToSend()
     {
-        $records = InStockNotifier_NotificationRecord::model()->findByAttributes('dateNotified IS NULL');
-        $models = InStockNotifier_NotificationModel::populateModel($records);
-        $notifications = $models;
+        $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null));
+        $models = [];
 
+        $notifications = $records;
         foreach ($notifications as $key=>$notification)
         {
-            if($notification->productId != '' && is_numeric($notification->productId))
+            if($notification->productId == '' || !is_numeric($notification->productId))
             {
-                throw new Exception('No product in notification model');
-                return false;
+               // throw new Exception('No product in notification model');
+                unset($records[$key]);
+                continue;
             }
 
             $product  = craft()->commerce_products->getProductById($notification->productId);
             //still no stock take out the model as we don't need to send anything
-            if(!$product || $product->getTotalStock() <= 0)
+            if(!$product || $product->getTotalStock() != 0)
             {
-                unset($models[$key]);
-                continue;
+                unset($records[$key]);
             }
 
         }
 
-        return $models;
+        $fields = ['id', 'productId', 'customerEmail', 'dateNotified', 'sendFail'];
+        foreach ($records as $record){
+            $model = new InStockNotifier_NotificationModel();
+            foreach($fields as $field){
+                $model->$field = $record->$field;
+            }
+            array_push($models, $model);
+        }
+
+        return array('records' => $records, 'models' => $models);
     }
     /*
      * deletes sent ones
@@ -140,6 +149,28 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         return InStockNotifier_NotificationRecord::model()->deleteAllByAttributes(array('sendFail' => 0), 'dateNotified IS NOT NULL');
     }
 
+    private function sendNotificationEmails($notifications)
+    {
+        if(!array_key_exists('records', $notifications) || count($notifications['records']) <= 0)
+            return false;
+
+        foreach ($notifications['models'] as $key => $notification)
+        {
+            if($this->sendNotificationMessage($notification))
+            {
+                //change record to date notified
+                // sendfailed false
+            }
+            else
+            {
+                //change send failed true
+                $notifications['records'][$key]->sendFail = true;
+
+            }
+        }
+
+        return true;
+    }
 
     public function sendNotificationMessage(InStockNotifier_NotificationModel $model)
     {
@@ -148,8 +179,8 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
             return false;
 
         //check is product exists and has stock
-        $product = craft()->commerce_products->getProductById($productId);
-        if (!$product || $product->getTotalStock() <= 0)
+        $product = craft()->commerce_products->getProductById($model->productId);
+        if (!$product || $product->getTotalStock() < 0)
             return false;
 
 
@@ -160,12 +191,12 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
 
         $email->fromEmail = $emailSettings['emailAddress'];
         $email->replyTo = $emailSettings['emailAddress'];
-        $email->sender = $emailSettings['emailAddress'];
+        $email->sender = $emailSettings['senderName'];
         $email->fromName = craft()->getSiteName();
         $email->toEmail = $customerEmail;
         $email->subject = $product->getName() . ' is back in stock';
         $email->body = 'Dear ' . $customerEmail . ' <a href="' . $product->getUrl() . '">' . $product->getName() . '</a> is in stock. We hope you enjoy it!';
-
+        craft()->email->sendEmail($email);
         if (craft()->email->sendEmail($email))
             return true;
 

@@ -39,7 +39,7 @@
                             <select class="c-input-option" aria-label="Inquiry Type" name="message[inquiryType]"
                                     id="inquiryType">
                                 <option value="support" selected>Support</option>
-                                <option value="question" selected>Question</option>
+                                <option value="question">Question</option>
                                 <option value="suggestion">Suggestion</option>
                             </select>
                         </div>
@@ -50,7 +50,7 @@
                             <textarea
                                     class="c-textarea {% if message is defined and message.getErrors('message') is not empty %}error{% endif %}"
                                     aria-label="Message" placeholder="Message" rows="10" cols="40" id="message"
-                                    name="message">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
+                                    name="message[body]">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
                             {{ message is defined and message ? errorList(message.getErrors('message')) }}
                         </div>
                     </div>

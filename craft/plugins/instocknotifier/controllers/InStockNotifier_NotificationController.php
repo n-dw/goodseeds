@@ -29,6 +29,8 @@ namespace Craft;
 
 class InStockNotifier_NotificationController extends BaseController
 {
+
+    protected $allowAnonymous = array('actionSendNotifications');
     /**
      * Handle a request going to our plugin's index action URL, e.g.: actions/inStockNotifier
      */

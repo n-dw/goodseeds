@@ -1,0 +1,14 @@
+{
+	"name": "n-dW/contactformdb",
+	"description": "Saves contact submissions to the Database using the pixel and tonic contact form",
+	"type": "craft-plugin",
+	"authors": [
+		{
+			"name": "Nathan de Waard",
+			"homepage": "natedewaard.com"
+		}
+	],
+	"require": {
+		"composer/installers": "~1.0"
+	}
+}

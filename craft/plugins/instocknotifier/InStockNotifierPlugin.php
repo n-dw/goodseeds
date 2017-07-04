@@ -42,7 +42,7 @@ class InStockNotifierPlugin extends BasePlugin
     {
         parent::init();
         //takes out console logging in dev mode
-        craft()->log->removeRoute('WebLogRoute');
+        //craft()->log->removeRoute('WebLogRoute');
         craft()->log->removeRoute('ProfileLogRoute');
     }
 
