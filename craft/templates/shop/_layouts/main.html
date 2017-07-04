@@ -80,7 +80,6 @@ currentUser: false
 
 {% block body %}
     <main id="main" class="main">
-        {{ d(page) }}
         {% block messages %}
             {% set messageNotice = craft.session.getFlash( 'notice' ) %}
             {% set messageError = craft.session.getFlash( 'error' ) %}
