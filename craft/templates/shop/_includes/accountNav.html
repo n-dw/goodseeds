@@ -32,7 +32,7 @@
             </li>
         {% endif %}
     <li class="account-nav__item">
-        <a class="button {% if page == 'cart' %} active{% endif %}" href="{{ url('shop/cart') }}">
+        <a class="cart-button {% if page == 'cart' %} active{% endif %}" href="{{ url('shop/cart') }}">
             <i class="icon-basket cart-count-wrapper">
                 {% if cart.lineItems|length > 0 %}
                 <span class="cart-count count">
