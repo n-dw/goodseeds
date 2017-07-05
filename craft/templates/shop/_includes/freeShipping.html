@@ -1,0 +1,2 @@
+{% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
+{% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}

@@ -1,7 +1,148 @@
 {% extends "shop/_layouts/main" %}
-
+{% import "/shop/macros/errors.html" as errList %}
 {% block main %}
-    <div class="row">
+    {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
+    {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
+    {% set shippingAmount = qualifyFreeShipping ? 'free' :  siteSettings.shippingFlatCost %}
+    <div class="container">
+        <div class="box">
+        <div class="card">
+            <div class="card-content">
+                <p>Cart subtotal ({{ cart.totalQty }} items): {{ cart.itemSubTotal|commerceCurrency(cart.currency) }} + <strong>{{ shippingAmount }}</strong> shipping</p>
+                {% if not qualifyFreeShipping %}
+                   <p>{{ amountQualify | commerceCurrency(cart.currency) }} until you qualify for free shipping <a href="{{ url('/shop') }}">Continue Shopping</a>.</p>
+                {% endif %}
+            </div>
+        </div>
 
+        {% for item in cart.lineItems %}
+            {% set image = item.purchasable.product.productImages.first() %}
+            {% set transformedImages = craft.imager.transformImage(image,
+            [{ width: 128, ratio: 1 , jpegQuality: 80}],
+            {format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 90,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
+            ) %}
+            {% if craft.imager.serverSupportsWebp() %}
+                {% set transformedImagesWebP = craft.imager.transformImage(image,[
+                {width: 128, ratio:1, webpQuality: 80},
+                ],
+                { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
+            {% endif %}
+
+            <article class="media">
+                <figure class="media-left">
+                    <p class="image is-128x128">
+
+                        <picture class="full-width">
+                            {% if craft.imager.serverSupportsWebp() %}
+                                <source class="product-image" sizes="100vw" srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
+                            {% endif %}
+
+                            <img class="product-image"
+                                 src="{{ transformedImages[0].url }}"
+                                 sizes="100vw"
+                                 srcset="{{ craft.imager.srcset(transformedImages) }}"
+                                 alt="{{ image.title }}" />
+                        </picture>
+
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <strong>{{ item.description }}</strong>: {{ item.purchasable.variantWeight}}
+                    <div class="columns gapless">
+                        <div class="column is-one-quarter">
+                            <form method="POST">
+                                <input type="hidden" name="action" value="commerce/cart/removeLineItem"/>
+                                <input type="hidden" name="redirect" value="shop/cart"/>
+                                {{ getCsrfInput() }}
+                                <input type="hidden" name="lineItemId" value="{{ item.id }}"/>
+                                <button type="submit" class="button link" >Remove</button>
+                            </form>
+                        </div>
+                        <div class="column is-two-thirds">
+                            <form method="POST">
+                                <input type="hidden" name="action" value="commerce/cart/updateLineItem">
+                                <input type="hidden" name="redirect" value="shop/cart">
+                                <input type="hidden" name="lineItemId" value="{{ item.id }}">
+                                <span {% if item.getError('qty') %}class="has-error"{% endif %}>
+                                <input  type="number" name="qty" min="1" value="{{ item.qty }}">
+                                </span>
+                                {{ getCsrfInput() }}
+                                <input type="submit" class="button" value="Update"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+            <div class="card">
+                <div class="card-content">
+                    <form method="POST">
+                        <input type="hidden" name="action" value="commerce/cart/updateCart">
+                        <input type="hidden" name="redirect" value="shop/cart">
+                        {{ getCsrfInput() }}
+                        <input type="text" name="couponCode" width="11" class="{% if cart.getError('couponCode') %}is-danger{% endif %}" value="" placeholder="{{ "Coupon Code"|t }}">
+                        {% if cart.getError('couponCode') %} {{ errList.errorList([cart.getError('couponCode')]) }} {% endif %}
+
+                        <input type="submit" class="button" value="{% if cart.couponCode %}Change{% else %}Apply{% endif %} Coupon"/>
+                    </form>
+
+                </div>
+            </div>
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        Subtotal
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        {{ cart.itemSubTotal|commerceCurrency(cart.currency) }}
+                    </div>
+                </div>
+            </div>
+            {{ d(cart.totalDiscount|commerceCurrency(cart.currency)) }}
+            {{ d(cart) }}
+            {% if cart.totalDiscount|commerceCurrency(cart.currency) > 0 %}
+                <div class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            Total Discount:
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item">
+                            {{ cart.totalDiscount|commerceCurrency(cart.currency) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        Shipping
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <p> <strong>{{ shippingAmount }}</strong> shipping</p>
+                        {% if not qualifyFreeShipping %}
+                            <p>{{ amountQualify | commerceCurrency(cart.currency) }} until you qualify for free shipping <a href="{{ url('/shop') }}">Continue Shopping</a>.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <strong>Total</strong>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        {{ cart.totalPrice|commerceCurrency(cart.currency) }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
