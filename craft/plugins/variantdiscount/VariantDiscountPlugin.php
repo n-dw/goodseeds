@@ -21,21 +21,36 @@ class VariantDiscountPlugin extends BasePlugin
     public function init()
     {
         parent::init();
+
+        craft()->on('users.onBeforeSaveUser', function(Event $event) {
+
+            // Only do anything if it is a front end submission
+            if(craft()->request->isSiteRequest())
+            {
+                $password = craft()->request->getPost('password');
+                $passwordConfirm = craft()->request->getPost('passwordConfirm');
+                if(isset($passwordConfirm) && strcmp($password, $passwordConfirm) !== 0)
+                {
+                    $event->params['user']->addErrors(array('passwordConfirm' => Craft::t('Passwords do not match')));
+                    $event->performAction = false;
+                }
+            }
+        });
         /*  So far this would only be called when the discount has matched with everything else about the product. */
-        craft()->on('commerce_sales.onBeforeMatchProductAndSale',
-            function($event){
+        /* craft()->on('commerce_sales.onBeforeMatchProductAndSale',
+             function($event){
 
-                $product = $event->params['product'];
-                $sale = $event->params['sale'];
+                 $product = $event->params['product'];
+                 $sale = $event->params['sale'];
 
-                if (strpos($sale->description, 'APPLICABLE_ONLY') === false) {
-                    return; /* do nothing, and let the discount match as it normally would, because the discount does not have 'only' in the description. */
+                 if (strpos($sale->description, 'APPLICABLE_ONLY') === false) {
+                     return;
                 } else {
                     if (stripos($sale->description, $lineItem->sku) === false) {
-                        $event->performAction = false; /* since this SKU is not in the description string, then don't apply this discount */
+                        $event->performAction = false; //since this SKU is not in the description string, then don't apply this discount
                     }
                 }
-            });
+            });*/
 
         /*  So far this would only be called when the discount has matched with everything else about the product. */
         craft()->on('commerce_discounts.onBeforeMatchLineItem',

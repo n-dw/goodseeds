@@ -103,7 +103,7 @@ Sign in
 RESET Password
  */
 .pwd-reset-form__email{
-  max-width: 40rem;
+
 }
 
 /*
@@ -111,4 +111,21 @@ User Registration
  */
 .c-file-upload{
   margin-bottom: 4rem;
+}
+.pwd-toggle{
+  position: absolute;
+  background: none;
+  color: $white;
+  border: none;
+  top: 0;
+  right: 2rem;
+
+  &:hover{
+    text-decoration: underline;
+    color: $cta-blue-color;;
+  }
+}
+
+.u-pos-rel{
+  position: relative;
 }
