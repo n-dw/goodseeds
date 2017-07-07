@@ -19,5 +19,5 @@
  */
 
 return array(
-
+    'search' => array('action' => 'thcpost/thcpost/searchSite'),
 );

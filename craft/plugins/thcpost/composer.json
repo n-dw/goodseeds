@@ -1,0 +1,14 @@
+{
+	"name": "/thcpost",
+	"description": "Do various things we need to do such as a controller for search.",
+	"type": "craft-plugin",
+	"authors": [
+		{
+			"name": "NdW",
+			"homepage": "natedewaard.com"
+		}
+	],
+	"require": {
+		"composer/installers": "~1.0"
+	}
+}

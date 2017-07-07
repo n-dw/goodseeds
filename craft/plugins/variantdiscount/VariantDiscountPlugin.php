@@ -22,20 +22,7 @@ class VariantDiscountPlugin extends BasePlugin
     {
         parent::init();
 
-        craft()->on('users.onBeforeSaveUser', function(Event $event) {
 
-            // Only do anything if it is a front end submission
-            if(craft()->request->isSiteRequest())
-            {
-                $password = craft()->request->getPost('password');
-                $passwordConfirm = craft()->request->getPost('passwordConfirm');
-                if(isset($passwordConfirm) && strcmp($password, $passwordConfirm) !== 0)
-                {
-                    $event->params['user']->addErrors(array('passwordConfirm' => Craft::t('Passwords do not match')));
-                    $event->performAction = false;
-                }
-            }
-        });
         /*  So far this would only be called when the discount has matched with everything else about the product. */
         /* craft()->on('commerce_sales.onBeforeMatchProductAndSale',
              function($event){
