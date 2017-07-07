@@ -17,11 +17,10 @@
                                 <h2 class="faq-category">{{ faq.category }}</h2>
                             {% else %}
                                 {% set faqActive = false %}
-                                {% set currentFaq = currentFaq + 1 %}
-                                {% if currentFaq in activeFaqs %}
+                                {% if faq.faqReference.first.id in activeFaqs %}
                                     {% set faqActive = true %}
                                 {% endif %}
-                                <faq :open="{{ faqActive ? 'true' : 'false' }}" faqid="faq_{{ currentFaq }}">
+                                <faq :open="{{ faqActive ? 'true' : 'false' }}" faqid="faq_{{ faq.faqReference.first.id }}">
                                     <template slot="question">{{ faq.faqReference.first.title }}</template>
                                     <template slot="answer">{{ faq.faqReference.first.answer }}</template>
                                 </faq>

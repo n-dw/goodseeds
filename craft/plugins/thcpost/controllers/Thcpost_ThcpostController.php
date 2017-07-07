@@ -37,14 +37,11 @@ class Thcpost_ThcpostController extends BaseController
     protected $allowAnonymous = array('actionSearchSite');
 
     private static function resultSort($a, $b){
-        return ($a['ranking'] < $b['ranking']) ? -1 : 1;
+        return ($a['ranking'] < $b['ranking']) ? 1 : -1;
     }
 
     public function actionSearchSite()
     {
-        /* if(!craft()->request->isAjaxRequest())
-             return false;*/
-
         $queryString = craft()->request->getParam('q');
 
         $productSearch = craft()->elements->getCriteria('Commerce_Product')->search('title:' . '*' . $queryString . '*')->order('score');
@@ -68,27 +65,11 @@ class Thcpost_ThcpostController extends BaseController
             array_push($results, $result);
         }
 
-        $faqs = craft()->elements->getCriteria(ElementType::Entry)->section('faq')->first();
-        $faqs = $faqs->FAQGroups;
-        $faqPos = 1;
-
         foreach($contentSearch as $content){
             $result['title'] = $content->title;
             if($content->type->handle == 'faqs')
             {
-                foreach($faqs as $k => $faq)
-                {
-                    if($faq->type == 'faq')
-                    {
-                        $tmp = $faq->faqReference;
-                        if ($tmp->first()->title == $content->title)
-                        {
-                            $result['url'] = 'frequently-asked-questions' . '?aq=' . $faqPos . '#faq_' . $faqPos;
-                            break;
-                        }
-                        $faqPos++;
-                    }
-                }
+                $result['url'] = 'frequently-asked-questions' . '?aq=' . $content->id . '#faq_' . $content->id;
             }
             else{
                 $result['url'] = $content->url;
@@ -102,7 +83,5 @@ class Thcpost_ThcpostController extends BaseController
         $results = array('data' => $results);
         $this->returnJson($results);
 
-
-        //search faqs and page titles, products as well ans merge
     }
 }
