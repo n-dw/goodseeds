@@ -56,6 +56,7 @@ class Thcpost_ThcpostController extends BaseController
         {
             $result['title'] = 'Sorry no results found for ' . $queryString;
             array_push($results, $result);
+            $results = array('data' => $results);
             $this->returnJson($results);
         }
 
@@ -63,17 +64,41 @@ class Thcpost_ThcpostController extends BaseController
             $result['title'] = $product->title;
             $result['url'] = $product->url;
             $result['ranking'] = $product->searchScore;
+
             array_push($results, $result);
         }
 
+        $faqs = craft()->elements->getCriteria(ElementType::Entry)->section('faq')->first();
+        $faqs = $faqs->FAQGroups;
+        $faqPos = 1;
+
         foreach($contentSearch as $content){
             $result['title'] = $content->title;
-            $result['url'] = $content->url;
+            if($content->type->handle == 'faqs')
+            {
+                foreach($faqs as $k => $faq)
+                {
+                    if($faq->type == 'faq')
+                    {
+                        $tmp = $faq->faqReference;
+                        if ($tmp->first()->title == $content->title)
+                        {
+                            $result['url'] = 'frequently-asked-questions' . '?aq=' . $faqPos . '#faq_' . $faqPos;
+                            break;
+                        }
+                        $faqPos++;
+                    }
+                }
+            }
+            else{
+                $result['url'] = $content->url;
+            }
             $result['ranking'] = $content->searchScore;
             array_push($results, $result);
         }
 
         usort($results, 'self::resultSort');
+
         $results = array('data' => $results);
         $this->returnJson($results);
 
