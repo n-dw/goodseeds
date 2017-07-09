@@ -149,14 +149,24 @@ APP MENU
 /*
 Mobile Nav
  */
+.main-nav-mobile-wrapper{
+
+}
 nav.mobile-nav{
+  z-index: 6;
+  position: fixed;
+
   transition: .5s ease-in-out;
   display: none;
-  padding: 1rem;
+  padding: 1rem 3rem;
 
 
+  width: 100%;
+  max-width: 75%;
   max-height: 95vh;
+  height: 100vh;
 
+  background-color: $header-bg-color;
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -165,6 +175,13 @@ nav.mobile-nav{
   }
   &--open{
     display: block;
+  }
+  a{
+    color: $link-header-color;
+
+    &:hover{
+      color: $link-header-color-hover;
+    }
   }
   .mobile-nav__item{
     width: 100%;

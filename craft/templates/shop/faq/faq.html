@@ -12,6 +12,7 @@
                 <div class="col-xs-12 col-md-10">
                     <h1>{{ entry.title }}</h1>
                     <div id="faqs" class="faqs">
+                        {% cache %}
                         {% for faq in entry.FAQGroups %}
                             {% if faq.type == "faqCategory" %}
                                 <h2 class="faq-category">{{ faq.category }}</h2>
@@ -26,6 +27,7 @@
                                 </faq>
                             {% endif %}
                         {% endfor %}
+                        {% endcache %}
                     </div>
                     <div class="other-inquiries">
                         <div class="row center-xs">

@@ -19,8 +19,9 @@
     border: 2px solid $black;
   }
 }
+
 .products-list{
-  padding-top: 3rem;
+ padding-top: 1.5rem;
 }
 .product-card--link{
   display: block;
@@ -29,6 +30,7 @@
   max-height: 35rem;
   cursor: pointer;
 }
+
 .product-card{
   position: relative;
   transition: all 0.3s ease-out 0s;
@@ -36,105 +38,28 @@
   overflow: hidden;
 
 
-
-  .product-card__caption{
-
-  }
   &:hover{
     .product-card__image{
-      transform: scale3d(1.1, 1.1, 1);
+     // transform: scale3d(1.1, 1.1, 1);
     }
-    .product-card__overlay{
-      border: 2px solid map-get($colors, white);
 
-      .product-card__caption{
-        color:  map-get($colors, white);
-      }
-    }
 
   }
 
   .product-card__overlay{
-    position: absolute;
-    top: 1rem;
-    bottom: 1rem;
-    left: 1rem;
-    right: 1rem;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .product-card__information{
+  .product-card-footer{
+    padding-top: 1.5rem;
+    h3.product-title{
 
-  }
-  .product-title-wrapper{
-    width: 100%;
-    background: rgba(255,255,255,0.85);
-  }
-  &--all{
-    .product-card__overlay{
-      border: 2px solid map-get($colors, pastel-green);
-
-      .product-card__caption{
-        color: map-get($colors, pastel-green);
-      }
-    }
-  }
-  &--sale{
-    .product-card__overlay{
-      border: 2px solid map-get($colors, red);
-
-      .product-card__caption{
-        color: map-get($colors, red);
-      }
-    }
-  }
-  &--sativa{
-    .product-card__overlay{
-      border: 2px solid $sativa-color;
-
-      .product-card__caption{
-        color: $sativa-color;
-      }
-      .product-title{
-        color: $sativa-color;
-      }
-    }
-  }
-  &--indica{
-    .product-card__overlay{
-      border: 2px solid $indica-color;
-
-      .product-card__caption{
-        color: $indica-color;
-      }
-      .product-title{
-        color: $indica-color;
-      }
-    }
-  }
-  &--hybrid{
-    .product-card__overlay{
-      border: 2px solid $hybrid-color;
-
-      .product-card__caption{
-        color: $hybrid-color;
-      }
-      .product-title{
-        color: $hybrid-color;
-      }
-    }
-  }
-  &--oil{
-    .product-card__overlay{
-      border: 2px solid $concentrate-color;
-
-      .product-card__caption{
-        color: $concentrate-color;
-      }
-      .product-title{
-        color: $concentrate-color;
-      }
     }
   }
 }
@@ -166,4 +91,10 @@
       color: $white
     }
   }
+}
+
+.product-strain-type{
+  padding: 0.7rem 2rem;
+  font-weight: 500;
+  border: 2px solid $black;
 }

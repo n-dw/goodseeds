@@ -159,16 +159,16 @@
   }
 }
 // for fixed menu
-#main{
+#main > section:first-child,.main-nav-mobile-wrapper{
   padding-top: 4rem;
 }
 @include bp(small){
-  #main{
+  #main > section:first-child,.main-nav-mobile-wrapper{
     padding-top: 5rem;
   }
 }
 @include bp(medium){
-  #main{
+  #main > section:first-child,.main-nav-mobile-wrapper{
     padding-top: 12rem;
   }
 }
