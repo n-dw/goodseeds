@@ -3,7 +3,6 @@
 
     {% set params = {with: ['productImages']} %}
     {% set formParams = {'productParam' : ''} %}
-{{ d(craft.request.getPost()) }}
     {% set categoriesArray = ['or'] %}
     {% if craft.request.getPost() %}
         {% set formResults = craft.request.getPost() %}
@@ -48,12 +47,11 @@
         {% endswitch %}
     {% endif %}
     {% set products = craft.commerce.products(params) %}
-    {{ d(formParams) }}
     {% macro productForm(params) %}
         {% if params %}
             <div class="form-filter-wrapper">
-            <h5 class="form-filter-toggle" @click="toggleFilters"><i :class="icon"></i>Filters</h5>
-            <form id="product_filters_form" :class="formState" action="{{ url('shop/') }}" method="POST" {#@submit.prevent="getProducts"#}>
+            <h5 class="form-filter-toggle is-black" @click="toggleFilters"><i :class="icon"></i>Filters</h5>
+            <form id="product_filters_form" :class="formState + ' is-black'" action="{{ url('shop/') }}" method="POST" {#@submit.prevent="getProducts"#}>
                 {{ getCsrfInput() }}
                 {% set form = {'checkboxes' : [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'},{name: 'oil', value: '1'},{name: 'sale',value: '1'},
                     {name: 'stock', value: '1', label: 'In Stock'}],
@@ -87,8 +85,8 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <button class="c-button" type="submit">Submit</button>
-                        <button class="c-button" @click="resetForm" type="reset">Reset</button>
+                        <button class="button is-inverted is-medium is-primary" type="submit">Submit</button>
+                        <button class="button is-inverted is-medium is-danger" @click="resetForm" type="reset">Reset</button>
                     </div>
                 </div>
                 </fieldset>
@@ -131,9 +129,8 @@
         {% endset %}
     {%  includeJs vue %}
     {% from _self import productForm %}
-    {{ d(formParams) }}
-    <section class="shop product-listings u-bg-pastel-green product-listing-app">
-
+   {# {{ d(formParams) }}#}
+    <section class="shop product-listings product-listing-app">
         <div class="wrapper container-fluid">
             <div class="row">
                 <div class="col-xs-12">
@@ -141,7 +138,6 @@
                     <div class="product-filters-wrapper row center-xs">
                         <div class="col-xs-12 col-sm-8 col-md-6">
                             {{ params is defined and params ? productForm(formParams) }}
-
                         </div>
                     </div>
                     <div class="products-list row">

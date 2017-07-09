@@ -44,7 +44,7 @@ Vue.component('faq', {
 })
 
 new Vue({
-    el: '#header',
+    el: '#header_wrapper',
     components: {
         autocomplete: Autocomplete
     },

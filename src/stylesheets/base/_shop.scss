@@ -1,6 +1,6 @@
 .form-filter-toggle{
     cursor: pointer;
-    color: $white;
+    color: $black;
     text-align: left;
 }
 .product-filters-form{
@@ -9,6 +9,14 @@
   }
   &--closed{
     display: none;
+  }
+
+
+}
+.is-black{
+  .c-fieldset--border,
+  .c-input-option{
+    border: 2px solid $black;
   }
 }
 .products-list{

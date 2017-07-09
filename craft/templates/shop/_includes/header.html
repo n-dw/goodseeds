@@ -1,3 +1,4 @@
+<div id="header_wrapper" class="header-wrapper">
 <header id="header" class="site-header">
     <div class="container-fluid wrapper">
         <div class="row">
@@ -13,14 +14,12 @@
                             url="/search"
                             anchor="title"
                             placeholder="Search"
-                            min="3"
+                            :min="3"
                             :on-select="itemSelected"
                             :process="processJsonData"
                     >
                     </autocomplete>
-                    <button class="button--search" value="Search">
-                        <i class="icon-search"></i>
-                    </button>
+
             </div>
             <div class="account-nav col-xs-3 col-sm-5 col-md-6 end-xs" data-mobile="false">
                 {% include "shop/_includes/accountNav" %}
@@ -43,13 +42,21 @@
                 </div>
             </div>
         </div>
-        <div class="main-nav-mobile-wrapper" data-mobile="true">
+    {#    <div class="main-nav-mobile-wrapper" data-mobile="true">
             <div class="row">
                 <div class="col-xs-12">
                     {% include "shop/_includes/navMobile" %}
                 </div>
             </div>
-        </div>
+        </div>#}
 
     </div>
 </header>
+<div class="main-nav-mobile-wrapper" data-mobile="true">
+    <div class="row">
+        <div class="col-xs-12">
+            {% include "shop/_includes/navMobile" %}
+        </div>
+    </div>
+</div>
+</div>
