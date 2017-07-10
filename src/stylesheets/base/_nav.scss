@@ -50,6 +50,9 @@
       border: 1px solid $link-header-color-hover;
     }
   }
+  .app-menu__item--active .account-nav__link--login{
+    border: 1px solid $link-header-color-hover;
+  }
 }
 
 
