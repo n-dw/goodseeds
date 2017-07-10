@@ -1,6 +1,6 @@
 {% extends 'shop/_layouts/main' %}
 {% block main %}
-
+    {% import "shop/macros/product.html" as prodmac %}
     {% set params = {with: ['productImages']} %}
     {% set formParams = {'productParam' : ''} %}
     {% set categoriesArray = ['or'] %}
@@ -86,9 +86,9 @@
                             </select>
                         </div>
                         <div class="input-wrapper col-xs-12">
-                                    <button class="button is-inverted is-medium is-primary" type="submit">Submit</button>
+                                    <button class="button is-outlined is-medium is-primary" type="submit">Submit</button>
 
-                        <button class="button is-inverted is-medium is-danger" @click="resetForm" type="reset">Reset</button>
+                        <button class="button is-outlined is-medium is-danger" @click="resetForm" type="reset">Reset</button>
 
                             </div>
                         </div>
@@ -146,8 +146,9 @@
                     <div class="products-list row">
                         {% cache  globally using key "products-" ~ craft.request.path %}
                         {% for product in products %}
+                            <div class="col-xs-12 col-psm-6 col-sm-6 col-md-4 col-lg-3">
                             <a id="product_card_{{ loop.index }}"
-                               class="product-card product-card--{{ product.strainType.first().slug }} product-card--{{ product.type }} col-xs-12 col-psm-6 col-sm-6 col-md-4 col-lg-3"
+                               class="product-card product-card--{{ product.strainType.first().slug }} product-card--{{ product.type }} "
                                href="{{ product.url }}">
                                 <header class="product-card-header">
                                     {% set image = product.productImages[0] ?? null %}
@@ -191,24 +192,25 @@
                                     <div class="product-title-wrapper">
                                         <h3 class="product-title has-text-centered">{{ product.title }}</h3>
                                     </div>
-                                    <div class="level">
-                                        <div class="level-left">
-                                            <div class="level-item">
-                                                <div class="product-info-wrapper">
+                                    <div class="product-info-wrapper">
+                                    <div class="media">
+                                        <div class="media-left">
+
+                                                <div class="product-details-wrapper">
                                                     <h4 class="product-strain-type {{ product.strainType.first().slug }}">
                                                         {{ product.strainType.first().slug|first|upper }}
                                                     </h4>
                                                 </div>
-                                            </div>
+
                                         </div>
 
-                                    <div class="level-right">
-                                        <div class="level-item">
-                                            <div class="product-price-wrapper">
+                                    <div class="media-content">
+                                            <div class="product-price-wrapper has-text-right">
+                                                {% set pLastV = product.variants|last %}
                                                 {% if product.defaultVariant.onSale %}
-                                                    <span class="sale-price">was  <strike>{{ product.defaultVariant.price|commerceCurrency(cart.currency) }}</strike></span>
+                                                    <span class="sale-price">was  <strike>{{ prodmac.priceRange(product.defaultVariant.price, pLastV.price, pLastV.variantWeight.value, cart) }}</strike></span>
                                                 {% endif %}
-                                                <span class="price">{{ product.defaultVariant.salePrice|commerceCurrency(cart.currency) }}</span>
+                                                <span class="price"><b>{{ prodmac.priceRange(product.defaultVariant.salePrice, pLastV.salePrice, pLastV.variantWeight.value, cart) }}</b></span>
                                             </div>
                                         </div>
                                     </div>
@@ -216,6 +218,7 @@
                                 </div>
                                 </footer>
                             </a>
+                            </div>
                         {% endfor %}
                         {% endcache %}
                     </div>
