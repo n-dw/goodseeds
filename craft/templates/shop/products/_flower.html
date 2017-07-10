@@ -10,7 +10,7 @@
 {% set isStockLessOunce = (productStock < 28) ? true : false %}
 {% set variantInfo = {} %}
 {% block main %}
-    <div class="row center-xs container-fluid u-bg-beige">
+    <section class="row center-xs container-fluid">
         <div class="col-xs-12 col-md-8 col-lg-6">
             <article class="product">
                 <header class="product-header">
@@ -189,7 +189,7 @@
                 </div>
             </article>
         </div>
-    </div>
+    </section>
     {% set vue %}
         {#  new Vue({
           el: '.product',
