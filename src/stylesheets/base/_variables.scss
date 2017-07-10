@@ -155,7 +155,7 @@ $cta-blue-hover-color: darken(map-get($colors, cyan), 10%);
 /*
 Forms
  */
-$formElementBorderColor: map-get($colors, white);
+$formElementBorderColor: map-get($colors, black);
 $formElementBorderColorFocus: map-get($colors, cyan);
 $formElementBorderColorError: map-get($colors, red);
 
