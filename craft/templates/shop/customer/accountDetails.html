@@ -12,7 +12,7 @@
                                     <article id="order_{{ loop.index }}" class="order">
                                         <ul class="order-listing c-list c-list--clean">
                                             <li><b>Order #</b>: <a
-                                                        href="{{ url('customer/order', { number: order.number }) }}">{{ order.id }} </a>
+                                                        href="{{ url('account/order', { number: order.number }) }}">{{ order.id }} </a>
                                             </li>
 
                                             <li><b>Status:</b> <span
@@ -23,12 +23,18 @@
                                             <li><b>Total Price:</b> <span
                                                         class="price">{{ order.totalPrice|commerceCurrency(cart.currency) }}</span>
                                             </li>
-                                            {% if order.trackingNumber is defined and not order.trackingNumber is null %}
-                                                <li><b>Tracking Number:</b> <a
-                                                            href="{{ url('https://www.canadapost.ca/cpotools/apps/track/personal/findByTrackNumber', { trackingNumber: order.trackingNumber }) }}"><span
-                                                                class="tracking-number">{{ order.trackingNumber }}</span></a>
+
+                                                <li><b>Tracking Number:</b>
+
+                                                    {% if order.trackingNumber is not empty %}
+                                                        <a href="{{ url('https://www.canadapost.ca/cpotools/apps/track/personal/findByTrackNumber', { trackingNumber: order.trackingNumber }) }}"><span
+                                                                    class="tracking-number">{{ order.trackingNumber }}</span></a>
+                                                    {% else %}
+                                                        <p class="box">You will be emailed the tracking number upon order
+                                                            shipment.</p>
+                                                    {% endif %}
                                                 </li>
-                                            {% endif %}
+
 
                                         </ul>
 

@@ -9,105 +9,160 @@
 
 {% block main %}
 
-<section class="content-section order-section">
-    <div class="wrapper container-fluid">
-        <div class="row center-xs">
-            <div class="col-xs-12">
+    <section class="content-section order-section">
+        <div class="wrapper container-fluid">
+            <div class="row center-xs">
+                <div class="col-xs-12 col-lg-6">
 
-            {% if not currentUser %}{% redirect '/' %}{% endif %}
-            <h1>Order {{ order.id }}</h1>
-
-
-           <div class="row">
-               <div class="card">
-               <header class="card-header">
-                   <h2 class="card-header-title">
-                       Order Details
-                   </h2>
-               </header>
-               <div class="card-content">
-                   <div class="content">
-                   </div>
-               </div>
-               </div>
-           </div>
-                    <h4>Details</h4>
-                        <p>If you have any questions regarding the order please email us <a href="mailto:{{siteSettings.defaultEmailAddress}}?subject=Order {{ order.id }}">{{siteSettings.defaultEmailAddress}}</a></p>
-                    <ul>
-                        <li><strong>{{ "Customer"|t }}:</strong> {{ order.customer.email }}</li>
-                        <li><strong>{{ "Total"|t }}:</strong> {{ order.totalPrice|commerceCurrency(cart.currency) }}</li>
-                        <li><strong>{{ "Amount Paid"|t }}:</strong> {{ order.totalPaid|commerceCurrency(cart.currency) }}</li>
-                        <li><strong>{{ "Date"|t }}:</strong> {{ order.dateOrdered }}</li>
-                    </ul>
-
-                </div>
-                <div class="four columns">
-                    <h4>Shipping Address</h4>
-
-                    {% if order.shippingAddress %}
-                    {% include 'shop/_includes/addresses/address' with { address: order.shippingAddress } %}
+                    {% if not currentUser %}{% redirect '/' %}{% endif %}
+                    <h1>Order {{ order.id }}</h1>
+                    {% if not order.orderStatus.handle == 'paymentPending' and order.pdfUrl %}
+                        <h4>Receipt (<a href="{{ order.getPdfUrl('receipt') }}">Download</a>)</h4>
                     {% endif %}
-                </div>
-                <div class="four columns">
-                    <h4>Billing Address</h4>
-                    {% if order.billingAddress %}
-                    {% include 'shop/_includes/addresses/address' with { address: order.billingAddress } %}
+                    <p>If you have any questions regarding the order please email us <a
+                                href="mailto:{{ siteSettings.defaultEmailAddress }}?subject=Order {{ order.id }}">{{ siteSettings.defaultEmailAddress }}</a>
+                    </p>
+
+                    {% if order.orderStatus.handle == 'paymentPending' %}
+                        <div class="box">
+                            <h3>Payment Instructions</h3>
+                            {% include 'shop/_includes/messages/_paymentInstructionETransfer' %}
+                        </div>
                     {% endif %}
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="card">
+                                <header class="card-header">
+                                    <h2 class="card-header-title">
+                                        Order Details
+                                    </h2>
+                                </header>
+                                <div class="card-content">
+                                        <div class="columns is-mobile has-text-left">
+                                            <div class="column">
+                                    <ul class="c-list c-list--clean">
+                                        <li>
+                                            <strong>Date:</strong>
+                                            <div class="block"> {{ order.dateOrdered }}
+                                        </li>
+                                        <li>
+                                            <strong>Order Number:</strong>
+                                            <div class="block">{{ order.id }}</div>
+                                        </li>
+                                        <li>
+                                            <strong>Order Status:</strong>
+                                            <div class="block"><span class="order-status order-status--{{ order.orderStatus.handle }}">{{ order.orderStatus.name }}</span></div>
+                                        </li>
+                                    </ul>
+                                            </div>
+                                    <div class="column">
+                                        <strong>Tracking Number:</strong>
+                                        {% if order.trackingNumber is not empty %}
+                                        <div class="block"> <a href="{{ url('https://www.canadapost.ca/cpotools/apps/track/personal/findByTrackNumber', { trackingNumber: order.trackingNumber }) }}"><span
+                                                        class="tracking-number">{{ order.trackingNumber }}</span></a></div>
+                                        {% else %}
+                                            <p class="box">You will be emailed the tracking number upon order
+                                                shipment.</p>
+                                        {% endif %}
+                                    </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="card">
+                                <header class="card-header">
+                                    <h2 class="card-header-title">
+                                        Items Ordered
+                                    </h2>
+                                </header>
+                                <div class="card-content">
+                                    <ul class="c-list c-list--clean">
+                                        {% for item in order.lineItems %}
+                                            <li>
+                                                <strong>{{ item.description }}</strong><br>
+
+
+                                                {% if item.onSale %}
+                                                    <strike>{{ item.price|commerceCurrency(cart.currency) }}</strike>   {{ item.salePrice|commerceCurrency(cart.currency) }}
+                                                {% else %}
+                                                    {{ item.price|commerceCurrency(cart.currency) }}
+                                                {% endif %}
+
+                                                {{ item.qty }}
+                                                {{ item.subtotal|commerceCurrency(cart.currency) }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="card">
+                                <header class="card-header">
+                                    <h2 class="card-header-title">
+                                        Shipping Information
+                                    </h2>
+                                </header>
+                                <div class="card-content">
+                                    <div class="content">
+                                        {% if order.shippingAddress %}
+                                            {% include 'shop/_includes/addresses/address' with { address: order.shippingAddress } %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="card">
+                                <header class="card-header">
+                                    <h2 class="card-header-title">
+                                        Order Notes
+                                    </h2>
+                                </header>
+                                <div class="card-content">
+                                    {{ order.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="card">
+                                <header class="card-header">
+                                    <h2 class="card-header-title">
+                                        Order Summary
+                                    </h2>
+                                </header>
+                                <div class="card-content">
+                                    <ul class="c-list c-list--clean has-text-left">
+                                        <li>
+                                            <strong>Subtotal:</strong>
+                                            {{ order.itemTotal|commerceCurrency(cart.currency) }}
+                                        </li>
+                                        {% for adjustment in order.adjustments %}
+                                            <li>
+                                                <strong>{{ adjustment.type }}</strong>
+                                                {{ adjustment.amount|commerceCurrency(cart.currency) }} ({{ adjustment.name }})
+                                            </li>
+                                        {% endfor %}
+                                        <li>
+                                            <strong>Total:</strong>
+                                            <span class="price">{{ order.totalPrice|commerceCurrency(cart.currency) }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
-            {% if order.pdfUrl %}
-            <h4>Receipt (<a href="{{ order.getPdfUrl('receipt') }}">Download</a>)</h4>
-            {% endif %}
-
-            <table class="u-full-width">
-                <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th class="text-right">Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for item in order.lineItems %}
-                    <tr>
-                        <td>
-                            <strong>{{ item.description }}</strong><br>
-                            SKU: {{ item.sku }}
-                        </td>
-                        <td>
-                            {% if item.onSale %}
-                                <strike>{{ item.price|commerceCurrency(cart.currency) }}</strike>   {{ item.salePrice|commerceCurrency(cart.currency) }}
-                            {% else %}
-                                {{ item.price|commerceCurrency(cart.currency) }}
-                            {% endif %}
-                        </td>
-                        <td>{{ item.qty }}</td>
-                        <td class="text-right">{{ item.subtotal|commerceCurrency(cart.currency) }}</td>
-                    </tr>
-                {% endfor %}
-
-                {% for adjustment in order.adjustments %}
-                    <tr>
-                        <td>{{ adjustment.type }}</td>
-                        <td colspan="2"><strong>{{ adjustment.name }}</strong><br>({{ adjustment.description }})</td>
-                        <td class="text-right">{{ adjustment.amount|commerceCurrency(cart.currency) }}</td>
-                    </tr>
-                {% endfor %}
-
-                <tr>
-                    <td colspan="4" class="text-right">
-                        Item Total: {{ order.itemTotal|commerceCurrency(cart.currency) }}<br>
-                        <h4>Total: {{ order.totalPrice|commerceCurrency(cart.currency) }}</h4>
-                    </td>
-                </tr>
-
-                </tbody>
-            </table>
-
         </div>
-    </div>
-    </div></section>
+    </section>
 {% endblock %}

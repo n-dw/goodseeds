@@ -14,7 +14,7 @@
 
 .order-status{
   &--paymentPending{
-    color: map_get($colorsPostIt, pink);
+    color: map_get($colors, yellow);
   }
   &--processing{
     color: map-get($colors, dark-purple);
@@ -47,8 +47,11 @@
 
 ///order page
 .order-section{
+  .box{
+
+  }
   .card{
-    background-color: transparent;
+
 
     .card-header-title{
       font-weight: 400;
