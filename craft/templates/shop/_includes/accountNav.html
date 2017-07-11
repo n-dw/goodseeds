@@ -1,22 +1,22 @@
 <ul id="account_nav" class="account-nav c-list--clean" data-mobile="false">
-    <li class="account-nav__item">
+    <li class="account-nav__item  {% if page == 'our-story' %}app-menu__item--active {% endif %}">
         <a class="account-nav__link" href="/our-story">{{ "Our Story"|t }}</a>
     </li>
-    <li class="account-nav__item">
+    <li class="account-nav__item {% if page == 'frequently-asked-questions' %}app-menu__item--active {% endif %}">
         <a class="account-nav__link" href="/frequently-asked-questions">{{ "FAQ"|t }}</a>
     </li>
-    <li class="account-nav__item">
+    <li class="account-nav__item {% if page == 'contact' %}app-menu__item--active {% endif %}">
         <a class="account-nav__link" href="/contact">{{ "Contact"|t }}</a>
     </li>
     {% if currentUser %}
-    <li class="account-nav__item account-nav__item--user">
+    <li class="account-nav__item account-nav__item--user {% if 'account' in page %}app-menu__item-top-nav--active{% endif %}">
         <i class="icon-user">You <span class="down-arrow"></span></i>
         <ul class="sub-menu user-menu c-list--clean">
-            <li class="user-menu__item user-menu__item--border-bottom">
-                <a href="{{ url('shop/customer') }}">My Account</a>
+            <li class="user-menu__item user-menu__item--border-bottom {% if page == 'account' %}app-menu__item--active{% endif %}">
+                <a href="{{ url('account') }}">My Account</a>
             </li>
-            <li class="user-menu__item user-menu__item--border-top">
-                <a href="{{ logoutUrl }}">My Orders</a>
+            <li class="user-menu__item user-menu__item--border-top  {% if page == 'account/orders' %}app-menu__item--active {% endif %}">
+                <a href="{{url('account/orders') }}">My Orders</a>
             </li>
             <li class="user-menu__item user-menu__item--border-top">
                 <a href="{{ logoutUrl }}">Sign out</a>
@@ -24,15 +24,15 @@
         </ul>
     </li>
     {% else %}
-            <li class="account-nav__item">
+            <li class="account-nav__item {% if page == 'register' %}app-menu__item--active {% endif %}">
                    <a class="account-nav__link" href="/register">{{ "Register"|t }}</a>
             </li>
-            <li class="account-nav__item">
+            <li class="account-nav__item {% if page == 'login' %}app-menu__item--active {% endif %}">
                    <a class="account-nav__link account-nav__link--login" href="/login">{{ "Sign in"|t }}</a>
             </li>
         {% endif %}
-    <li class="account-nav__item">
-        <a class="cart-button {% if page == 'cart' %} active{% endif %}" href="{{ url('shop/cart') }}">
+    <li class="account-nav__item {% if page == 'cart' %}app-menu__item--active{% endif %}">
+        <a class="cart-button" href="{{ url('shop/cart') }}">
             <i class="icon-basket cart-count-wrapper">
                 {% if cart.lineItems|length > 0 %}
                 <span class="cart-count count">

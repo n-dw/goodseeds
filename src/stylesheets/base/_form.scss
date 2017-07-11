@@ -84,6 +84,9 @@
     border: 2px solid $formElementBorderColorFocus;
   }
 }
+.form-controls{
+  padding: 0.5rem;
+}
 
 #contact_form{
   input#toName{
@@ -115,14 +118,14 @@ User Registration
 .pwd-toggle{
   position: absolute;
   background: none;
-  color: $white;
+  color: map-get($colors, dark-grey);
   border: none;
   top: 0;
   right: 2rem;
 
   &:hover{
     text-decoration: underline;
-    color: $cta-blue-color;;
+    color: $cta-blue-color;
   }
 }
 

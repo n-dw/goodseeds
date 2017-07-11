@@ -1,10 +1,10 @@
 <nav class="shopping-nav" data-mobile="false">
     <ul class="c-list--clean">
-        <li class="shopping-nav__item"><a href="/shop" class="shopping-nav__link">All Products</a></li>
+        <li class="shopping-nav__item {% if 'shop' in page %} shopping-nav__item--active  nav__item--active {% endif %}"><a href="/shop" class="shopping-nav__link">Shop</a></li>
+        <li class="shopping-nav__item"><a href="/shop?cat=sale" class="shopping-nav__link">Sales</a></li>
         <li class="shopping-nav__item"><a href="/shop?cat=sativa" class="shopping-nav__link">Sativa</a></li>
         <li class="shopping-nav__item"><a href="/shop?cat=indica" class="shopping-nav__link">Indica</a></li>
         <li class="shopping-nav__item"><a href="/shop?cat=hybrid" class="shopping-nav__link">Hybrids</a></li>
         <li class="shopping-nav__item"><a href="/shop?cat=concentrates" class="shopping-nav__link">Concentrates</a></li>
-        <li class="shopping-nav__item"><a href="/shop?cat=sale" class="shopping-nav__link">Sales</a></li>
     </ul>
 </nav>

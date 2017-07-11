@@ -10,7 +10,7 @@
 {% set isStockLessOunce = (productStock < 28) ? true : false %}
 {% set variantInfo = {} %}
 {% block main %}
-    <div class="row center-xs container-fluid u-bg-beige">
+    <section class="row center-xs container-fluid">
         <div class="col-xs-12 col-md-8 col-lg-6">
             <article class="product">
                 <header class="product-header">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="product-images">
-                       {# {% cache %}
+                        {% cache %}
                         {% for productImage in product.productImages %}
                             {% set image = productImage %}
                             {% set transformedImages = craft.imager.transformImage(image,
@@ -53,7 +53,7 @@
                                 </a>
                             {% endif %}
                         {% endfor %}
-                        {% endcache %}#}
+                        {% endcache %}
                     </div>
                     <div class="product-price-hook">
                         {% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
@@ -167,10 +167,10 @@
                                 {% for attribute in product.productAttributes %}
                                     {% if attribute.type == 'effects' %}
                                         {{ attribute.effectTerm.first.title | t }}
-                                        <meter value="{{ attribute.effectPercentage }}" max="100"></meter>
+                                        <progress class="progress is-large" value="{{ attribute.effectPercentage }}" max="100"></progress>
                                     {% else %}
                                         {{ attribute.medicalSymptom.first.title |t }}
-                                        <meter value="{{ attribute.medicalEffectPercentage }}" max="100"></meter>
+                                        <progress class="progress is-large" value="{{ attribute.medicalEffectPercentage }}" max="100"></progress>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -184,23 +184,7 @@
                         </div>
                     </div>
                 </footer>
-                <div class="app-messages product-messages">
-
-                </div>
             </article>
         </div>
-    </div>
-    {% set vue %}
-        {#  new Vue({
-          el: '.product',
-          delimiters: ['{|', '|}'],
-          data: {
-
-          },
-          methods: {
-
-          },
-          });#}
-    {% endset %}
-    {% includeJs vue %}
+    </section>
 {% endblock %}

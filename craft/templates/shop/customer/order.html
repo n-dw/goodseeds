@@ -4,22 +4,35 @@
 {% set order = craft.commerce.orders.number(number).first() %}
 
 {% if not order %}
-    {% redirect 'shop/customer' %}
+    {% redirect 'account/orders' %}
 {% endif %}
 
 {% block main %}
 
-    <div class="row">
-        <div class="twelve columns">
+<section class="content-section order-section">
+    <div class="wrapper container-fluid">
+        <div class="row center-xs">
+            <div class="col-xs-12">
 
-            {% if currentUser %}<p><a href="{{ url('shop/customer') }}">My Orders</a></p>{% endif %}
-            <h1>Order #{{ order.id }}</h1>
+            {% if not currentUser %}{% redirect '/' %}{% endif %}
+            <h1>Order {{ order.id }}</h1>
 
 
-            <div class="row">
-                <div class="four columns">
+           <div class="row">
+               <div class="card">
+               <header class="card-header">
+                   <h2 class="card-header-title">
+                       Order Details
+                   </h2>
+               </header>
+               <div class="card-content">
+                   <div class="content">
+                   </div>
+               </div>
+               </div>
+           </div>
                     <h4>Details</h4>
-
+                        <p>If you have any questions regarding the order please email us <a href="mailto:{{siteSettings.defaultEmailAddress}}?subject=Order {{ order.id }}">{{siteSettings.defaultEmailAddress}}</a></p>
                     <ul>
                         <li><strong>{{ "Customer"|t }}:</strong> {{ order.customer.email }}</li>
                         <li><strong>{{ "Total"|t }}:</strong> {{ order.totalPrice|commerceCurrency(cart.currency) }}</li>
@@ -96,4 +109,5 @@
 
         </div>
     </div>
+    </div></section>
 {% endblock %}

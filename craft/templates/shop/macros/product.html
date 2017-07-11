@@ -1,0 +1,9 @@
+{% macro priceRange(priceA, priceB, variantWeight, cart) %}
+    {% if priceA == priceB %}
+        {{ priceA|commerceCurrency(cart.currency) }}
+        {% else %}
+            {% set dividends = {1:1, 2:3.5, 3:7, 4:14, 5:28} %}
+            {%  set priceB = priceB / (dividends[variantWeight]) %}
+            {{ priceB|commerceCurrency(cart.currency) ~ ' - ' ~ priceA|commerceCurrency(cart.currency) }}
+    {% endif %}
+{% endmacro %}

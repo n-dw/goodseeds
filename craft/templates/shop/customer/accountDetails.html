@@ -1,0 +1,45 @@
+{% extends 'shop/_layouts/main' %}
+{% block main %}
+    <section class="content-section">
+        <div class="wrapper container-fluid">
+            <div class="row center-xs">
+                <div class="col-xs-12">
+                    {% if currentUser %}
+                        <h1>Account Details</h1>
+                        <div class="orders-wrapper row">
+                            {% for order in craft.commerce.orders.customer(craft.commerce.customer).find() %}
+                                <div class="col-xs-12 col-psm-6 col-md-4 col-lg-3">
+                                    <article id="order_{{ loop.index }}" class="order">
+                                        <ul class="order-listing c-list c-list--clean">
+                                            <li><b>Order #</b>: <a
+                                                        href="{{ url('customer/order', { number: order.number }) }}">{{ order.id }} </a>
+                                            </li>
+
+                                            <li><b>Status:</b> <span
+                                                        class="order-status order-status--{{ order.orderStatus.handle }}">{{ order.orderStatus.name }}</span></a>
+                                            </li>
+                                            <li><b>Order Date:</b> {{ order.dateOrdered }}</a></li>
+                                            <li><b>Total Items:</b> {{ order.totalQty }}</a></li>
+                                            <li><b>Total Price:</b> <span
+                                                        class="price">{{ order.totalPrice|commerceCurrency(cart.currency) }}</span>
+                                            </li>
+                                            {% if order.trackingNumber is defined and not order.trackingNumber is null %}
+                                                <li><b>Tracking Number:</b> <a
+                                                            href="{{ url('https://www.canadapost.ca/cpotools/apps/track/personal/findByTrackNumber', { trackingNumber: order.trackingNumber }) }}"><span
+                                                                class="tracking-number">{{ order.trackingNumber }}</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                        </ul>
+
+                                    </article>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
