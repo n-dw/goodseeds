@@ -1,6 +1,13 @@
 .sub-menu{
   display: none;
 }
+.nav-menu{
+  .nav__item--active{
+    & > a, a > i{
+      color: $link-header-color-hover;
+    }
+  }
+}
 /*Account Nav*/
 
 .account-nav{
@@ -62,6 +69,12 @@
 .shopping-nav{
   .shopping-nav__item{
     display: inline-block;
+
+    &--active{
+      a, i{
+        color: $link-header-color-hover;
+      }
+    }
   }
 }
 
@@ -164,8 +177,8 @@ nav.mobile-nav{
   padding: 1rem 3rem;
 
 
-  width: 100%;
-  max-width: 75%;
+  width: 85%;
+  max-width: 50rem;
   max-height: 95vh;
   height: 100vh;
 
@@ -178,6 +191,11 @@ nav.mobile-nav{
   }
   &--open{
     display: block;
+  }
+
+  ul li ul{
+    border-left: 2px solid $white;
+    margin: 0.75rem;
   }
   a{
     color: $link-header-color;

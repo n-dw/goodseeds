@@ -31,8 +31,8 @@
                    <a class="account-nav__link account-nav__link--login" href="/login">{{ "Sign in"|t }}</a>
             </li>
         {% endif %}
-    <li class="account-nav__item {% if page == 'cart' %}app-menu__item--active {% endif %}">
-        <a class="cart-button href="{{ url('shop/cart') }}">
+    <li class="account-nav__item {% if page == 'cart' %}app-menu__item--active{% endif %}">
+        <a class="cart-button" href="{{ url('shop/cart') }}">
             <i class="icon-basket cart-count-wrapper">
                 {% if cart.lineItems|length > 0 %}
                 <span class="cart-count count">

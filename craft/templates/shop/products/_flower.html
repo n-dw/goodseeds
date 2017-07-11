@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="product-images">
-                       {# {% cache %}
+                        {% cache %}
                         {% for productImage in product.productImages %}
                             {% set image = productImage %}
                             {% set transformedImages = craft.imager.transformImage(image,
@@ -53,7 +53,7 @@
                                 </a>
                             {% endif %}
                         {% endfor %}
-                        {% endcache %}#}
+                        {% endcache %}
                     </div>
                     <div class="product-price-hook">
                         {% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
@@ -184,23 +184,7 @@
                         </div>
                     </div>
                 </footer>
-                <div class="app-messages product-messages">
-
-                </div>
             </article>
         </div>
     </section>
-    {% set vue %}
-        {#  new Vue({
-          el: '.product',
-          delimiters: ['{|', '|}'],
-          data: {
-
-          },
-          methods: {
-
-          },
-          });#}
-    {% endset %}
-    {% includeJs vue %}
 {% endblock %}

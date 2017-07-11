@@ -1,45 +1,38 @@
-<nav class="mobile-nav" :class="navMenuStatus">
+<nav class="mobile-nav nav-menu" :class="navMenuStatus">
     <ul class="c-list--clean">
-        <li class="mobile-nav__item"><a href="/" class="mobile-nav__link">Home  <i class="icon-home"></i></a></li>
-        <li class="mobile-nav__item">
+        <li class="mobile-nav__item {% if page == 'home' %} nav__item--active {% endif %}"><a href="/" class="mobile-nav__link">Home  <i class="icon-home"></i></a></li>
+        <li class="mobile-nav__item {% if 'shop' in page %} nav__item--active {% endif %}">
             <a href="/shop" class="mobile-nav__link">Shop <i class="icon-shopping-bag"></i></a>
             <ul class="sub-menu--open c-list--clean">
+                <li class="mobile-nav__item"><a href="/shop?cat=sales" class="mobile-nav__link">Sales</a></li>
                 <li class="mobile-nav__item"><a href="/shop?cat=sativa" class="mobile-nav__link">Sativa</a></li>
                 <li class="mobile-nav__item"><a href="/shop?cat=indica" class="mobile-nav__link">Indica</a></li>
                 <li class="mobile-nav__item"><a href="/shop?cat=hybrids" class="mobile-nav__link">Hybrids</a></li>
                 <li class="mobile-nav__item"><a href="/shop?cat=concentrates" class="mobile-nav__link">Concentrates</a></li>
-                <li class="mobile-nav__item"><a href="/shop?cat=sales" class="mobile-nav__link">Sales</a></li>
             </ul>
         </li>
 
-        <li class="mobile-nav__item"><a href="/our-story" class="mobile-nav__link">Our Story</a></li>
-        <li class="mobile-nav__item"><a href="/frequently-asked-questions" class="mobile-nav__link">FAQ <i class=" icon-help-circled"></i></a></li>
-        <li class="mobile-nav__item"><a href="/contact" class="mobile-nav__link">Contact Us</a></li>
+        <li class="mobile-nav__item {% if page == 'our-story' %} nav__item--active {% endif %}"><a href="/our-story" class="mobile-nav__link">Our Story</a></li>
+        <li class="mobile-nav__item {% if page == 'frequently-asked-questions' %} nav__item--active {% endif %}"><a href="/frequently-asked-questions" class="mobile-nav__link">FAQ <i class=" icon-help-circled"></i></a></li>
+        <li class="mobile-nav__item {% if page == 'contact' %} nav__item--active {% endif %}"><a href="/contact" class="mobile-nav__link">Contact Us</a></li>
         {% if currentUser %}
-            <li class="account-nav__item account-nav__item--user">
-                <i class="icon-user">You <span class="down-arrow"></span></i>
-                <ul class="sub-menu--open c-list--clean">
+
                     <li class="mobile-nav__item">
-                        <a class="mobile-nav__link"  href="{{ url('shop/customer') }}">My Account</a>
+                        <a class="mobile-nav__link {% if page == 'customer' %} nav__item--active {% endif %}"  href="{{ url('shop/customer') }}">My Account</a>
                     </li>
                     <li class="mobile-nav__item">
-                        <a  class="mobile-nav__link" href="{{ logoutUrl }}">My Orders</a>
+                        <a  class="mobile-nav__link {% if page == 'customer' %} nav__item--active {% endif %}" href="{{ url('shop/customer') }}">My Orders</a>
                     </li>
-                    <li class="mobile-nav__item">
-                        <a class="mobile-nav__link" href="{{ logoutUrl }}">Sign out</a>
-                    </li>
-                </ul>
-            </li>
         {% else %}
-            <li class="mobile-nav__item">
+            <li class="mobile-nav__item {% if page == 'register' %}nav__item--active {% endif %}">
                 <a class="mobile-nav__link" href="/register">{{ "Register"|t }}</a>
             </li>
-            <li class="mobile-nav__item">
+            <li class="mobile-nav__item {% if page == 'login' %}nav__item--active {% endif %}">
                 <a class="mobile-nav__link" href="/login">{{ "Sign in"|t }}</a>
             </li>
         {% endif %}
-        <li class="mobile-nav__item">
-            <a href="/contact" class="mobile-nav__link">Cart
+        <li class="mobile-nav__item {% if page == 'cart' %}nav__item--active {% endif %}">
+            <a href="/cart" class="mobile-nav__link">Cart
                 <i class=" icon-basket cart-count-wrapper">
                 {% if cart.lineItems|length > 0 %}
                     <span class="cart-count count">
@@ -49,6 +42,10 @@
                 </i>
             </a>
         </li>
-
+        {% if currentUser %}
+        <li class="mobile-nav__item">
+            <a class="mobile-nav__link" href="{{ logoutUrl }}">Sign out</a>
+        </li>
+        {% endif %}
     </ul>
 </nav>
