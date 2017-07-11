@@ -8,14 +8,12 @@
 {% endif %}
 
 {% block main %}
-
     <section class="content-section order-section">
         <div class="wrapper container-fluid">
             <div class="row center-xs">
-                <div class="col-xs-12 col-lg-6">
-
+                <div class="col-xs-12 col-md-8 col-lg-6">
                     {% if not currentUser %}{% redirect '/' %}{% endif %}
-                    <h1>Order {{ order.id }}</h1>
+                    <h1>Order {{ order }}</h1>
                     {% if not order.orderStatus.handle == 'paymentPending' and order.pdfUrl %}
                         <h4>Receipt (<a href="{{ order.getPdfUrl('receipt') }}">Download</a>)</h4>
                     {% endif %}
@@ -47,7 +45,7 @@
                                         </li>
                                         <li>
                                             <strong>Order Number:</strong>
-                                            <div class="block">{{ order.id }}</div>
+                                            <div class="block">{{ order }}</div>
                                         </li>
                                         <li>
                                             <strong>Order Status:</strong>
@@ -82,17 +80,7 @@
                                     <ul class="c-list c-list--clean">
                                         {% for item in order.lineItems %}
                                             <li>
-                                                <strong>{{ item.description }}</strong><br>
-
-
-                                                {% if item.onSale %}
-                                                    <strike>{{ item.price|commerceCurrency(cart.currency) }}</strike>   {{ item.salePrice|commerceCurrency(cart.currency) }}
-                                                {% else %}
-                                                    {{ item.price|commerceCurrency(cart.currency) }}
-                                                {% endif %}
-
-                                                {{ item.qty }}
-                                                {{ item.subtotal|commerceCurrency(cart.currency) }}
+                                                {% include 'shop/_includes/order/_itemOrdered' %}
                                             </li>
                                         {% endfor %}
                                     </ul>
