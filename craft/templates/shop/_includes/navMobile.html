@@ -18,10 +18,10 @@
         {% if currentUser %}
 
                     <li class="mobile-nav__item">
-                        <a class="mobile-nav__link {% if page == 'customer' %} nav__item--active {% endif %}"  href="{{ url('shop/customer') }}">My Account</a>
+                        <a class="mobile-nav__link {% if page == 'account' %} nav__item--active {% endif %}"  href="{{ url('account') }}">My Account</a>
                     </li>
                     <li class="mobile-nav__item">
-                        <a  class="mobile-nav__link {% if page == 'customer' %} nav__item--active {% endif %}" href="{{ url('shop/customer') }}">My Orders</a>
+                        <a  class="mobile-nav__link {% if page == 'account/orders' %} nav__item--active {% endif %}" href="{{ url('account/orders') }}">My Orders</a>
                     </li>
         {% else %}
             <li class="mobile-nav__item {% if page == 'register' %}nav__item--active {% endif %}">

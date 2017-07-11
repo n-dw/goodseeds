@@ -14,6 +14,11 @@
 
 }
 #account_nav{
+  .app-menu__item-top-nav--active.account-nav__item--user{
+    & > i{
+      color: $link-header-color-hover;
+    }
+  }
   .account-nav__item{
     display: inline-block;
 
