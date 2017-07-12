@@ -26,6 +26,10 @@ button{
 	&:active {
 		outline: none;
 	}
+	&--small{
+		margin-bottom: 1rem;
+		padding: 0.5rem 1.8rem;
+	}
 
 	&--large{
 		font-size: 2.6rem;
