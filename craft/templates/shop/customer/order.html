@@ -97,16 +97,17 @@
                                     </h2>
                                 </header>
                                 <div class="card-content">
-                                    <div class="content">
+
                                         {% if order.shippingAddress %}
-                                            {% include 'shop/_includes/addresses/address' with { address: order.shippingAddress } %}
+                                            {% include 'shop/_includes/addresses/_shippingAddress' with { address: order.shippingAddress } %}
                                         {% endif %}
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    {% if order.message is not empty %}
+                        <div class="row">
                         <div class="col-xs-12">
                             <div class="card">
                                 <header class="card-header">
@@ -120,6 +121,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="card">
@@ -136,7 +138,7 @@
                                         </li>
                                         {% for adjustment in order.adjustments %}
                                             <li>
-                                                <strong>{{ adjustment.type }}</strong>
+                                                <strong>{{ adjustment.type }}:</strong>
                                                 {{ adjustment.amount|commerceCurrency(cart.currency) }} ({{ adjustment.name }})
                                             </li>
                                         {% endfor %}

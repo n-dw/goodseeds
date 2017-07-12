@@ -20,7 +20,7 @@ button{
 	font-size: $font-size-body;
 	cursor: pointer;
 	color: $text-color;
-	background: color(light-grey);
+	background: transparent;
 
 	&:focus,
 	&:active {

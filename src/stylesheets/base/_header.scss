@@ -51,21 +51,8 @@
         margin: 0;
         display: inline-block;
         max-width: 500px;
-        width: 100%;
+        width: 95%;
         min-width: 15%;
-        margin-top: 10px;
-      }
-
-      .autocomplete ul:before{
-        content: "";
-        display: block;
-        position: absolute;
-        height: 0;
-        width: 0;
-        border: 10px solid transparent;
-        border-bottom: 10px solid #f8f8f8;
-        left: 46%;
-        top: -20px
       }
 
       .autocomplete ul li a{
