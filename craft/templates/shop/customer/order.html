@@ -134,12 +134,17 @@
                                     <ul class="c-list c-list--clean has-text-left">
                                         <li>
                                             <strong>Subtotal:</strong>
-                                            {{ order.itemTotal|commerceCurrency(cart.currency) }}
+                                            {{ order.itemSubtotal|commerceCurrency(cart.currency) }}
                                         </li>
                                         {% for adjustment in order.adjustments %}
                                             <li>
                                                 <strong>{{ adjustment.type }}:</strong>
-                                                {{ adjustment.amount|commerceCurrency(cart.currency) }} ({{ adjustment.name }})
+                                                {% if adjustment.type|lower == 'discount'  %}
+                                                    <span class="sale">{{ adjustment.amount|commerceCurrency(cart.currency) }}  ({{ adjustment.name }})</span>
+                                                {% else %}
+                                                        {{ adjustment.amount|commerceCurrency(cart.currency) }}  ({{ adjustment.name }})
+                                                {% endif %}
+
                                             </li>
                                         {% endfor %}
                                         <li>

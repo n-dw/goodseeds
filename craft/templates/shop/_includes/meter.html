@@ -20,7 +20,6 @@ url: 'shop/checkout/payment'
 {% if width is not defined %}
     {% set width = 0 %}
 {% endif %}
-<div class="steps">
     <ul class="c-list c-list--clean c-list--inline">
         {% for key, step in steps %}
 
@@ -36,12 +35,7 @@ url: 'shop/checkout/payment'
             {% endif %}
 
 
-            <li class="{{ class }}"><a href="{{ url( step.url ) }}">{{ step.label }}</a></li>
+            <li class="{{ class }} {% if page in step.url %}is-active{% endif %}"><a href="{{ url( step.url ) }}">{{ step.label }}</a></li>
 
         {% endfor %}
     </ul>
-
-    <div class="meter">
-        <span style="width: {{ width }}%"></span>
-    </div>
-</div>

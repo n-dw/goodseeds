@@ -4,7 +4,7 @@
     {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
     {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
     {% set shippingAmount = qualifyFreeShipping ? 'FREE Shipping' :  siteSettings.shippingFlatCost ~ ' (Canada XpressPost)' %}
-    <section class="content-section">
+    <section class="content-section checkout-page">
         <div class="wrapper container-fluid">
             <div class="row center-xs">
                 <div class="col-xs-12 col-md-10 col-lg-7">
@@ -22,52 +22,86 @@
                     </div>
                     <div class="box has-text-left">
                         <ul class="c-list c-list--clean">
-                            {% for item in cart.lineItems %}
-                                <li>
-                                    {% include 'shop/_includes/order/_itemOrderedCart' %}
-                                </li>
-                            {% endfor %}
+                            {% if  cart.lineItems|length < 1 %}
+                                <p>There are no items in your cart.</p>
+                            {% else  %}
+                                {% for item in cart.lineItems %}
+                                    <li>
+                                        {% include 'shop/_includes/order/_itemOrderedCart' %}
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+
                         </ul>
                     </div>
-                    <div class="box">
+                     {% if  cart.lineItems|length > 0 %}
+                    <div class="box has-text-left">
                         <form method="POST">
                             <input type="hidden" name="action" value="commerce/cart/updateCart">
                             <input type="hidden" name="redirect" value="shop/cart">
                             {{ getCsrfInput() }}
                             <input type="text" name="couponCode" width="11"
-                                   class="{% if cart.getError('couponCode') %}is-danger{% endif %} c-input" value=""
+                                   class="{% if cart.getError('couponCode') %}is-danger{% endif %} c-input c-input--coupon" value=""
                                    placeholder="{{ "Coupon Code"|t }}">
                             {% if cart.getError('couponCode') %} {{ errList.errorList([cart.getError('couponCode')]) }} {% endif %}
 
-                            <button type="submit" class="c-button c-button--cta-black">Apply Coupon</button>
+                            <button type="submit" class="c-button c-button--cta-black c-button--coupon">Apply Coupon</button>
                         </form>
+                        {% if cart.couponCode and not cart.getError('couponCode') %}
+                        <ul class="c-list c-list--clean">
+                            <li><i><strong>Coupon "{{ cart.couponCode }}" applied to cart.</strong></i></li>
+                        </ul>
+                        {% endif %}
                     </div>
+                    {% endif %}
                     <div class="box has-text-left">
                         <ul class="c-list c-list--clean">
                             <li>
-                                <strong>Subtotal : </strong> {{ cart.itemSubTotal|commerceCurrency(cart.currency) }}
+                                <strong>Subtotal : </strong> {{ cart.itemSubtotal|commerceCurrency(cart.currency) }}
                             </li>
-                            {% if cart.totalDiscount|commerceCurrency(cart.currency) > 0 %}
-                                <li>
-                                    <strong>Total Discount: </strong> <span class="sale">{{ cart.totalDiscount|commerceCurrency(cart.currency) }}</span>
-                                </li>
-                            {% endif %}
                             <li>
                                 <strong>Shipping: </strong>
                                 {{ shippingAmount }}
                                 {% if not qualifyFreeShipping %}
                                     {{ amountQualify | commerceCurrency(cart.currency) }} until you
-                                        qualify for free
-                                        shipping, <a href="{{ url('/shop') }}">Continue Shopping</a>.
+                                    qualify for free
+                                    shipping, <a href="{{ url('/shop') }}">Continue Shopping</a>.
                                 {% endif %}
                             </li>
+                            {% for adjustment in cart.adjustments %}
+                                <li>
+                                    <strong>{{ adjustment.type }}:</strong>
+                                    {% if adjustment.type|lower == 'discount'  %}
+                                        <span class="sale">{{ adjustment.amount|commerceCurrency(cart.currency) }}  ({{ adjustment.name }})</span>
+                                    {% else %}
+                                        {{ adjustment.amount|commerceCurrency(cart.currency) }}  ({{ adjustment.name }})
+                                    {% endif %}
+
+                                </li>
+                            {% endfor %}
                             <li>
-                                <strong>Total: </strong> <span class="price">{{ cart.totalPrice|commerceCurrency(cart.currency) }}</span>
+                                 {% if not qualifyFreeShipping %}
+                                   {# {% set totalWithShipping =  cart.totalPrice +  siteSettings.shippingFlatCost %}
+                                     {{ d(totalWithShipping) }}#}
+                                    <strong>Total: </strong> <span class="price">{{cart.totalPrice |commerceCurrency(cart.currency) }}</span>
+                                     {% else %}
+                                         <strong>Total: </strong> <span class="price">{{ cart.totalPrice|commerceCurrency(cart.currency) }}</span>
+                                 {% endif %}
                             </li>
                         </ul>
                     </div>
-                </div>
 
+
+                {% if  cart.lineItems|length > 0 %}
+                    <div>
+                        <stong><i class="icon-lock"></i> Secure Checkout.</stong>
+                        <div><a href="{{ url('shop/checkout') }}"
+                                 class="c-button c-button--cta-blue c-button--large"><i
+                                        class="icon-lock"></i>Checkout</a></div>
+                    </div>
+                {% endif %}
+                    <div><a href="{{ url('shop') }}" class="c-button c-button--cta-black c-button--large">Continue
+                            Shopping</a></div>
             </div>
         </div>
     </section>

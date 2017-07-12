@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "blendid": "^4.1.1",
-    "bulma": "^0.4.2",
+    "bulma": "^0.4.3",
     "flexboxgrid": "^6.3.1",
     "flexboxgrid-sass": "^8.0.5",
     "lazysizes": "^4.0.0-rc1",
