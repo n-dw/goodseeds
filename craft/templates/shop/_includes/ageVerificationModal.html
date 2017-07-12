@@ -1,13 +1,8 @@
 <div class="modal is-active">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <div class="card has-text-centered">
-            <div class="card-content">
-            <p class="title">Verify Your Age</p>
-            <p class="subtitle">
-                Are you 18 or Older?
-            </p>
-
+        <div class="box has-text-centered">
+            <h4>Verify Your Age</h4>
             <form action="/{{ craft.request.getPath() }}" method="post" id="age_verification_form">
                 {{ getCsrfInput() }}
                 <div class="columns is-gapless">
@@ -18,11 +13,10 @@
                 </div>
                 <div class="columns is-gapless">
                     <div class="column">
-                <button type="submit" class="c-button">Submit</button>
+                <button type="submit" class="c-button c-button--cta-black">Submit</button>
                     </div>
                 </div>
             </form>
             </div>
-        </div>
     </div>
 </div>
