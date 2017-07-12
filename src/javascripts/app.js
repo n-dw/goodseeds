@@ -3,6 +3,28 @@ import Autocomplete from '../../node_modules/vue2-autocomplete-js';
 
 window.Form = Form;
 
+Vue.component('quantity', {
+    template: `
+    <div class="qty-cpt">
+    <span @click="quantity--" class="c-button c-button--small c-button--cta-black quantity-control quantity-control--decrement">-</span>
+    <input type="number" name="qty" min="1" maxlength="3" v-model="quantity">
+    <span @click="quantity++" class="c-button c-button--small c-button--cta-black quantity-control quantity-control--decrement">+</span>
+    </div>
+`,
+    props:{
+        qty:{
+            type: String,
+            default: 0
+        },
+    },
+    data() {
+        return {
+            quantity: this.qty
+        };
+    },
+    
+})
+
 Vue.component('faq', {
     template: `<div :class="{'faq--active' : isActive}" class="faq" :id="faqId">
             <h3 @click="activate" class="faq__question">
