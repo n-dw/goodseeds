@@ -1,7 +1,7 @@
 {% extends 'shop/_layouts/main' %}
 {% block main %}
     {% cache  globally using key "product-categories-" ~ craft.request.path %}
-<section class="content-section u-text-center product-categories u-brd-bttm-pastel-green">
+<section class="hp-content-section u-text-center product-categories u-brd-bttm-pastel-green">
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
@@ -10,11 +10,11 @@
                         {% for pc in entry.productLinks %}
                             {% set image = pc.productLinkBackgroundImage.first() %}
                             {% set transformedImages = craft.imager.transformImage(image,
-                            [{ width: 320, ratio: 16/4 , jpegQuality: 80},{ width: 768, ratio: 16/4 , jpegQuality: 90},{ width: 520, ratio: 16/9}],
+                            [{ width: 320, ratio: 16/3.5 , jpegQuality: 80},{ width: 768, ratio: 16/7 , jpegQuality: 90},{ width: 520, ratio: 16/7}],
                             {format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 90,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
                             ) %}
                             {% if craft.imager.serverSupportsWebp() %}
-                                {% set transformedImagesWebP = craft.imager.transformImage(image, [{width: 320, ratio: 16/4, webpQuality: 80}, {width: 768, ratio: 16/4, webpQuality: 90},{ width: 520, ratio: 16/9, webpQuality: 90}],
+                                {% set transformedImagesWebP = craft.imager.transformImage(image, [{width: 320, ratio: 16/3.5, webpQuality: 80}, {width: 768, ratio: 16/7, webpQuality: 90},{ width: 520, ratio: 16/7, webpQuality: 90}],
                                 { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
                             {% endif %}
                         <a id="pc_{{pc.sortOrder}}"
@@ -26,7 +26,7 @@
                                 {% endif %}
 
                                 <img class="product-cat__image"
-                                     src="{{ transformedImages[1].url }}"
+                                     src="{{ transformedImages[0].url }}"
                                      sizes="(max-width: 460px) 320px, (max-width: 767px) 640px, 520px"
                                      srcset="{{ craft.imager.srcset(transformedImages) }}"
                                      alt="{{ image.title }}">
