@@ -6,12 +6,6 @@
 
     {# UI when at least one address exists #}
 
-    <section class="content-section checkout-page">
-        <div class="wrapper container-fluid">
-            <div class="row center-xs">
-                <div class="col-xs-12 col-md-10 col-lg-7">
-                    <h1>Checkout</h1>
-                    {% include 'shop/_includes/checkout/_header' %}
                     <form method="post">
                         <input type="hidden" name="action" value="commerce/cart/updateCart">
                         <input type="hidden" name="redirect" value="shop/checkout/shipping"/>
@@ -49,12 +43,6 @@
                         <input type="submit" class="button button-primary" value="Confirm addresses">
 
                     </form>
-
-
-                </div>
-            </div>
-        </div>
-    </section>
 
     {% includejs %}
     var $fieldsets = $('.address-fieldset');
