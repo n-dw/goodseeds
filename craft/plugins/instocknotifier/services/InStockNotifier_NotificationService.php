@@ -131,9 +131,11 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         }
 
         $fields = ['id', 'productId', 'customerEmail', 'dateNotified', 'sendFail'];
-        foreach ($records as $record){
+        foreach ($records as $record)
+        {
             $model = new InStockNotifier_NotificationModel();
-            foreach($fields as $field){
+            foreach($fields as $field)
+            {
                 $model->$field = $record->$field;
             }
             array_push($models, $model);
@@ -196,7 +198,8 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         $email->toEmail = $customerEmail;
         $email->subject = $product->getName() . ' is back in stock';
         $email->body = 'Dear ' . $customerEmail . ' <a href="' . $product->getUrl() . '">' . $product->getName() . '</a> is in stock. We hope you enjoy it!';
-        craft()->email->sendEmail($email);
+
+
         if (craft()->email->sendEmail($email))
             return true;
 

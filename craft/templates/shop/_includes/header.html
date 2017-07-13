@@ -1,3 +1,4 @@
+<div id="header_wrapper" class="header-wrapper">
 <header id="header" class="site-header">
     <div class="container-fluid wrapper">
         <div class="row">
@@ -6,15 +7,21 @@
                     THCPOST
                 </a>
             </div>
-            <div id="search" class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-4">
-                <form action="{{ url('search/results') }}" class="search-form">
-                    <input class="c-input" type="search" name="q" placeholder="Search">
-                    <button class="button button--search" type="submit" value="Search">
-                        <i class="icon-search"></i>
-                    </button>
-                </form>
+            <div id="search" class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-5">
+                <autocomplete
+                            id="searchbox"
+                            class-name="auto"
+                            url="/search"
+                            anchor="title"
+                            placeholder="Search"
+                            :min="3"
+                            :on-select="itemSelected"
+                            :process="processJsonData"
+                    >
+                    </autocomplete>
+
             </div>
-            <div class="account-nav col-xs-3 col-sm-5 col-md-6 end-xs" data-mobile="false">
+            <div class="account-nav col-xs-3 col-sm-5 col-md-6 col-xl-5 end-xs" data-mobile="false">
                 {% include "shop/_includes/accountNav" %}
             </div>
             <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-2 end-xs" data-mobile="true">
@@ -35,13 +42,21 @@
                 </div>
             </div>
         </div>
-        <div class="main-nav-mobile-wrapper" data-mobile="true">
+    {#    <div class="main-nav-mobile-wrapper" data-mobile="true">
             <div class="row">
                 <div class="col-xs-12">
                     {% include "shop/_includes/navMobile" %}
                 </div>
             </div>
-        </div>
+        </div>#}
 
     </div>
 </header>
+<div class="main-nav-mobile-wrapper" data-mobile="true">
+    <div class="row">
+        <div class="col-xs-12">
+            {% include "shop/_includes/navMobile" %}
+        </div>
+    </div>
+</div>
+</div>

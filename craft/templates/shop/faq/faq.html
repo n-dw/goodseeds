@@ -6,27 +6,28 @@
     {% if craft.request.getParam('aq') is not null %}
         {% set activeFaqs = craft.request.getParam('aq') | split('-') %}
     {% endif %}
-    <section class="frequently-asked-questions u-bg-beige">
+    <section class="frequently-asked-questions">
         <div class="wrapper container-fluid">
             <div class="row center-md">
                 <div class="col-xs-12 col-md-10">
                     <h1>{{ entry.title }}</h1>
                     <div id="faqs" class="faqs">
+                        {% cache %}
                         {% for faq in entry.FAQGroups %}
                             {% if faq.type == "faqCategory" %}
                                 <h2 class="faq-category">{{ faq.category }}</h2>
                             {% else %}
                                 {% set faqActive = false %}
-                                {% set currentFaq = currentFaq + 1 %}
-                                {% if currentFaq in activeFaqs %}
+                                {% if faq.faqReference.first.id in activeFaqs %}
                                     {% set faqActive = true %}
                                 {% endif %}
-                                <faq :open="{{ faqActive ? 'true' : 'false' }}" faqid="faq_{{ currentFaq }}">
+                                <faq :open="{{ faqActive ? 'true' : 'false' }}" faqid="faq_{{ faq.faqReference.first.id }}">
                                     <template slot="question">{{ faq.faqReference.first.title }}</template>
                                     <template slot="answer">{{ faq.faqReference.first.answer }}</template>
                                 </faq>
                             {% endif %}
                         {% endfor %}
+                        {% endcache %}
                     </div>
                     <div class="other-inquiries">
                         <div class="row center-xs">

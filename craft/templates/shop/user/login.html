@@ -11,7 +11,7 @@
 {% extends 'shop/_layouts/main' %}
 
 {% block main %}
-<section class="sign-in u-bg-beige">
+<section class="sign-in">
     <div class="wrapper container-fluid">
         <div class="row center-xs">
             <div class="col-xs-12 col-sm-6 col-md-4">
@@ -27,9 +27,10 @@
                                    aria-label="Email" placeholder="Email" id="loginName" type="email" name="loginName"
                                    value="{{ craft.session.rememberedUsername }}">
                         </div>
-                        <div class="input-wrapper col-xs-12 c-fieldset">
+                        <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
                             <input class="login-form__login-password c-input {% if message is defined and message.getErrors('password') is not empty %}error{% endif %}" aria-label="Password" id="password" type="password" placeholder="Password"
-                                   name="password">
+                                   :type="pToggle" v-model="password" name="password">
+                            <button type="button" class="pwd-toggle" @click.self.prevent="togglePassword">Show</button>
                             {{ message is defined and message ? errorList(message.getErrors('password')) }}
                         </div>
                     </div>
@@ -43,7 +44,7 @@
                     </div>
                     <div class="row">
                         <div class="input-wrapper col-xs-12">
-                            <input aria-label="Send" type="submit" class="c-button c-button--large c-button--cta-white"
+                            <input aria-label="Send" type="submit" class="c-button c-button--large c-button--cta-black"
                                    value="Sign In">
                         </div>
                     </div>
@@ -56,4 +57,22 @@
         </div>
     </div>
 </section>
+    {% set vue %}
+        new Vue({
+        el: '.login-form',
+        delimiters: ['{|', '|}'],
+        data: {
+            pToggle: 'password',
+            password: '',
+        },
+        methods: {
+            togglePassword(e){
+                e.preventDefault();
+                this.pToggle = this.pToggle === 'password' ? 'text' : 'password'
+                e.target.innerText === 'Hide' ? e.target.innerText = 'Show' :  e.target.innerText = 'Hide';
+            }
+        },
+        });
+    {% endset %}
+    {% includeJs vue %}
 {% endblock %}

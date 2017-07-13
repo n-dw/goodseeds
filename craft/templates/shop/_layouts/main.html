@@ -57,14 +57,15 @@ currentUser: false
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     {# <link rel="stylesheet" type='text/css'
            href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.css">#}
-    <link rel="stylesheet" type='text/css'
-          href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+   {# <link rel="stylesheet" type='text/css'
+          href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">#}
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
     {% block head %}
 
     {% endblock %}
 </head>
 <body class="u-bg-light-grey">
+
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -73,7 +74,7 @@ currentUser: false
     {% include "shop/_includes/ageVerificationModal" %}
 {% endif %}
 {% set cart = craft.commerce.cart %}
-
+<div class="screen-fill-box">
 {% block header %}
     {% include "shop/_includes/header" %}
 {% endblock %}
@@ -105,7 +106,6 @@ currentUser: false
                         </div>
                     </div>
                 </div>
-                </div>
             {% endif %}
         {% endblock %}
         {% block promotions %}
@@ -118,6 +118,7 @@ currentUser: false
     {% include "shop/_includes/footer" %}
     {% include "shop/_includes/fixedFooterNav" %}
 {% endblock %}
+</div>
 <script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>
 </body>
 </html>

@@ -1,18 +1,22 @@
 <div class="modal is-active">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <div class="box">
-            <span class="modal-heading">Verify Your Age</span>
-            <span class="modal-heading">
-                Are you 18 or Older?
-            </span>
+        <div class="box has-text-centered">
+            <h4>Verify Your Age</h4>
             <form action="/{{ craft.request.getPath() }}" method="post" id="age_verification_form">
                 {{ getCsrfInput() }}
-                <input required type="checkbox" id="ageVerification" name="ageVerification" value="1">
-                <label for="ageVerification">I am at least 18 years old</label>
-                <button type="submit" class="c-button">Submit</button>
+                <div class="columns is-gapless">
+                    <div class="column">
+                        <input required type="checkbox" id="ageVerification" name="ageVerification" value="1">
+                        <label for="ageVerification">I am at least 18 years old</label>
+                    </div>
+                </div>
+                <div class="columns is-gapless">
+                    <div class="column">
+                <button type="submit" class="c-button c-button--cta-black">Submit</button>
+                    </div>
+                </div>
             </form>
-        </div>
+            </div>
     </div>
-    <button class="modal-close"></button>
 </div>

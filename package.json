@@ -7,15 +7,16 @@
   "license": "MIT",
   "dependencies": {
     "blendid": "^4.1.1",
+    "bulma": "^0.4.3",
     "flexboxgrid": "^6.3.1",
     "flexboxgrid-sass": "^8.0.5",
     "lazysizes": "^4.0.0-rc1",
     "normalize.css": "^7.0.0",
     "vue": "^2.3.3",
     "vue-resource": "^1.3.3",
-    "vue2-autocomplete": "git://github.com/nystudio107/vue2-autocomplete.git#master"
+    "vue2-autocomplete-js": "git://github.com/n-dw/vue2-autocomplete.git#master"
   },
   "scripts": {
-    "st" : "yarn run blendid"
+    "st": "yarn run blendid"
   }
 }

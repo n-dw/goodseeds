@@ -1,0 +1,67 @@
+.price{
+  color: $promotion-color;
+}
+.sale{
+  color: $cta-blue-color;
+}
+.tracking-number{
+  color: $cta-blue-color;
+
+  &:hover{
+    text-decoration: underline;
+  }
+}
+
+.order-status{
+  &--paymentPending{
+    color: map_get($colors, yellow);
+  }
+  &--processing{
+    color: map-get($colors, dark-purple);
+  }
+  &--shipped{
+    color: $cta-blue-color;
+  }
+  &--completed{
+    color: $promotion-color;
+  }
+}
+.orders-wrapper{
+
+}
+
+.order{
+  border: 1px solid $black;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+
+  .order-listing{
+    margin-bottom: 0;
+
+    li{
+      padding: 0.5rem 0;
+      font-size: 1.8rem;
+    }
+  }
+}
+
+///order page
+.order-section{
+  .box{
+
+  }
+
+
+  .card{
+
+
+    .card-header-title{
+      font-weight: 400;
+    }
+  }
+}
+
+.item-card{
+ border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  margin-bottom: 1rem;
+}

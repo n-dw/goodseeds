@@ -1,12 +1,24 @@
 .sub-menu{
   display: none;
 }
+.nav-menu{
+  .nav__item--active{
+    & > a, a > i{
+      color: $link-header-color-hover;
+    }
+  }
+}
 /*Account Nav*/
 
 .account-nav{
 
 }
 #account_nav{
+  .app-menu__item-top-nav--active.account-nav__item--user{
+    & > i{
+      color: $link-header-color-hover;
+    }
+  }
   .account-nav__item{
     display: inline-block;
 
@@ -50,6 +62,9 @@
       border: 1px solid $link-header-color-hover;
     }
   }
+  .app-menu__item--active .account-nav__link--login{
+    border: 1px solid $link-header-color-hover;
+  }
 }
 
 
@@ -59,6 +74,12 @@
 .shopping-nav{
   .shopping-nav__item{
     display: inline-block;
+
+    &--active{
+      a, i{
+        color: $link-header-color-hover;
+      }
+    }
   }
 }
 
@@ -101,7 +122,7 @@ APP MENU
     font-size: 2rem;
   }
   &__link{
-    padding: 0.7em;
+    padding: 0.2em 0.7em;
     height: 100%;
     display: block;
   }
@@ -143,20 +164,30 @@ APP MENU
 
 @media only screen and (max-width: 23.438em){
   .app-menu__link {
-    padding: 0.7em 0.5em;
+    padding: 0.2em 0.5em;
   }
 }
 /*
 Mobile Nav
  */
+.main-nav-mobile-wrapper{
+
+}
 nav.mobile-nav{
+  z-index: 6;
+  position: fixed;
+
   transition: .5s ease-in-out;
   display: none;
-  padding: 1rem;
+  padding: 1rem 3rem;
 
 
+  width: 85%;
+  max-width: 50rem;
   max-height: 95vh;
+  height: 100vh;
 
+  background-color: $header-bg-color;
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -165,6 +196,18 @@ nav.mobile-nav{
   }
   &--open{
     display: block;
+  }
+
+  ul li ul{
+    border-left: 2px solid $white;
+    margin: 0.75rem;
+  }
+  a{
+    color: $link-header-color;
+
+    &:hover{
+      color: $link-header-color-hover;
+    }
   }
   .mobile-nav__item{
     width: 100%;

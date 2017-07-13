@@ -1,5 +1,6 @@
 {
   "src": "./src",
+  "temp": "../temp",
   "dest": "./public/assets",
 
   "javascripts": {

@@ -1,0 +1,9 @@
+{% if order is not defined %}
+    {% set order = {'email': '{Your account email address}', 'shortNumber': '{The id of the order}' } %}
+{% endif %}
+<ul class="c-list c-list--clean">
+    <li><b>Send Interact e-Transfer to:</b> <span class="price">paythcpost@gmail.com</span></li>
+    <li><b>Security Question:</b> whatever you like.</li>
+    <li><b>Security Answer:</b> “thcpost” (no quotations).</li>
+    <li><b>Message:</b> Order Number: {{ order.shortNumber }} Email: {{ order.email }}</li>
+</ul>

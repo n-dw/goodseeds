@@ -1,19 +1,19 @@
 {% extends 'shop/_layouts/main' %}
 
 {% block main %}
-    <section class="sign-in u-bg-beige">
+    <section class="sign-in">
         <div class="wrapper container-fluid">
             <div class="row center-xs">
                 <div class="col-xs-12 col-sm-6 col-md-4">
                     <h1>Register</h1>
-                    <form enctype="multipart/form-data"  id="user_register" method="post" accept-charset="UTF-8">
+                    <form enctype="multipart/form-data" class="user-registration-form"  id="user_register" method="post" accept-charset="UTF-8">
                         {{ getCsrfInput() }}
                         <input type="hidden" name="action" value="users/saveUser">
                         <input type="hidden" name="redirect" value="">
 
                         {% macro errorList(errors) %}
                             {% if errors %}
-                                <ul class="errors">
+                                <ul class="c-list c-list--clean c-list--error">
                                     {% for error in errors %}
                                         <li>{{ error }}</li>
                                     {% endfor %}
@@ -25,7 +25,7 @@
 
                         <div class="row">
                             <div class="input-wrapper col-xs-12 c-fieldset">
-                                <input class="c-input" placeholder="Email *" required aria-label="Email" id="email" type="email"
+                                <input class="c-input {% if account is defined and account.getErrors('email') %}error{% endif %}" placeholder="Email *" required aria-label="Email" id="email" type="email"
                                        name="email"
                                         {%- if account is defined %} value="{{ account.email }}"{% endif %}>
 
@@ -35,12 +35,22 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-wrapper col-xs-12 c-fieldset">
-                                <input class="c-input" aria-label="password" placeholder="Password *" required id="password"
-                                       type="password" name="password">
-
+                            <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
+                                <input class="c-input {% if account is defined and account.getErrors('password') %}error{% endif %}" aria-label="password" placeholder="Password *" required id="password"
+                                      :type="pToggle" v-model="password" name="password">
+                                    <button type="button" class="pwd-toggle" @click.self.prevent="togglePassword">Show</button>
                                 {% if account is defined %}
                                     {{ errorList(account.getErrors('password')) }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
+                                <input class="c-input {% if account is defined and account.getErrors('passwordConfirm') %}error{% endif %}" aria-label="Password Confirmation" placeholder="Confirm Password *" required id="password_confirmation"
+                                        :type="pcToggle" v-model="passwordConfirm" name="passwordConfirm">
+                                    <button type="button" class="pwd-toggle" @click.self.prevent="togglePasswordConfirmation">Show</button>
+                                {% if account is defined %}
+                                    {{ errorList(account.getErrors('passwordConfirm')) }}
                                 {% endif %}
                             </div>
                         </div>
@@ -56,7 +66,7 @@
                         </div>
                         <div class="row">
                             <div class="input-wrapper col-xs-12 c-fieldset">
-                                <input class="c-button c-button--large c-button--cta-white" type="submit"
+                                <input class="c-button c-button--large c-button--cta-black" type="submit"
                                        value="Register">
                             </div>
                         </div>
@@ -65,4 +75,29 @@
             </div>
         </div>
     </section>
+    {% set vue %}
+          new Vue({
+          el: '.user-registration-form',
+          delimiters: ['{|', '|}'],
+          data: {
+                pToggle: 'password',
+                pcToggle: 'password',
+                password: '',
+                passwordConfirm: '',
+          },
+          methods: {
+                togglePassword(e){
+                    e.preventDefault();
+                    this.pToggle = this.pToggle === 'password' ? 'text' : 'password'
+                e.target.innerText === 'Hide' ? e.target.innerText = 'Show' :  e.target.innerText = 'Hide';
+                },
+                togglePasswordConfirmation(e){
+                    e.preventDefault();
+                    this.pcToggle = this.pcToggle === 'password' ? 'text' : 'password'
+                    e.target.innerText === 'Hide' ? e.target.innerText = 'Show' :  e.target.innerText = 'Hide';
+                }
+         },
+          });
+    {% endset %}
+    {% includeJs vue %}
 {% endblock %}

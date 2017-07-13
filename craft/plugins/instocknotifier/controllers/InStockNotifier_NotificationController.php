@@ -57,13 +57,14 @@ class InStockNotifier_NotificationController extends BaseController
         $model->productId = $productId;
         $model->customerEmail = $customerEmail;
 
-        if(craft()->inStockNotifier_notification->saveNotificationRequest($model)){
+        if(craft()->inStockNotifier_notification->saveNotificationRequest($model))
+        {
             craft()->userSession->setNotice(Craft::t($customerEmail . ' has been added and you will be notified when ' . $product->getName() . ' is restocked.'));
         }
-        else{
+        else
+        {
            craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
         }
-
     }
 
     public function actionSendNotifications()
@@ -72,6 +73,5 @@ class InStockNotifier_NotificationController extends BaseController
             return true;
 
         return false;
-
     }
 }
