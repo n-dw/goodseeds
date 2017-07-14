@@ -13,23 +13,24 @@
     <section class="row center-xs container-fluid">
         <div class="col-xs-12 col-md-8 col-lg-6">
             <article class="product">
-                <header class="product-header">
-                    <div class="product-header-left">
+                <header class="product-header columns is-gapless">
+                    <div class="column is-two-thirds">
                         <h1 class="product-heading">{{ product.title }}</h1>
                     </div>
-                    <div class="product-header-right">
+                    <div class="column">
                         <div class="product-potency">
                             <span class="chem-amount thc-amount">{{ product.thcPercentage }}</span>
                             :
                             <span class="chem-amount cbd-amount">{{ product.cbdPercentage }}</span>
                         </div>
                     </div>
+                </header>
                     <div class="product-images">
-                        {% cache %}
                         {% for productImage in product.productImages %}
                             {% set image = productImage %}
                             {% set transformedImages = craft.imager.transformImage(image,
                             [
+                            { width: 1200, ratio: 16/9},
                             { width: 800, ratio: 16/9},
                             { width: 640, ratio: 16/9},
                             { width: 75, ratio: 1/1 , jpegQuality: 60}
@@ -44,16 +45,15 @@
                                 </a>
                                 <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}"
                                    href="{{ transformedImages[0].url }}">
-                                    <img src="{{ transformedImages[2].url }}" alt="{{ image.title }}">
+                                    <img src="{{ transformedImages[3].url }}" alt="{{ image.title }}">
                                 </a>
                             {% else %}
                                 <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}"
                                    href="{{ transformedImages[0].url }}">
-                                    <img src="{{ transformedImages[2].url }}" alt="{{ image.title }}">
+                                    <img src="{{ transformedImages[3].url }}" alt="{{ image.title }}">
                                 </a>
                             {% endif %}
                         {% endfor %}
-                        {% endcache %}
                     </div>
                     <div class="product-price-hook">
                         {% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
@@ -68,7 +68,7 @@
                             more to qualify for free shipping. </div>
                         {% endif %}
                     </div>
-                </header>
+
                 <section class="product-commerce">
 
                     <form method="POST" id="addToCartForm">
@@ -124,6 +124,7 @@
                                 </div>
                             {% endfor %}
                         </div>
+                        <quantity qty="1"></quantity>
 
                         <input aria-label="Amount" {%  if not productStock > 0 %} disabled{% endif %} type="number" name="qty" value="1">
                         <div class="stock-delivery-message">
@@ -133,7 +134,7 @@
                         {%  if  productStock > 0 %}
                             <button type="submit" class="c-button add-to-cart">Add to Cart</button>
                            {% else %}
-                               <button type="submit" class="c-button add-to-cart">Notify Me Upon Restock</button>
+                               <button type="submit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                         {% endif %}
                     </form>
 
