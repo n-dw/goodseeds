@@ -16,13 +16,14 @@ return array(
         'usePathInfo' => true,
         'cacheDuration' => false,
         'useEmailAsUsername' => true,
-        'generateTransformsBeforePageLoad' => true,
+        'generateTransformsBeforePageLoad' => false,
         'siteUrl' => getenv('CRAFTENV_SITE_URL'),
         'craftEnv' => CRAFT_ENVIRONMENT,
         'defaultWeekStartDay' => 0,
         'enableCsrfProtection' => true,
         'cpTrigger' => 'admin',
         'autoLoginAfterAccountActivation' => true,
+        'sendPoweredByHeader' => false,
 
         // Set the environmental variables
         'environmentVariables' => array(
@@ -37,7 +38,8 @@ return array(
     'live'  => array(
         'devMode' => false,
         'enableTemplateCaching' => true,
-        'allowAutoUpdates' => false,   
+        'allowAutoUpdates' => false,
+        'cpTrigger' => 'thcadmin',
     ),
 
     // Staging (pre-production) environment
@@ -45,6 +47,7 @@ return array(
         'devMode' => false,
         'enableTemplateCaching' => true,
         'allowAutoUpdates' => false,
+        'cpTrigger' => 'thcadmin',
     ),
 
     // Local (development) environment
