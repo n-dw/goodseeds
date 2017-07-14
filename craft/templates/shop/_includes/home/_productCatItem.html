@@ -8,8 +8,7 @@
     { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
 {% endif %}
 <a id="pc_{{ pc.sortOrder }}"
-   class="product-cat-card product-cat-card--link col-xs-12 col-psm-6 col-md-4 product-cat-card--{{ pc.productLinkUrl }}"
-   href="/shop/products?cat={{ pc.productLinkUrl }}">
+   class="product-cat-card product-cat-card--link  product-cat-card--{{ pc.productLinkUrl }} col-xs-12 col-psm-6 col-md-4 col-lg-3" href="/shop/products?cat={{ pc.productLinkUrl }}">
     <picture class="full-width">
         {% if craft.imager.serverSupportsWebp() %}
             <source class="product-cat__image" sizes="(max-width: 460px) 320px, (max-width: 767px) 640px, 520px"

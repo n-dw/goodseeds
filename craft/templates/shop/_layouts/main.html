@@ -8,14 +8,14 @@
 {label: "Cart", url: 'cart', iconClass: 'icon-basket', currentUser: false}
 ] %}
 {% set shopCategories = [
-    {label: "Sales",  url: '', show: true},
-    {label: "Sativa", url: 'shop',  show: true},
-    {label: "Indica", url: 'account',  show: true},
-    {label: "Hybrids", url: 'login',  show: true},
-    {label: "Organic", url: 'frequently-asked-questions',  show: true},
-    {label: "Flowers", url: 'frequently-asked-questions',  show: true},
-    {label: "Concentrates", url: 'cart', show: true},
-    {label: "Edibles", url: 'cart', show: true}
+{label: "Sales",  url: 'shop?cat=sales', show: true},
+{label: "Sativa", url: 'shop?cat=sativa',  show: true},
+{label: "Indica", url: 'shop?cat=indica',  show: true},
+{label: "Hybrids", url: 'shop?cat=hybrid',  show: true},
+{label: "Organic", url: 'shop?cat=organic',  show: true},
+{label: "Flowers", url: 'shop?cat=flowers',  show: true},
+{label: "Concentrates", url: 'shop?cat=concentrates', show: true},
+{label: "Edibles", url: 'shop?cat=concentrates', show: true}
 ] %}
 
 {% if craft.request.getPost('ageVerification') %}
@@ -40,7 +40,6 @@
     {% endblock %}
 </head>
 <body class="u-bg-light-grey">
-
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -53,10 +52,10 @@
 {% block header %}
     {% include "shop/_includes/header" %}
 {% endblock %}
-
 {% block body %}
     <main id="main" class="main">
         {% block promotions %}
+
         {% endblock %}
         {% block main %}
         {% endblock %}

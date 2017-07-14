@@ -2,7 +2,7 @@
 {% import "shop/macros/product.html" as prodmac %}
 {% block main %}
     {% cache  globally using key "product-categories-" ~ craft.request.path %}
-<section class="hp-content-section u-text-center product-categories u-brd-bttm-pastel-green">
+<section class="hp-content-section u-text-center product-categories u-brd-bttm-black">
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
@@ -19,7 +19,7 @@
 {%  set thcpicksSection = craft.entries.section('thcpicks').first() %}
     {%  set thcpicks = thcpicksSection.thcpicks %}
     {% if thcpicks |length > 0 %}
-        <section class="content-section about u-text-center u-brd-bttm-yellow">
+        <section class="content-section about u-text-center u-brd-bttm-black">
             <div class="wrapper container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
@@ -37,11 +37,12 @@
     {% set sales = craft.commerce.products({
         status: 'live',
         limit:  4,
-        hasSales : true,
-        order : 'postDate DESC'
+        hasSales: true,
+        hasVariant: {hasStock: true},
+        order: 'postDate DESC'
     }) %}
     {% if sales|length > 0 %}
-        <section class="content-section about u-text-center u-brd-bttm-yellow">
+        <section class="content-section about u-text-center u-brd-bttm-black">
             <div class="wrapper container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
@@ -56,7 +57,7 @@
             </div>
         </section>
     {% endif %}
-<section class="content-section about u-text-center u-brd-bttm-yellow">
+<section class="content-section about u-text-center u-brd-bttm-black">
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
@@ -68,7 +69,7 @@
     </div>
 </section>
 
-<section class="content-section customer-assurance u-text-center u-brd-bttm-cyan">
+<section class="content-section customer-assurance u-text-center u-brd-bttm-black">
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
@@ -103,7 +104,7 @@
         </div>
     </div>
 </section>
-<section class="content-section questions-concerns u-brd-bttm-pink-pastelle u-text-center">
+<section class="content-section questions-concerns u-brd-bttm-pastel-green u-text-center">
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
