@@ -15,7 +15,7 @@
 {label: "Organic", url: 'shop?cat=organic',  show: true},
 {label: "Flowers", url: 'shop?cat=flowers',  show: true},
 {label: "Concentrates", url: 'shop?cat=concentrates', show: true},
-{label: "Edibles", url: 'shop?cat=concentrates', show: true}
+{label: "Edibles", url: 'shop?cat=concentrates', show: false}
 ] %}
 
 {% if craft.request.getPost('ageVerification') %}
@@ -54,11 +54,12 @@
 {% endblock %}
 {% block body %}
     <main id="main" class="main">
-        {% block promotions %}
-
-        {% endblock %}
-        {% block main %}
-        {% endblock %}
+        <section class="content-wrapper">
+            {% block promotions %}
+            {% endblock %}
+            {% block main %}
+            {% endblock %}
+        </section>
     </main>
 {% endblock %}
 {% block footer %}

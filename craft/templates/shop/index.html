@@ -1,15 +1,25 @@
 {% extends 'shop/_layouts/main' %}
 {% import "shop/macros/product.html" as prodmac %}
+{% block promotions %}
+    <div class="promotion-area u-bg-pastel-green has-text-centered">
+        <div class="wrapper container-fluid">
+            <div class="promotion">
+                <h4 class="promotion-heading">Free Shipping on all orders over ${{ siteSettings.freeShipping }}! </h4>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 {% block main %}
-    {% cache  globally using key "product-categories-" ~ craft.request.path %}
 <section class="hp-content-section u-text-center product-categories u-brd-bttm-black">
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
-                    {% for pc in entry.productLinks %}
-                        {% include '/shop/_includes/home/_productCatItem.html' %}
+                    {% cache  globally using key "product-categories-" ~ craft.request.path %}
+                        {% for pc in entry.productLinks %}
+                            {% include '/shop/_includes/home/_productCatItem.html' %}
                         {% endfor %}
+                    {% endcache %}
                 </div>
             </div>
         </div>
@@ -19,15 +29,17 @@
 {%  set thcpicksSection = craft.entries.section('thcpicks').first() %}
     {%  set thcpicks = thcpicksSection.thcpicks %}
     {% if thcpicks |length > 0 %}
-        <section class="content-section about u-text-center u-brd-bttm-black">
+        <section class="hp-content-section about u-text-center u-brd-bttm-black">
             <div class="wrapper container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
                         <h2 class="about__section-header">THC Picks</h2>
                         <div class="thcpicks-list products-list row">
-                            {% for product in thcpicks %}
-                                {% include '/shop/_includes/product/_productCardHome.html' %}
-                            {% endfor %}
+                            {% cache  globally using key "thcpicks-" ~ craft.request.path %}
+                                {% for product in thcpicks %}
+                                    {% include '/shop/_includes/product/_productCardHome.html' %}
+                                {% endfor %}
+                            {% endcache %}
                         </div>
                     </div>
                 </div>
@@ -42,22 +54,24 @@
         order: 'postDate DESC'
     }) %}
     {% if sales|length > 0 %}
-        <section class="content-section about u-text-center u-brd-bttm-black">
+        <section class="hp-content-section about u-text-center u-brd-bttm-black">
             <div class="wrapper container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
                         <h2 class="about__section-header">Hot Deals</h2>
                         <div class="thcpicks-list products-list row">
-                            {% for product in sales %}
-                                {% include '/shop/_includes/product/_productCardHome.html' %}
-                            {% endfor %}
+                            {% cache  globally using key "hot-deals-" ~ craft.request.path %}
+                                {% for product in sales %}
+                                    {% include '/shop/_includes/product/_productCardHome.html' %}
+                                {% endfor %}
+                            {% endcache %}
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     {% endif %}
-<section class="content-section about u-text-center u-brd-bttm-black">
+<section class="hp-content-section about u-text-center u-brd-bttm-black">
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
@@ -69,42 +83,23 @@
     </div>
 </section>
 
-<section class="content-section customer-assurance u-text-center u-brd-bttm-black">
+<section class="hp-content-section customer-assurance u-text-center u-brd-bttm-black">
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="customer-assurance__header section-header">{{entry.toutSectionHeader}}</h2>
-                <div class="row">
-
+                <div class="touts row">
+                    {% cache  globally using key "touts-" ~ craft.request.path %}
                     {% for tout in entry.touts %}
-                    {% set image = tout.toutImage.first() %}
-                        {% set transformedImages = craft.imager.transformImage(image,[{ width: 320, ratio: 16/9 , jpegQuality: 95}],{format: 'png',	allowUpscale: false, mode: 'crop',	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}) %}
-                        {% if craft.imager.serverSupportsWebp() %}
-                            {% set transformedImagesWebP = craft.imager.transformImage(image,[{width: 320, ratio: 16/9, webpQuality: 95}], {format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
-                        {% endif %}
-                    <div class="tout col-xs-6 col-sm-3" id="tout{{tout.sortOrder}}">
-                        <picture class="full-width">
-                            {% if craft.imager.serverSupportsWebp() %}
-                                <source class="tout__image" sizes="100vw" srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
-                            {% endif %}
-                            <img class="tout__image"
-                                 src="{{ transformedImages[0].url }}"
-                                 sizes="100vw"
-                                 srcset="{{ craft.imager.srcset(transformedImages) }}"
-                                 alt="{{ image.title }}">
-                        </picture>
-                        <h4 class="tout__title">{{tout.toutTitle}}</h4>
-                        <p class="tout__text">{{tout.toutBlurb}}</p>
-                    </div>
+                        {% include '/shop/_includes/home/_tout.html' %}
                     {% endfor %}
-
+                    {% endcache %}
                 </div>
-
             </div>
         </div>
     </div>
 </section>
-<section class="content-section questions-concerns u-brd-bttm-pastel-green u-text-center">
+<section class="hp-content-section questions-concerns u-text-center">
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
@@ -118,5 +113,4 @@
         </div>
     </div>
 </section>
-    {% endcache %}
 {% endblock %}

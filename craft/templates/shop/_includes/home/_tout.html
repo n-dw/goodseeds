@@ -1,0 +1,38 @@
+<div class="col-xs-12 col-psm-6 col-sm-6 col-md-4 col-lg-3">
+<article id="tout_{{ loop.index }}" class="tout">
+    <header class="tout-header">
+        {% set image = tout.toutImage[0] ?? null %}
+        {% if image %}
+            {% set transformedImages = craft.imager.transformImage(image,[{ width: 460, ratio: 4/3 , jpegQuality: 95}],{format: 'png',    allowUpscale: false, mode: 'crop',    position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}) %}
+            {% if craft.imager.serverSupportsWebp() %}
+                {% set transformedImagesWebP = craft.imager.transformImage(image,[{width: 460, ratio: 4/3, webpQuality: 95}], {format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
+            {% endif %}
+            <picture class="full-width">
+                {% if craft.imager.serverSupportsWebp() %}
+                    <source class="tout__image" sizes="100vw" srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
+                {% endif %}
+                <img class="tout__image"
+                     src="{{ transformedImages[0].url }}"
+                     sizes="100vw"
+                     srcset="{{ craft.imager.srcset(transformedImages) }}"
+                     alt="{{ image.title }}">
+
+            </picture>
+        {% endif %}
+    </header>
+    <footer class="tout__footer">
+        <div class="tout__information">
+            <div class="tout-title-wrapper">
+                <h4 class="tout-title has-text-centered">{{ tout.toutTitle }}</h4>
+            </div>
+            <div class="tout-info-wrapper">
+                <div class="media">
+                    <div class="media-content">
+                        <p class="tout__text">{{ tout.toutBlurb }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</article>
+</div>
