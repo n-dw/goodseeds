@@ -11,7 +11,7 @@ Vue.component('faq', {
             type: Boolean,
             default: false
         },
-        fid: {default: "faq_un"},
+        faqid: {default: "faq_un"},
         openIcon: {default:'icon-plus-1'},
         closeIcon: {default: 'icon-minus'}
     },
@@ -19,12 +19,12 @@ Vue.component('faq', {
         return {
             isActive: false,
             icon: 'icon-plus-1',
-            faqId : 'null'
+            faqId : 'faq_#'
         };
     },
     mounted(){
         this.isActive = this.open;
-        this.faqId = this.fid;
+        this.faqId = this.faqid;
         if(this.isActive){
             this.icon = 'icon-minus';
         }
