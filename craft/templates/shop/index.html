@@ -4,7 +4,7 @@
     <div class="promotion-area u-bg-pastel-green has-text-centered">
         <div class="wrapper container-fluid">
             <div class="promotion">
-                <h4 class="promotion-heading">Free Shipping on all orders over ${{ siteSettings.freeShipping }}! </h4>
+                <p class="promotion-text">Free Shipping on all orders over ${{ siteSettings.freeShipping }}! </p>
             </div>
         </div>
     </div>
@@ -14,11 +14,10 @@
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-xs-12">
+                <h2>Shop by Category</h2>
                 <div class="row">
                     {% cache  globally using key "product-categories-" ~ craft.request.path %}
-                        {% for pc in entry.productLinks %}
                             {% include '/shop/_includes/home/_productCatItem.html' %}
-                        {% endfor %}
                     {% endcache %}
                 </div>
             </div>
