@@ -12,3 +12,13 @@
         background-color: transparent;
     }
 }
+
+.fixed-bottom{
+    bottom: 0;
+    position: fixed;
+    width:100%;
+
+    .notification{
+        margin-bottom: 0;
+    }
+}
