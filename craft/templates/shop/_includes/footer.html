@@ -6,15 +6,15 @@
                     <div class="col-xs-12 col-md-8 col-lg-6">
                         <div class="site-footer__site-seals site-seals row">
                             <div class="site-seal site-seal--ssl col-xs-4">
-                                <img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/lets_encrypt_icon.svg"
+                                <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/lets_encrypt_icon.svg' | gulp_rev  }}"
                                      alt="SSL Secured Seal" class="site-seal-image">
                             </div>
                             <div class="site-seal site-seal--etransfer col-xs-4">
-                                <img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/interac.png"
+                                <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/interac.png' | gulp_rev  }}"
                                      alt="Interac E-Transer Seal" class="site-seal-image">
                             </div>
                             <div class="site-seal site-seal--canada-post col-xs-4">
-                                <img src="{{ craft.config.environmentVariables.baseUrl }}assets/images/canada-post.svg"
+                                <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/canada-post.svg' | gulp_rev }}"
                                      alt="Canada Post Xpresspost Shipping" class="site-seal-image">
                             </div>
                         </div>

@@ -1,42 +1,21 @@
 {% set page = craft.request.requestUri|slice(1) %}
 {% set fixedFooterNav = [
-{
-label: "Home",
-url: '',
-iconClass: 'icon-home',
-currentUser: false
-},
-{
-label: "Shop",
-url: 'shop',
-iconClass: 'icon-shopping-bag',
-currentUser: false
-},
-{
-label: "You",
-url: 'account',
-iconClass: 'icon-user',
-currentUser: true
-},
-{
-label: "Sign in",
-url: 'login',
-iconClass: 'icon-user',
-currentUser: false,
-guestUser: true
-},
-{
-label: "FAQ",
-url: 'frequently-asked-questions',
-iconClass: 'icon-help-circled',
-currentUser: false
-},
-{
-label: "Cart",
-url: 'cart',
-iconClass: 'icon-basket',
-currentUser: false
-}
+{label: "Home", url: '', iconClass: 'icon-home', currentUser: false},
+{label: "Shop",url: 'shop', iconClass: 'icon-shopping-bag', currentUser: false},
+{label: "You", url: 'account', iconClass: 'icon-user', currentUser: true},
+{label: "Sign in", url: 'login', iconClass: 'icon-user', currentUser: false, guestUser: true},
+{label: "FAQ", url: 'frequently-asked-questions', iconClass: 'icon-help-circled', currentUser: false},
+{label: "Cart", url: 'cart', iconClass: 'icon-basket', currentUser: false}
+] %}
+{% set shopCategories = [
+    {label: "Sales",  url: '', show: true},
+    {label: "Sativa", url: 'shop',  show: true},
+    {label: "Indica", url: 'account',  show: true},
+    {label: "Hybrids", url: 'login',  show: true},
+    {label: "Organic", url: 'frequently-asked-questions',  show: true},
+    {label: "Flowers", url: 'frequently-asked-questions',  show: true},
+    {label: "Concentrates", url: 'cart', show: true},
+    {label: "Edibles", url: 'cart', show: true}
 ] %}
 
 {% if craft.request.getPost('ageVerification') %}
@@ -55,10 +34,6 @@ currentUser: false
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    {# <link rel="stylesheet" type='text/css'
-           href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.css">#}
-   {# <link rel="stylesheet" type='text/css'
-          href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">#}
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
     {% block head %}
 

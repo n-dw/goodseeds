@@ -1,4 +1,5 @@
 {% extends 'shop/_layouts/main' %}
+{% import "shop/macros/product.html" as prodmac %}
 {% block main %}
     {% cache  globally using key "product-categories-" ~ craft.request.path %}
 <section class="hp-content-section u-text-center product-categories u-brd-bttm-pastel-green">
@@ -6,43 +7,55 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
-
-                        {% for pc in entry.productLinks %}
-                            {% set image = pc.productLinkBackgroundImage.first() %}
-                            {% set transformedImages = craft.imager.transformImage(image,
-                            [{ width: 320, ratio: 16/3.5 , jpegQuality: 80},{ width: 768, ratio: 16/7 , jpegQuality: 90},{ width: 520, ratio: 16/7}],
-                            {format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 90,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
-                            ) %}
-                            {% if craft.imager.serverSupportsWebp() %}
-                                {% set transformedImagesWebP = craft.imager.transformImage(image, [{width: 320, ratio: 16/3.5, webpQuality: 80}, {width: 768, ratio: 16/7, webpQuality: 90},{ width: 520, ratio: 16/7, webpQuality: 90}],
-                                { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
-                            {% endif %}
-                        <a id="pc_{{pc.sortOrder}}"
-                           class="product-cat-card product-cat-card--link col-xs-12 col-psm-6 col-md-4 product-cat-card--{{pc.productLinkUrl}}"
-                           href="/shop/products?cat={{pc.productLinkUrl}}">
-                            <picture class="full-width">
-                                {% if craft.imager.serverSupportsWebp() %}
-                                    <source class="product-cat__image" sizes="(max-width: 460px) 320px, (max-width: 767px) 640px, 520px" srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
-                                {% endif %}
-
-                                <img class="product-cat__image"
-                                     src="{{ transformedImages[0].url }}"
-                                     sizes="(max-width: 460px) 320px, (max-width: 767px) 640px, 520px"
-                                     srcset="{{ craft.imager.srcset(transformedImages) }}"
-                                     alt="{{ image.title }}">
-                            </picture>
-                            <div class="product-cat-card__overlay">
-                                <h3 class="product-cat__caption product-heading">{{pc.productLinkText}}</h3>
-                            </div>
-                        </a>
+                    {% for pc in entry.productLinks %}
+                        {% include '/shop/_includes/home/_productCatItem.html' %}
                         {% endfor %}
-
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+{%  set thcpicksSection = craft.entries.section('thcpicks').first() %}
+    {%  set thcpicks = thcpicksSection.thcpicks %}
+    {% if thcpicks |length > 0 %}
+        <section class="content-section about u-text-center u-brd-bttm-yellow">
+            <div class="wrapper container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2 class="about__section-header">THC Picks</h2>
+                        <div class="thcpicks-list products-list row">
+                            {% for product in thcpicks %}
+                                {% include '/shop/_includes/product/_productCardHome.html' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {% set sales = craft.commerce.products({
+        status: 'live',
+        limit:  4,
+        hasSales : true,
+        order : 'postDate DESC'
+    }) %}
+    {% if sales|length > 0 %}
+        <section class="content-section about u-text-center u-brd-bttm-yellow">
+            <div class="wrapper container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2 class="about__section-header">Hot Deals</h2>
+                        <div class="thcpicks-list products-list row">
+                            {% for product in sales %}
+                                {% include '/shop/_includes/product/_productCardHome.html' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
 <section class="content-section about u-text-center u-brd-bttm-yellow">
     <div class="wrapper container-fluid">
         <div class="row">
