@@ -1,0 +1,41 @@
+{#
+{% set image = pc.productLinkBackgroundImage.first() %}
+{% set transformedImages = craft.imager.transformImage(image,
+[{ width: 320, ratio: 16/3.5 , jpegQuality: 80},{ width: 768, ratio: 16/7 , jpegQuality: 90},{ width: 520, ratio: 16/7}],
+{format: 'jpg',    allowUpscale: false, mode: 'crop', jpegQuality: 90,    position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
+) %}
+{% if craft.imager.serverSupportsWebp() %}
+    {% set transformedImagesWebP = craft.imager.transformImage(image, [{width: 320, ratio: 16/3.5, webpQuality: 80}, {width: 768, ratio: 16/7, webpQuality: 90},{ width: 520, ratio: 16/7, webpQuality: 90}],
+    { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
+{% endif %}
+<div class="col-xs-12 col-psm-6 col-md-4 col-lg-3">
+<a id="pc_{{ pc.sortOrder }}"
+   class="product-cat-card product-cat-card--link  product-cat-card--{{ pc.productLinkUrl }}" href="/shop/products?cat={{ pc.productLinkUrl }}">
+    <picture class="full-width">
+        {% if craft.imager.serverSupportsWebp() %}
+            <source class="product-cat__image" sizes="(max-width: 460px) 320px, (max-width: 767px) 640px, 520px"
+                    srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
+        {% endif %}
+        <img class="product-cat__image"
+             src="{{ transformedImages[0].url }}"
+             sizes="(max-width: 460px) 320px, (max-width: 767px) 640px, 520px"
+             srcset="{{ craft.imager.srcset(transformedImages) }}"
+             alt="{{ image.title }}">
+    </picture>
+    <div class="product-cat-card__overlay">
+        <h3 class="product-cat__caption product-heading">{{ pc.productLinkText }}</h3>
+    </div>
+</a></div>#}
+
+    <article class="col-xs-6 col-psm-6 col-md-3 col-lg-3">
+        <a class="product-cat-card product-cat-card--link c-button c-button--cta-black c-button--medium" href="/shop">
+            All Products
+        </a>
+    </article>
+    {% for shopCat in shopCategories %}
+        {% if shopCat.show %}
+            <article class="col-xs-6 col-psm-6 col-md-3 col-lg-3">
+                <a href="/{{  shopCat.url }}" class="c-button c-button--cta-black c-button--medium product-cat-card product-cat-card--link">{{ shopCat.label }}</a>
+            </article>
+        {% endif %}
+    {% endfor %}

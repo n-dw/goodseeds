@@ -4,11 +4,11 @@
         <li class="mobile-nav__item {% if 'shop' in page %} nav__item--active {% endif %}">
             <a href="/shop" class="mobile-nav__link">Shop <i class="icon-shopping-bag"></i></a>
             <ul class="sub-menu--open c-list--clean">
-                <li class="mobile-nav__item"><a href="/shop?cat=sales" class="mobile-nav__link">Sales</a></li>
-                <li class="mobile-nav__item"><a href="/shop?cat=sativa" class="mobile-nav__link">Sativa</a></li>
-                <li class="mobile-nav__item"><a href="/shop?cat=indica" class="mobile-nav__link">Indica</a></li>
-                <li class="mobile-nav__item"><a href="/shop?cat=hybrids" class="mobile-nav__link">Hybrids</a></li>
-                <li class="mobile-nav__item"><a href="/shop?cat=concentrates" class="mobile-nav__link">Concentrates</a></li>
+                {% for shopCat in shopCategories %}
+                    {% if shopCat.show %}
+                        <li class="mobile-nav__item"><a href="/{{  shopCat.url }}" class="mobile-nav__link">{{ shopCat.label }}</a></li>
+                    {% endif %}
+                {% endfor %}
             </ul>
         </li>
 

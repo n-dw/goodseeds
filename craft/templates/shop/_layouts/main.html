@@ -1,42 +1,21 @@
 {% set page = craft.request.requestUri|slice(1) %}
 {% set fixedFooterNav = [
-{
-label: "Home",
-url: '',
-iconClass: 'icon-home',
-currentUser: false
-},
-{
-label: "Shop",
-url: 'shop',
-iconClass: 'icon-shopping-bag',
-currentUser: false
-},
-{
-label: "You",
-url: 'account',
-iconClass: 'icon-user',
-currentUser: true
-},
-{
-label: "Sign in",
-url: 'login',
-iconClass: 'icon-user',
-currentUser: false,
-guestUser: true
-},
-{
-label: "FAQ",
-url: 'frequently-asked-questions',
-iconClass: 'icon-help-circled',
-currentUser: false
-},
-{
-label: "Cart",
-url: 'cart',
-iconClass: 'icon-basket',
-currentUser: false
-}
+{label: "Home", url: '', iconClass: 'icon-home', currentUser: false},
+{label: "Shop",url: 'shop', iconClass: 'icon-shopping-bag', currentUser: false},
+{label: "You", url: 'account', iconClass: 'icon-user', currentUser: true},
+{label: "Sign in", url: 'login', iconClass: 'icon-user', currentUser: false, guestUser: true},
+{label: "FAQ", url: 'frequently-asked-questions', iconClass: 'icon-help-circled', currentUser: false},
+{label: "Cart", url: 'cart', iconClass: 'icon-basket', currentUser: false}
+] %}
+{% set shopCategories = [
+{label: "Sales",  url: 'shop?cat=sales', show: true},
+{label: "Sativa", url: 'shop?cat=sativa',  show: true},
+{label: "Indica", url: 'shop?cat=indica',  show: true},
+{label: "Hybrids", url: 'shop?cat=hybrid',  show: true},
+{label: "Organic", url: 'shop?cat=organic',  show: true},
+{label: "Flowers", url: 'shop?cat=flowers',  show: true},
+{label: "Concentrates", url: 'shop?cat=concentrates', show: true},
+{label: "Edibles", url: 'shop?cat=concentrates', show: false}
 ] %}
 
 {% if craft.request.getPost('ageVerification') %}
@@ -55,17 +34,12 @@ currentUser: false
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    {# <link rel="stylesheet" type='text/css'
-           href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.css">#}
-   {# <link rel="stylesheet" type='text/css'
-          href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">#}
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
     {% block head %}
 
     {% endblock %}
 </head>
 <body class="u-bg-light-grey">
-
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -78,34 +52,37 @@ currentUser: false
 {% block header %}
     {% include "shop/_includes/header" %}
 {% endblock %}
-
 {% block body %}
     <main id="main" class="main">
-        {% block promotions %}
-        {% endblock %}
-        {% block main %}
-        {% endblock %}
+        <section class="content-wrapper">
+            {% block promotions %}
+            {% endblock %}
+            {% block main %}
+            {% endblock %}
+        </section>
     </main>
 {% endblock %}
 {% block footer %}
     {% include "shop/_includes/footer" %}
+    <div class="fixed-bottom">
     {% block messages %}
         {% set messageNotice = craft.session.getFlash( 'notice' ) %}
         {% set messageError = craft.session.getFlash( 'error' ) %}
         {% if messageNotice %}
             <div class="notification has-text-centered is-success">
-                <button class="delete onclick="this.parentNode.style.display = 'none';""></button>
+                <button class="delete" onclick="this.parentNode.style.display = 'none';"></button>
                 {{ messageNotice }}
             </div>
         {% endif %}
         {% if messageError %}
             <div class="notification has-text-centered is-danger">
-                <button class="delete"></button>
+                <button class="delete" onclick="this.parentNode.style.display = 'none';"></button>
                 {{ messageError }}
             </div>
         {% endif %}
     {% endblock %}
     {% include "shop/_includes/fixedFooterNav" %}
+    </div>
 {% endblock %}
 </div>
 <script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>

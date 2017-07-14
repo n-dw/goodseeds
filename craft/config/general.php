@@ -39,6 +39,7 @@ return array(
         'devMode' => false,
         'enableTemplateCaching' => true,
         'allowAutoUpdates' => false,
+        'preventUserEnumeration' => true,
         'cpTrigger' => 'thcadmin',
     ),
 
