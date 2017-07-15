@@ -28,35 +28,37 @@
 
     {% endfor %}
     {#  {{ d(variantInfo) }}#}
-    <div class="product-variants row center-xs">
-        {% for variant in variantWeights %}
-            {% set noVariant = true %}
-            {% set purchasableId = '' %}
-            {% set price = '' %}
-            {% set salePrice = '' %}
+    <div class="columns">
+        <div class="product-variants column is-two-thirds">
+            {% for variant in variantWeights %}
+                {% set noVariant = true %}
+                {% set purchasableId = '' %}
+                {% set price = '' %}
+                {% set salePrice = '' %}
 
-            {# Check stock if we have the multiples of these left #}
-            <div class="col-xs">
-                <div class="radio-wrapper variant">
-                    {% if variantInfo[loop.index -1 ] is defined  %}
-                        {% set noVariant = false %}
-                        {% set purchasableId = variantInfo[loop.index -1 ].purchasableId %}
-                        {% set price = variantInfo[loop.index -1 ].price %}
-                        {% set salePrice = variantInfo[loop.index -1 ].salePrice %}
-                    {% endif %}
-                    <input class="" id="variant_{{ loop.index }}" name="purchasableId" type="radio"
-                           value="{{ noVariant ? 'none' : purchasableId }}" {% if productStock < variant.gramWeight or noVariant %} disabled {% endif %}>
-                    <label class="c-button c-button--cta-black c-button--small variant-label {% if productStock < variant.gramWeight or noVariant %}  disabled {% endif %}" for="variant_{{ loop.index }}">
-                        <div class="radio-face" data-price="{{ price  }}" data-sale-price="{{ salePrice }}">
-                            <span class="variant-weight">{{ variant.weight }}</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
-        {% endfor %}
+                {# Check stock if we have the multiples of these left #}
+
+                    <div class="radio-wrapper variant">
+                        {% if variantInfo[loop.index -1 ] is defined  %}
+                            {% set noVariant = false %}
+                            {% set purchasableId = variantInfo[loop.index -1 ].purchasableId %}
+                            {% set price = variantInfo[loop.index -1 ].price %}
+                            {% set salePrice = variantInfo[loop.index -1 ].salePrice %}
+                        {% endif %}
+                        <input class="" id="variant_{{ loop.index }}" name="purchasableId" type="radio"
+                               value="{{ noVariant ? 'none' : purchasableId }}" {% if productStock < variant.gramWeight or noVariant %} disabled {% endif %}>
+                        <label class="c-button c-button--cta-black c-button--small variant-label {% if productStock < variant.gramWeight or noVariant %}  disabled {% endif %}" for="variant_{{ loop.index }}">
+                            <div class="radio-face" data-price="{{ price  }}" data-sale-price="{{ salePrice }}">
+                                <span class="variant-weight">{{ variant.weight }}</span>
+                            </div>
+                        </label>
+                    </div>
+            {% endfor %}
+        </div>
+        <div class="column">
+            <quantity {%  if not productStock > 0 %}disabled="true"{% endif %} qty="1"></quantity>
+        </div>
     </div>
-    <quantity {%  if not productStock > 0 %}disabled="true"{% endif %} qty="1"></quantity>
-
     <div class="stock-delivery-message">
         {{ productStock > 0 ? '<span class="price">In Stock!</span>' : '<span class="out-stock">Out of Stock.</span>' }} Usually delivers
         in {{ siteSettings.averageShippingDays }} business days.

@@ -3,7 +3,7 @@
 {% block main %}
     {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
     {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
-    {% set shippingAmount = qualifyFreeShipping ? 'FREE Shipping' :  siteSettings.shippingFlatCost ~ ' (Canada XpressPost) Shipping' %}
+    {% set shippingAmount = qualifyFreeShipping ? 'FREE Shipping' : '$' ~ siteSettings.shippingFlatCost ~ ' (Canada XpressPost) Shipping' %}
     <section class="content-section cart-page">
         <div class="wrapper container-fluid">
             <div class="row center-xs">
@@ -65,7 +65,7 @@
                             </li>
                             <li>
                                 <strong>Shipping: </strong>
-                                {{ shippingAmount }}
+                                {{ shippingAmount }}.
                                 {% if not qualifyFreeShipping %}
                                     {{ amountQualify | commerceCurrency(cart.currency) }} until you
                                     qualify for free
@@ -85,11 +85,10 @@
                             {% endfor %}
                             <li>
                                  {% if not qualifyFreeShipping %}
-                                   {# {% set totalWithShipping =  cart.totalPrice +  siteSettings.shippingFlatCost %}
-                                     {{ d(totalWithShipping) }}#}
-                                    <strong>Total: </strong> <span class="price">{{cart.totalPrice |commerceCurrency(cart.currency) }}</span>
+                                   {% set totalWithShipping =  cart.totalPrice +  siteSettings.shippingFlatCost %}
+                                     <strong>Total: </strong> <span class="price"><b>{{totalWithShipping |commerceCurrency(cart.currency) }}</b></span>
                                      {% else %}
-                                         <strong>Total: </strong> <span class="price">{{ cart.totalPrice|commerceCurrency(cart.currency) }}</span>
+                                         <strong>Total: </strong> <span class="price"><b>{{ cart.totalPrice|commerceCurrency(cart.currency) }}</b></span>
                                  {% endif %}
                             </li>
                         </ul>
