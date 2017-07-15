@@ -8,7 +8,7 @@
 {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
 {% set productStock = product.defaultVariant.stock %}
 {% set isStockLessOunce = (productStock < 28) ? true : false %}
-{% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
+{% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">$'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
 {% set variantInfo = {} %}
 {% block main %}
     <section class="shop product-listings product-listing-app content-section">
