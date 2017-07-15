@@ -1,0 +1,32 @@
+{% set image = productImage %}
+{% set transformedImages = craft.imager.transformImage(image,
+[
+{ width: 1200, ratio: 16/9},
+{ width: 800, ratio: 16/9},
+{ width: 640, ratio: 16/9},
+{ width: 75, ratio: 1/1 , jpegQuality: 60}
+],
+{
+    format: 'jpg',
+    allowUpscale: false, mode: 'crop',
+    jpegQuality: 95,
+    position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%',
+    interlace: true
+}
+) %}
+{% if loop.index == 1 %}
+    <a id="flower-group" class="MagicZoom" href="{{ transformedImages[0].url }}"
+       data-mobile-options="lazyZoom: true; zoomPosition: inner;"
+       data-options="cssClass: mz-square; hint:always; zoomPosition: outer; zoomOn: click; lazyZoom: true; variableZoom: true;">
+        <img src="{{ transformedImages[1].url }}" alt="{{ image.title }}">
+    </a>
+    <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}"
+       href="{{ transformedImages[0].url }}">
+        <img src="{{ transformedImages[3].url }}" alt="{{ image.title }}">
+    </a>
+{% else %}
+    <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}"
+       href="{{ transformedImages[0].url }}">
+        <img src="{{ transformedImages[3].url }}" alt="{{ image.title }}">
+    </a>
+{% endif %}

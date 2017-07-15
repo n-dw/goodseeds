@@ -10,6 +10,13 @@ module.exports = {
       // javascripts.dest in path-config.json
       app: ["./app.js"]
     },
+      loaders: [{
+          test: /\.vue$/,
+          loader: 'vue-loader',
+      }],
+      babel: {
+          presets: ['vue']
+      },
     // This tells webpack middleware where to
     // serve js files from in development:
     publicPath: "/assets/js"
