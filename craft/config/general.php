@@ -8,8 +8,6 @@
  */
 
 return array(
-
-   
     // All environments
     '*' => array(
         'omitScriptNameInUrls' => true,

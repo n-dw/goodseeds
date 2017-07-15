@@ -1,6 +1,12 @@
 .promotion{
   padding: 1.5rem 0;
+  position: relative;
 
+  .delete{
+    position: absolute;
+    right: 0.5em;
+    top: 0.5em;
+  }
    p{
      margin-bottom: 0;
    }

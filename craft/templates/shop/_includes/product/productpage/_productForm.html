@@ -1,0 +1,77 @@
+<form method="POST" id="addToCartForm">
+    {{ getCsrfInput() }}
+    {% if productStock > 0 %}
+        <input type="hidden" name="action" value="commerce/cart/updateCart">
+    {% else %}
+        {% if currentUser %}
+            <input type="hidden" name="action" value="inStockNotifier/notification/requestRestockNotification">
+            <input type="hidden" name="productId" value="{{product.id}}">
+            <input type="hidden" name="customerEmail" value="{{ currentUser.email }}">
+        {% endif %}
+        <input type="hidden" name="productName" value="{{product.title}}">
+    {% endif %}
+    {% set variantWeights =[
+    {weight: '1g', gramWeight: 1},
+    {weight: '1/8oz', gramWeight: 3.5},
+    {weight: '1/4oz', gramWeight: 7},
+    {weight: '1/2oz', gramWeight: 14},
+    {weight: '1oz', gramWeight: 28}
+    ] %}
+
+    {% for variant in product.variants  %}
+        {% set placement = variant.variantWeight.value - 1 %}
+        {% if variantInfo is defined %}
+            {% set variantInfo = variantInfo | merge({(placement): {salePrice: variant.salePrice, price: variant.price, purchasableId: variant.purchasableId}}) %}
+        {% else %}
+            {% set variantInfo =  {('var_' ~ placement) : {salePrice: variant.salePrice, price: variant.price, purchasableId: variant.purchasableId}} %}
+        {% endif %}
+
+    {% endfor %}
+    {#  {{ d(variantInfo) }}#}
+    <div class="columns">
+        <div class="product-variants column is-two-thirds">
+            {% for variant in variantWeights %}
+                {% set noVariant = true %}
+                {% set purchasableId = '' %}
+                {% set price = '' %}
+                {% set salePrice = '' %}
+
+                {# Check stock if we have the multiples of these left #}
+
+                    <div class="radio-wrapper variant">
+                        {% if variantInfo[loop.index -1 ] is defined  %}
+                            {% set noVariant = false %}
+                            {% set purchasableId = variantInfo[loop.index -1 ].purchasableId %}
+                            {% set price = variantInfo[loop.index -1 ].price %}
+                            {% set salePrice = variantInfo[loop.index -1 ].salePrice %}
+                        {% endif %}
+                        <input class="" id="variant_{{ loop.index }}" name="purchasableId" type="radio"
+                               value="{{ noVariant ? 'none' : purchasableId }}" {% if productStock < variant.gramWeight or noVariant %} disabled {% endif %}>
+                        <label class="c-button c-button--cta-black c-button--small variant-label {% if productStock < variant.gramWeight or noVariant %}  disabled {% endif %}" for="variant_{{ loop.index }}">
+                            <div class="radio-face" data-price="{{ price  }}" data-sale-price="{{ salePrice }}">
+                                <span class="variant-weight">{{ variant.weight }}</span>
+                            </div>
+                        </label>
+                    </div>
+            {% endfor %}
+        </div>
+        <div class="column">
+            <quantity {%  if not productStock > 0 %}disabled="true"{% endif %} qty="1"></quantity>
+        </div>
+    </div>
+    <div class="stock-delivery-message">
+        {{ productStock > 0 ? '<span class="price">In Stock!</span>' : '<span class="out-stock">Out of Stock.</span>' }} Usually delivers
+        in {{ siteSettings.averageShippingDays }} business days.
+    </div>
+    {%  if  productStock > 0 %}
+        <button type="submit" class="c-button c-button--cta-black add-to-cart">Add to Cart</button>
+    {% else %}
+        {% if currentUser %}
+            <button type="submit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+        {% else %}
+            <input type="email" class="c-input" name="customerEmail" required aria-label="Email" placeholder="Email">
+            <button type="submit"  class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+        {% endif %}
+
+    {% endif %}
+</form>
