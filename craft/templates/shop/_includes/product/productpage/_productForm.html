@@ -1,14 +1,16 @@
 <form method="POST" id="addToCartForm">
+
     {{ getCsrfInput() }}
+
     {% if productStock > 0 %}
-        <input type="hidden" name="action" value="commerce/cart/updateCart">
+    <input type="hidden" name="action" value="commerce/cart/updateCart">
     {% else %}
+    <input type="hidden" name="action" value="inStockNotifier/notification/requestRestockNotification">
+    <input type="hidden" name="productId" value="{{product.id}}">
+    <input type="hidden" name="productName" value="{{product.title}}">
         {% if currentUser %}
-            <input type="hidden" name="action" value="inStockNotifier/notification/requestRestockNotification">
-            <input type="hidden" name="productId" value="{{product.id}}">
-            <input type="hidden" name="customerEmail" value="{{ currentUser.email }}">
+    <input type="hidden" name="customerEmail" value="{{ currentUser.email }}">
         {% endif %}
-        <input type="hidden" name="productName" value="{{product.title}}">
     {% endif %}
     {% set variantWeights =[
     {weight: '1g', gramWeight: 1},
@@ -75,8 +77,8 @@
         {% if currentUser %}
             <button type="submit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
         {% else %}
-            <input type="email" class="c-input" name="customerEmail" required aria-label="Email" placeholder="Email">
-            <button type="submit"  class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+           <div><input type="email"  v-if="notifyEmailShow" class="c-input u-width-auto" name="customerEmail" required aria-label="Email" placeholder="Email">
+               <button type="submit" @click="notifyEmailShow" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button></div>
         {% endif %}
 
     {% endif %}

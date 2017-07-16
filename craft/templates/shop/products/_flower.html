@@ -3,7 +3,6 @@
     <link rel="stylesheet" href="/static/assets/zoom/magiczoomplus.css"/>
     <script src="/static/assets/zoom/magiczoomplus.js"></script>
 {% endblock %}
-
 {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
 {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
 {% set productStock = product.defaultVariant.stock %}
@@ -19,11 +18,9 @@
                         <div class="row">
                             <div class="col-xs-12 col-md-6">
                                 <div class="product-images has-text-centered">
-
                                     {% for productImage in product.productImages %}
                                         {% include 'shop/_includes/product/productpage/_productImages' %}
                                     {% endfor %}
-
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6">
@@ -57,7 +54,6 @@
                                     <div class="col-xs-12">
                                         <div class="product-commerce">
                                             {% include 'shop/_includes/product/productpage/_productForm' %}
-
                                             <div class="share-links">
                                                 <span>Share: </span>
                                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | url_encode }}"
@@ -79,7 +75,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <footer class="product-footer">
                             <div class="columns">
                                 <div class="column">
@@ -104,16 +99,13 @@
                                     </div>
                                 </div>
                             <div class="column"><h2>Reviews</h2>
-
-                                <div class="tab-content">
+                                s<div class="tab-content">
                                     {% set params = {
                                     order: 'dateCreated asc',
                                     } %}
-
                                     {{ craft.comments.form(product.id, params) }}
                                 </div>
                             </div>
-
                         </footer>
                 </div>
                 </article>
@@ -127,6 +119,7 @@
         data: {
         stockModalOpen: false,
         modalClass: "",
+        notifyEmailShow: false,
         price: "{{ product.defaultVariant.salePrice| commerceCurrency(cart.currency) }}",
         salePrice: "{{ product.defaultVariant.price| commerceCurrency(cart.currency) }}",
         savings: "{{ (product.defaultVariant.price - product.defaultVariant.salePrice) | commerceCurrency(cart.currency) }}"
@@ -140,6 +133,10 @@
         this.price = e.target.dataset.price;
         this.salePrice = e.target.dataset.salePrice;
         this.savings = e.target.dataset.saved;
+        },
+        notifyEmailShow: function(e) {
+        (this.notifyEmailShow) ? e.target.click() : this.notifyEmailShow = !this.notifyEmailShow;
+
         },
         },
         });
