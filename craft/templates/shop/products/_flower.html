@@ -11,127 +11,112 @@
 {% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">$'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
 {% set variantInfo = {} %}
 {% block main %}
-    <section class="shop product-listings product-listing-app content-section">
+    <section class="shop product-page product-listing-app content-section">
         <div class="container-fluid wrapper">
-            <div class="row center-xs">
+            <div class="row center-xs start-lg">
                 <div class="col-xs-12">
                     <article class="product">
-                        <div class="box">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6">
-                                    <div class="product-images">
-                                        {% for productImage in product.productImages %}
-                                            {% include 'shop/_includes/product/productpage/_productImages' %}
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="product-images has-text-centered">
+
+                                    {% for productImage in product.productImages %}
+                                        {% include 'shop/_includes/product/productpage/_productImages' %}
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="row text-align-left">
+                                    <div class="col-xs-12">
+                                        <h1 class="product-heading">{{ product.title }}</h1><h4
+                                                class="product-strain-type {{ product.strainType.first().slug }}">
+                                            {{ product.strainType.first().slug|first|upper }}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs">
+                                        <div class="product-price-hook">
+                                            <div class="price-info">
+                                                <b><span class="price dynamic-price">{| salePrice |}</span></b>{{ shippingamount | raw }}
+                                            </div>
+                                            {% if product.defaultVariant.onSale %}
+                                                <i><span class="sale">Save {| savings |} <strike>(reg {| price |})</strike></span></i>
+                                            {% endif %}
+                                            {% if not qualifyFreeShipping %}
+                                                <div class="shipping-message"> Order <span
+                                                            class="amount-to-free-shipping">{{ amountQualify | commerceCurrency(cart.currency) }}</span>
+                                                    more to qualify for free shipping.
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="product-commerce">
+                                            {% include 'shop/_includes/product/productpage/_productForm' %}
+
+                                            <div class="share-links">
+                                                <span>Share: </span>
+                                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | url_encode }}"
+                                                   class="fb-share share-link" target="_blank"><i
+                                                            class="icon-facebook-official"></i></a>
+                                                <a href="https://twitter.com/home?status={{ product.url | url_encode }}"
+                                                   class="tw-share share-link" target="_blank"><i
+                                                            class="icon-twitter"></i></a>
+                                                <a href="mailto:?&body={{ product.url | url_encode }}"
+                                                   class="email-share share-link"
+                                                   target="_blank"><i class="icon-mail"></i></a>
+                                                <a href="https://pinterest.com/pin/create/button/?url={{ product.url | url_encode }}"
+                                                   class="pin-share share-link" target="_blank"><i
+                                                            class="icon-pinterest-squared"></i></a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <footer class="product-footer">
+                            <div class="columns">
+                                <div class="column">
+                                    <h2>Details</h2>
+                                    <div class="product-description">
+                                        {{ product.productDescription }}
+                                    </div>
+                                    <div class="product-attributes">
+                                        {% for attribute in product.productAttributes %}
+                                            {% if attribute.type == 'effects' %}
+                                                {{ attribute.effectTerm.first.title | t }}
+                                                <progress class="progress is-large"
+                                                          value="{{ attribute.effectPercentage }}"
+                                                          max="100"></progress>
+                                            {% else %}
+                                                {{ attribute.medicalSymptom.first.title |t }}
+                                                <progress class="progress is-large"
+                                                          value="{{ attribute.medicalEffectPercentage }}"
+                                                          max="100"></progress>
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-6">
-                                    <h1 class="product-heading">{{ product.title }}</h1>
-                                    <div class="row between-xs">
-                                        <div class="col-xs">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <div class="product-details-wrapper">
-                                                        <h4 class="product-strain-type {{ product.strainType.first().slug }}">
-                                                            {{ product.strainType.first().slug|first|upper }}
-                                                        </h4>
-                                                    </div>
-                                                </div>
-                                                <div class="media-content">
-                                                    <div class="product-price-wrapper has-text-right">
-                                                        {% if product.defaultVariant.onSale %}
-                                                            <span class="sale">was  <strike>{{ product.defaultVariant.price | commerceCurrency(cart.currency) }}</strike></span>
-                                                        {% endif %}
-                                                        <span class="price"><b>{{ product.defaultVariant.salePrice| commerceCurrency(cart.currency) }}</b></span> {{ shippingamount | raw }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs">
-                                            <div class="product-price-hook">
+                            <div class="column"><h2>Reviews</h2>
 
-                                                <div class="price-info">
-                                                    <span class="price">{{ product.defaultVariant.salePrice| commerceCurrency(cart.currency) }}</span> {{ shippingamount | raw }}
-                                                </div>
-                                                {% if product.defaultVariant.onSale %}
-                                                    <span class="sale-price">Save {{ (product.defaultVariant.price - product.defaultVariant.salePrice)| commerceCurrency(cart.currency) }}
-                                                        (reg {{ product.defaultVariant.price | commerceCurrency(cart.currency) }}
-                                                        )</span>
-                                                {% endif %}
-                                                {% if not qualifyFreeShipping %}
-                                                    <div class="shipping-message"> Order <span
-                                                                class="amount-to-free-shipping">{{ amountQualify | commerceCurrency(cart.currency) }}</span>
-                                                        more to qualify for free shipping.
-                                                    </div>
-                                                {% endif %}
-                                            </div>
+                                <div class="tab-content">
+                                    {% set params = {
+                                    order: 'dateCreated asc',
+                                    } %}
 
-                                        </div>
-                                    </div>
-                                    <div class="product-commerce">
-                                        {% include 'shop/_includes/product/productpage/_productForm' %}
-
-                                        <div class="share-links">
-                                            <span>Share</span>
-                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | url_encode }}"
-                                               class="fb-share share-link" target="_blank"><i
-                                                        class="icon-facebook-official"></i></a>
-                                            <a href="https://twitter.com/home?status={{ product.url | url_encode }}"
-                                               class="tw-share share-link" target="_blank"><i class="icon-twitter"></i></a>
-                                            <a href="mailto:?&body={{ product.url | url_encode }}"
-                                               class="email-share share-link"
-                                               target="_blank"><i class="icon-mail"></i></a>
-                                            <a href="https://pinterest.com/pin/create/button/?url={{ product.url | url_encode }}"
-                                               class="pin-share share-link" target="_blank"><i
-                                                        class="icon-pinterest-squared"></i></a>
-                                        </div>
-                                    </div>
+                                    {{ craft.comments.form(product.id, params) }}
                                 </div>
                             </div>
-                            <div class="box">
-                                <footer class="product-footer">
-                                    <div class="tabs is-fullwidth is-boxed">
-                                        <ul>
-                                            <li class="is-active"><a><span>Details</span></a></li>
-                                            <li class="is-active"><a><span>Reviews
-                            <div class="review-icons"><i class="icon-star"></i><i class="icon-star"></i><i
-                                        class="icon-star"></i><i class="icon-star"></i><i
-                                        class="icon-star"></i></div></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="tabs-content">
-                                        <div class="tab-content">
-                                            <div class="product-description">
-                                                {{ product.productDescription }}
-                                            </div>
-                                            <div class="product-attributes">
-                                                {% for attribute in product.productAttributes %}
-                                                    {% if attribute.type == 'effects' %}
-                                                        {{ attribute.effectTerm.first.title | t }}
-                                                        <progress class="progress is-large"
-                                                                  value="{{ attribute.effectPercentage }}"
-                                                                  max="100"></progress>
-                                                    {% else %}
-                                                        {{ attribute.medicalSymptom.first.title |t }}
-                                                        <progress class="progress is-large"
-                                                                  value="{{ attribute.medicalEffectPercentage }}"
-                                                                  max="100"></progress>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                        <div class="tab-content">
-                                            {% set params = {
-                                                order: 'dateCreated asc',
-                                            } %}
 
-                                            {{ craft.comments.form(product.id, params) }}
-                                        </div>
-                                    </div>
-                                </footer>
-                            </div>
-                    </article>
+                        </footer>
                 </div>
+                </article>
             </div>
         </div>
     </section>
@@ -141,12 +126,20 @@
         delimiters: ['{|', '|}'],
         data: {
         stockModalOpen: false,
-        modalClass: ""
+        modalClass: "",
+        price: "{{ product.defaultVariant.salePrice| commerceCurrency(cart.currency) }}",
+        salePrice: "{{ product.defaultVariant.price| commerceCurrency(cart.currency) }}",
+        savings: "{{ (product.defaultVariant.price - product.defaultVariant.salePrice) | commerceCurrency(cart.currency) }}"
         },
         methods: {
         toggleStockModal: function() {
         this.stockModalOpen = !this.stockModalOpen;
         this.stockModalOpen ? this.modalClass = "is-active" : this.modalClass = "";
+        },
+        toggleVariant: function(e) {
+        this.price = e.target.dataset.price;
+        this.salePrice = e.target.dataset.salePrice;
+        this.savings = e.target.dataset.saved;
         },
         },
         });
