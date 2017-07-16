@@ -21,7 +21,7 @@
                                 {% if faq.faqReference.first.id in activeFaqs %}
                                     {% set faqActive = true %}
                                 {% endif %}
-                                <faq :open="{{ faqActive ? 'true' : 'false' }}" faqid="faq_{{ faq.faqReference.first.id }}">
+                                <faq name="faq_{{ faq.faqReference.first.id }}" :open="{{ faqActive ? 'true' : 'false' }}" faqid="faq_{{ faq.faqReference.first.id }}">
                                     <template slot="question">{{ faq.faqReference.first.title }}</template>
                                     <template slot="answer">{{ faq.faqReference.first.answer }}</template>
                                 </faq>
@@ -44,8 +44,4 @@
             </div>
         </div>
     </section>
-    {% set viewInstance %}
-        new Vue({el: '.faqs', delimiters: ['{|', '|}']});
-    {% endset %}
-    {% includeJs viewInstance %}
 {% endblock %}

@@ -64,7 +64,7 @@
                     </div>
             {% endif %}
             {% endfor %}
-            <quantity {%  if not productStock > 0 %}disabled="true"{% endif %} qty="1"></quantity>
+            <quantity {%  if not productStock > 0 %}:disabled="true"{% endif %} qty="1"></quantity>
         </div>
     </div>
     <div class="stock-delivery-message">
@@ -78,7 +78,7 @@
             <button type="submit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
         {% else %}
            <div><input type="email"  v-if="notifyEmailShow" class="c-input u-width-auto" name="customerEmail" required aria-label="Email" placeholder="Email">
-               <button type="submit" @click="notifyEmailShow" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button></div>
+               <button type="submit" @click.stop.prevent="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button></div>
         {% endif %}
 
     {% endif %}

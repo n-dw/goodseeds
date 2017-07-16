@@ -11,7 +11,7 @@
                 @keydown="keydown"
                 @focus="focus"
                 autocomplete="o" />
-        <button class="button--search" @click="clear" type="submit" value="Search">
+        <button class="button--search" @click="clear" type="button" value="Search">
             <i :class="icon"></i>
         </button>
 
