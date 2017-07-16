@@ -22,6 +22,24 @@
   }
 }
 
+.product-page{
+  padding-top: 3.2rem;
+}
+
+.product-heading{
+  text-transform: capitalize;
+}
+
+.product{
+  .product-heading{
+    display: inline-block;
+  }
+  .product-strain-type{
+    display: inline-block;
+    margin-left: 1.3rem;
+  }
+}
+
 .product-variants{
   .radio-wrapper{
     position: relative;
@@ -37,6 +55,7 @@
       display: inline-block;
       position: relative;
       cursor: pointer;
+      border-radius: 0;
 
       font-family: $font-headings;
 
@@ -46,30 +65,37 @@
       }
     }
 
-    input[type="radio"]:checked ~ label .radio-face {
-
-      .variant-weight{
-
+    input[type="radio"]:checked ~ label{
+      border: 2px solid $promotion-hover-color;
+      color: $promotion-hover-color;
+      .radio-face {
       }
+
     }
   }
   input[type="radio"]:disabled ~ label{
     cursor: not-allowed;
-    border: 2px solid map-get($colors, pink-pastelle);
+    border: 2px solid map-get($colors, mid-grey);
     .variant-weight{
-      color:  map-get($colors, pink-pastelle);
+      color:  map-get($colors, mid-grey);
     }
 
     &:hover{
-      border: 2px solid map-get($colors, pink-pastelle);
+      border: 2px solid map-get($colors, mid-grey);
      .variant-weight{
-        color:  map-get($colors, pink-pastelle);
+        color:  map-get($colors, mid-grey);
       }
     }
   }
 
 }
 .share-links{
+  a{
+    color: $black;
+    &:hover{
+     color: $pastelGreen;
+    }
+  }
   i{
     font-size: 2rem;
   }
@@ -80,4 +106,13 @@
       width: 100%;
 
     }
+}
+
+@include bpmax(small){
+  .product-heading{
+    font-size: map-get($heading-sizes, 3);
+    margin-bottom: ($base-space / 2.148);
+    display: inline-block;
+    text-align: left;
+  }
 }

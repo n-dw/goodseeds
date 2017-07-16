@@ -1,10 +1,10 @@
 {% set image = productImage %}
 {% set transformedImages = craft.imager.transformImage(image,
 [
-{ width: 1200, ratio: 16/9},
 { width: 800, ratio: 16/9},
 { width: 640, ratio: 16/9},
-{ width: 60, ratio: 1/1 , jpegQuality: 60}
+{ width: 200, ratio: 16/9},
+{ width: 45, ratio: 1/1 , jpegQuality: 60}
 ],
 {
     format: 'jpg',
@@ -15,11 +15,17 @@
 }
 ) %}
 {% if loop.index == 1 %}
-    <a id="flower-group" class="MagicZoom" href="{{ transformedImages[0].url }}"
-       data-mobile-options="lazyZoom: true; zoomPosition: inner;"
-       data-options="cssClass: mz-square; hint:always; zoomPosition: outer; zoomOn: click; lazyZoom: true; variableZoom: true;">
-        <img src="{{ transformedImages[1].url }}" alt="{{ image.title }}">
-    </a>
+    <div class="row">
+        <div class="col-xs-12">
+            <a id="flower-group" class="MagicZoom" href="{{ transformedImages[0].url }}"
+               data-mobile-options="lazyZoom: true; zoomPosition: inner;"
+               data-options="cssClass: mz-square; hint:always; zoomPosition: outer; zoomOn: click; lazyZoom: true; variableZoom: true;">
+                <img src="{{ transformedImages[1].url }}" alt="{{ image.title }}">
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 has-text-centered">
     <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}"
        href="{{ transformedImages[0].url }}">
         <img src="{{ transformedImages[3].url }}" alt="{{ image.title }}">
@@ -30,3 +36,7 @@
         <img src="{{ transformedImages[3].url }}" alt="{{ image.title }}">
     </a>
 {% endif %}
+{% if loop.last %}
+        </div>
+    </div>
+            {% endif %}
