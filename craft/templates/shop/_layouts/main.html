@@ -5,7 +5,7 @@
 {label: "You", url: 'account', iconClass: 'icon-user', currentUser: true},
 {label: "Sign in", url: 'login', iconClass: 'icon-user', currentUser: false, guestUser: true},
 {label: "FAQ", url: 'frequently-asked-questions', iconClass: 'icon-help-circled', currentUser: false},
-{label: "Cart", url: 'cart', iconClass: 'icon-basket', currentUser: false}
+{label: "Cart", url: 'shop/cart', iconClass: 'icon-basket', currentUser: false}
 ] %}
 {% set shopCategories = [
 {label: "Sales",  url: 'shop?cat=sales', show: true},
@@ -56,6 +56,16 @@
     <main id="main" class="main">
         <section class="content-wrapper">
             {% block promotions %}
+            {% endblock %}
+            {% block breadcrumbs %}
+           {# <div class="container-fluid wrapper"> <nav class="breadcrumb">
+                    <ul>
+                        <li><a>Bulma</a></li>
+                        <li><a>Documentation</a></li>
+                        <li><a>Components</a></li>
+                        <li class="is-active"><a>Breadcrumb</a></li>
+                    </ul>
+                </nav></div>#}
             {% endblock %}
             {% block main %}
             {% endblock %}

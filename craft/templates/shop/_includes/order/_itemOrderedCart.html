@@ -34,9 +34,9 @@
             <strong>{{ item.description }}</strong>
             <div>
                 {% if item.onSale %}
-                   ea. <span class="price">{{ item.salePrice|commerceCurrency(cart.currency) }}</span> <i>Save {{ item.saleAmount|commerceCurrency(cart.currency)  }}(reg. {{ item.price|commerceCurrency(cart.currency) }})</i>
+                    ea. <span class="price"><b>{{ item.salePrice|commerceCurrency(cart.currency) }}</b></span> <i> <span class="sale">Save {{ item.saleAmount|commerceCurrency(cart.currency)  }}(reg. {{ item.price|commerceCurrency(cart.currency) }})</span></i>
                 {% else %}
-                    ea. <span class="price">{{ item.price|commerceCurrency(cart.currency) }}</span>
+                    ea. <span class="price"><b>{{ item.price|commerceCurrency(cart.currency) }}</b></span>
                 {% endif %}
             </div>
             {% if item.purchasable is not null  %}

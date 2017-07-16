@@ -30,7 +30,7 @@ namespace Craft;
 class InStockNotifier_NotificationController extends BaseController
 {
 
-    protected $allowAnonymous = array('actionSendNotifications');
+    protected $allowAnonymous = array('actionSendNotifications', 'actionRequestRestockNotification');
     /**
      * Handle a request going to our plugin's index action URL, e.g.: actions/inStockNotifier
      */
@@ -41,10 +41,17 @@ class InStockNotifier_NotificationController extends BaseController
         $customerEmail = craft()->request->getPost('customerEmail');
         $productId =  craft()->request->getPost('productId');
 
-        if($customerEmail == '' ||  $productId == '' || !is_numeric($productId))
+        if($productId == '' || !is_numeric($productId))
         {
+            craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
             return false;
         }
+        if(!filter_var($customerEmail, FILTER_VALIDATE_EMAIL)){
+            craft()->userSession->setError(Craft::t('Please Enter a Valid Email Address'));
+            return false;
+        }
+
+
 
         //check is product exists and is actually out of stock
         $product = craft()->commerce_products->getProductById($productId);

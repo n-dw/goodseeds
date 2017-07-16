@@ -17,3 +17,13 @@
     @warn "No value could be retrieved from `#{$bp}`." + "Please make sure it is defined in `$breakpoints` map.";
   }
 }
+
+@mixin bpmax($bp) {
+	@if map-has-key($breakpoints, $bp) {
+		@media (max-width: #{map-get($breakpoints, $bp)}) {
+			@content;
+		}
+	} @else {
+		@warn "No value could be retrieved from `#{$bp}`." + "Please make sure it is defined in `$breakpoints` map.";
+	}
+}

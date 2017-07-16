@@ -1,0 +1,83 @@
+<form method="POST" id="addToCartForm">
+    {{ getCsrfInput() }}
+    {% if productStock > 0 %}
+        <input type="hidden" name="action" value="commerce/cart/updateCart">
+    {% else %}
+        {% if currentUser %}
+            <input type="hidden" name="action" value="inStockNotifier/notification/requestRestockNotification">
+            <input type="hidden" name="productId" value="{{product.id}}">
+            <input type="hidden" name="customerEmail" value="{{ currentUser.email }}">
+        {% endif %}
+        <input type="hidden" name="productName" value="{{product.title}}">
+    {% endif %}
+    {% set variantWeights =[
+    {weight: '1g', gramWeight: 1},
+    {weight: '1/8oz', gramWeight: 3.5},
+    {weight: '1/4oz', gramWeight: 7},
+    {weight: '1/2oz', gramWeight: 14},
+    {weight: '1oz', gramWeight: 28}
+    ] %}
+
+    {% for variant in product.variants  %}
+        {% set placement = variant.variantWeight.value %}
+        {% set purchasableId = variant.purchasableId %}
+        {% set price = variant.price | commerceCurrency(cart.currency) %}
+        {% set salePrice = variant.salePrice | commerceCurrency(cart.currency) %}
+        {% set savings = (variant.price - variant.salePrice) | commerceCurrency(cart.currency) %}
+        {% if variantInfo is defined %}
+            {% set variantInfo = variantInfo | merge({('var_' ~ placement): {salePrice: salePrice, price: price, savings: savings, purchasableId: purchasableId}}) %}
+        {% else %}
+            {% set variantInfo =  {('var_' ~ placement) : {salePrice: salePrice, price: price, savings: savings,  purchasableId: purchasableId}} %}
+        {% endif %}
+
+    {% endfor %}
+    <div class="row">
+        <div class="product-variants col-xs">
+            {% set isChecked = false %}
+            {% for variant in variantWeights %}
+                {% set noVariant = true %}
+                {% set purchasableId = '' %}
+                {% set price = '' %}
+                {% set salePrice = '' %}
+            {% if variantInfo['var_' ~ (loop.index)] is defined  %}
+            {% set noVariant = false %}
+            {% set purchasableId = variantInfo['var_' ~ (loop.index)].purchasableId %}
+            {% set price = variantInfo['var_' ~ (loop.index)].price %}
+            {% set salePrice = variantInfo['var_' ~ (loop.index)].salePrice %}
+                {% set savings = variantInfo['var_' ~ (loop.index)].savings %}
+                    <div class="radio-wrapper variant">
+                        {% set isDisabled =   (productStock < variant.gramWeight or noVariant) %}
+                        <input class="" id="variant_{{ loop.index }}" name="purchasableId" type="radio"
+                               value="{{ noVariant ? 'none' : purchasableId }}" {% if isDisabled %} disabled {% endif %}>
+                        <label {% if not isDisabled and not isChecked %} checked {% endif %}  {% if not isDisabled %} @click="toggleVariant" {% endif %} data-price="{{ price  }}" data-sale-price="{{ salePrice }}" data-saved="{{ savings }}" class="c-button c-button--cta-black c-button--small variant-label {% if isDisabled %}disabled {% endif %}" for="variant_{{ loop.index }}">
+                                <span class="variant-weight" data-price="{{ price  }}" data-sale-price="{{ salePrice }}" data-saved="{{ savings }}" >
+                                {% if isDisabled %} <strike> {% endif %}
+                                    {{ variant.weight }}
+                                    {% if isDisabled %} </strike> {% endif %}
+                                </span>
+                        </label>
+                        {% if not isChecked and not isDisabled %}
+                            {% set isChecked = true %}
+                        {% endif %}
+                    </div>
+            {% endif %}
+            {% endfor %}
+            <quantity {%  if not productStock > 0 %}disabled="true"{% endif %} qty="1"></quantity>
+        </div>
+    </div>
+    <div class="stock-delivery-message">
+        {{ productStock > 0 ? '<span class="price">In Stock!</span>' : '<span class="out-stock">Out of Stock.</span>' }} Usually delivers
+        in {{ siteSettings.averageShippingDays }} business days.
+    </div>
+    {%  if  productStock > 0 %}
+        <button type="submit" class="c-button c-button--cta-black add-to-cart">Add to Cart</button>
+    {% else %}
+        {% if currentUser %}
+            <button type="submit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+        {% else %}
+            <input type="email" class="c-input" name="customerEmail" required aria-label="Email" placeholder="Email">
+            <button type="submit"  class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+        {% endif %}
+
+    {% endif %}
+</form>
