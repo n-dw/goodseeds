@@ -57,16 +57,16 @@
                                             <div class="share-links">
                                                 <span>Share: </span>
                                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | url_encode }}"
-                                                   class="fb-share share-link" target="_blank"><i
+                                                   class="fb-share share-link" rel="noopener" target="_blank"><i
                                                             class="icon-facebook-official"></i></a>
                                                 <a href="https://twitter.com/home?status={{ product.url | url_encode }}"
-                                                   class="tw-share share-link" target="_blank"><i
+                                                   class="tw-share share-link" rel="noopener" target="_blank"><i
                                                             class="icon-twitter"></i></a>
                                                 <a href="mailto:?&body={{ product.url | url_encode }}"
-                                                   class="email-share share-link"
-                                                   target="_blank"><i class="icon-mail"></i></a>
+                                                   class="email-share share-link" rel="noopener"
+                                                   target="_blank" ><i class="icon-mail"></i></a>
                                                 <a href="https://pinterest.com/pin/create/button/?url={{ product.url | url_encode }}"
-                                                   class="pin-share share-link" target="_blank"><i
+                                                   class="pin-share share-link" rel="noopener" target="_blank"><i
                                                             class="icon-pinterest-squared"></i></a>
                                             </div>
                                         </div>
