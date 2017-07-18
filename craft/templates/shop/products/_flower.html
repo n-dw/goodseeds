@@ -1,8 +1,4 @@
 {% extends 'shop/_layouts/main' %}
-{% block head %}
-    <link rel="stylesheet" href="/static/assets/zoom/magiczoomplus.css"/>
-    <script src="/static/assets/zoom/magiczoomplus.js"></script>
-{% endblock %}
 {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
 {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
 {% set productStock = product.defaultVariant.stock %}
@@ -150,3 +146,5 @@
      </script>
      {% endminify %}
  {% endblock %}
+{% includeCssFile "/static/assets/zoom/magiczoomplus.css" %}
+{% includeJsFile "/static/assets/zoom/magiczoomplus.js" %}

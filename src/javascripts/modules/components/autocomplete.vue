@@ -10,7 +10,7 @@
                 @blur="hideAll"
                 @keydown="keydown"
                 @focus="focus"
-                autocomplete="o" />
+                />
         <button class="button--search" @click="clear" type="button" value="Search">
             <i :class="icon"></i>
         </button>
@@ -48,6 +48,7 @@
     };
 
     export default {
+        name: 'autocomplete',
         props: {
             id: String,
             className: String,
