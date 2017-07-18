@@ -21,9 +21,13 @@
         },
         data() {
             return {
-                quantity: this.qty,
-                dis: this.disabled
+                quantity: 0,
+                dis: false
             };
+        },
+        mounted(){
+            this.quantity = this.qty;
+            this.dis = this.disabled;
         },
         methods: {
             increase() {

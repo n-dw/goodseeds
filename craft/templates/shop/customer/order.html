@@ -17,6 +17,23 @@
                     {% if not order.orderStatus.handle == 'paymentPending' and order.pdfUrl %}
                         <h4>Receipt (<a href="{{ order.getPdfUrl('receipt') }}">Download</a>)</h4>
                     {% endif %}
+
+                    <form method="POST">
+                        <input type="hidden" name="action" value="multiAdd/multiAdd">
+                        <input type="hidden" name="redirect" value="shop/cart">
+                        {{ getCsrfInput() }}
+                        {% for item in order.lineItems %}
+                            {% set itemNumber = loop.index %}
+                            <input type="hidden" name="items[{{ itemNumber }}][qty]" value="{{ item.qty }}">
+                            <input type="hidden" name="items[{{ itemNumber }}][note]" value="{{ item.note }}">
+                            <input type="hidden" name="items[{{ itemNumber }}][purchasableId]" value="{{ item.purchasableId }}">
+                            {% for key, option in item.options %}
+                                <input type="hidden" name="items[{{ itemNumber }}][options][{{ key }}]" value="{{ option }}">
+                            {% endfor %}
+                        {% endfor %}
+                        <button class="c-button c-button--cta-black">Order Again</button>
+                    </form>
+
                     <p>If you have any questions regarding the order please email us <a
                                 href="mailto:{{ siteSettings.defaultEmailAddress }}?subject=Order {{ order.id }}">{{ siteSettings.defaultEmailAddress }}</a>
                     </p>

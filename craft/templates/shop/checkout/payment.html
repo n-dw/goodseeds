@@ -33,11 +33,7 @@
             </h2>
         </header>
         <div class="card-content">
-            {% block content %}
-                {% if cart.shippingAddress %}
-                    {% include 'shop/_includes/addresses/_shippingAddress' with { address: cart.shippingAddress } %}
-                {% endif %}
-            {% endblock %}
+
         </div>
     </div>
     <div class="card">
@@ -47,11 +43,7 @@
             </h2>
         </header>
         <div class="card-content">
-            {% block shipping %}
-                {% if cart.shippingAddress %}
-                    {% include 'shop/_includes/addresses/_shippingAddress' with { address: cart.shippingAddress } %}
-                {% endif %}
-            {% endblock %}
+
         </div>
     </div>
 
@@ -62,9 +54,7 @@
             </h2>
         </header>
         <div class="card-content">
-            {% block payment %}
 
-            {% endblock %}
         </div>
     </div>
 

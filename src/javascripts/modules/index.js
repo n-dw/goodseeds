@@ -17,9 +17,10 @@ for (var i = 0; i < moduleElements.length; i++) {
 import faqComp from './components/faq.vue';
 import quantityComp from './components/quantity.vue';
 import Autocomplete from './components/autocomplete.vue';
+import Password from './components/password.vue';
 
 var data = {menuOpen: false,  navMenuStatus: "mobile-nav--closed"};
-var components = {autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp};
+var components = {autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password};
 var methods = {
     toggle: function() {
         this.menuOpen = !this.menuOpen;
@@ -46,7 +47,6 @@ var methods = {
         window.location.href = data.url;
     },
     processJsonData: function(json) {
-        var data = json.data
         /* data.forEach(function(dataItem, index){
          if(dataItem.title.toLowerCase().indexOf('you') !== -1){
          json.data[index].title = dataItem.title.replace(new RegExp(this.type, 'g'), '<span class="search-string-match">' + this.type + '</span>');
