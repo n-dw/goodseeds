@@ -94,13 +94,15 @@
                                         {% endfor %}
                                     </div>
                                 </div>
-                            <div class="column"><h2>Reviews</h2>
-                                s<div class="tab-content">
+                            <div class="column">
+                                <h2>Reviews</h2>
+                                {{ craft.commentsrating.elementRating(product.id) }}
+
                                     {% set params = {
-                                    order: 'dateCreated asc',
+                                    order: 'dateCreated desc',
                                     } %}
                                     {{ craft.comments.form(product.id, params) }}
-                                </div>
+
                             </div>
                         </footer>
                 </div>

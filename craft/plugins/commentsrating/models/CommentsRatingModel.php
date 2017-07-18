@@ -17,10 +17,12 @@ class CommentsRatingModel extends BaseModel
     protected function defineAttributes()
     {
         return array_merge(parent::defineAttributes(), array(
+            'id' => AttributeType::Number,
             'commentId' => array(AttributeType::Number),
             'elementId' => array(AttributeType::Number),
             'userId' => array(AttributeType::Number),
-            'rating' => array(AttributeType::Number)
+            'rating' => array(AttributeType::Number),
+            'comment_approved' => array(AttributeType::Bool)
         ));
     }
 

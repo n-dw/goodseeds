@@ -29,7 +29,8 @@ class CommentsRatingRecord extends BaseRecord
             'commentId' => array(AttributeType::Number),
             'elementId' => array(AttributeType::Number),
             'userId' => array(AttributeType::Number),
-            'rating' => array(AttributeType::Number)
+            'rating' => array(AttributeType::Number),
+            'comment_approved' => array(AttributeType::Bool, 'default' => false)
         );
     }
 
