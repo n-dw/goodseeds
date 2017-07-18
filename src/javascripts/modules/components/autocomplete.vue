@@ -11,7 +11,7 @@
                 @keydown="keydown"
                 @focus="focus"
                 autocomplete="o" />
-        <button class="button--search" @click="clear" type="submit" value="Search">
+        <button class="button--search" @click="clear" type="button" value="Search">
             <i :class="icon"></i>
         </button>
 
@@ -36,25 +36,6 @@
 
 <script>
 
-    /*! Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal)
-     * Licensed Under MIT (http://opensource.org/licenses/MIT)
-     *
-     * Vue 2 Autocomplete @ Version 0.0.1
-     *
-     */
-
-    /*!
-     *  javascript-debounce 1.0.0
-     *
-     *  A lightweight, dependency-free JavaScript module for debouncing functions based on David Walsh's debounce function.
-     *
-     *  Source code available at: https://github.com/jgarber623/javascript-debounce
-     *
-     *  (c) 2015-present Jason Garber (http://sixtwothree.org)
-     *
-     *  javascript-debounce may be freely distributed under the MIT license.
-     */
-
     var debounce = function(callback, delay) {
         var timeout;
         return function() {
@@ -67,7 +48,6 @@
     };
 
     export default {
-
         props: {
             id: String,
             className: String,

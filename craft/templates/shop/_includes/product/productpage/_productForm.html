@@ -51,7 +51,7 @@
                         {% set isDisabled =   (productStock < variant.gramWeight or noVariant) %}
                         <input class="" id="variant_{{ loop.index }}" name="purchasableId" type="radio"
                                value="{{ noVariant ? 'none' : purchasableId }}" {% if isDisabled %} disabled {% endif %}>
-                        <label {% if not isDisabled and not isChecked %} checked {% endif %}  {% if not isDisabled %} @click="toggleVariant" {% endif %} data-price="{{ price  }}" data-sale-price="{{ salePrice }}" data-saved="{{ savings }}" class="c-button c-button--cta-black c-button--small variant-label {% if isDisabled %}disabled {% endif %}" for="variant_{{ loop.index }}">
+                        <label {% if not isDisabled and not isChecked %} checked {% endif %}  {% if not isDisabled %} @click="toggleVariant" {% endif %} data-price="{{ price  }}" data-sale-price="{{ salePrice }}" data-saved="{{ savings }}" class="c-radio c-button--cta-black c-button--small variant-label {% if isDisabled %}disabled {% endif %}" for="variant_{{ loop.index }}">
                                 <span class="variant-weight" data-price="{{ price  }}" data-sale-price="{{ salePrice }}" data-saved="{{ savings }}" >
                                 {% if isDisabled %} <strike> {% endif %}
                                     {{ variant.weight }}
@@ -64,7 +64,7 @@
                     </div>
             {% endif %}
             {% endfor %}
-            <quantity {%  if not productStock > 0 %}disabled="true"{% endif %} qty="1"></quantity>
+            <quantity {%  if not productStock > 0 %}:disabled="true"{% endif %} qty="1"></quantity>
         </div>
     </div>
     <div class="stock-delivery-message">
@@ -78,7 +78,7 @@
             <button type="submit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
         {% else %}
            <div><input type="email"  v-if="notifyEmailShow" class="c-input u-width-auto" name="customerEmail" required aria-label="Email" placeholder="Email">
-               <button type="submit" @click="notifyEmailShow" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button></div>
+               <button type="submit" @click.stop.prevent="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button></div>
         {% endif %}
 
     {% endif %}

@@ -94,14 +94,8 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
 
         if(!$this->sendNotificationEmails($notificationsForSending))
         {
-           // throw new Exception('Error sending notificationdeleting Emails.');
             return false;
         }
-
-      /*  if (!$this->cleanNotificationRequests())
-        {
-            throw new Exception('Error deleting sent notifications.');
-        }*/
 
         return true;
     }
@@ -167,6 +161,39 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
             {
                 //change send failed true
                 $notifications['records'][$key]->sendFail = true;
+                $notifications['records'][$key]->validate();
+                $notification->addErrors( $notifications['records'][$key]->getErrors());
+
+                $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+                try
+                {
+                    if (!$notification->hasErrors())
+                    {
+                        $notifications['records'][$key]->save(false);
+                        $model->id = $notifications['records'][$key]->id;
+
+                        if ($transaction !== null)
+                        {
+                            $transaction->commit();
+                        }
+
+                        return true;
+                    }
+                } catch (\Exception $e)
+                {
+                    if ($transaction !== null)
+                    {
+                        $transaction->rollback();
+                    }
+                    throw $e;
+                }
+
+                if ($transaction !== null)
+                {
+                    $transaction->rollback();
+                }
+
+                return false;
 
             }
         }

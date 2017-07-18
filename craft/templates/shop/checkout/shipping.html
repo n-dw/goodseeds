@@ -29,7 +29,7 @@
                     <label>
 
                         <input type="radio" name="shippingMethod" value="{{ handle }}"
-                               {% if handle == cart.shippingMethodHandle %}checked{% endif %} />
+                               {% if handle == cart.shippingMethodHandle or loop.length == 1 %}checked{% endif %} />
                         <strong>{{ method.name }}</strong>
 
                         <span class="price">

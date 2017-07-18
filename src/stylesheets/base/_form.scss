@@ -60,6 +60,7 @@
 .c-textarea{
   height: auto;
   min-height: ($base-space * 1.5);
+  padding: ($base-space / 4) ($base-space / 3);
   background: none;
   border: 2px solid $formElementBorderColor;
   width: 100%;

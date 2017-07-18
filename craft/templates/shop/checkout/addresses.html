@@ -1,81 +1,166 @@
 {% extends 'shop/_layouts/checkout' %}
+{% import "shop/macros/errors.html" as errList %}
 
 {% block content %}
 
-    {% set addresses = craft.commerce.customer.addresses %}
-
+    {% set address = craft.commerce.customer.lastUsedShippingAddress %}
+    {% set model = address %}
+    {#Canada only #}
+    {% set countryCode = 38 %}
+    {% set countries = craft.commerce.countriesList %}
+    {% set country = countries[countryCode] %}
+    {% set states = craft.commerce.statesArray  %}
+    {% set states = states[countryCode] | slice(1) %}
     {# UI when at least one address exists #}
 
-                    <form method="post">
-                        <input type="hidden" name="action" value="commerce/cart/updateCart">
-                        <input type="hidden" name="redirect" value="shop/checkout/shipping"/>
+        <form method="post">
+            <input type="hidden" name="action" value="commerce/cart/updateCart">
+            <input type="hidden" name="redirect" value="shop/checkout/payment"/>
+            <input type="hidden" name="sameAddress" value="1">
+            {{ getCsrfInput() }}
+            {% set modelName = "shippingAdress" %}
 
-                        {{ getCsrfInput() }}
+            <div class="card has-text-left">
+                <header class="card-header">
+                    <h2 class="card-header-title">
+                        Shipping Address
+                    </h2>
+                </header>
+                <div class="card-content">
+            <p><strong>* Indicates a required field</strong></p>
+            <div class="row">
+                {% if not cart.email %}
+                    <div class="col-xs-6 c-fieldset">
+                        <label for="email">Email</label>
+                        <input class="c-input" type="text" value="{{ cart.email }}" name="email"
+                               placeholder="email@site.com"/>
+                        {{ cart.getErrors('email') ? errList.errorList(cart.getErrors('email')) }}
+                    </div>
+                {% endif %}
+                <div class="col-xs-6 c-fieldset">
+                    <label for="{{ modelName }}-lastName">First Name *</label>
+                    <input type="text" id="{{ modelName }}-firstName" class="c-input" aria-label="First Name" required
+                           name="{{ modelName }}[firstName]"
+                           value="{{ model ? model.firstName : '' }}">
+                    {% if model and model.getErrors('firstName') %}
+                        {{ errList.errorList(model.getErrors('firstName')) }}
+                    {% endif %}
+                </div>
+                <div class="col-xs-6 c-fieldset">
+                    <label for="{{ modelName }}-lastName">Last Name *</label>
+                    <input type="text" id="{{ modelName }}-lastName" aria-label="Last Name"
+                           required class="c-input" name="{{ modelName }}[lastName]"
+                           value="{{ model ? model.lastName : '' }}">
+                    {% if model and model.getErrors('lastName') %}
+                        {{ errList.errorList(model.getErrors('lastName')) }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 c-fieldset">
+                    <label for="{{ modelName }}-address1">Address 1 *</label>
+                    <input type="text" id="{{ modelName }}-address1" aria-label="Address 1" placeholder="Street and number, P.O. box, c/o."
+                           required class="c-input" name="{{ modelName }}[address1]"
+                           value="{{ model ? model.address1 : '' }}">
+                    {% if model and model.getErrors('address1') %}
+                        {{ errList.errorList(model.getErrors('address1')) }}
+                    {% endif %}
+                </div>
 
-                        {% if not cart.email %}
-                            <label for="">Email</label>
-                            <input class="u-full-width" type="text" value="{{ cart.email }}" name="email"
-                                   placeholder="email@site.com"/>
+                <div class="col-xs-12 c-fieldset">
+                    <label for="{{ modelName }}-address2">Address 2</label>
+                    <input type="text" id="{{ modelName }}-address2" aria-label="Address 2" placeholder="Apartment, suite, unit, building, floor, etc."
+                           class="c-input" name="{{ modelName }}[address2]" value="{{ model ? model.address2 : '' }}">
+                    {% if model and model.getErrors('address2') %}
+                        {{ errList.errorList(model.getErrors('address2')) }}
+                    {% endif %}
+                </div>
 
-                            <span class="flash">{{ cart.getErrors('email')|join }}</span><br>
+                <div class="col-xs-12 col-sm-6 c-fieldset">
+                    <label for="{{ modelName }}-city">City *</label>
+                    <input type="text" id="{{ modelName }}-city" aria-label="City" required
+                           class="c-input" name="{{ modelName }}[city]" value="{{ model ? model.city : '' }}">
+                    {% if model and model.getErrors('city') %}
+                        {{ errList.errorList(model.getErrors('city')) }}
+                    {% endif %}
+                </div>
+                <div class="col-xs-12 col-sm-6 c-fieldset">
+                    <label for="{{ modelName }}-stateId">Province *</label>
+                    {% set options = states %}
+                    <select id="{{ modelName }}-stateId" required data-modelname="{{ modelName }}"
+                            class="address-stateId c-input-option " name="{{ modelName }}[stateValue]">
+                        {% for key, option in options %}
+                            {% set optionValue = (model ? model.stateId : '') %}
+                            <option value="{{ key }}"
+                                    {% if key == optionValue %}selected{% endif %}>{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 c-fieldset">
+                    <label for="{{ modelName }}-zipCode">Postal Code *</label>
+                    <input type="text" id="{{ modelName }}-zipCode" required placeholder="A1A 1A1" class="c-input" name="{{ modelName }}[zipCode]"
+                           value="{{ model ? model.zipCode : '' }}">
+                    {% if model and model.getErrors('zipCode') %}
+                        {{ errList.errorList(model.getErrors('zipCode')) }}
+                    {% endif %}
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 c-fieldset">
+                    <label for="{{ modelName }}-countryId">Country *</label>
+
+                    <select disabled id="{{ modelName }}-countryIdFake" required class="c-input-option " name="{{ modelName }}[countryIdFake]">
+
+                        <option value="{{ countryCode }}" selected >{{ country }}</option>
+
+                    </select>
+                    <input type="hidden" name="{{ modelName }}[countryId]" value="{{ countryCode }}">
+                    {% if model and model.getErrors('countryId') %}
+                        {{ errList.errorList(model.getErrors('countryId')) }}
+                    {% endif %}
+                </div>
+
+                <div class="col-xs-12 col-sm-6 c-fieldset">
+                    <label for="{{ modelName }}-phone">Phone</label>
+                    <input placeholder="555-555-5555" type="tel" id="{{ modelName }}-phone" class="c-input" name="{{ modelName }}[phone]"
+                           value="{{ model ? model.phone : '' }}">
+                    {% if model and model.getErrors('phone') %}
+                        {{ errList.errorList(model.getErrors('phone')) }}
+                    {% endif %}
+                </div>
+            </div>
+                </div></div>
+
+
+            {% if craft.commerce.availableShippingMethods|length %}
+                <div class="card has-text-left">
+                    <header class="card-header">
+                        <h2 class="card-header-title">
+                            Shipping Method
+                        </h2>
+                    </header>
+                    <div class="card-content">
+                        <div class="c-radio-group">
+                            {% for handle, method in craft.commerce.availableShippingMethods %}
+                                <div class="c-radio-wrapper">
+                                    <input type="radio" class="c-radio" id="c_radio_{{ loop.index }}"
+                                           name="shippingMethod" value="{{ handle }}"
+                                           {% if (loop.first and cart.shippingMethodHandle is null) or handle == cart.shippingMethodHandle %}checked{% endif %} />
+                                    <label for="c_radio_{{ loop.index }}" class="c-radio-label c-radio-label--black">
+                                        <strong>{{ method.name ~ ' $' ~ method.amount }}</strong>
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if cart.getErrors('shippingMethod') %}
+                            {{ errList.errorList(cart.getErrors('shippingMethod')) }}
                         {% endif %}
-
-                        {% include 'shop/_includes/addresses/fieldset' with {
-                        title: "Shipping Address"|t,
-                        class: 'ShippingAddress',
-                        name: 'shippingAddress'
-                        } %}
-
-                        <input type="hidden" name="sameAddress" value="0">
-
-                        <label for="sameAddress"><input id="sameAddress" name="sameAddress" type="checkbox"
-                                                        checked="checked"/><span class="label-body">Use same address for
-                billing</span></label>
-
-                        <br>
-
-                        {% include 'shop/_includes/addresses/fieldset' with {
-                        title: "Billing Address"|t,
-                        class: 'BillingAddress hidden',
-                        name: 'billingAddress'
-                        } %}
-
-                        <input type="submit" class="button button-primary" value="Confirm addresses">
-
-                    </form>
-
-    {% includejs %}
-    var $fieldsets = $('.address-fieldset');
-
-    $fieldsets.each(function () {
-
-    var $addressFieldset = $(this);
-
-    $('.address-select', $addressFieldset).each(function () {
-
-    this.$element = $(this);
-    this.$radio = $('.radio input', this.$element);
-    this.$body = $('.body', this.$element);
-
-    this.$radio.change($.proxy(function () {
-    $('.body', $addressFieldset).addClass('hidden');
-    this.$body.removeClass('hidden');
-    }, this));
-
-    if (this.$radio.is(':checked')) {
-    this.$body.removeClass('hidden');
-    }
-    });
-
-    });
-
-    $("#sameAddress").change(function (e) {
-    $('.address-fieldset.BillingAddress').toggleClass('hidden');
-    });
-
-    {% if cart.billingAddressId and cart.billingAddress.hasErrors() %}
-        $("#sameAddress").click();
-    {% endif %}
-    {% endincludejs %}
-
-{% endblock %}
+                    </div>
+                </div>
+            {% endif %}
+            <button class="c-button c-button--large c-button--cta-blue">Continue</button>
+        </form>
+    </div>
+</div>
+        {% endblock %}
