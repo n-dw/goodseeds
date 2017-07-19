@@ -96,9 +96,17 @@
                                 </div>
                             <div class="column">
                                 <h2>Reviews</h2>
-                                {{ craft.commentsrating.elementRating(product.id) }}
+                                {%  set ratings = craft.commentsrating.elementRatings(product.id)%}
+                                {{  craft.commentsrating.elementRating(product.id) }}
+                                {{  craft.commentsrating.elementAvgRatings(product.id) }}
 
-                                    {% set params = {
+                                {% for rating in ratings %}
+
+                                    {{ rating.rating }}
+
+                                    {{ '  ||  ' }}
+                                {% endfor %}
+                                   {% set params = {
                                     order: 'dateCreated desc',
                                     } %}
                                     {{ craft.comments.form(product.id, params) }}

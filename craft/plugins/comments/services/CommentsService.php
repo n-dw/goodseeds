@@ -307,6 +307,8 @@ class CommentsService extends BaseApplicationComponent
             throw $e;
         }
 
+        $this->onDeleteComment(new Event($this, array('commentIds' => $commentIds)));
+
         return $success;
     }
 
@@ -324,6 +326,19 @@ class CommentsService extends BaseApplicationComponent
         }
 
         $this->raiseEvent('onBeforeSaveComment', $event);
+    }
+    // Event Handlers
+    // =========================================================================
+
+    public function onDeleteComment(\CEvent $event)
+    {
+        $params = $event->params;
+
+        if (empty($params['commentIds'])) {
+            throw new Exception('onDeleteComment event requires "comments" param with CommentModel instance');
+        }
+
+        $this->raiseEvent('onDeleteComment', $event);
     }
 
     public function onSaveComment(\CEvent $event)

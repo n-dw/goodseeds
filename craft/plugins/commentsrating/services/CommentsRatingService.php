@@ -43,24 +43,51 @@ class CommentsRatingService extends BaseApplicationComponent
                 }
                 $record->setAttributes($model->getAttributes());
                 $record->save();
+
+                return true;
+            }
+            else
+            {
+                if(craft()->request->getPost('fields.commentsRating')){
+                    $model = new CommentsRatingModel();
+
+                    $model->commentId = $comment->id;
+                    $model->elementId = $comment->elementId;
+                    $model->userId = $comment->userId;
+                    $model->rating = craft()->request->getPost('fields.commentsRating');
+                    $model->comment_approved = ($comment->status == 'approved');
+
+                    $commentRatingRecord = new CommentsRatingRecord;
+
+                    $commentRatingRecord->commentId = $model->commentId;
+                    $commentRatingRecord->elementId = $model->elementId;
+                    $commentRatingRecord->userId = $model->userId;
+                    $commentRatingRecord->rating = $model->rating;
+                    $commentRatingRecord->comment_approved = $model->comment_approved;
+
+                    $commentRatingRecord->save();
+
+                    return true;
+                }
             }
 
         }
-        else
+    }
+    public function deleteRating($commentIds)
+    {
+        foreach ($commentIds as $commentid)
         {
-            $model = new CommentsRatingModel();
+            if ($commentid)
+            {
+                $record = CommentsRatingRecord::model()->findByAttributes(array('commentId' => $commentid));
 
-            $model->commentId = $comment->id;
-            $model->elementId = $comment->elementId;
-            $model->userId = $comment->userId;
-            $model->rating = craft()->request->getPost('fields.commentsRating');
-            $model->comment_approved = ($comment->status == 'approved');
+               if(!is_null($record) && $record->delete()){
+                   return true;
+               }
 
-            $commentRatingRecord = new CommentsRatingRecord;
-            $commentRatingRecord->setAttributes($model->getAttributes());
-            $commentRatingRecord->save();
+                return false;
+            }
         }
-	    
     }
     
 	/**
@@ -78,8 +105,43 @@ class CommentsRatingService extends BaseApplicationComponent
             ->andWhere('comment_approved = 1')
 			->queryAll();
 		
-		return (count($query) == 0) ? 0 : round($query[0]['average']);
+		return (count($query) == 0) ? 0 : $query[0]['average'];
 	    
+    }
+    /**
+     * Rating - Element
+     *
+     * @return integer'commentId' => array(AttributeType::Number),
+    'elementId' => array(AttributeType::Number),
+    'userId' => array(AttributeType::Number),
+    'rating' => array(AttributeType::Number),
+    'comment_approved' => array(AttributeType::Bool)
+     */
+    public function elementRatings($elementId)
+    {
+        $records = CommentsRatingRecord::model()->findAllByAttributes(array('elementId' => $elementId, 'comment_approved' => 1));
+
+        if(count($records) == 0)
+            return false;
+
+        $models = [];
+
+        foreach ($records as $record)
+        {
+            $cRRModel = new CommentsRatingModel();
+            $cRRModel->commentId = $record->commentId;
+            $cRRModel->elementId = $record->elementId;
+            $cRRModel->userId = $record->userId;
+            $cRRModel->rating = $record->rating;
+            $cRRModel->comment_approved = $record->comment_approved;
+
+            array_push($models, $cRRModel);
+        }
+
+
+
+        return (count($models) == 0) ? 0 : $models;
+
     }
     
 	/**
