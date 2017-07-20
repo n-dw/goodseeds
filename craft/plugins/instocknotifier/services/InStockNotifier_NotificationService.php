@@ -94,7 +94,11 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
     public function processNotifications()
     {
         $notificationsForSending = $this->getNotificationRequestsToSend();
-        $this->sendNotificationEmails($notificationsForSending);
+        if(count($notificationsForSending) > 0)
+        {
+            $this->sendNotificationEmails($notificationsForSending);
+        }
+
         return true;
     }
 

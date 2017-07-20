@@ -30,7 +30,7 @@ namespace Craft;
 class InStockNotifier_NotificationController extends BaseController
 {
 
-    protected $allowAnonymous = array('actionSendNotifications', 'actionRequestRestockNotification');
+    protected $allowAnonymous = array('actionRequestRestockNotification');
     /**
      * Handle a request going to our plugin's index action URL, e.g.: actions/inStockNotifier
      */
@@ -70,11 +70,5 @@ class InStockNotifier_NotificationController extends BaseController
         {
            craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
         }
-    }
-
-    public function actionSendNotifications()
-    {
-        craft()->inStockNotifier_notification->processNotifications();
-        return true;
     }
 }
