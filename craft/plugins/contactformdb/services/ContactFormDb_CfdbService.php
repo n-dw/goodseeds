@@ -31,45 +31,56 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
      */
     public function saveContactFormSubmission($submission)
     {
-        $record = new ContactFormDb_CfdbRecord();
+        //check if we have the submission, in case the email is sent multiple times or form submitted.
+        $record = ContactFormDb_CfdbRecord::model()->findByAttributes(
+            array(
+                'email' => $submission['email'],
+                'name' => $submission['name'],
+                'inquiryType' => $submission['inquiryType'],
+                'message' => $submission['message'],
+            )
+        );
 
-        $fields = ['name', 'email', 'inquiryType', 'message'];
-        foreach ($fields as $field)
-        {
-            $record->$field = $submission[$field];
-        }
+        if(!$record){
+            $record = new ContactFormDb_CfdbRecord();
 
-        $record->validate();
-
-        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
-        try
-        {
-            if (!$record->getErrors())
+            $fields = ['name', 'email', 'inquiryType', 'message'];
+            foreach ($fields as $field)
             {
-                $record->save(false);
+                $record->$field = $submission[$field];
+            }
 
+            $record->validate();
+
+            $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+            try
+            {
+                if (!$record->getErrors())
+                {
+                    $record->save(false);
+
+                    if ($transaction !== null)
+                    {
+                        $transaction->commit();
+                    }
+
+                    return true;
+                }
+            } catch (\Exception $e)
+            {
                 if ($transaction !== null)
                 {
-                    $transaction->commit();
+                    $transaction->rollback();
                 }
-
-                return true;
+                throw $e;
             }
-        } catch (\Exception $e)
-        {
+
             if ($transaction !== null)
             {
                 $transaction->rollback();
             }
-            throw $e;
-        }
 
-        if ($transaction !== null)
-        {
-            $transaction->rollback();
+            return false;
         }
-
-        return false;
     }
-
 }
