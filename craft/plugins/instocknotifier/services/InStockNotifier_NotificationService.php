@@ -29,7 +29,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
      *
      *     craft()->inStockNotifier_notification->saveNotificationRequest()
      */
-    public function saveNotificationRequest(InStockNotifier_NotificationModel $model)
+    public function createNotificationRequest(InStockNotifier_NotificationModel $model)
     {
         if ($model->productId && $model->customerEmail)
         {
@@ -51,6 +51,11 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
             $record->$field = $model->$field;
         }
 
+        return $this->saveNotificationRequest($model, $record);
+    }
+
+    private function saveNotificationRequest(InStockNotifier_NotificationModel $model, InStockNotifier_NotificationRecord $record)
+    {
         $record->validate();
         $model->addErrors($record->getErrors());
 
@@ -88,17 +93,11 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
 
     public function processNotifications()
     {
-
-        $products = [];
         $notificationsForSending = $this->getNotificationRequestsToSend();
-
-        if(!$this->sendNotificationEmails($notificationsForSending))
-        {
-            return false;
-        }
-
+        $this->sendNotificationEmails($notificationsForSending);
         return true;
     }
+
     //returns a model array of notification requests where the product is in stock
     private function getNotificationRequestsToSend()
     {
@@ -106,18 +105,18 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         $models = [];
 
         $notifications = $records;
-        foreach ($notifications as $key=>$notification)
+        foreach ($notifications as $key => $notification)
         {
-            if($notification->productId == '' || !is_numeric($notification->productId))
+            if ($notification->productId == '' || !is_numeric($notification->productId))
             {
-               // throw new Exception('No product in notification model');
+                // throw new Exception('No product in notification model');
                 unset($records[$key]);
                 continue;
             }
 
-            $product  = craft()->commerce_products->getProductById($notification->productId);
+            $product = craft()->commerce_products->getProductById($notification->productId);
             //still no stock take out the model as we don't need to send anything
-            if(!$product || $product->getTotalStock() != 0)
+            if (!$product || $product->getTotalStock() == 0)
             {
                 unset($records[$key]);
             }
@@ -128,7 +127,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         foreach ($records as $record)
         {
             $model = new InStockNotifier_NotificationModel();
-            foreach($fields as $field)
+            foreach ($fields as $field)
             {
                 $model->$field = $record->$field;
             }
@@ -137,6 +136,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
 
         return array('records' => $records, 'models' => $models);
     }
+
     /*
      * deletes sent ones
      */
@@ -147,58 +147,26 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
 
     private function sendNotificationEmails($notifications)
     {
-        if(!array_key_exists('records', $notifications) || count($notifications['records']) <= 0)
+        if (!array_key_exists('records', $notifications) || count($notifications['records']) <= 0)
             return false;
 
         foreach ($notifications['models'] as $key => $notification)
         {
-            if($this->sendNotificationMessage($notification))
+            if ($this->sendNotificationMessage($notification))
             {
                 //change record to date notified
+                $notifications['records'][$key]->dateNotified = time();
+                $notifications['records'][$key]->sendFail = false;
                 // sendfailed false
             }
             else
             {
                 //change send failed true
                 $notifications['records'][$key]->sendFail = true;
-                $notifications['records'][$key]->validate();
-                $notification->addErrors( $notifications['records'][$key]->getErrors());
-
-                $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
-                try
-                {
-                    if (!$notification->hasErrors())
-                    {
-                        $notifications['records'][$key]->save(false);
-                        $model->id = $notifications['records'][$key]->id;
-
-                        if ($transaction !== null)
-                        {
-                            $transaction->commit();
-                        }
-
-                        return true;
-                    }
-                } catch (\Exception $e)
-                {
-                    if ($transaction !== null)
-                    {
-                        $transaction->rollback();
-                    }
-                    throw $e;
-                }
-
-                if ($transaction !== null)
-                {
-                    $transaction->rollback();
-                }
-
-                return false;
-
             }
-        }
 
-        return true;
+            $this->saveNotificationRequest($notification, $notifications['records'][$key]);
+        }
     }
 
     public function sendNotificationMessage(InStockNotifier_NotificationModel $model)
@@ -225,7 +193,6 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         $email->toEmail = $customerEmail;
         $email->subject = $product->getName() . ' is back in stock';
         $email->body = 'Dear ' . $customerEmail . ' <a href="' . $product->getUrl() . '">' . $product->getName() . '</a> is in stock. We hope you enjoy it!';
-
 
         if (craft()->email->sendEmail($email))
             return true;

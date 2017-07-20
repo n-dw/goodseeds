@@ -5,7 +5,8 @@
     {% if productStock > 0 %}
     <input type="hidden" name="action" value="commerce/cart/updateCart">
     {% else %}
-    <input type="hidden" name="action" value="inStockNotifier/notification/requestRestockNotification">
+   {# <input type="hidden" name="action" value="inStockNotifier/notification/requestRestockNotification">#}
+    <input type="hidden" name="action" value="inStockNotifier/notification/sendNotifications">
     <input type="hidden" name="productId" value="{{product.id}}">
     <input type="hidden" name="productName" value="{{product.title}}">
         {% if currentUser %}
