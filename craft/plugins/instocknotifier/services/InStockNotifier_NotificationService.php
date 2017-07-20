@@ -96,7 +96,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
 
         $notificationsForSending = $this->getNotificationRequestsToSend($productId, $isReStock);
 
-        if(count($notificationsForSending['records']) > 0)
+        if (count($notificationsForSending['records']) > 0)
         {
             $this->sendNotificationEmails($notificationsForSending);
         }
@@ -107,11 +107,10 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
     //returns a model array of notification requests where the product is in stock
     private function getNotificationRequestsToSend($productId = false, $isReStock = false)
     {
-        if($productId)
+        if ($productId)
         {
             $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null, 'productId' => $productId));
-        }
-        else
+        } else
         {
             $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null));
         }
@@ -128,15 +127,15 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
                 continue;
             }
 
-           if(!($productId && $isReStock))
-           {
-               $product = craft()->commerce_products->getProductById($notification->productId);
-               //still no stock take out the model as we don't need to send anything
-               if (!$product || $product->getTotalStock() == 0)
-               {
-                   unset($records[$key]);
-               }
-           }
+            if (!($productId && $isReStock))
+            {
+                $product = craft()->commerce_products->getProductById($notification->productId);
+                //still no stock take out the model as we don't need to send anything
+                if (!$product || $product->getTotalStock() == 0)
+                {
+                    unset($records[$key]);
+                }
+            }
 
         }
 
@@ -175,8 +174,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
                 $notifications['records'][$key]->dateNotified = time();
                 $notifications['records'][$key]->sendFail = false;
                 // sendfailed false
-            }
-            else
+            } else
             {
                 //change send failed true
                 $notifications['records'][$key]->sendFail = true;

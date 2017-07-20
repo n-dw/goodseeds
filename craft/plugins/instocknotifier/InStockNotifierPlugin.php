@@ -23,8 +23,8 @@
 
 namespace Craft;
 
-class InStockNotifierPlugin extends BasePlugin
-{
+class InStockNotifierPlugin extends BasePlugin {
+
     /**
      * Called after the plugin class is instantiated; do any one-time initialization here such as hooks and events:
      *
@@ -43,17 +43,19 @@ class InStockNotifierPlugin extends BasePlugin
         parent::init();
 
         //only process when the product is saved in the admin side and its not new.
-        craft()->on('commerce_products.onBeforeSaveProduct', function(Event $event) {
+        craft()->on('commerce_products.onBeforeSaveProduct', function(Event $event)
+        {
             $product = $event->params['product'];
             $productStock = $product->getTotalStock();
-            if(!$event->params['isNewProduct'] && craft()->request->isCpRequest() &&  $productStock > 0){
+            if (!$event->params['isNewProduct'] && craft()->request->isCpRequest() && $productStock > 0)
+            {
                 $productBeforeSave = craft()->commerce_products->getProductById($product->id);
 
-                if($productBeforeSave->getTotalStock() < 1)
+                if ($productBeforeSave->getTotalStock() < 1)
                 {
                     craft()->inStockNotifier_notification->processNotifications($product->id, true);
                 }
-           }
+            }
 
         });
         //takes out console logging in dev mode
@@ -68,7 +70,7 @@ class InStockNotifierPlugin extends BasePlugin
      */
     public function getName()
     {
-         return Craft::t('In Stock Notifier');
+        return Craft::t('In Stock Notifier');
     }
 
     /**
