@@ -29,7 +29,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
      *
      *     craft()->inStockNotifier_notification->saveNotificationRequest()
      */
-    public function saveNotificationRequest(InStockNotifier_NotificationModel $model)
+    public function createNotificationRequest(InStockNotifier_NotificationModel $model)
     {
         if ($model->productId && $model->customerEmail)
         {
@@ -51,6 +51,11 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
             $record->$field = $model->$field;
         }
 
+        return $this->saveNotificationRequest($model, $record);
+    }
+
+    private function saveNotificationRequest(InStockNotifier_NotificationModel $model, InStockNotifier_NotificationRecord $record)
+    {
         $record->validate();
         $model->addErrors($record->getErrors());
 
@@ -86,46 +91,50 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         return false;
     }
 
-    public function processNotifications()
+    public function processNotifications($productId = false, $isReStock = false)
     {
 
-        $products = [];
-        $notificationsForSending = $this->getNotificationRequestsToSend();
+        $notificationsForSending = $this->getNotificationRequestsToSend($productId, $isReStock);
 
-        if(!$this->sendNotificationEmails($notificationsForSending))
+        if (count($notificationsForSending['records']) > 0)
         {
-           // throw new Exception('Error sending notificationdeleting Emails.');
-            return false;
+            $this->sendNotificationEmails($notificationsForSending);
         }
-
-      /*  if (!$this->cleanNotificationRequests())
-        {
-            throw new Exception('Error deleting sent notifications.');
-        }*/
 
         return true;
     }
-    //returns a model array of notification requests where the product is in stock
-    private function getNotificationRequestsToSend()
-    {
-        $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null));
-        $models = [];
 
-        $notifications = $records;
-        foreach ($notifications as $key=>$notification)
+    //returns a model array of notification requests where the product is in stock
+    private function getNotificationRequestsToSend($productId = false, $isReStock = false)
+    {
+        if ($productId)
         {
-            if($notification->productId == '' || !is_numeric($notification->productId))
+            $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null, 'productId' => $productId));
+        } else
+        {
+            $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null));
+        }
+
+        $models = [];
+        $notifications = $records;
+
+        foreach ($notifications as $key => $notification)
+        {
+            if ($notification->productId == '' || !is_numeric($notification->productId))
             {
-               // throw new Exception('No product in notification model');
+                // throw new Exception('No product in notification model');
                 unset($records[$key]);
                 continue;
             }
 
-            $product  = craft()->commerce_products->getProductById($notification->productId);
-            //still no stock take out the model as we don't need to send anything
-            if(!$product || $product->getTotalStock() != 0)
+            if (!($productId && $isReStock))
             {
-                unset($records[$key]);
+                $product = craft()->commerce_products->getProductById($notification->productId);
+                //still no stock take out the model as we don't need to send anything
+                if (!$product || $product->getTotalStock() == 0)
+                {
+                    unset($records[$key]);
+                }
             }
 
         }
@@ -134,7 +143,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         foreach ($records as $record)
         {
             $model = new InStockNotifier_NotificationModel();
-            foreach($fields as $field)
+            foreach ($fields as $field)
             {
                 $model->$field = $record->$field;
             }
@@ -143,6 +152,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
 
         return array('records' => $records, 'models' => $models);
     }
+
     /*
      * deletes sent ones
      */
@@ -153,25 +163,25 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
 
     private function sendNotificationEmails($notifications)
     {
-        if(!array_key_exists('records', $notifications) || count($notifications['records']) <= 0)
+        if (!array_key_exists('records', $notifications) || count($notifications['records']) <= 0)
             return false;
 
         foreach ($notifications['models'] as $key => $notification)
         {
-            if($this->sendNotificationMessage($notification))
+            if ($this->sendNotificationMessage($notification))
             {
                 //change record to date notified
+                $notifications['records'][$key]->dateNotified = time();
+                $notifications['records'][$key]->sendFail = false;
                 // sendfailed false
-            }
-            else
+            } else
             {
                 //change send failed true
                 $notifications['records'][$key]->sendFail = true;
-
             }
-        }
 
-        return true;
+            $this->saveNotificationRequest($notification, $notifications['records'][$key]);
+        }
     }
 
     public function sendNotificationMessage(InStockNotifier_NotificationModel $model)
@@ -198,7 +208,6 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         $email->toEmail = $customerEmail;
         $email->subject = $product->getName() . ' is back in stock';
         $email->body = 'Dear ' . $customerEmail . ' <a href="' . $product->getUrl() . '">' . $product->getName() . '</a> is in stock. We hope you enjoy it!';
-
 
         if (craft()->email->sendEmail($email))
             return true;

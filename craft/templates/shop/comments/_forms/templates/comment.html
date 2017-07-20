@@ -1,24 +1,6 @@
-<ul class="comments-list">
-    {% nav comment in comments %}
+{% for comment in comments %}
     {% if comment.status == 'approved' %}
-
+        {% include 'shop/comments/_forms/templates/comment-' ~ comment.status %}
     {% endif %}
-            <li class="comment-single" id="comment-{{ comment.id }}" data-id="{{ comment.id }}" itemprop="comment" itemscope itemtype="http://schema.org/UserComments">
-            {# Get the comment template depending on status #}
+{% endfor %}
 
-            {% include 'shop/comments/_forms/templates/comment-' ~ comment.status %}
-
-            {# An inline form for easy reply #}
-            {% if currentUser %}
-                {% include 'shop/comments/_forms/templates/form' %}
-            {% endif %}
-
-            {% ifchildren %}
-                <ul class="comments-list comment-replies">
-                    {% children %}
-                </ul>
-            {% endifchildren %}
-        </li>
-
-    {% endnav %}
-</ul>

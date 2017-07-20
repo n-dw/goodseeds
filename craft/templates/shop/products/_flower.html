@@ -1,9 +1,4 @@
 {% extends 'shop/_layouts/main' %}
-{% block head %}
-    <link rel="stylesheet" href="/static/assets/zoom/magiczoomplus.css"/>
-    <script src="/static/assets/zoom/magiczoomplus.js"></script>
-{% endblock %}
-
 {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
 {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
 {% set productStock = product.defaultVariant.stock %}
@@ -19,11 +14,9 @@
                         <div class="row">
                             <div class="col-xs-12 col-md-6">
                                 <div class="product-images has-text-centered">
-
                                     {% for productImage in product.productImages %}
                                         {% include 'shop/_includes/product/productpage/_productImages' %}
                                     {% endfor %}
-
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6">
@@ -57,20 +50,19 @@
                                     <div class="col-xs-12">
                                         <div class="product-commerce">
                                             {% include 'shop/_includes/product/productpage/_productForm' %}
-
                                             <div class="share-links">
                                                 <span>Share: </span>
                                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | url_encode }}"
-                                                   class="fb-share share-link" target="_blank"><i
+                                                   class="fb-share share-link" rel="noopener" target="_blank"><i
                                                             class="icon-facebook-official"></i></a>
                                                 <a href="https://twitter.com/home?status={{ product.url | url_encode }}"
-                                                   class="tw-share share-link" target="_blank"><i
+                                                   class="tw-share share-link" rel="noopener" target="_blank"><i
                                                             class="icon-twitter"></i></a>
                                                 <a href="mailto:?&body={{ product.url | url_encode }}"
-                                                   class="email-share share-link"
-                                                   target="_blank"><i class="icon-mail"></i></a>
+                                                   class="email-share share-link" rel="noopener"
+                                                   target="_blank" ><i class="icon-mail"></i></a>
                                                 <a href="https://pinterest.com/pin/create/button/?url={{ product.url | url_encode }}"
-                                                   class="pin-share share-link" target="_blank"><i
+                                                   class="pin-share share-link" rel="noopener" target="_blank"><i
                                                             class="icon-pinterest-squared"></i></a>
                                             </div>
                                         </div>
@@ -79,7 +71,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <footer class="product-footer">
                             <div class="columns">
                                 <div class="column">
@@ -103,46 +94,67 @@
                                         {% endfor %}
                                     </div>
                                 </div>
-                            <div class="column"><h2>Reviews</h2>
+                            <div class="column">
+                                <h2>Reviews</h2>
+                                {%  set ratings = craft.commentsrating.elementRatings(product.id)%}
+                                {{  craft.commentsrating.elementRating(product.id) }}
+                                {{  craft.commentsrating.elementAvgRatings(product.id) }}
 
-                                <div class="tab-content">
-                                    {% set params = {
-                                    order: 'dateCreated asc',
+                                {% for rating in ratings %}
+
+                                    {{ rating.rating }}
+
+                                    {{ '  ||  ' }}
+                                {% endfor %}
+                                   {% set params = {
+                                    order: 'dateCreated desc',
                                     } %}
-
                                     {{ craft.comments.form(product.id, params) }}
-                                </div>
-                            </div>
 
+                            </div>
                         </footer>
                 </div>
                 </article>
             </div>
         </div>
     </section>
-    {% set vue %}
-        new Vue({
-        el: '.product',
-        delimiters: ['{|', '|}'],
-        data: {
-        stockModalOpen: false,
-        modalClass: "",
-        price: "{{ product.defaultVariant.salePrice| commerceCurrency(cart.currency) }}",
-        salePrice: "{{ product.defaultVariant.price| commerceCurrency(cart.currency) }}",
-        savings: "{{ (product.defaultVariant.price - product.defaultVariant.salePrice) | commerceCurrency(cart.currency) }}"
-        },
-        methods: {
-        toggleStockModal: function() {
-        this.stockModalOpen = !this.stockModalOpen;
-        this.stockModalOpen ? this.modalClass = "is-active" : this.modalClass = "";
-        },
-        toggleVariant: function(e) {
-        this.price = e.target.dataset.price;
-        this.salePrice = e.target.dataset.salePrice;
-        this.savings = e.target.dataset.saved;
-        },
-        },
-        });
-    {% endset %}
-    {% includeJs vue %}
 {% endblock %}
+
+ {% block scripts %}
+     {% minify js %}
+     <script type="text/javascript">
+
+         var data = {
+             stockModalOpen: false,
+             modalClass: '',
+             notifyEmailShow: false,
+             price: "{{ product.defaultVariant.salePrice| commerceCurrency(cart.currency) }}",
+             salePrice: "{{ product.defaultVariant.price| commerceCurrency(cart.currency) }}",
+             savings: "{{ (product.defaultVariant.price - product.defaultVariant.salePrice) | commerceCurrency(cart.currency) }}"
+         };
+         var methods = {
+             toggleStockModal: function() {
+                 this.stockModalOpen = !this.stockModalOpen;
+                 this.stockModalOpen ? this.modalClass = "is-active" : this.modalClass = "";
+             },
+             toggleVariant: function(e) {
+                 this.price = e.target.dataset.price;
+                 this.salePrice = e.target.dataset.salePrice;
+                 this.savings = e.target.dataset.saved;
+             },
+             notifyEmailShowSubmit: function(e) {
+                 if(this.notifyEmailShow){
+                     e.target.click();
+                 }
+                 this.notifyEmailShow = !this.notifyEmailShow;
+             }
+         };
+
+
+         thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
+         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);
+     </script>
+     {% endminify %}
+ {% endblock %}
+{% includeCssFile "/static/assets/zoom/magiczoomplus.css" %}
+{% includeJsFile "/static/assets/zoom/magiczoomplus.js" %}

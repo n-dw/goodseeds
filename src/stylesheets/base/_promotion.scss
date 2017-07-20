@@ -1,3 +1,11 @@
+.promotion-area{
+  transition: all 0.3s ease-out;
+  overflow: hidden;
+  height: 100%;
+  &.close{
+    height: 0;
+  }
+}
 .promotion{
   padding: 1.5rem 0;
   position: relative;

@@ -21,7 +21,27 @@ class CommentsRatingVariable
     {
         return craft()->commentsRating->elementRating($elementId);
     }
-    
+
+    /**
+     * Rating - Elements
+     *
+     * @return models
+     */
+    public function elementRatings($elementId)
+    {
+        return craft()->commentsRating->elementRatings($elementId);
+    }
+
+    /**
+     * Rating - Elements
+     *
+     * @return avg rating out of 10
+     */
+    public function elementAvgRatings($elementId)
+    {
+        return craft()->commentsRating->elementAvgRatings($elementId);
+    }
+
 	/**
 	 * Rating - Comment
 	 *

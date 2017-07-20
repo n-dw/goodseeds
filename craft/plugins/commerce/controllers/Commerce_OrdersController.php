@@ -14,7 +14,7 @@ namespace Craft;
 class Commerce_OrdersController extends Commerce_BaseCpController
 {
     /**
-     * @throws HttpException
+     * @throws HttpExcreption
      */
     public function init()
     {

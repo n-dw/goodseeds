@@ -1,9 +1,10 @@
 {% extends 'shop/_layouts/main' %}
-{% block main %}
-    {% import "shop/macros/product.html" as prodmac %}
+ {% import "shop/macros/product.html" as prodmac %}
     {% set params = {with: ['productImages']} %}
     {% set formParams = {'productParam' : ''} %}
     {% set categoriesArray = ['or'] %}
+{% block main %}
+
     {% if craft.request.getPost() %}
         {% set formResults = craft.request.getPost() %}
         {% set formParams = formParams|merge(formResults) %}
@@ -52,8 +53,8 @@
     {% macro productForm(params) %}
         {% if params %}
             <div class="form-filter-wrapper">
-            <h5 class="form-filter-toggle is-black" @click="toggleFilters"><i :class="icon"></i>Filters</h5>
-            <form id="product_filters_form" :class="formState + ' is-black'" action="{{ url('shop/') }}" method="POST" {#@submit.prevent="getProducts"#}>
+            <h5 class="form-filter-toggle is-black" @click="toggleFilters"><i :class="formToggleIcon"></i>Filters</h5>
+            <form id="product_filters_form" :class="formState + ' is-black'" action="{{ url('shop/') }}" method="POST">
                 {{ getCsrfInput() }}
                 {% set form = {'checkboxes' : [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'},{name: 'oil', value: '1'},{name: 'sale',value: '1'},
                     {name: 'stock', value: '1', label: 'In Stock'}],
@@ -91,7 +92,7 @@
                             <div class="input-wrapper col-xs-12">
                                 <div class="form-controls form-controls--product-filters">
                                     <button class="c-button c-button--cta-black c-button--mrg-bttm" type="submit">Submit</button>
-                                    <button class="c-button c-button--cta-black c-button--mrg-bttm" @click="resetForm" type="reset">Reset</button>
+                                    <button class="c-button c-button--cta-black c-button--mrg-bttm" type="reset">Reset</button>
                                 </div>
                             </div>
                         </div>
@@ -101,42 +102,7 @@
             </div>
         {% endif %}
     {% endmacro %}
-    {%  set vue %}
-        new Vue({
-        el: '.product-listing-app',
-        delimiters: ['{|', '|}'],
-        data: {
-            form: new Form({
-                sativa: {{ formParams['sativa'] is defined or formParams['productParam'] == 'sativa' ? 'true' : 'false' }},
-                indica: {{ formParams['indica'] is defined or formParams['productParam'] == 'indica' ? 'true' : 'false' }},
-                hybrid: {{ formParams['hybrid'] is defined or formParams['productParam'] == 'hybrid' ? 'true' : 'false' }},
-                oil: {{ formParams['oil'] is defined or formParams['productParam'] == 'concentrates' ? 'true' : 'false' }},
-                stock: {{ formParams['stock'] is defined ? 'true' : 'false' }},
-                sale: {{ formParams['sale'] is defined or formParams['productParam'] == 'sale' ? 'true' : 'false' }},
-                sortBy: '{{ formParams['sortBy'] is defined ?  formParams['sortBy']  : 'new' }}'
-            }),
-            filtersExposed: false,
-            icon: 'icon-plus-1',
-            formState: 'product-filters-form--closed'
-        },
-        methods: {
-            toggleFilters: function() {
-                this.filtersExposed = !this.filtersExposed;
-                this.filtersExposed ? this.icon = "icon-minus" : this.icon = "icon-plus-1";
-                this.filtersExposed ? this.formState = "product-filters-form--open" : this.formState = "product-filters-form--closed";
-            },
-            getProducts(){
-                this.form.submit();
-            },
-            resetForm(){
-                this.form.reset();
-            }
-        },
-        });
-        {% endset %}
-    {%  includeJs vue %}
     {% from _self import productForm %}
-   {# {{ d(formParams) }}#}
     <section class="shop product-listings product-listing-app content-section">
         <div class="wrapper container-fluid">
             <div class="row">
@@ -159,3 +125,33 @@
         </div>
     </section>
 {% endblock %}
+ {% block scripts %}
+     {% minify js %}
+     <script type="text/javascript">
+         var dataProducts = {
+             form :{
+                 sativa: {{ formParams['sativa'] is defined or formParams['productParam'] == 'sativa' ? 'true' : 'false' }},
+                 indica: {{ formParams['indica'] is defined or formParams['productParam'] == 'indica' ? 'true' : 'false' }},
+                 hybrid: {{ formParams['hybrid'] is defined or formParams['productParam'] == 'hybrid' ? 'true' : 'false' }},
+                 oil: {{ formParams['oil'] is defined or formParams['productParam'] == 'concentrates' ? 'true' : 'false' }},
+                 stock: {{ formParams['stock'] is defined ? 'true' : 'false' }},
+                 sale: {{ formParams['sale'] is defined or formParams['productParam'] == 'sale' ? 'true' : 'false' }},
+                 sortBy: '{{ formParams['sortBy'] is defined ?  formParams['sortBy']  : 'new' }}',
+             },
+             filtersExposed: false,
+             formToggleIcon: 'icon-plus-1',
+             formState: 'product-filters-form--closed'
+         };
+         var methodsProducts = {
+             toggleFilters: function() {
+                 this.filtersExposed = !this.filtersExposed;
+                 this.filtersExposed ? this.formToggleIcon = "icon-minus" : this.formToggleIcon = "icon-plus-1";
+                 this.filtersExposed ? this.formState = "product-filters-form--open" : this.formState = "product-filters-form--closed";
+             },
+         };
+
+         thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, dataProducts);
+         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methodsProducts);
+     </script>
+     {% endminify %}
+ {% endblock %}

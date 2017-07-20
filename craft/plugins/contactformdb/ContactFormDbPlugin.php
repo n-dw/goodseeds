@@ -41,7 +41,6 @@ class ContactFormDbPlugin extends BasePlugin
     public function init()
     {
         parent::init();
-        /*  So far this would only be called when the discount has matched with everything else about the product. */
         craft()->on('contactForm.beforeSend', function(ContactFormEvent $event){
             $message = $event->params['message'];
 

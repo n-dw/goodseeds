@@ -38,6 +38,11 @@
     {% block head %}
 
     {% endblock %}
+    {% minify js %}
+    <script>
+        window.thcpost = {vueParams:{data:{}, components:{}, methods:{} }};
+    </script>
+    {% endminify %}
 </head>
 <body class="u-bg-light-grey">
 <!--[if lt IE 8]>
@@ -48,6 +53,7 @@
     {% include "shop/_includes/ageVerificationModal" %}
 {% endif %}
 {% set cart = craft.commerce.cart %}
+<div class="vue-app">
 <div class="screen-fill-box">
 {% block header %}
     {% include "shop/_includes/header" %}
@@ -72,29 +78,37 @@
         </section>
     </main>
 {% endblock %}
+</div>
 {% block footer %}
     {% include "shop/_includes/footer" %}
     <div class="fixed-bottom">
     {% block messages %}
         {% set messageNotice = craft.session.getFlash( 'notice' ) %}
         {% set messageError = craft.session.getFlash( 'error' ) %}
-        {% if messageNotice %}
-            <div class="notification has-text-centered is-success">
-                <button class="delete" onclick="this.parentNode.style.display = 'none';"></button>
-                {{ messageNotice }}
-            </div>
-        {% endif %}
-        {% if messageError %}
-            <div class="notification has-text-centered is-danger">
-                <button class="delete" onclick="this.parentNode.style.display = 'none';"></button>
-                {{ messageError }}
-            </div>
-        {% endif %}
+        <div class="messages">
+            {% if messageNotice %}
+                <div class="notification has-text-centered is-success">
+                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    {{ messageNotice }}
+                </div>
+            {% endif %}
+            {% if messageError %}
+                <div class="notification has-text-centered is-danger">
+                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    {{ messageError }}
+                </div>
+            {% endif %}
+        </div>
     {% endblock %}
     {% include "shop/_includes/fixedFooterNav" %}
     </div>
 {% endblock %}
 </div>
-<script src="{{ 'assets/js/app.js' | gulp_rev }}"></script>
+
+{% block scripts %}
+
+{% endblock %}
+{%  set appJS =  'assets/js/app.js' | gulp_rev %}
+{% includeJsFile appJS %}
 </body>
 </html>

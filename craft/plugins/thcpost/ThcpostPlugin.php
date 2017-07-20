@@ -58,6 +58,55 @@ class ThcpostPlugin extends BasePlugin
                 }
             }
         });
+
+        //change the field on the product for its average rating everytime a review is updated.
+        craft()->on('commentsRating.onSaveCommentRating', function(Event $event) {
+
+            $params = $event->params;
+            $elementId = $params['commentRating']['elementId'];
+
+            // Only do anything if it is a front end submission
+            if(is_numeric($elementId))
+            {
+                $product = craft()->commerce_products->getProductById($elementId);
+
+                if($product instanceof Commerce_ProductModel)
+                {
+
+                  $productAvgRating = craft()->commentsRating->elementAvgRatings($elementId);
+                  $productNumberRatings = craft()->commentsRating->elementTotalRatings($elementId);
+
+                   if(is_numeric($productAvgRating))
+                   {
+                      $product->setContentFromPost(array('averageRating' => $productAvgRating, 'totalNumberRatings' => $productNumberRatings));
+                      // craft()->commerce_products->saveProduct($product);
+                       $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+
+                       if (craft()->commerce_products->saveProduct($product))
+                       {
+
+                           if ($transaction !== null)
+                           {
+                               $transaction->commit();
+                           }
+
+                           craft()->userSession->setNotice(Craft::t('Product saved.'));
+
+                           $this->redirectToPostedUrl($product);
+                       }
+
+                       if ($transaction !== null)
+                       {
+                           $transaction->rollback();
+                       }
+                       return true;
+                   }
+
+                }
+
+                return false;
+            }
+        });
     }
 
     /**
