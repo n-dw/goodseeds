@@ -33,13 +33,4 @@ class CommentsRatingRecord extends BaseRecord
             'comment_approved' => array(AttributeType::Bool, 'default' => false)
         );
     }
-
-    /**
-     * @return array
-     */
-    public function defineRelations()
-    {
-        return array(
-        );
-    }
 }

@@ -31,7 +31,7 @@ class Commerce_ProductsService extends BaseApplicationComponent
      *
      * @return bool
      * @throws Exception
-     * @throws \Exception
+     * @throws \Exception_
      */
     public function saveProduct(Commerce_ProductModel $product)
     {

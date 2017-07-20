@@ -128,7 +128,7 @@
  {% block scripts %}
      {% minify js %}
      <script type="text/javascript">
-         var data = {
+         var dataProducts = {
              form :{
                  sativa: {{ formParams['sativa'] is defined or formParams['productParam'] == 'sativa' ? 'true' : 'false' }},
                  indica: {{ formParams['indica'] is defined or formParams['productParam'] == 'indica' ? 'true' : 'false' }},
@@ -142,7 +142,7 @@
              formToggleIcon: 'icon-plus-1',
              formState: 'product-filters-form--closed'
          };
-         var methods = {
+         var methodsProducts = {
              toggleFilters: function() {
                  this.filtersExposed = !this.filtersExposed;
                  this.filtersExposed ? this.formToggleIcon = "icon-minus" : this.formToggleIcon = "icon-plus-1";
@@ -150,8 +150,8 @@
              },
          };
 
-         thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
-         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);
+         thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, dataProducts);
+         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methodsProducts);
      </script>
      {% endminify %}
  {% endblock %}

@@ -35,31 +35,11 @@ class CommentsRatingVariable
     /**
      * Rating - Elements
      *
-     * @return models
+     * @return avg rating out of 10
      */
     public function elementAvgRatings($elementId)
     {
-        $cRRModels = $this->elementRatings($elementId);
-        $avg = 0;
-        $ratingTotal = 0;
-        $ratingsCount = 0;
-
-        if(count($cRRModels == 0))
-          return $avg;
-
-        foreach ($cRRModels as $cRRModel)
-        {
-            if(!is_null($cRRModel->rating))
-            {
-                $ratingTotal += $cRRModel->rating;
-                $ratingsCount++;
-            }
-
-        }
-
-        $avg = (float)($ratingTotal / $ratingsCount) / 2;
-
-        return $avg;
+        return craft()->commentsRating->elementAvgRatings($elementId);
     }
 
 	/**
