@@ -51,7 +51,7 @@ class InStockNotifierPlugin extends BasePlugin
 
                 if($productBeforeSave->getTotalStock() < 1)
                 {
-                    craft()->inStockNotifier_notification->processNotifications();
+                    craft()->inStockNotifier_notification->processNotifications($product->id, true);
                 }
            }
 

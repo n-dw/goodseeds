@@ -91,10 +91,12 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         return false;
     }
 
-    public function processNotifications()
+    public function processNotifications($productId = false, $isReStock = false)
     {
-        $notificationsForSending = $this->getNotificationRequestsToSend();
-        if(count($notificationsForSending) > 0)
+
+        $notificationsForSending = $this->getNotificationRequestsToSend($productId, $isReStock);
+
+        if(count($notificationsForSending['records']) > 0)
         {
             $this->sendNotificationEmails($notificationsForSending);
         }
@@ -103,12 +105,20 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
     }
 
     //returns a model array of notification requests where the product is in stock
-    private function getNotificationRequestsToSend()
+    private function getNotificationRequestsToSend($productId = false, $isReStock = false)
     {
-        $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null));
-        $models = [];
+        if($productId)
+        {
+            $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null, 'productId' => $productId));
+        }
+        else
+        {
+            $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null));
+        }
 
+        $models = [];
         $notifications = $records;
+
         foreach ($notifications as $key => $notification)
         {
             if ($notification->productId == '' || !is_numeric($notification->productId))
@@ -118,12 +128,15 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
                 continue;
             }
 
-            $product = craft()->commerce_products->getProductById($notification->productId);
-            //still no stock take out the model as we don't need to send anything
-            if (!$product || $product->getTotalStock() == 0)
-            {
-                unset($records[$key]);
-            }
+           if(!($productId && $isReStock))
+           {
+               $product = craft()->commerce_products->getProductById($notification->productId);
+               //still no stock take out the model as we don't need to send anything
+               if (!$product || $product->getTotalStock() == 0)
+               {
+                   unset($records[$key]);
+               }
+           }
 
         }
 
