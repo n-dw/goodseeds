@@ -205,7 +205,7 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
         $email->fromName = craft()->getSiteName();
         $email->toEmail = $customerEmail;
         $email->subject = $product->getName() . ' is back in stock';
-        $email->body = 'Dear ' . $customerEmail . ', ' . '<a href="' . $product->getUrl() . '">' . $product->getName() . '</a> is in stock. We hope you enjoy it!';
+        $email->body = 'Dear ' . $customerEmail . ', ' . ' You are receiving this email because you requested to be notified upon restock of <a href="' . $product->getUrl() . '">' . $product->getName() . '</a>. We hope you enjoy it!';
 
         if (craft()->email->sendEmail($email))
             return true;
