@@ -73,38 +73,34 @@ class ThcpostPlugin extends BasePlugin
                 if($product instanceof Commerce_ProductModel)
                 {
 
-                  $productAvgRating = craft()->commentsRating->elementAvgRatings($elementId);
-                  $productNumberRatings = craft()->commentsRating->elementTotalRatings($elementId);
+                    $productAvgRating = craft()->commentsRating->elementAvgRatings($elementId);
+                    $productNumberRatings = craft()->commentsRating->elementTotalRatings($elementId);
 
-                   if(is_numeric($productAvgRating))
-                   {
-                      $product->setContentFromPost(array('averageRating' => $productAvgRating, 'totalNumberRatings' => $productNumberRatings));
-                      // craft()->commerce_products->saveProduct($product);
-                       $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+                    if(is_numeric($productAvgRating))
+                    {
+                        $product->setContentFromPost(array('averageRating' => $productAvgRating, 'totalNumberRatings' => $productNumberRatings));
+                        // craft()->commerce_products->saveProduct($product);
+                        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
 
-                       if (craft()->commerce_products->saveProduct($product))
-                       {
+                        if (craft()->commerce_products->saveProduct($product))
+                        {
 
-                           if ($transaction !== null)
-                           {
-                               $transaction->commit();
-                           }
+                            if ($transaction !== null)
+                            {
+                                $transaction->commit();
+                            }
 
-                           craft()->userSession->setNotice(Craft::t('Product saved.'));
+                        }
 
-                           $this->redirectToPostedUrl($product);
-                       }
+                        else if ($transaction !== null)
+                        {
+                            $transaction->rollback();
+                        }
 
-                       if ($transaction !== null)
-                       {
-                           $transaction->rollback();
-                       }
-                       return true;
-                   }
+                        craft()->userSession->setError(Craft::t('Couldn’t save product.'));
+                    }
 
                 }
-
-                return false;
             }
         });
     }
@@ -116,7 +112,7 @@ class ThcpostPlugin extends BasePlugin
      */
     public function getName()
     {
-         return Craft::t('thcpost');
+        return Craft::t('thcpost');
     }
 
     /**
