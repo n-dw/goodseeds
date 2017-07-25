@@ -3,7 +3,12 @@
 
 {% block content %}
 
-    {% set address = craft.commerce.customer.lastUsedShippingAddress %}
+    {% if cart.shippingAddress %}
+        {% set address = cart.shippingAddress %}
+    {% else %}
+        {% set address = craft.commerce.customer.lastUsedShippingAddress %}
+    {% endif %}
+
     {% set model = address %}
     {#Canada only #}
     {% set countryCode = 38 %}
@@ -17,17 +22,19 @@
             <input type="hidden" name="action" value="commerce/cart/updateCart">
             <input type="hidden" name="redirect" value="shop/checkout/payment"/>
             <input type="hidden" name="sameAddress" value="1">
+            <input type="hidden" name="shippingAddressId" value="new">
+
             {{ getCsrfInput() }}
             {% set modelName = "shippingAdress" %}
+            <div class="box has-text-left">
 
-            <div class="card has-text-left">
-                <header class="card-header">
-                    <h2 class="card-header-title">
-                        Shipping Address
+
+                    <h2>
+                       Address
                     </h2>
-                </header>
+
                 <div class="card-content">
-            <p><strong>* Indicates a required field</strong></p>
+            <p class="has-text-left"><strong>* Indicates a required field</strong></p>
             <div class="row">
                 {% if not cart.email %}
                     <div class="col-xs-6 c-fieldset">
@@ -134,12 +141,12 @@
 
 
             {% if craft.commerce.availableShippingMethods|length %}
-                <div class="card has-text-left">
-                    <header class="card-header">
-                        <h2 class="card-header-title">
+                <div class="box has-text-left">
+
+                        <h2>
                             Shipping Method
                         </h2>
-                    </header>
+
                     <div class="card-content">
                         <div class="c-radio-group">
                             {% for handle, method in craft.commerce.availableShippingMethods %}
@@ -159,8 +166,7 @@
                     </div>
                 </div>
             {% endif %}
-            <button class="c-button c-button--large c-button--cta-blue">Continue</button>
+            <button class="c-button c-button--large c-button--cta-blue">  <i class="icon-lock"></i> Continue</button>
         </form>
-    </div>
-</div>
+
         {% endblock %}

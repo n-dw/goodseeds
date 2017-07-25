@@ -78,26 +78,18 @@ class ThcpostPlugin extends BasePlugin
 
                     if(is_numeric($productAvgRating))
                     {
-                        $product->setContentFromPost(array('averageRating' => $productAvgRating, 'totalNumberRatings' => $productNumberRatings));
-                        // craft()->commerce_products->saveProduct($product);
-                        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+                         $product->setContentFromPost(array('averageRating' => $productAvgRating, 'totalRatings' => $productNumberRatings));
+                      /* // $product->getContent()->setAttributes(array(
+                                                                  'averageRating' => $productAvgRating,
+                                                                  'totalRatings' => $productNumberRatings
+                                                              ));*/
 
-                        if (craft()->commerce_products->saveProduct($product))
+                        if (! craft()->commerce_products->saveProduct($product))
                         {
-
-                            if ($transaction !== null)
-                            {
-                                $transaction->commit();
-                            }
-
+                            craft()->userSession->setError(Craft::t('Couldn’t save product.'));
                         }
 
-                        else if ($transaction !== null)
-                        {
-                            $transaction->rollback();
-                        }
 
-                        craft()->userSession->setError(Craft::t('Couldn’t save product.'));
                     }
 
                 }

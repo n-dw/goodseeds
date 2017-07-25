@@ -42,7 +42,7 @@ class InStockNotifierPlugin extends BasePlugin {
     {
         parent::init();
 
-        //only process when the product is saved in the admin side and its not new.
+        //only process when the product is saved in the admin side and its not new and its stock increased from 0.
         craft()->on('commerce_products.onBeforeSaveProduct', function(Event $event)
         {
             $product = $event->params['product'];
@@ -58,9 +58,6 @@ class InStockNotifierPlugin extends BasePlugin {
             }
 
         });
-        //takes out console logging in dev mode
-        //craft()->log->removeRoute('WebLogRoute');
-        //craft()->log->removeRoute('ProfileLogRoute');
     }
 
     /**
@@ -147,7 +144,7 @@ class InStockNotifierPlugin extends BasePlugin {
      */
     public function getDeveloperUrl()
     {
-        return 'natedewaard.com';
+        return 'https://github.com/n-dW';
     }
 
     /**

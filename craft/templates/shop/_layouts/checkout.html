@@ -1,5 +1,6 @@
-{% set showNav = false %}
+{% block btags %}{{ 'u-bg-light-grey secure-checkout-page' }}{% endblock %}
 
+{% set showNav = false %}
 {% extends 'shop/_layouts/main' %}
 
 {% block header %}
@@ -11,8 +12,8 @@
     <div class="wrapper container-fluid">
         <div class="row center-xs">
             <div class="col-xs-12 col-md-10 col-lg-7">
-                <h1>Checkout</h1>
-                <div class="breadcrumb has-succeeds-separator is-centered">
+                <h1>Secure Checkout</h1>
+                <div class="breadcrumb has-succeeds-separator is-large is-centered">
                     {% include 'shop/_includes/meter' %}
                 </div>
                 {% block content %}

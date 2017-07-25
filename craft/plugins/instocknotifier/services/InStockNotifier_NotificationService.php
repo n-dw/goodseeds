@@ -107,10 +107,12 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
     //returns a model array of notification requests where the product is in stock
     private function getNotificationRequestsToSend($productId = false, $isReStock = false)
     {
+        //if we know the product to check already
         if ($productId)
         {
             $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null, 'productId' => $productId));
-        } else
+        }
+        else
         {
             $records = InStockNotifier_NotificationRecord::model()->findAllByAttributes(array('dateNotified' => null));
         }
@@ -120,13 +122,14 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
 
         foreach ($notifications as $key => $notification)
         {
+            //check for a product in the record
             if ($notification->productId == '' || !is_numeric($notification->productId))
             {
                 // throw new Exception('No product in notification model');
                 unset($records[$key]);
                 continue;
             }
-
+            //if this came from a product save in the cp we know this product is restocked so no need to check again
             if (!($productId && $isReStock))
             {
                 $product = craft()->commerce_products->getProductById($notification->productId);
@@ -154,13 +157,14 @@ class InStockNotifier_NotificationService extends BaseApplicationComponent {
     }
 
     /*
-     * deletes sent ones
+     * deletes sent ones as of now I am keeping all the old records I may change the records to have an archived flag
      */
     private function cleanNotificationRequests()
     {
         return InStockNotifier_NotificationRecord::model()->deleteAllByAttributes(array('sendFail' => 0), 'dateNotified IS NOT NULL');
     }
 
+    //send the emails to the users requesting for this product, if send fails record that we failed if success set the date notified.
     private function sendNotificationEmails($notifications)
     {
         if (!array_key_exists('records', $notifications) || count($notifications['records']) <= 0)
