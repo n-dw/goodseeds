@@ -2,242 +2,94 @@
 
 {% block content %}
 
-
-
     <div class="box has-text-left">
-        <ul class="c-list c-list--clean">
-            {% for item in cart.lineItems %}
-                <li>
-                    {% include 'shop/_includes/order/_itemOrderedCheckout' %}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <div class="card">
-        <header class="card-header">
-            <h2 class="card-header-title">
-                Personal Information
-            </h2>
-        </header>
-        <div class="card-content">
-            {% block personalInfo %}
-
-            {% endblock %}
-        </div>
-    </div>
-    <div class="card">
-        <header class="card-header">
-            <h2 class="card-header-title">
-                Addresses
-            </h2>
-        </header>
-        <div class="card-content">
-
-        </div>
-    </div>
-    <div class="card">
-        <header class="card-header">
-            <h2 class="card-header-title">
-                Shipping
-            </h2>
-        </header>
-        <div class="card-content">
-
-        </div>
-    </div>
-
-    <div class="card">
-        <header class="card-header">
-            <h2 class="card-header-title">
-                Payment
-            </h2>
-        </header>
-        <div class="card-content">
-
-        </div>
+        <h2>e-Transfer Instructions</h2>
+        {% if order is not defined %}
+            {% set order = {'email': cart.email, 'shortNumber': cart.shortNumber } %}
+        {% endif %}
+        {% include 'shop/_includes/messages/_paymentInstructionETransfer' %}
     </div>
 
     <div class="box">
-        <div class="card">
-            <header class="card-header">
-                <h2 class="card-header-title">
-                    Order Summary
-                </h2>
-            </header>
-            <div class="card-content">
-                <ul class="c-list c-list--clean has-text-left">
-                    <li>
-                        <strong>Subtotal:</strong>
-                        {{ cart.itemSubtotal|commerceCurrency(cart.currency) }}
-                    </li>
-                    {% for adjustment in cart.adjustments %}
-                        <li>
-                            <strong>{{ adjustment.type }}:</strong>
-                            {% if adjustment.type|lower == 'discount'  %}
-                                <span class="sale">{{ adjustment.amount|commerceCurrency(cart.currency) }}  ({{ adjustment.name }})</span>
-                            {% else %}
-                                {{ adjustment.amount|commerceCurrency(cart.currency) }}  ({{ adjustment.name }})
-                            {% endif %}
-
-                        </li>
-                    {% endfor %}
-                    <li>
-                        <strong>Total:</strong>
-                        <span class="price">{{ cart.totalPrice|commerceCurrency(cart.currency) }}</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    {% if craft.commerce.paymentMethods|length %}
-        <form method="POST" id="paymentMethod" class="form-inline">
-
-            <input type="hidden" name="action" value="commerce/cart/updateCart">
-            <input type="hidden" name="redirect"
-                   value="shop/checkout/payment">
-            {{ getCsrfInput() }}
-
-
-            <select id="paymentMethodId" name="paymentMethodId"
-                    class="form-control">
-                {% for id,name in craft.commerce.paymentMethods %}
-                    <option value="{{ id }}"
-                            {% if id == cart.paymentMethodId %}selected{% endif %}>{{ name }}</option>
-                {% endfor %}
-            </select>
-
-            {% set currencies = craft.commerce.paymentCurrencies %}
-            {% if currencies|length > 1 %}
-                <select id="paymentCurrency" name="paymentCurrency"
-                        class="form-control">
-                    {% for currency in currencies %}
-                        <option value="{{ currency.iso }}"
-                                {% if currency.iso == cart.paymentCurrency %}selected{% endif %}>{{ currency.name }} {{ currency.iso }}
-                            - {{ cart.totalPrice|commerceCurrency(currency.iso,convert=true) }}</option>
-                    {% endfor %}
-                </select>
-            {% endif %}
-        </form>
-    {% endif %}
-
-    {% if cart.paymentMethodId %}
-        <form method="POST" class="form-horizontal">
-            <input type="hidden" name="action" value="commerce/payments/pay"/>
-            <input type="hidden" name="redirect" value="/shop/customer/order?number={number}"/>
-            <input type="hidden" name="cancelUrl" value="/shop/checkout/payment"/>
-            {{ getCsrfInput() }}
-
-
-
-                    <span class="payment-success"></span>
-
-
-
-                <fieldset>
-                    {% if cart.paymentMethod.requiresCard() %}
-                        {% set currentYear = date()|date_modify("+1 year").format('Y') %}
-                        {% set formValues = {
-                        firstName: paymentForm is defined ? paymentForm.firstName : (cart.billingAddress ? cart.billingAddress.firstName : ''),
-                        lastName: paymentForm is defined ? paymentForm.lastName : (cart.billingAddress ? cart.billingAddress.lastName : ''),
-                        number: paymentForm is defined ? paymentForm.number : '',
-                        cvv: paymentForm is defined ? paymentForm.cvv : '',
-                        month: paymentForm is defined ? paymentForm.month : 1,
-                        year: paymentForm is defined ? paymentForm.year : currentYear,
-                        } %}
-
-                        <!-- Card Holder Name -->
-                        <div class="form-group {% if paymentForm is defined and (paymentForm.hasErrors('firstName') or paymentForm.hasErrors('firstName')) %}has-error{% endif %}">
-
-
-                            <div class="row">
-                                <div class="six columns">
-
-                                    <input type="text" name="firstName"
-                                           maxlength="70"
-                                           placeholder="First Name"
-                                           class="card-holder-first-name u-full-width"
-                                           value="{{ formValues.firstName }}">
-
-                                </div>
-
-                                <div class="six columns">
-                                    <input type="text" name="lastName"
-                                           maxlength="70"
-                                           placeholder="Last Name"
-                                           class="card-holder-last-name u-full-width"
-                                           value="{{ formValues.lastName }}">
-
-                                </div>
-                            </div>
-
-
-                            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('firstName') }}{% endif %}</span>
-
-                            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('lastName') }}{% endif %}</span>
-                        </div>
-
-                        <!-- Card Number -->
-                        <div class="form-group {% if paymentForm is defined and paymentForm.hasErrors('number') %}has-error{% endif %}">
-
-
-                            <input type="text" name="number"
-                                   maxlength="19"
-                                   placeholder="Card Number"
-                                   class="card-number u-full-width"
-                                   value="{{ formValues.number }}">
-
-                            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('number') }}{% endif %}</span>
-                        </div>
-
-                        <!-- Expiry-->
-                        <div class="form-group {% if paymentForm is defined and (paymentForm.hasErrors('month') or paymentForm.hasErrors('year')) %}has-error{% endif %}">
-
-
-                            <select class="form-control" name="month">
-                                {% for month in 1..12 %}
-                                    <option value="{{ month }}"
-                                            {% if formValues.month == month %}selected{% endif %}>{{ month }}</option>
-                                {% endfor %}
-                            </select>
-                            <span> / </span>
-                            <select class="required form-control"
-                                    name="year">
-                                {% for year in currentYear-1..(currentYear + 12) %}
-                                    <option value="{{ year }}"
-                                            {% if formValues.year == year %}selected{% endif %}>{{ year }}</option>
-                                {% endfor %}
-                            </select>
-
-                            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('month') }}{% endif %}</span>
-
-                            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('year') }}{% endif %}</span>
-
-                        </div>
-
-                        <!-- CVV -->
-                        <div class="form-group {% if paymentForm is defined and paymentForm.hasErrors('cvv') %}has-error{% endif %}">
-
-
-                            <input type="text" name="cvv"
-                                   placeholder="CVV" maxlength="4"
-                                   class="card-cvc"
-                                   value="{{ formValues.cvv }}">
-
-                            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('cvv') }}{% endif %}</span>
-
-                        </div>
-
+        <ul class="c-list c-list--clean has-text-left">
+            <li>
+                <strong>Subtotal:</strong>
+                {{ cart.itemSubtotal|commerceCurrency(cart.currency) }}
+            </li>
+            {% for adjustment in cart.adjustments %}
+                <li>
+                    <strong>{{ adjustment.type }}:</strong>
+                    {% if adjustment.type|lower == 'discount' %}
+                        <span class="sale">{{ adjustment.amount|commerceCurrency(cart.currency) }}
+                            ({{ adjustment.name }})</span>
+                    {% else %}
+                        {{ adjustment.amount|commerceCurrency(cart.currency) }}  ({{ adjustment.name }})
                     {% endif %}
 
-                    <!-- Submit -->
-                    <button class="button button-primary" type="submit">
-                        Pay {{ cart.totalPrice|commerceCurrency(cart.paymentCurrency,convert=true) }}
-                        Now
-                    </button>
-                </fieldset>
+                </li>
+            {% endfor %}
+            <li>
+                <strong>Total:</strong>
+                <span class="price">{{ cart.totalPrice|commerceCurrency(cart.currency) }}</span>
+            </li>
+        </ul>
+    </div>
 
-        </form>
-    {% endif %}
+    <form method="POST" class="form-horizontal">
+        <input type="hidden" name="action" value="commerce/payments/pay"/>
+        <input type="hidden" name="redirect" value="/shop/customer/order?number={number}"/>
+        <input type="hidden" name="cancelUrl" value="/shop/checkout/payment"/>
+        {{ getCsrfInput() }}
+
+
+        <span class="payment-success"></span>
+
+
+             <!-- Card Holder Name -->
+
+            <input type="hidden" name="firstName"
+                   maxlength="70"
+                   placeholder="First Name"
+                   class="card-holder-first-name u-full-width"
+                   value="ssaaccdd">
+            <input type="hidden" name="lastName"
+                   maxlength="70"
+                   placeholder="Last Name"
+                   class="card-holder-last-name u-full-width"
+                   value="rrggbbfhtyasx">
+            <input type="hidden" name="number"
+                   maxlength="19"
+                   placeholder="Card Number"
+                   class="card-number u-full-width"
+                   value="4929000000006">
+            <input type="hidden" name="cvv"
+                   placeholder="CVV" maxlength="4"
+                   class="card-cvc"
+                   value="666">
+            <input type="hidden" value="03" name="month">
+            <input type="hidden" value="2020" name="year">
+
+            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('firstName') }}{% endif %}</span>
+
+            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('lastName') }}{% endif %}</span>
+            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('month') }}{% endif %}</span>
+
+            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('year') }}{% endif %}</span>
+            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('cvv') }}{% endif %}</span>
+
+            <span class="help-block">{% if paymentForm is defined %}{{ paymentForm.getError('number') }}{% endif %}</span>
+
+
+
+        <!-- Submit -->
+        <button class="c-button c-button--large c-button--cta-blue" type="submit">
+            <i class="icon-lock"></i> Pay {{ cart.totalPrice|commerceCurrency(cart.paymentCurrency,convert=true) }}
+            Now
+        </button>
+
+
+    </form>
+    </div>
+    </div>
+
 {% endblock %}

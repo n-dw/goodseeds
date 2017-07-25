@@ -32,8 +32,15 @@
     <meta charset="utf-8">
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/vue"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    {% if craft.config.devMode %}
+        <script type="text/javascript" src="https://unpkg.com/vue"></script>
+        <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        {% else %}
+        <script type="text/javascript" src="static/assets/js/vue.min.js"></script>
+        <script type="text/javascript" src="static/assets/js/axios.min.js"></script>
+    {% endif %}
+
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
     {% block head %}
 
@@ -44,7 +51,7 @@
     </script>
     {% endminify %}
 </head>
-<body class="u-bg-light-grey">
+<body class="{% block btags %}u-bg-light-grey{% endblock %}">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
