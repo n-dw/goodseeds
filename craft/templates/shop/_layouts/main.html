@@ -32,8 +32,15 @@
     <meta charset="utf-8">
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/vue"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    {% if craft.config.devMode %}
+        <script type="text/javascript" src="https://unpkg.com/vue"></script>
+        <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        {% else %}
+        <script type="text/javascript" src="{{ 'assets/css/app.css' | gulp_rev }}"></script>
+        <script type="text/javascript" src="{{ 'assets/css/app.css' | gulp_rev }}"></script>
+    {% endif %}
+
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
     {% block head %}
 
