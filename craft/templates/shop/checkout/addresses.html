@@ -17,7 +17,7 @@
     {% set states = craft.commerce.statesArray  %}
     {% set states = states[countryCode] | slice(1) %}
     {# UI when at least one address exists #}
-
+{{ d(cart.getErrors()) }}
         <form method="post">
             <input type="hidden" name="action" value="commerce/cart/updateCart">
             <input type="hidden" name="redirect" value="shop/checkout/payment"/>
@@ -25,19 +25,15 @@
             <input type="hidden" name="shippingAddressId" value="new">
 
             {{ getCsrfInput() }}
-            {% set modelName = "shippingAdress" %}
+            {% set modelName = "shippingAddress" %}
             <div class="box has-text-left">
-
-
-                    <h2>
-                       Address
-                    </h2>
+                <h2>Address</h2>
 
                 <div class="card-content">
             <p class="has-text-left"><strong>* Indicates a required field</strong></p>
             <div class="row">
                 {% if not cart.email %}
-                    <div class="col-xs-6 c-fieldset">
+                    <div class="col-xs-12 c-fieldset">
                         <label for="email">Email</label>
                         <input class="c-input" type="text" value="{{ cart.email }}" name="email"
                                placeholder="email@site.com"/>
@@ -117,12 +113,11 @@
                 <div class="col-xs-12 col-sm-6 c-fieldset">
                     <label for="{{ modelName }}-countryId">Country *</label>
 
-                    <select disabled id="{{ modelName }}-countryIdFake" required class="c-input-option " name="{{ modelName }}[countryIdFake]">
+                    <select  id="{{ modelName }}-countryIdFake" required class="c-input-option " name="{{ modelName }}[countryId]">
 
                         <option value="{{ countryCode }}" selected >{{ country }}</option>
 
                     </select>
-                    <input type="hidden" name="{{ modelName }}[countryId]" value="{{ countryCode }}">
                     {% if model and model.getErrors('countryId') %}
                         {{ errList.errorList(model.getErrors('countryId')) }}
                     {% endif %}
