@@ -1,4 +1,8 @@
 {% extends 'shop/_layouts/main' %}
+ {% if not currentUser %}
+    {% redirect '/' %}
+ {% endif %}
+{% import "shop/macros/errors.html" as errList %}
 {% block main %}
     <section class="content-section">
         <div class="wrapper container-fluid">
@@ -6,43 +10,52 @@
                 <div class="col-xs-12">
                     {% if currentUser %}
                         <h1>Account Details</h1>
-                        <div class="orders-wrapper row">
-                            {% for order in craft.commerce.orders.customer(craft.commerce.customer).find() %}
-                                <div class="col-xs-12 col-psm-6 col-md-4 col-lg-3">
-                                    <article id="order_{{ loop.index }}" class="order">
-                                        <ul class="order-listing c-list c-list--clean">
-                                            <li><b>Order #</b>: <a
-                                                        href="{{ url('account/order', { number: order.number }) }}">{{ order.id }} </a>
-                                            </li>
-
-                                            <li><b>Status:</b> <span
-                                                        class="order-status order-status--{{ order.orderStatus.handle }}">{{ order.orderStatus.name }}</span></a>
-                                            </li>
-                                            <li><b>Order Date:</b> {{ order.dateOrdered }}</a></li>
-                                            <li><b>Total Items:</b> {{ order.totalQty }}</a></li>
-                                            <li><b>Total Price:</b> <span
-                                                        class="price">{{ order.totalPrice|commerceCurrency(cart.currency) }}</span>
-                                            </li>
-
-                                                <li><b>Tracking Number:</b>
-
-                                                    {% if order.trackingNumber is not empty %}
-                                                        <a href="{{ url('https://www.canadapost.ca/cpotools/apps/track/personal/findByTrackNumber', { trackingNumber: order.trackingNumber }) }}"><span
-                                                                    class="tracking-number">{{ order.trackingNumber }}</span></a>
-                                                    {% else %}
-                                                        <p class="box">You will be emailed the tracking number upon order
-                                                            shipment.</p>
-                                                    {% endif %}
-                                                </li>
-
-
-                                        </ul>
-
-                                    </article>
+                    <div class="controls">
+                       <a class="c-button c-button--cta-black c-button--medium">
+                          My Orders
+                       </a>
+                        <a class="c-button c-button--cta-black c-button--medium">
+                            My Address
+                        </a>
+                        <a href=""class="c-button c-button--cta-black c-button--medium">
+                            Change Password
+                        </a>
+                    </div>
+                        <h2 class="has-text-left">Password Change</h2>
+                        <div class="card-content">
+                            <form method="post" action="" id="action-form" accept-charset="UTF-8" enctype="multipart/form-data">
+                                {{ getCsrfInput() }} {# Remove this if you aren't using CSRF #}
+                                <input type="hidden" name="action" value="users/saveUser">
+                                <input type="hidden" name="userId" value="{{ currentUser.id }}">
+                                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
+                                <label for="password">Current Password</label>
+                                <password id="password" name="password" {% if message is defined and message.getErrors('password') is not empty %}hasError="true"{% endif %}></password>
+                                {% if account is defined %}
+                                    {{errList.errorList(account.getErrors('password')) }}
+                                {% endif %}
                                 </div>
-                            {% endfor %}
-
+                                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
+                                <label for="newPassword">New Password *</label>
+                                <password id="newPassword" name="newPassword" {% if message is defined and message.getErrors('newPassword') is not empty %}hasError="true"{% endif %}></password>
+                                {% if account is defined %}
+                                    {{errList.errorList(account.getErrors('newPassword')) }}
+                                {% endif %}
+                                </div>
+                                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
+                                    <label for="passwordConfirm">Confirm New Password *</label>
+                                    <password id="passwordConfirm" name="passwordConfirm" {% if message is defined and message.getErrors('passwordConfirm') is not empty %}hasError="true"{% endif %}></password>
+                                    {% if account is defined %}
+                                        {{errList.errorList(account.getErrors('passwordConfirm')) }}
+                                    {% endif %}
+                                </div>
+                                <div class="input-wrapper col-xs-12 c-fieldset has-text-centered">
+                                    <input class="c-button c-button--large c-button--cta-black" type="submit"
+                                           value="Change Password">
+                                </div>
+                            </form>
                         </div>
+                    </div>
+                          </div>
                     {% endif %}
                 </div>
             </div>

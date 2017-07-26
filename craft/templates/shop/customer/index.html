@@ -1,4 +1,7 @@
 {% extends 'shop/_layouts/main' %}
+{% if not currentUser %}
+    {% redirect '/' %}
+{% endif %}
 {% block main %}
     <section class="content-section">
         <div class="wrapper container-fluid">

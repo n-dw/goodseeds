@@ -49,7 +49,14 @@ class ThcpostPlugin extends BasePlugin
             // Only do anything if it is a front end submission
             if(craft()->request->isSiteRequest())
             {
-                $password = craft()->request->getPost('password');
+                if(craft()->request->getPost('newPassword'))
+                {
+                    $password = craft()->request->getPost('newPassword');
+                }
+                elseif(craft()->request->getPost('password'))
+                {
+                    $password = craft()->request->getPost('password');
+                }
                 $passwordConfirm = craft()->request->getPost('passwordConfirm');
                 if(isset($passwordConfirm) && strcmp($password, $passwordConfirm) !== 0)
                 {
