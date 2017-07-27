@@ -65,11 +65,36 @@ class ThcpostPlugin extends BasePlugin
                 }
             }
         });
+        //make sure we have enough stock
+        craft()->on('commerce_cart.onBeforeAddToCart', function(Event $event) {
+
+            $fieldNames = ['gramToGrams', 'eighthToGrams', 'quarterToGrams', 'halfToGrams', 'ounceToGrams'];
+
+            $purchasable = $event->params['lineItem']->getPurchasable();
+            $quantity =  $event->params['lineItem']->qty;
+
+            $productStock = $purchasable->product->getTotalStock();
+
+            $variant = craft()->commerce_variants->getVariantById($purchasable->id);
+            $vWeight = $variant->variantWeight->value;
+
+            $field = $fieldNames[$vWeight -1];
+            $settings = craft()->globals->getSetByHandle('gramWeights');
+            $multiplier = $settings->$field;
+            $totalGramAmount = $quantity * $multiplier;
+
+                if($totalGramAmount > $productStock)
+                {
+                    craft()->userSession->setError(Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There are '. $productStock . 'g' .' of stock left'));
+                    $event->performAction = false;
+                }
+
+        });
 
         //change the field on the product for its average rating everytime a review is updated.
         craft()->on('commentsRating.onSaveCommentRating', function(Event $event) {
 
-            $params = $event->params;
+            $params = $event->params['lineItem'];
             $elementId = $params['commentRating']['elementId'];
 
             // Only do anything if it is a front end submission

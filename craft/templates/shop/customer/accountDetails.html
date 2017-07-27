@@ -7,55 +7,154 @@
     <section class="content-section">
         <div class="wrapper container-fluid">
             <div class="row center-xs">
-                <div class="col-xs-12">
+                <div class="col-xs-12 col-sm-6">
                     {% if currentUser %}
-                        <h1>Account Details</h1>
-                    <div class="controls">
-                       <a class="c-button c-button--cta-black c-button--medium">
-                          My Orders
-                       </a>
-                        <a class="c-button c-button--cta-black c-button--medium">
-                            My Address
-                        </a>
-                        <a href=""class="c-button c-button--cta-black c-button--medium">
-                            Change Password
-                        </a>
-                    </div>
-                        <h2 class="has-text-left">Password Change</h2>
-                        <div class="card-content">
-                            <form method="post" action="" id="action-form" accept-charset="UTF-8" enctype="multipart/form-data">
-                                {{ getCsrfInput() }} {# Remove this if you aren't using CSRF #}
-                                <input type="hidden" name="action" value="users/saveUser">
-                                <input type="hidden" name="userId" value="{{ currentUser.id }}">
-                                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
-                                <label for="password">Current Password</label>
-                                <password id="password" name="password" {% if message is defined and message.getErrors('password') is not empty %}hasError="true"{% endif %}></password>
-                                {% if account is defined %}
-                                    {{errList.errorList(account.getErrors('password')) }}
-                                {% endif %}
-                                </div>
-                                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
-                                <label for="newPassword">New Password *</label>
-                                <password id="newPassword" name="newPassword" {% if message is defined and message.getErrors('newPassword') is not empty %}hasError="true"{% endif %}></password>
-                                {% if account is defined %}
-                                    {{errList.errorList(account.getErrors('newPassword')) }}
-                                {% endif %}
-                                </div>
-                                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
-                                    <label for="passwordConfirm">Confirm New Password *</label>
-                                    <password id="passwordConfirm" name="passwordConfirm" {% if message is defined and message.getErrors('passwordConfirm') is not empty %}hasError="true"{% endif %}></password>
-                                    {% if account is defined %}
-                                        {{errList.errorList(account.getErrors('passwordConfirm')) }}
-                                    {% endif %}
-                                </div>
-                                <div class="input-wrapper col-xs-12 c-fieldset has-text-centered">
-                                    <input class="c-button c-button--large c-button--cta-black" type="submit"
-                                           value="Change Password">
-                                </div>
-                            </form>
+                        <h1>My Address</h1>
+                        <div class="controls">
+                            <a href="/account/orders" class="c-button c-button--cta-black c-button--small">
+                                My Orders
+                            </a>
+                            <a href="/account" class="c-button c-button--cta-black c-button--cta-black--active c-button--small">
+                                My Address
+                            </a>
+                            <a href="/account/change-password" class="c-button c-button--cta-black c-button--small">
+                                Change Password
+                            </a>
                         </div>
-                    </div>
-                          </div>
+                        <div class="card-content">
+                            {% if craft.commerce.customer.lastUsedShippingAddress %}
+                                {% set address = craft.commerce.customer.lastUsedShippingAddress %}
+                            {% else %}
+                                {% set address = craft.commerce.customer.lastUsedShippingAddress %}
+                            {% endif %}
+                            {% set model = address %}
+                            {#Canada only #}
+                            {% set countryCode = 38 %}
+                            {% set countries = craft.commerce.countriesList %}
+                            {% set country = countries[countryCode] %}
+
+                            {% set states = craft.commerce.statesArray  %}
+                            {% set states = states[countryCode] %}
+                            {# UI when at least one address exists #}
+                            <form method="post">
+                                <input type="hidden" name="action" value="commerce/customerAddresses/save">
+                                <input type="hidden" name="address[id]" value="{{ address.id ? address.id : 'new' }}">
+
+                                {{ getCsrfInput() }}
+                                {% set modelName = "shippingAddress" %}
+                                <div class="box has-text-left">
+                                   <div class="card-content">
+                                        <p class="has-text-left"><strong>* Indicates a required field</strong></p>
+                                        <div class="row">
+                                            {% if not cart.email %}
+                                                <div class="col-xs-12 c-fieldset">
+                                                    <label for="email">Email</label>
+                                                    <input class="c-input" type="text" value="{{ cart.email }}" name="email"
+                                                           placeholder="email@site.com"/>
+                                                    {{ cart.getErrors('email') ? errList.errorList(cart.getErrors('email')) }}
+                                                </div>
+                                            {% endif %}
+                                            <div class="col-xs-6 c-fieldset">
+                                                <label for="{{ modelName }}-lastName">First Name *</label>
+                                                <input type="text" id="{{ modelName }}-firstName" class="c-input" aria-label="First Name" required
+                                                       name="{{ modelName }}[firstName]"
+                                                       value="{{ model ? model.firstName : '' }}">
+                                                {% if model and model.getErrors('firstName') %}
+                                                    {{ errList.errorList(model.getErrors('firstName')) }}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-xs-6 c-fieldset">
+                                                <label for="{{ modelName }}-lastName">Last Name *</label>
+                                                <input type="text" id="{{ modelName }}-lastName" aria-label="Last Name"
+                                                       required class="c-input" name="{{ modelName }}[lastName]"
+                                                       value="{{ model ? model.lastName : '' }}">
+                                                {% if model and model.getErrors('lastName') %}
+                                                    {{ errList.errorList(model.getErrors('lastName')) }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 c-fieldset">
+                                                <label for="{{ modelName }}-address1">Address 1 *</label>
+                                                <input type="text" id="{{ modelName }}-address1" aria-label="Address 1" placeholder="Street and number, P.O. box, c/o."
+                                                       required class="c-input" name="{{ modelName }}[address1]"
+                                                       value="{{ model ? model.address1 : '' }}">
+                                                {% if model and model.getErrors('address1') %}
+                                                    {{ errList.errorList(model.getErrors('address1')) }}
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="col-xs-12 c-fieldset">
+                                                <label for="{{ modelName }}-address2">Address 2</label>
+                                                <input type="text" id="{{ modelName }}-address2" aria-label="Address 2" placeholder="Apartment, suite, unit, building, floor, etc."
+                                                       class="c-input" name="{{ modelName }}[address2]" value="{{ model ? model.address2 : '' }}">
+                                                {% if model and model.getErrors('address2') %}
+                                                    {{ errList.errorList(model.getErrors('address2')) }}
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-city">City *</label>
+                                                <input type="text" id="{{ modelName }}-city" aria-label="City" required
+                                                       class="c-input" name="{{ modelName }}[city]" value="{{ model ? model.city : '' }}">
+                                                {% if model and model.getErrors('city') %}
+                                                    {{ errList.errorList(model.getErrors('city')) }}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-stateId">Province *</label>
+                                                {% set options = states %}
+                                                <select id="{{ modelName }}-stateId" required data-modelname="{{ modelName }}"
+                                                        class="address-stateId c-input-option " name="{{ modelName }}[stateValue]">
+                                                    {% for key, option in options %}
+                                                        {% if not loop.first  %}
+                                                            {% set optionValue = (model ? model.stateId : '') %}
+                                                            <option value="{{ key }}"
+                                                                    {% if key == optionValue %}selected{% endif %}>{{ option }}</option>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-zipCode">Postal Code *</label>
+                                                <input type="text" id="{{ modelName }}-zipCode" required placeholder="A1A 1A1" class="c-input" name="{{ modelName }}[zipCode]"
+                                                       value="{{ model ? model.zipCode : '' }}">
+                                                {% if model and model.getErrors('zipCode') %}
+                                                    {{ errList.errorList(model.getErrors('zipCode')) }}
+                                                {% endif %}
+                                            </div>
+
+
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-countryId">Country *</label>
+
+                                                <select  id="{{ modelName }}-countryId" required class="c-input-option " name="{{ modelName }}[countryId]">
+
+                                                    <option value="{{ countryCode }}" selected >{{ country }}</option>
+
+                                                </select>
+                                                {% if model and model.getErrors('countryId') %}
+                                                    {{ errList.errorList(model.getErrors('countryId')) }}
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-phone">Phone</label>
+                                                <input placeholder="555-555-5555" type="tel" id="{{ modelName }}-phone" class="c-input" name="{{ modelName }}[phone]"
+                                                       value="{{ model ? model.phone : '' }}">
+                                                {% if model and model.getErrors('phone') %}
+                                                    {{ errList.errorList(model.getErrors('phone')) }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div></div>
+
+                                <button class="c-button c-button--large c-button--cta-blue">Save Address</button>
+                            </form>
+
+                        </div>
                     {% endif %}
                 </div>
             </div>
