@@ -92,6 +92,7 @@
     {% block messages %}
         {% set messageNotice = craft.session.getFlash( 'notice' ) %}
         {% set messageError = craft.session.getFlash( 'error' ) %}
+        {% set cartError = cart.getError('stock') %}
         <div class="messages">
             {% if messageNotice %}
                 <div class="notification has-text-centered is-success">
@@ -103,6 +104,12 @@
                 <div class="notification has-text-centered is-danger">
                     <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
                     {{ messageError }}
+                </div>
+            {% endif %}
+            {% if cartError %}
+                <div class="notification has-text-centered is-danger">
+                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    {{ cartError }}
                 </div>
             {% endif %}
         </div>

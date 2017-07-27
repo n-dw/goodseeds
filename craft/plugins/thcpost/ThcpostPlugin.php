@@ -85,10 +85,41 @@ class ThcpostPlugin extends BasePlugin
 
                 if($totalGramAmount > $productStock)
                 {
-                    craft()->userSession->setError(Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There are '. $productStock . 'g' .' of stock left'));
-                    $event->performAction = false;
+                   $cart = craft()->commerce_cart->getCart();
+                   $cart->addError( 'stock', Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left'));
+                   $event->performAction = false;
                 }
 
+        });
+
+        //make sure we have enough stock do this on save order as well as this is called before payment
+        craft()->on('commerce_orders.onSaveOrder', function(Event $event) {
+
+            $fieldNames = ['gramToGrams', 'eighthToGrams', 'quarterToGrams', 'halfToGrams', 'ounceToGrams'];
+            $order = $event->params['order'];
+            $lineItems = $order->lineItems;
+
+            foreach ($lineItems as $lineitem){
+                $purchasable = $lineitem->getPurchasable();
+                $quantity =  $lineitem->qty;
+
+                $productStock = $purchasable->product->getTotalStock();
+                $variant = craft()->commerce_variants->getVariantById($purchasable->id);
+                $vWeight = $variant->variantWeight->value;
+
+                $field = $fieldNames[$vWeight -1];
+                $settings = craft()->globals->getSetByHandle('gramWeights');
+                $multiplier = $settings->$field;
+                $totalGramAmount = $quantity * $multiplier;
+
+                if($totalGramAmount > $productStock)
+                {
+                    $cart = craft()->commerce_cart->getCart();
+                    craft()->userSession->setError(Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
+                    $cart->addError( 'stock', Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
+                    $event->performAction = false;
+                }
+            }
         });
 
         //change the field on the product for its average rating everytime a review is updated.
