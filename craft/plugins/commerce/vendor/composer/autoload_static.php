@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit393b357eda28d566722d8b53289660cf
+class ComposerStaticInitc936cffb42d6cc212851048a4280b09f
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -1215,6 +1215,7 @@ class ComposerStaticInit393b357eda28d566722d8b53289660cf
         'Omnipay\\Stripe\\Message\\CreateInvoiceItemRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/CreateInvoiceItemRequest.php',
         'Omnipay\\Stripe\\Message\\CreatePlanRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/CreatePlanRequest.php',
         'Omnipay\\Stripe\\Message\\CreateSubscriptionRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/CreateSubscriptionRequest.php',
+        'Omnipay\\Stripe\\Message\\CreateTokenRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/CreateTokenRequest.php',
         'Omnipay\\Stripe\\Message\\DeleteCardRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/DeleteCardRequest.php',
         'Omnipay\\Stripe\\Message\\DeleteCustomerRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/DeleteCustomerRequest.php',
         'Omnipay\\Stripe\\Message\\DeleteInvoiceItemRequest' => __DIR__ . '/..' . '/omnipay/stripe/src/Message/DeleteInvoiceItemRequest.php',
@@ -1450,10 +1451,10 @@ class ComposerStaticInit393b357eda28d566722d8b53289660cf
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit393b357eda28d566722d8b53289660cf::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit393b357eda28d566722d8b53289660cf::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit393b357eda28d566722d8b53289660cf::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit393b357eda28d566722d8b53289660cf::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc936cffb42d6cc212851048a4280b09f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc936cffb42d6cc212851048a4280b09f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitc936cffb42d6cc212851048a4280b09f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitc936cffb42d6cc212851048a4280b09f::$classMap;
 
         }, null, ClassLoader::class);
     }
