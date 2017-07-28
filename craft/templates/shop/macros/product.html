@@ -7,3 +7,24 @@
             {{ priceB|commerceCurrency(cart.currency) ~ ' - ' ~ priceA|commerceCurrency(cart.currency) }}
     {% endif %}
 {% endmacro %}
+{% macro starRating(rating, starcount) %}
+    {% set hasHalfStar = (rating % 2 != 0) %}
+    {% set starAmount = (rating / 2) |round(0, 'floor') %}
+    {% set emptyStarAmount = starcount|default(5) - starAmount  %}
+    {% if hasHalfStar %}
+        {% set emptyStarAmount = emptyStarAmount - 1 %}
+    {% endif %}
+    <div class="product__star-rating">
+        {% for i in 0..starAmount - 1  %}
+            <i class="icon-star"></i>
+        {% endfor %}
+        {% if hasHalfStar %}
+           <i class="icon-star-half"></i>
+        {% endif %}
+        {% if emptyStarAmount > 0 %}
+            {% for i in 0..emptyStarAmount - 1  %}
+                <i class="icon-star-empty"></i>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}

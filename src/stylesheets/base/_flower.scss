@@ -109,6 +109,15 @@
     }
 }
 
+progress{
+  &.medical-term{
+      background-color: $cta-blue-color;
+  }
+  &.effects-term{
+    background-color: $pastelGreen;
+  }
+}
+
 @include bpmax(small){
   .product-heading{
     font-size: map-get($heading-sizes, 3);
