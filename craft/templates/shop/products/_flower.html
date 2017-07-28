@@ -92,12 +92,12 @@
                                         {% for attribute in product.productAttributes %}
                                             {% if attribute.type == 'effects' %}
                                                 {{ attribute.effectTerm.first.title | t }}
-                                                <progress class="progress is-large effects-term"
+                                                <progress class="progress is-large is-info effects-term"
                                                           value="{{ attribute.effectPercentage }}"
                                                           max="100"></progress>
                                             {% else %}
                                                 {{ attribute.medicalSymptom.first.title |t }}
-                                                <progress class="progress is-large medical-term"
+                                                <progress class="progress is-large is-success medical-term"
                                                           value="{{ attribute.medicalEffectPercentage }}"
                                                           max="100"></progress>
                                             {% endif %}
