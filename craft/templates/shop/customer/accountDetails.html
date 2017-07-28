@@ -1,46 +1,158 @@
 {% extends 'shop/_layouts/main' %}
+ {% if not currentUser %}
+    {% redirect '/' %}
+ {% endif %}
+{% import "shop/macros/errors.html" as errList %}
 {% block main %}
     <section class="content-section">
         <div class="wrapper container-fluid">
             <div class="row center-xs">
-                <div class="col-xs-12">
+                <div class="col-xs-12 col-sm-6">
                     {% if currentUser %}
-                        <h1>Account Details</h1>
-                        <div class="orders-wrapper row">
-                            {% for order in craft.commerce.orders.customer(craft.commerce.customer).find() %}
-                                <div class="col-xs-12 col-psm-6 col-md-4 col-lg-3">
-                                    <article id="order_{{ loop.index }}" class="order">
-                                        <ul class="order-listing c-list c-list--clean">
-                                            <li><b>Order #</b>: <a
-                                                        href="{{ url('account/order', { number: order.number }) }}">{{ order.id }} </a>
-                                            </li>
+                        <h1>My Address</h1>
+                        <div class="controls">
+                            <a href="/account/orders" class="c-button c-button--cta-black c-button--small">
+                                My Orders
+                            </a>
+                            <a href="/account" class="c-button c-button--cta-black c-button--cta-black--active c-button--small">
+                                My Address
+                            </a>
+                            <a href="/account/change-password" class="c-button c-button--cta-black c-button--small">
+                                Change Password
+                            </a>
+                        </div>
+                        <div class="card-content">
+                            {% if craft.commerce.customer.lastUsedShippingAddress %}
+                                {% set address = craft.commerce.customer.lastUsedShippingAddress %}
+                            {% else %}
+                                {% set address = craft.commerce.customer.lastUsedShippingAddress %}
+                            {% endif %}
+                            {% set model = address %}
+                            {#Canada only #}
+                            {% set countryCode = 38 %}
+                            {% set countries = craft.commerce.countriesList %}
+                            {% set country = countries[countryCode] %}
 
-                                            <li><b>Status:</b> <span
-                                                        class="order-status order-status--{{ order.orderStatus.handle }}">{{ order.orderStatus.name }}</span></a>
-                                            </li>
-                                            <li><b>Order Date:</b> {{ order.dateOrdered }}</a></li>
-                                            <li><b>Total Items:</b> {{ order.totalQty }}</a></li>
-                                            <li><b>Total Price:</b> <span
-                                                        class="price">{{ order.totalPrice|commerceCurrency(cart.currency) }}</span>
-                                            </li>
+                            {% set states = craft.commerce.statesArray  %}
+                            {% set states = states[countryCode] %}
+                            {# UI when at least one address exists #}
+                            <form method="post">
+                                <input type="hidden" name="action" value="commerce/customerAddresses/save">
+                                <input type="hidden" name="address[id]" value="{{ address.id ? address.id : 'new' }}">
 
-                                                <li><b>Tracking Number:</b>
+                                {{ getCsrfInput() }}
+                                {% set modelName = "shippingAddress" %}
+                                <div class="box has-text-left">
+                                   <div class="card-content">
+                                        <p class="has-text-left"><strong>* Indicates a required field</strong></p>
+                                        <div class="row">
+                                            {% if not cart.email %}
+                                                <div class="col-xs-12 c-fieldset">
+                                                    <label for="email">Email</label>
+                                                    <input class="c-input" type="text" value="{{ cart.email }}" name="email"
+                                                           placeholder="email@site.com"/>
+                                                    {{ cart.getErrors('email') ? errList.errorList(cart.getErrors('email')) }}
+                                                </div>
+                                            {% endif %}
+                                            <div class="col-xs-6 c-fieldset">
+                                                <label for="{{ modelName }}-lastName">First Name *</label>
+                                                <input type="text" id="{{ modelName }}-firstName" class="c-input" aria-label="First Name" required
+                                                       name="{{ modelName }}[firstName]"
+                                                       value="{{ model ? model.firstName : '' }}">
+                                                {% if model and model.getErrors('firstName') %}
+                                                    {{ errList.errorList(model.getErrors('firstName')) }}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-xs-6 c-fieldset">
+                                                <label for="{{ modelName }}-lastName">Last Name *</label>
+                                                <input type="text" id="{{ modelName }}-lastName" aria-label="Last Name"
+                                                       required class="c-input" name="{{ modelName }}[lastName]"
+                                                       value="{{ model ? model.lastName : '' }}">
+                                                {% if model and model.getErrors('lastName') %}
+                                                    {{ errList.errorList(model.getErrors('lastName')) }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 c-fieldset">
+                                                <label for="{{ modelName }}-address1">Address 1 *</label>
+                                                <input type="text" id="{{ modelName }}-address1" aria-label="Address 1" placeholder="Street and number, P.O. box, c/o."
+                                                       required class="c-input" name="{{ modelName }}[address1]"
+                                                       value="{{ model ? model.address1 : '' }}">
+                                                {% if model and model.getErrors('address1') %}
+                                                    {{ errList.errorList(model.getErrors('address1')) }}
+                                                {% endif %}
+                                            </div>
 
-                                                    {% if order.trackingNumber is not empty %}
-                                                        <a href="{{ url('https://www.canadapost.ca/cpotools/apps/track/personal/findByTrackNumber', { trackingNumber: order.trackingNumber }) }}"><span
-                                                                    class="tracking-number">{{ order.trackingNumber }}</span></a>
-                                                    {% else %}
-                                                        <p class="box">You will be emailed the tracking number upon order
-                                                            shipment.</p>
-                                                    {% endif %}
-                                                </li>
+                                            <div class="col-xs-12 c-fieldset">
+                                                <label for="{{ modelName }}-address2">Address 2</label>
+                                                <input type="text" id="{{ modelName }}-address2" aria-label="Address 2" placeholder="Apartment, suite, unit, building, floor, etc."
+                                                       class="c-input" name="{{ modelName }}[address2]" value="{{ model ? model.address2 : '' }}">
+                                                {% if model and model.getErrors('address2') %}
+                                                    {{ errList.errorList(model.getErrors('address2')) }}
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-city">City *</label>
+                                                <input type="text" id="{{ modelName }}-city" aria-label="City" required
+                                                       class="c-input" name="{{ modelName }}[city]" value="{{ model ? model.city : '' }}">
+                                                {% if model and model.getErrors('city') %}
+                                                    {{ errList.errorList(model.getErrors('city')) }}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-stateId">Province *</label>
+                                                {% set options = states %}
+                                                <select id="{{ modelName }}-stateId" required data-modelname="{{ modelName }}"
+                                                        class="address-stateId c-input-option " name="{{ modelName }}[stateValue]">
+                                                    {% for key, option in options %}
+                                                        {% if not loop.first  %}
+                                                            {% set optionValue = (model ? model.stateId : '') %}
+                                                            <option value="{{ key }}"
+                                                                    {% if key == optionValue %}selected{% endif %}>{{ option }}</option>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-zipCode">Postal Code *</label>
+                                                <input type="text" id="{{ modelName }}-zipCode" required placeholder="A1A 1A1" class="c-input" name="{{ modelName }}[zipCode]"
+                                                       value="{{ model ? model.zipCode : '' }}">
+                                                {% if model and model.getErrors('zipCode') %}
+                                                    {{ errList.errorList(model.getErrors('zipCode')) }}
+                                                {% endif %}
+                                            </div>
 
 
-                                        </ul>
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-countryId">Country *</label>
 
-                                    </article>
-                                </div>
-                            {% endfor %}
+                                                <select  id="{{ modelName }}-countryId" required class="c-input-option " name="{{ modelName }}[countryId]">
+
+                                                    <option value="{{ countryCode }}" selected >{{ country }}</option>
+
+                                                </select>
+                                                {% if model and model.getErrors('countryId') %}
+                                                    {{ errList.errorList(model.getErrors('countryId')) }}
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6 c-fieldset">
+                                                <label for="{{ modelName }}-phone">Phone</label>
+                                                <input placeholder="555-555-5555" type="tel" id="{{ modelName }}-phone" class="c-input" name="{{ modelName }}[phone]"
+                                                       value="{{ model ? model.phone : '' }}">
+                                                {% if model and model.getErrors('phone') %}
+                                                    {{ errList.errorList(model.getErrors('phone')) }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div></div>
+
+                                <button class="c-button c-button--large c-button--cta-blue">Save Address</button>
+                            </form>
 
                         </div>
                     {% endif %}

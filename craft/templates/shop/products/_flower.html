@@ -1,10 +1,18 @@
 {% extends 'shop/_layouts/main' %}
+{% import "shop/macros/product.html" as prodmac %}
+
+{% set avgRating =  craft.commentsrating.elementAvgRatings(product.id) %}
 {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
 {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
 {% set productStock = product.defaultVariant.stock %}
 {% set isStockLessOunce = (productStock < 28) ? true : false %}
 {% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">$'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
 {% set variantInfo = {} %}
+
+ {% block breadcrumbs %}
+     {% include 'shop/_includes/_breadcrumb' %}
+ {% endblock %}
+
 {% block main %}
     <section class="shop product-page product-listing-app content-section">
         <div class="container-fluid wrapper">
@@ -25,7 +33,9 @@
                                         <h1 class="product-heading">{{ product.title }}</h1><h4
                                                 class="product-strain-type {{ product.strainType.first().slug }}">
                                             {{ product.strainType.first().slug|first|upper }}
-                                        </h4>
+                                        </h4> {{ prodmac.starRating(avgRating) }}
+
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -72,45 +82,37 @@
                             </div>
                         </div>
                         <footer class="product-footer">
-                            <div class="columns">
-                                <div class="column">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
                                     <h2>Details</h2>
-                                    <div class="product-description">
+                                    <div class="product-description box">
                                         {{ product.productDescription }}
                                     </div>
                                     <div class="product-attributes">
                                         {% for attribute in product.productAttributes %}
                                             {% if attribute.type == 'effects' %}
                                                 {{ attribute.effectTerm.first.title | t }}
-                                                <progress class="progress is-large"
+                                                <progress class="progress is-large is-info effects-term"
                                                           value="{{ attribute.effectPercentage }}"
                                                           max="100"></progress>
                                             {% else %}
                                                 {{ attribute.medicalSymptom.first.title |t }}
-                                                <progress class="progress is-large"
+                                                <progress class="progress is-large is-success medical-term"
                                                           value="{{ attribute.medicalEffectPercentage }}"
                                                           max="100"></progress>
                                             {% endif %}
                                         {% endfor %}
                                     </div>
                                 </div>
-                            <div class="column">
+                                <div class="col-xs-12 col-md-6">
                                 <h2>Reviews</h2>
+                                <div class="box">
                                 {%  set ratings = craft.commentsrating.elementRatings(product.id)%}
-                                {{  craft.commentsrating.elementRating(product.id) }}
-                                {{  craft.commentsrating.elementAvgRatings(product.id) }}
-
-                                {% for rating in ratings %}
-
-                                    {{ rating.rating }}
-
-                                    {{ '  ||  ' }}
-                                {% endfor %}
                                    {% set params = {
                                     order: 'dateCreated desc',
                                     } %}
                                     {{ craft.comments.form(product.id, params) }}
-
+                            </div>
                             </div>
                         </footer>
                 </div>

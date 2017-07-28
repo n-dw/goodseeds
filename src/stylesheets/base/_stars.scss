@@ -1,0 +1,8 @@
+.icon-star, .icon-star-half{
+  color: $stars-color;
+  font-size: 2rem;
+
+  &:before{
+    width: 1rem;
+  }
+}

@@ -16,10 +16,10 @@
             {{ getCsrfInput() }}
 
             <div class="field">
-                <label class="label">Rating</label>
+                <label for="rate_product" class="label">Rating</label>
                 <div class="control">
                     <div class="select">
-                        <select name="fields[commentsRating]">
+                        <select id="rate_product" name="fields[commentsRating]">
                             <option value="2">1</option>
                             <option value="3">1.5</option>
                             <option value="4">2</option>
@@ -35,7 +35,7 @@
             </div>
             <div class="field">
                 <p class="control">
-                <textarea class="textarea" name="fields[comment]" placeholder="Your comments">
+                <textarea class="c-textarea" name="fields[comment]" placeholder="Your comments">
                              {{- attribute(activeComment, 'comment') | trim -}}
                 </textarea>
                     {% if activeComment is defined %}
@@ -48,7 +48,7 @@
             </div>
             <div class="field">
                 <p class="control">
-                    <button type="submit" class="button">Post comment</button>
+                    <button type="submit" class="c-button c-button--cta-black c-button--small">Review</button>
                 </p>
             </div>
         </form>

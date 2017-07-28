@@ -25,7 +25,7 @@
                             <label for="fromEmail">Email *</label>
                             <input class="c-input {% if message is defined and message.getErrors('fromEmail') is not empty %}error{% endif %}"
                                    id="fromEmail" aria-label="Email" required placeholder="email@site.com"  type="email" name="fromEmail"
-                                   value="{% if message is defined %}{{ message.fromEmail }}{% elseif currentUser.email %}{{ currentUser.email }}{% endif %}">
+                                   value="{% if message is defined %}{{ message.fromEmail }}{% elseif currentUser.email is defined %}{{ currentUser.email }}{% endif %}">
                             {{ message is defined and message ? errList.errorList(message.getErrors('fromEmail')) }}
                         </div>
                         <div class="input-wrapper col-xs-12 c-fieldset">

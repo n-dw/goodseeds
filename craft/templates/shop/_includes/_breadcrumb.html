@@ -1,0 +1,17 @@
+<div class="container-fluid wrapper"> <nav class="breadcrumb has-succeeds-separator">
+        <ul>
+            <li><a href="{{ siteUrl }}">Home</a></li>
+            <li><a>Documentation</a></li>
+            <li><a>Components</a></li>
+            <li class="is-active"><a>Breadcrumb</a></li>
+        </ul>
+    </nav></div>
+{% set crumbs = entry.ancestors|default([]) %}
+     {% if crumbs|length %}
+         <ul class="breadcrumbs">
+             <li><a href="{{ siteUrl }}">Home</a></li>
+             {% for crumb in crumbs %}
+                 <li><a href="{{ crumb.url }}">{{ crumb.title }}</a></li>
+             {% endfor %}
+         </ul>
+     {% endif %}

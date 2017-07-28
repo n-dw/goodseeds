@@ -1,14 +1,16 @@
-<article class="comment">
+{% import "shop/macros/product.html" as prodmac %}
+<article class="comment media">
     <div class="media-content">
         <div class="content">
             <p>
-                {{ craft.commentsrating.commentRating(comment.id) }}
                 <strong>THCPOST Customer</strong>
                 <small>
                     <time itemprop="commentTime" datetime="{{ comment.dateCreated | date('c') }}">
                         {{ comment.dateCreated | date('M jS, Y') }}
                     </time>
                 </small>
+                <br>
+                {{ prodmac.starRating(craft.commentsrating.commentRating(comment.id)) }}
                 <br>
                 {{ comment.comment | nl2br }}
                 {% if currentUser and (comment.canEdit() or comment.canTrash()) %}

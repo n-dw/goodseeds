@@ -34,7 +34,7 @@
             <div class="row">
                 {% if not cart.email %}
                     <div class="col-xs-12 c-fieldset">
-                        <label for="email">Email</label>
+                        <label for="email">Email *</label>
                         <input class="c-input" type="text" value="{{ cart.email }}" name="email"
                                placeholder="email@site.com"/>
                         {{ cart.getErrors('email') ? errList.errorList(cart.getErrors('email')) }}

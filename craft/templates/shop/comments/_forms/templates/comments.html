@@ -5,5 +5,7 @@
     {# Provide a comment form at the bottom of page. Used when not replying to another comment #}
     {% if currentUser %}
         {% include 'shop/comments/_forms/templates/form' %}
+    {% else %}
+        <p>Please <a href="/login">sign in</a> or <a href="/register">register</a> to review.</p>
     {% endif %}
 </div>

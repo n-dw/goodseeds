@@ -244,6 +244,18 @@
     }
   }
 }
+
+.content-wrapper{
+  .breadcrumb{
+    overflow: hidden;
+    margin-top: 1rem;
+
+    a{
+      font-size: 1.6rem;
+    }
+  }
+
+}
 // for fixed menu
 #main > section:first-child,.main-nav-mobile-wrapper{
   padding-top: 2.4rem;

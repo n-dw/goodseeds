@@ -71,14 +71,6 @@
             {% block promotions %}
             {% endblock %}
             {% block breadcrumbs %}
-           {# <div class="container-fluid wrapper"> <nav class="breadcrumb">
-                    <ul>
-                        <li><a>Bulma</a></li>
-                        <li><a>Documentation</a></li>
-                        <li><a>Components</a></li>
-                        <li class="is-active"><a>Breadcrumb</a></li>
-                    </ul>
-                </nav></div>#}
             {% endblock %}
             {% block main %}
             {% endblock %}
@@ -92,6 +84,7 @@
     {% block messages %}
         {% set messageNotice = craft.session.getFlash( 'notice' ) %}
         {% set messageError = craft.session.getFlash( 'error' ) %}
+        {% set cartError = cart.getError('stock') %}
         <div class="messages">
             {% if messageNotice %}
                 <div class="notification has-text-centered is-success">
@@ -103,6 +96,12 @@
                 <div class="notification has-text-centered is-danger">
                     <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
                     {{ messageError }}
+                </div>
+            {% endif %}
+            {% if cartError %}
+                <div class="notification has-text-centered is-danger">
+                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    {{ cartError }}
                 </div>
             {% endif %}
         </div>

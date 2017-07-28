@@ -85,6 +85,13 @@ button{
 			border: 2px solid $promotion-hover-color;
 			color: $promotion-hover-color;
 		}
+
+	}
+	&--cta-black--active{
+
+			border: 2px solid $promotion-hover-color;
+			color: $promotion-hover-color;
+
 	}
 	&--mrg-bttm{
 		margin-bottom: 0;
