@@ -5,8 +5,11 @@
 {% extends 'shop/_layouts/checkout' %}
 
 {% block content %}
+    <div class="row center-xs">
+        <div class="col-xs-12 col-psm-8">
+
+
     <div class="checkout-first">
-        {% if not currentUser %}
             <div class="form-filter-wrapper">
                 <h5 class="form-filter-toggle is-black" @click="toggleFilters"><i :class="icon"></i>Sign In</h5>
                 <form method="post" class="login-form" :class="formState + ' is-black'" accept-charset="UTF-8">
@@ -45,7 +48,6 @@
 
                 </form>
             </div>
-        {% endif %}
         <div class="box">
                 <p>Please sign in if you already are a member of THCPOST.<br>
                 If you are not a member please fill out the form below, as we need to verify your age with a valid government ID.</p>
@@ -102,18 +104,17 @@
         </form>
 
     </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
     {% minify js %}
     <script type="text/javascript">
-
         var data = {
             filtersExposed: false,
             icon: 'icon-plus-1',
             formState: 'product-filters-form--closed',
-            pToggle: 'password',
-            password: '',
         };
         var methods = {
             toggleFilters: function() {
@@ -121,14 +122,7 @@
                 this.filtersExposed ? this.icon = "icon-minus" : this.icon = "icon-plus-1";
                 this.filtersExposed ? this.formState = "product-filters-form--open" : this.formState = "product-filters-form--closed";
             },
-            togglePassword(e){
-                e.preventDefault();
-                this.pToggle = this.pToggle === 'password' ? 'text' : 'password'
-                e.target.innerText === 'Hide' ? e.target.innerText = 'Show' :  e.target.innerText = 'Hide';
-            }
         };
-
-
         thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);
     </script>
