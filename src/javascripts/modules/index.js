@@ -18,9 +18,10 @@ import faqComp from './components/faq.vue';
 import quantityComp from './components/quantity.vue';
 import Autocomplete from './components/autocomplete.vue';
 import Password from './components/password.vue';
+import Notify from './components/notify.vue';
 
 var data = {menuOpen: false,  navMenuStatus: "mobile-nav--closed"};
-var components = {autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password};
+var components = {autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify};
 var methods = {
     toggle: function() {
         this.menuOpen = !this.menuOpen;

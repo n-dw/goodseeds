@@ -39,35 +39,7 @@
                 {% endif %}
             </div>
         </header>
-        <footer class="product-card-footer">
-            <div class="product-card__information">
-                <div class="product-title-wrapper">
-                    <h3 class="product-title has-text-centered">{{ product.title }}</h3>
-                </div>
-                <div class="product-info-wrapper">
-                    <div class="media">
-                        <div class="media-left">
-
-                            <div class="product-details-wrapper">
-                                <h4 class="product-strain-type {{ product.strainType.first().slug }}">
-                                    {{ product.strainType.first().slug|first|upper }}
-                                </h4>
-                            </div>
-
-                        </div>
-
-                        <div class="media-content">
-                            <div class="product-price-wrapper has-text-right">
-                                {% set pLastV = product.variants|last %}
-                                {% if product.defaultVariant.onSale %}
-                                    <span class="sale-price">was  <strike>{{ prodmac.priceRange(product.defaultVariant.price, pLastV.price, pLastV.variantWeight.value, cart) }}</strike></span>
-                                {% endif %}
-                                <span class="price"><b>{{ prodmac.priceRange(product.defaultVariant.salePrice, pLastV.salePrice, pLastV.variantWeight.value, cart) }}</b></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </a>
+        {% include 'shop/_includes/product/_productCardFooter' %}
+
 </article>
