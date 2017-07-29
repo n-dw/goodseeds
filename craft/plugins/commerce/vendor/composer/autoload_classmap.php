@@ -990,6 +990,7 @@ return array(
     'Omnipay\\Stripe\\Message\\CreateInvoiceItemRequest' => $vendorDir . '/omnipay/stripe/src/Message/CreateInvoiceItemRequest.php',
     'Omnipay\\Stripe\\Message\\CreatePlanRequest' => $vendorDir . '/omnipay/stripe/src/Message/CreatePlanRequest.php',
     'Omnipay\\Stripe\\Message\\CreateSubscriptionRequest' => $vendorDir . '/omnipay/stripe/src/Message/CreateSubscriptionRequest.php',
+    'Omnipay\\Stripe\\Message\\CreateTokenRequest' => $vendorDir . '/omnipay/stripe/src/Message/CreateTokenRequest.php',
     'Omnipay\\Stripe\\Message\\DeleteCardRequest' => $vendorDir . '/omnipay/stripe/src/Message/DeleteCardRequest.php',
     'Omnipay\\Stripe\\Message\\DeleteCustomerRequest' => $vendorDir . '/omnipay/stripe/src/Message/DeleteCustomerRequest.php',
     'Omnipay\\Stripe\\Message\\DeleteInvoiceItemRequest' => $vendorDir . '/omnipay/stripe/src/Message/DeleteInvoiceItemRequest.php',

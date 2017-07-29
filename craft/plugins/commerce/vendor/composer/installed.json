@@ -412,12 +412,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/http-foundation.git",
-            "reference": "46552dee236cf4c8de2864e6736503b4320b8e30"
+            "reference": "0c4bf18214f040537c47ff8ecabdf10278bdf689"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/46552dee236cf4c8de2864e6736503b4320b8e30",
-            "reference": "46552dee236cf4c8de2864e6736503b4320b8e30",
+            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/0c4bf18214f040537c47ff8ecabdf10278bdf689",
+            "reference": "0c4bf18214f040537c47ff8ecabdf10278bdf689",
             "shasum": ""
         },
         "require": {
@@ -427,7 +427,7 @@
         "require-dev": {
             "symfony/expression-language": "~2.8|~3.0|~4.0"
         },
-        "time": "2017-06-17T07:49:15+00:00",
+        "time": "2017-07-21T11:05:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -808,12 +808,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/omnipay-coinbase.git",
-            "reference": "69c4f07d88ef3bdb2b42cd90234b358b641dfa29"
+            "reference": "1046f0a40de69281d413ac191689e8c1329b76d4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/omnipay-coinbase/zipball/69c4f07d88ef3bdb2b42cd90234b358b641dfa29",
-            "reference": "69c4f07d88ef3bdb2b42cd90234b358b641dfa29",
+            "url": "https://api.github.com/repos/thephpleague/omnipay-coinbase/zipball/1046f0a40de69281d413ac191689e8c1329b76d4",
+            "reference": "1046f0a40de69281d413ac191689e8c1329b76d4",
             "shasum": ""
         },
         "require": {
@@ -822,7 +822,7 @@
         "require-dev": {
             "omnipay/tests": "~2.0"
         },
-        "time": "2015-03-06T05:35:39+00:00",
+        "time": "2017-07-01T03:37:43+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1159,17 +1159,17 @@
     },
     {
         "name": "omnipay/migs",
-        "version": "v2.2.1",
-        "version_normalized": "2.2.1.0",
+        "version": "v2.2.2",
+        "version_normalized": "2.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/omnipay-migs.git",
-            "reference": "c15be0960ae578d60cabc7c0a2895da41430821f"
+            "reference": "0f79c818a150e73497efbe5e097ac4377d8f9717"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/omnipay-migs/zipball/c15be0960ae578d60cabc7c0a2895da41430821f",
-            "reference": "c15be0960ae578d60cabc7c0a2895da41430821f",
+            "url": "https://api.github.com/repos/thephpleague/omnipay-migs/zipball/0f79c818a150e73497efbe5e097ac4377d8f9717",
+            "reference": "0f79c818a150e73497efbe5e097ac4377d8f9717",
             "shasum": ""
         },
         "require": {
@@ -1178,7 +1178,7 @@
         "require-dev": {
             "omnipay/tests": "~2.0"
         },
-        "time": "2016-09-22T01:58:30+00:00",
+        "time": "2017-06-07T07:52:47+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1878,17 +1878,17 @@
     },
     {
         "name": "omnipay/stripe",
-        "version": "v2.4.6",
-        "version_normalized": "2.4.6.0",
+        "version": "V2.4.7",
+        "version_normalized": "2.4.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/omnipay-stripe.git",
-            "reference": "2c0df1df7e6bcc00e893119f50b090b3cd617b0c"
+            "reference": "26a33414a75939af75064022112005d5e51fc9ea"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/omnipay-stripe/zipball/2c0df1df7e6bcc00e893119f50b090b3cd617b0c",
-            "reference": "2c0df1df7e6bcc00e893119f50b090b3cd617b0c",
+            "url": "https://api.github.com/repos/thephpleague/omnipay-stripe/zipball/26a33414a75939af75064022112005d5e51fc9ea",
+            "reference": "26a33414a75939af75064022112005d5e51fc9ea",
             "shasum": ""
         },
         "require": {
@@ -1897,7 +1897,7 @@
         "require-dev": {
             "omnipay/tests": "~2.0"
         },
-        "time": "2017-06-15T07:01:00+00:00",
+        "time": "2017-07-14T09:22:01+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

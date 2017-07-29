@@ -5,27 +5,28 @@
 {% extends 'shop/_layouts/checkout' %}
 
 {% block content %}
+    <div class="row center-xs">
+        <div class="col-xs-12 col-psm-8">
+
+
     <div class="checkout-first">
-        {% if not currentUser %}
             <div class="form-filter-wrapper">
                 <h5 class="form-filter-toggle is-black" @click="toggleFilters"><i :class="icon"></i>Sign In</h5>
                 <form method="post" class="login-form" :class="formState + ' is-black'" accept-charset="UTF-8">
                     {{ getCsrfInput() }}
                     <input type="hidden" name="action" value="users/login">
                     <input type="hidden" name="redirect" value="shop/checkout/addresses">
-
-                    <div class="row">
+                    <div class="box">
+                    <div class="row has-text-left">
                         <div class="input-wrapper col-xs-12 c-fieldset">
-                            <h3>Enter your email address</h3>
+                            <label for="email">Email *</label>
                             <input class="login-form__login-email c-input {% if message is defined and message.getErrors('loginName') is not empty %}error{% endif %}"
                                    aria-label="Email" placeholder="Email *" required id="loginName" type="email" name="loginName"
                                    value="{{ craft.session.rememberedUsername }}">
                         </div>
                         <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
-                            <input class="login-form__login-password c-input {% if message is defined and message.getErrors('password') is not empty %}error{% endif %}"
-                                   aria-label="Password" id="password" type="password" placeholder="Password"
-                                   :type="pToggle" v-model="password" name="password">
-                            <button type="button" class="pwd-toggle" @click.self.prevent="togglePassword">Show</button>
+                            <label for="password">Password *</label>
+                            <password  {% if message is defined and message.getErrors('password') is not empty %}hasError="true"{% endif %}></password>
                             {{ message is defined and message ? errList.errorList(message.getErrors('password')) }}
                         </div>
                     </div>
@@ -38,19 +39,71 @@
                             </label>
                         </div>
                     </div>
+                    </div>
                     <div class="row">
                         <div class="input-wrapper col-xs-12">
-                            <input aria-label="Send" type="submit" class="c-button c-button--large c-button--cta-black"
-                                   value="Sign In">
+                            <button class="c-button c-button--large c-button--cta-blue">  <i class="icon-lock"></i> Sign In</button>
                         </div>
                     </div>
 
                 </form>
             </div>
-        {% endif %}
         <div class="box">
                 <p>Please sign in if you already are a member of THCPOST.<br>
-                If you are not a member please continue as a guest.</p>
+                If you are not a member please fill out the form below, as we need to verify your age with a valid government ID.</p>
+        </div>
+
+        <form enctype="multipart/form-data" class="user-registration-form"  id="user_register" method="post" accept-charset="UTF-8">
+            {{ getCsrfInput() }}
+            <input type="hidden" name="action" value="users/saveUser">
+            <input type="hidden" name="redirect" value="shop/checkout/addresses">
+            <div class="box">
+            <div class="row has-text-left">
+                <div class="input-wrapper col-xs-12 c-fieldset">
+                    <label for="email">Email *</label>
+                    <input class="c-input {% if account is defined and account.getErrors('email') %}error{% endif %}" placeholder="Email *" required aria-label="Email" id="email" type="email"
+                           name="email"
+                            {%- if account is defined %} value="{{ account.email }}"{% endif %}>
+
+                    {% if account is defined %}
+                        {{errList.errorList(account.getErrors('email')) }}
+                    {% endif %}
+                </div>
+
+                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
+                    <label for="password">Password *</label>
+                    <password  {% if message is defined and message.getErrors('password') is not empty %}hasError="true"{% endif %}></password>
+                    {% if account is defined %}
+                        {{errList.errorList(account.getErrors('password')) }}
+                    {% endif %}
+                </div>
+
+                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
+                    <label for="passwordConfirm">Confirm Password *</label>
+                    <password id="passwordConfirm" name="passwordConfirm" {% if message is defined and message.getErrors('passwordConfirm') is not empty %}hasError="true"{% endif %}></password>
+                    {% if account is defined %}
+                        {{errList.errorList(account.getErrors('passwordConfirm')) }}
+                    {% endif %}
+                </div>
+
+                <div class="input-wrapper col-xs-12 c-fieldset c-file-upload has-text-centered">
+                    <label class="has-text-left" for="fields[userGovernmentId]">Upload ID *</label>
+                    <p>Please upload a valid Canadian government photo ID, showing you are over the age of {{ siteSettings.minAge }}, such as a drivers license or passport.</p>
+                    <input required name="fields[userGovernmentId]" type="file" accept="image/*;capture=camera">
+                    {% if account is defined %}
+                        {{errList.errorList(account.getErrors('fields[userGovernmentId]')) }}
+                    {% endif %}
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="input-wrapper col-xs-12 c-fieldset has-text-centered">
+                    <button class="c-button c-button--large c-button--cta-blue">  <i class="icon-lock"></i> Continue</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
         </div>
     </div>
 {% endblock %}
@@ -58,13 +111,10 @@
 {% block scripts %}
     {% minify js %}
     <script type="text/javascript">
-
         var data = {
             filtersExposed: false,
             icon: 'icon-plus-1',
             formState: 'product-filters-form--closed',
-            pToggle: 'password',
-            password: '',
         };
         var methods = {
             toggleFilters: function() {
@@ -72,14 +122,7 @@
                 this.filtersExposed ? this.icon = "icon-minus" : this.icon = "icon-plus-1";
                 this.filtersExposed ? this.formState = "product-filters-form--open" : this.formState = "product-filters-form--closed";
             },
-            togglePassword(e){
-                e.preventDefault();
-                this.pToggle = this.pToggle === 'password' ? 'text' : 'password'
-                e.target.innerText === 'Hide' ? e.target.innerText = 'Show' :  e.target.innerText = 'Hide';
-            }
         };
-
-
         thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);
     </script>

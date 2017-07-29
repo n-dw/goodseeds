@@ -77,8 +77,7 @@
         {% if currentUser %}
             <button type="submit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
         {% else %}
-           <div><input type="email"  v-if="notifyEmailShow" class="c-input u-width-auto" name="customerEmail" required aria-label="Email" placeholder="Email">
-               <button type="submit" @click.stop.prevent="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button></div>
+            <notify></notify>
         {% endif %}
 
     {% endif %}

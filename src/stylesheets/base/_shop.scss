@@ -124,4 +124,5 @@
   border: 2px solid $black;
   font-size: map-get($heading-sizes, 3);
   margin-bottom: ($base-space / 2.148);
+  display: inline-block;
 }

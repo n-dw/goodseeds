@@ -129,7 +129,6 @@
          var data = {
              stockModalOpen: false,
              modalClass: '',
-             notifyEmailShow: false,
              price: "{{ product.defaultVariant.salePrice| commerceCurrency(cart.currency) }}",
              salePrice: "{{ product.defaultVariant.price| commerceCurrency(cart.currency) }}",
              savings: "{{ (product.defaultVariant.price - product.defaultVariant.salePrice) | commerceCurrency(cart.currency) }}"
@@ -143,12 +142,6 @@
                  this.price = e.target.dataset.price;
                  this.salePrice = e.target.dataset.salePrice;
                  this.savings = e.target.dataset.saved;
-             },
-             notifyEmailShowSubmit: function(e) {
-                 if(this.notifyEmailShow){
-                     e.target.click();
-                 }
-                 this.notifyEmailShow = !this.notifyEmailShow;
              }
          };
 

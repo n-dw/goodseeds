@@ -11,5 +11,6 @@ return [
     'requireShippingAddressAtCheckout' => false,
     'requireBillingAddressAtCheckout' => false,
     'pdfPaperSize' => 'letter',
-    'pdfPaperOrientation' => 'portrait'
+    'pdfPaperOrientation' => 'portrait',
+    'autoSetNewCartAddresses' => true
 ];
