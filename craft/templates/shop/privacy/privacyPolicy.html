@@ -1,10 +1,11 @@
 {% extends 'shop/_layouts/main' %}
 {% block main %}
+    {% cache globally using key craft.request.path %}
+    {% minify %}
     <section class="privacy-policy content-section">
         <div class="wrapper container-fluid">
             <div class="row">
                 <div class="col-xs-12">
-                    {% cache %}
                     <h1>{{ entry.title }}</h1>
                     {% for termsGroup in entry.headerText %}
                         <div class="terms-conditions__tc">
@@ -12,9 +13,10 @@
                             <p class="tc__text">{{termsGroup.text}}</p>
                         </div>
                     {% endfor %}
-                    {% endcache %}
                 </div>
             </div>
         </div>
     </section>
+    {% endminify %}
+    {% endcache %}
 {% endblock %}

@@ -1,4 +1,4 @@
-{% set avgRating =  craft.commentsrating.elementAvgRatings(product.id) %}
+
 {% set productStock = product.defaultVariant.stock %}
 {% set isStockLessOunce = (productStock < 28) ? true : false %}
 {% set variantInfo = {} %}
@@ -22,9 +22,7 @@
                 </div>
                 <div class="media-content">
                     <div class="product-price-wrapper has-text-right">
-                        {% if avgRating > 0 %}
-                            <div class="product-rating">{{ prodmac.starRating(avgRating) }}</div>
-                        {% endif %}
+
                         {% set pLastV = product.variants|last %}
                         {% if product.defaultVariant.onSale %}
                             <span class="sale-price">was  <strike>{{ prodmac.priceRange(product.defaultVariant.price, pLastV.price, pLastV.variantWeight.value, cart) }}</strike></span>

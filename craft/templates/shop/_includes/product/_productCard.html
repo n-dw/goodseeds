@@ -1,45 +1,49 @@
-<article class="col-xs-12 col-psm-6 col-sm-6 col-md-4 col-lg-3">
-    <a id="product_card_{{ loop.index }}"
-       class="product-card product-card--{{ product.strainType.first().slug }} product-card--{{ product.type }} "
-       href="{{ product.url }}">
-        <header class="product-card-header">
-            {% set image = product.productImages[0] ?? null %}
-            {% if image %}
-                {% set transformedImages = craft.imager.transformImage(image,
-                [{ width: 460, ratio: 1 , jpegQuality: 85}],
-                {format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 90,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
-                ) %}
-                {% if craft.imager.serverSupportsWebp() %}
-                    {% set transformedImagesWebP = craft.imager.transformImage(image,[{width: 460, ratio: 1, webpQuality: 85}],
-                    { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
-                {% endif %}
-                <picture class="full-width">
+{#make sure to have a var image setting  {% set imageSetting = { width: 460, ratio: 4/3 , jpegQuality: 85} %}#}
+{% set avgRating =  craft.commentsrating.elementAvgRatings(product.id) %}
+<article id="product_card_{{ loop.index }}" class="col-xs-12 col-psm-6 col-sm-6 col-md-4 col-lg-3">
+    <div class="product-card product-card--{{ product.strainType.first().slug }} product-card--{{ product.type }} ">
+        <a href="{{ product.url }}">
+            <header class="product-card-header">
+                {% set image = product.productImages[0] ?? null %}
+                {% if image %}
+                    {% set transformedImages = craft.imager.transformImage(image,
+                    [imageSetting],
+                    {format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 90,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
+                    ) %}
                     {% if craft.imager.serverSupportsWebp() %}
-                        <source class="product-cat__image" sizes="100vw" srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
+                        {% set transformedImagesWebP = craft.imager.transformImage(image,[{width: 460, ratio: 4/3, webpQuality: 85}],
+                        { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
                     {% endif %}
-                    <img class="product-card__image"
-                         src="{{ transformedImages[0].url }}"
-                         sizes="100vw"
-                         srcset="{{ craft.imager.srcset(transformedImages) }}"
-                         alt="{{ image.title }}">
+                    <picture class="full-width">
+                        {% if craft.imager.serverSupportsWebp() %}
+                            <source class="product-cat__image" sizes="100vw" srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
+                        {% endif %}
+                        <img class="product-card__image"
+                             src="{{ transformedImages[0].url }}"
+                             sizes="100vw"
+                             srcset="{{ craft.imager.srcset(transformedImages) }}"
+                             alt="{{ image.title }}">
 
-                </picture>
-            {% endif %}
-            <div class="product-card__overlay">
-                {% if product.defaultVariant.onSale %}
-                    <div class="product-card__ribbon product-card__ribbon--sale">
-                        <span>Sale</span>
-                    </div>
+                    </picture>
                 {% endif %}
+                <div class="product-card__overlay">
+                    {% if product.defaultVariant.onSale %}
+                        <div class="product-card__ribbon product-card__ribbon--sale">
+                            <span>Sale</span>
+                        </div>
+                    {% endif %}
+                    {% if avgRating > 0 %}
+                        <div class="product-card__ribbon product-card__ribbon--product-rating">{{ prodmac.starRating(avgRating) }}</div>
+                    {% endif %}
 
-                {% if product.totalStock < 1 %}
-                    <div class="product-card__ribbon product-card__ribbon--out-of-stock">
-                        <p><strong>Out of Stock</strong></p>
-                    </div>
-                {% endif %}
-            </div>
-        </header>
-    </a>
+                    {% if product.totalStock < 1 %}
+                        <div class="product-card__ribbon product-card__ribbon--out-of-stock">
+                            <p><strong>Out of Stock</strong></p>
+                        </div>
+                    {% endif %}
+                </div>
+            </header>
+        </a>
         {% include 'shop/_includes/product/_productCardFooter' %}
-
+    </div>
 </article>

@@ -1,3 +1,5 @@
+{% cache globally using key 'site-footer' %}
+    {% minify %}
 <footer  data-mobile-padding="true" class="site-footer u-bg-dark-slate-grey">
     <div class="container">
         <div class="row">
@@ -50,3 +52,5 @@
         </div>
     </div>
 </footer>
+{% endminify %}
+    {% endcache %}

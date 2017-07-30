@@ -67,28 +67,35 @@ class ThcpostPlugin extends BasePlugin
         });
         //make sure we have enough stock
         craft()->on('commerce_cart.onBeforeAddToCart', function(Event $event) {
-
-            $fieldNames = ['gramToGrams', 'eighthToGrams', 'quarterToGrams', 'halfToGrams', 'ounceToGrams'];
-
+            //only do this with product with master stock
+            $productTypesByHandle = ['flower', 'oil'];
             $purchasable = $event->params['lineItem']->getPurchasable();
-            $quantity =  $event->params['lineItem']->qty;
+            $productHandle = $purchasable->product->getType()->handle;
 
-            $productStock = $purchasable->product->getTotalStock();
+            if (in_array($productHandle, $productTypesByHandle))
+            {
+                $fieldNames = ['gramToGrams', 'eighthToGrams', 'quarterToGrams', 'halfToGrams', 'ounceToGrams'];
 
-            $variant = craft()->commerce_variants->getVariantById($purchasable->id);
-            $vWeight = $variant->variantWeight->value;
 
-            $field = $fieldNames[$vWeight -1];
-            $settings = craft()->globals->getSetByHandle('gramWeights');
-            $multiplier = $settings->$field;
-            $totalGramAmount = $quantity * $multiplier;
+                $quantity = $event->params['lineItem']->qty;
 
-                if($totalGramAmount > $productStock)
+                $productStock = $purchasable->product->getTotalStock();
+
+                $variant = craft()->commerce_variants->getVariantById($purchasable->id);
+                $vWeight = $variant->variantWeight->value;
+
+                $field = $fieldNames[$vWeight - 1];
+                $settings = craft()->globals->getSetByHandle('gramWeights');
+                $multiplier = $settings->$field;
+                $totalGramAmount = $quantity * $multiplier;
+
+                if ($totalGramAmount > $productStock)
                 {
-                   $cart = craft()->commerce_cart->getCart();
-                   $cart->addError( 'stock', Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left'));
-                   $event->performAction = false;
+                    $cart = craft()->commerce_cart->getCart();
+                    $cart->addError('stock', Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is ' . $productStock . 'g' . ' of stock left'));
+                    $event->performAction = false;
                 }
+            }
 
         });
         /*  So far this would only be called when the discount has matched with everything else about the product. */
