@@ -58,7 +58,7 @@ class Thcpost_ThcpostController extends BaseController
         }
 
         foreach($productSearch as $product){
-            $result['title'] = $product->title;
+            $result['title'] = str_ireplace($queryString, '<span class="search-string-match">' . $queryString . '</span>' , $product->title);
             $result['url'] = $product->url;
             $result['ranking'] = $product->searchScore;
 
@@ -66,7 +66,7 @@ class Thcpost_ThcpostController extends BaseController
         }
 
         foreach($contentSearch as $content){
-            $result['title'] = $content->title;
+            $result['title'] = str_ireplace($queryString, '<span class="search-string-match">' . $queryString . '</span>' , $content->title);
             if($content->type->handle == 'faqs')
             {
                 $result['url'] = 'frequently-asked-questions' . '?aq=' . $content->id . '#faq_' . $content->id;

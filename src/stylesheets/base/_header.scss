@@ -39,14 +39,6 @@
     .autocomplete-wrapper{
       position: relative;
 
-      .autocomplete{
-
-       /* margin-top: -($base-space / 4);
-        position: absolute;
-        padding: ($base-space / 4);
-        width:95%;*/
-
-      }
       .autocomplete ul{
         z-index: 7;
         position: absolute;
@@ -69,7 +61,7 @@
       }
 
       .autocomplete ul li a .search-string-match{
-        color:  $cta-blue-color;
+        color:  $cta-blue-color !important;
       }
 
       .autocomplete ul li a:hover, .autocomplete ul li.focus-list a{
@@ -78,10 +70,10 @@
       }
 
       .autocomplete ul li a span{
-        display: block;
+       /* display: block;
         margin-top: 3px;
         color: grey;
-        font-size: 13px;
+        font-size: 13px;*/
       }
 
       .autocomplete ul li a:hover span, .autocomplete ul li.focus-list a span{
