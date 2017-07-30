@@ -7,60 +7,50 @@
         <div class="wrapper container-fluid">
             <div class="row center-xs">
                 <div class="col-xs-12">
-                    {% if currentUser %}
-                        <h1>My Orders</h1>
-                        <div class="controls">
-                            <a href="/account/orders" class="c-button c-button--cta-black c-button--cta-black--active c-button--small">
-                                My Orders
-                            </a>
-                            <a href="/account" class="c-button c-button--cta-black c-button--small">
-                                My Address
-                            </a>
-                            <a href="/account/change-password" class="c-button c-button--cta-black c-button--small">
-                                Change Password
-                            </a>
-                        </div>
-                        <div class="orders-wrapper row">
-                            {% for order in craft.commerce.orders.customer(craft.commerce.customer).find() %}
-                                <div class="col-xs-12 col-psm-6 col-md-4 col-lg-3">
-                                    <article id="order_{{ loop.index }}" class="order box">
-                                        <ul class="order-listing c-list c-list--clean">
-                                            <li><b>Order #</b>: <a
-                                                        href="{{ url('account/order', { number: order.number }) }}">{{ order.shortNumber }} </a>
-                                            </li>
+                    <h1>My Orders</h1>
+                    <div class="controls">
+                        <a href="/account/orders"
+                           class="c-button c-button--cta-black c-button--cta-black--active c-button--small">
+                            My Orders
+                        </a>
+                        <a href="/account" class="c-button c-button--cta-black c-button--small">
+                            My Address
+                        </a>
+                        <a href="/account/change-password" class="c-button c-button--cta-black c-button--small">
+                            Change Password
+                        </a>
+                    </div>
+                    <div class="orders-wrapper row">
+                        {% for order in craft.commerce.orders.customer(craft.commerce.customer).find() %}
+                            <div class="col-xs-12 col-psm-6 col-md-4 col-lg-3">
+                                <article id="order_{{ loop.index }}" class="order box">
+                                    <ul class="order-listing c-list c-list--clean">
+                                        <li><b>Order #</b>: <a
+                                                    href="{{ url('account/order', { number: order.number }) }}">{{ order.shortNumber }} </a>
+                                        </li>
 
-                                            <li><b>Status:</b> <span
-                                                        class="order-status order-status--{{ order.orderStatus.handle }}">{{ order.orderStatus.name }}</span></a>
-                                            </li>
-                                            <li><b>Order Date:</b> {{ order.dateOrdered }}</a></li>
-                                            <li><b>Total Items:</b> {{ order.totalQty }}</a></li>
-                                            <li><b>Total Price:</b> <span
-                                                        class="price">{{ order.totalPrice|commerceCurrency(cart.currency) }}</span>
-                                            </li>
+                                        <li><b>Status:</b> <span
+                                                    class="order-status order-status--{{ order.orderStatus.handle }}">{{ order.orderStatus.name }}</span></a>
+                                        </li>
+                                        <li><b>Order Date:</b> {{ order.dateOrdered }}</a></li>
+                                        <li><b>Total Items:</b> {{ order.totalQty }}</a></li>
+                                        <li><b>Total Price:</b> <span
+                                                    class="price">{{ order.totalPrice|commerceCurrency(cart.currency) }}</span>
+                                        </li>
+                                        <li><b>Tracking Number:</b>
+                                            {% if order.trackingNumber is not empty %}
+                                                <a href="{{ url('https://www.canadapost.ca/cpotools/apps/track/personal/findByTrackNumber', { trackingNumber: order.trackingNumber }) }}"><span
+                                                            class="tracking-number">{{ order.trackingNumber }}</span></a>
+                                            {% else %}
+                                                Coming Soon
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                </article>
+                            </div>
+                        {% endfor %}
 
-
-
-
-                                            <li><b>Tracking Number:</b>
-                                                {% if order.trackingNumber is not empty %}
-                                                    <a href="{{ url('https://www.canadapost.ca/cpotools/apps/track/personal/findByTrackNumber', { trackingNumber: order.trackingNumber }) }}"><span
-                                                                class="tracking-number">{{ order.trackingNumber }}</span></a>
-                                                    {% else %}
-                                                    Coming Soon
-                                                {% endif %}
-                                            </li>
-
-
-
-
-                                        </ul>
-
-                                    </article>
-                                </div>
-                            {% endfor %}
-
-                        </div>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,21 +1,23 @@
 {% extends 'shop/_layouts/main' %}
 {% block main %}
+    {% cache globally using key craft.request.path %}
+    {% minify %}
+    <section class="terms-conditions content-section">
+        <div class="wrapper container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>{{ entry.title }}</h1>
+                    {% for termsGroup in entry.headerText %}
 
-<section class="terms-conditions content-section">
-    <div class="wrapper container-fluid">
-        <div class="row">
-            <div class="col-xs-12">
-                {% cache globally using key craft.request.path %}
-                <h1>{{ entry.title }}</h1>
-                {% for termsGroup in entry.headerText %}
-                <div class="terms-conditions__tc">
-                    <h2 class="tc__heading">{{termsGroup.header}}</h2>
-                    <p class="tc__text">{{termsGroup.text}}</p>
+                        <div class="terms-conditions__tc">
+                            <h2 class="tc__heading">{{ termsGroup.header }}</h2>
+                            <p class="tc__text">{{ termsGroup.text }}</p>
+                        </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-                {% endcache %}
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    {% endminify %}
+    {% endcache %}
 {% endblock %}

@@ -24,7 +24,7 @@
                     <a  href="#"
                         @click.prevent="selectList(data)"
                         @mousemove="mousemove(i)">
-                        <b>{{ data[anchor] }}</b>
+                        <b v-html="data[anchor]"></b>
                     </a>
 
                 </li>

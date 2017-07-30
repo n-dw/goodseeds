@@ -20,4 +20,5 @@
 
 return array(
     'search' => array('action' => 'thcpost/thcpost/searchSite'),
+    //'shop' => array('action' => 'thcpost/thcpost/shopPage')
 );

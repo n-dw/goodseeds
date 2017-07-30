@@ -48,12 +48,6 @@ var methods = {
         window.location.href = data.url;
     },
     processJsonData: function(json) {
-        /* data.forEach(function(dataItem, index){
-         if(dataItem.title.toLowerCase().indexOf('you') !== -1){
-         json.data[index].title = dataItem.title.replace(new RegExp(this.type, 'g'), '<span class="search-string-match">' + this.type + '</span>');
-         }
-         });*/
-
         return json.data;
     }
 }

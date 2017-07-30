@@ -18,6 +18,10 @@
                 {% set params = params|merge({relatedTo : categoriesArray}) %}
             {% case "oil" %}
                 {% set params = params|merge({type : 'Oil'}) %}
+            {% case "flower" %}
+                {% set params = params|merge({type : 'Flower'}) %}
+            {% case "edibles" %}
+                {% set params = params|merge({type : 'Edibles'}) %}
             {% case "stock" %}
                 {% set params = params|merge({hasVariant:{hasStock : true}}) %}
             {% case "sortBy" %}
@@ -27,6 +31,8 @@
                         {% set params = params|merge({order : 'defaultPrice DESC'}) %}
                     {% elseif postVarValue == "lth" %}
                         {% set params = params|merge({order : 'defaultPrice ASC'}) %}
+                    {% elseif postVarValue == "reviewHtl" %}
+                        {% set params = params|merge({order : 'averageRating DESC'}) %}
                     {% endif %}
             {% endswitch %}
         {% endfor %}
@@ -42,7 +48,7 @@
             {% set categoriesArray = categoriesArray|merge([{targetElement: category,}]) %}
             {% set params = params|merge({relatedTo : categoriesArray}) %}
         {% case "organic" %}
-
+        {% set params = params|merge({'organic' : true}) %}
         {% case "concentrates" %}
             {% set params = params|merge({type : 'Oil'}) %}
         {% case "Edibles" %}
@@ -60,7 +66,7 @@
                     {name: 'stock', value: '1', label: 'In Stock'}],
                 'select' : {
                     name:'sortBy',
-                    options: [{name: 'Latest Products', value: 'new'},{name: 'Price: Low to High', value: 'lth'},{name: 'Price: High to Low', value: 'htl'}]
+                    options: [{name: 'Latest Products', value: 'new'},{name: 'Price: Low to High', value: 'lth'},{name: 'Price: High to Low', value: 'htl'}, {name: 'Best Reviews', value: 'reviewHtl'}]
                 }
                 } %}
                 <fieldset class="c-fieldset c-fieldset--border">
@@ -103,6 +109,7 @@
         {% endif %}
     {% endmacro %}
     {% from _self import productForm %}
+    {% set hashVal =  craft.thcpost.hashValue(formParams) %}
     <section class="shop product-listings product-listing-app content-section">
         <div class="wrapper container-fluid">
             <div class="row">
@@ -114,10 +121,13 @@
                         </div>
                     </div>
                     <div class="products-list row">
-                        {% cache  globally using key "products-" ~ craft.request.path %}
-                        {% for product in products %}
-                            {% include '/shop/_includes/product/_productCard.html' %}
-                        {% endfor %}
+                        {% set imageSetting = { width: 460, ratio: 1 , jpegQuality: 85} %}
+                        {% cache  globally using key "products-" ~ craft.request.path ~ '-' ~ hashVal %}
+                            {% minify %}
+                                {% for product in products %}
+                                    {% include '/shop/_includes/product/_productCard.html' %}
+                                {% endfor %}
+                            {% endminify %}
                         {% endcache %}
                     </div>
                 </div>

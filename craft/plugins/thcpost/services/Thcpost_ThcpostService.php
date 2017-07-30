@@ -29,8 +29,23 @@ class Thcpost_ThcpostService extends BaseApplicationComponent
      *
      *     craft()->thcpost_thcpost->exampleService()
      */
-    public function exampleService()
+    public function hashValue($arr)
     {
+        if(is_array($arr))
+        {
+            if(array_key_exists('CRAFT_CSRF_TOKEN', $arr))
+            {
+                unset($arr['CRAFT_CSRF_TOKEN']);
+            }
+
+            $jsonArr = json_encode($arr);
+
+            $hashVal = hash('crc32', $jsonArr);
+
+            return $hashVal;
+
+        }
+        return false;
     }
 
 }
