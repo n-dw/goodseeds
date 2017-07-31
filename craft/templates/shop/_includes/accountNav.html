@@ -32,14 +32,6 @@
             </li>
         {% endif %}
     <li class="account-nav__item {% if page == 'cart' %}app-menu__item--active{% endif %}">
-        <a class="cart-button" href="{{ url('shop/cart') }}">
-            <i class="icon-basket cart-count-wrapper">
-                {% if cart.lineItems|length > 0 %}
-                <span class="cart-count count">
-                {{ cart.lineItems|length }}
-                </span>
-                {% endif %}
-            </i>
-        </a>
+        <minicart cart="{{ cartJson | json_encode() }}"></minicart>
     </li>
 </ul>

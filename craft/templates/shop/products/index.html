@@ -49,7 +49,7 @@
             {% set params = params|merge({relatedTo : categoriesArray}) %}
         {% case "organic" %}
         {% set params = params|merge({'organic' : true}) %}
-        {% case "concentrates" %}
+        {% case "oil" %}
             {% set params = params|merge({type : 'Oil'}) %}
         {% case "Edibles" %}
             {% set params = params|merge({type : 'Edibles'}) %}

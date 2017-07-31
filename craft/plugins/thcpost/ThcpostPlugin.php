@@ -179,8 +179,8 @@ class ThcpostPlugin extends BasePlugin
         //change the field on the product for its average rating everytime a review is updated.
         craft()->on('commentsRating.onSaveCommentRating', function(Event $event) {
 
-          //  $params = $event->params['lineItem'];
-           /* $elementId = $params['commentRating']['elementId'];
+           $params = $event->params;
+            $elementId = $params['commentRating']['elementId'];
 
             // Only do anything if it is a front end submission
             if(is_numeric($elementId))
@@ -196,10 +196,7 @@ class ThcpostPlugin extends BasePlugin
                     if(is_numeric($productAvgRating))
                     {
                          $product->setContentFromPost(array('averageRating' => $productAvgRating, 'totalRatings' => $productNumberRatings));
-                      /* // $product->getContent()->setAttributes(array(
-                                                                  'averageRating' => $productAvgRating,
-                                                                  'totalRatings' => $productNumberRatings
-                                                              ));
+                       // $product->getContent()->setAttributes(array('averageRating' => $productAvgRating, 'totalRatings' => $productNumberRatings));
 
                         if (! craft()->commerce_products->saveProduct($product))
                         {
@@ -210,7 +207,7 @@ class ThcpostPlugin extends BasePlugin
                     }
 
                 }
-            }*/
+            }
         });
     }
 

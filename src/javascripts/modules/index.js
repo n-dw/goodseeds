@@ -19,9 +19,10 @@ import quantityComp from './components/quantity.vue';
 import Autocomplete from './components/autocomplete.vue';
 import Password from './components/password.vue';
 import Notify from './components/notify.vue';
+import Minicart from './components/miniCart.vue';
 
 var data = {menuOpen: false,  navMenuStatus: "mobile-nav--closed"};
-var components = {autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify};
+var components = {autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart};
 var methods = {
     toggle: function() {
         this.menuOpen = !this.menuOpen;

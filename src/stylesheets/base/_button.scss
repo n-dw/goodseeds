@@ -39,8 +39,8 @@ button{
 		background: none;
 		text-transform: uppercase;
 	}
-	&--red{
-
+	&--cart{
+		display: inline-block;
 	}
 	&--promotion{
 
@@ -55,13 +55,13 @@ button{
 	}
 	&--cta-blue{
 
-		border: 2px solid $cta-blue-color;
-		color: $cta-blue-color;
+		border: 2px solid $cta-blue-color !important;
+		color: $cta-blue-color !important;
 
 
 		&:hover{
-			border: 2px solid $cta-blue-hover-color;
-			color: $cta-blue-hover-color;
+			border: 2px solid $cta-blue-hover-color !important;
+			color: $cta-blue-hover-color !important;
 		}
 	}
 	&--cta-white{
@@ -77,13 +77,13 @@ button{
 	}
 	&--cta-black{
 
-		border: 2px solid map_get($colors, black);
-		color: map_get($colors, black);
+		border: 2px solid map_get($colors, black) !important;
+		color: map_get($colors, black) !important;
 
 
 		&:hover{
-			border: 2px solid $promotion-hover-color;
-			color: $promotion-hover-color;
+			border: 2px solid $promotion-hover-color !important;
+			color: $promotion-hover-color !important;
 		}
 
 	}
