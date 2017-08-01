@@ -8,32 +8,92 @@
         <div class="product-title-wrapper">
             <h3 class="product-title has-text-centered">{{ product.title }}</h3>
         </div>
-        <div class="product-info-wrapper">
-            <div class="media">
-                <div class="media-left">
-                    <div class="product-details-wrapper">
-                        <h4 class="product-strain-type {{ product.strainType.first().slug }}">
-                            {{ product.strainType.first().slug|first|upper }}
-                        </h4>
-                        {% if product.organic %}
-                            <h4 class="product-strain-type organic">O</h4>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="media-content">
-                    <div class="product-price-wrapper has-text-right">
+        {% set productVariants = {} %}
+        {% set currentUserEmail = currentUser.email is defined ? currentUser.email  : '' %}
 
-                        {% set pLastV = product.variants|last %}
-                        {% if product.defaultVariant.onSale %}
-                            <span class="sale-price">was  <strike>{{ prodmac.priceRange(product.defaultVariant.price, pLastV.price, pLastV.variantWeight.value, cart) }}</strike></span>
-                        {% endif %}
-                        <span class="price"><b>{{ prodmac.priceRange(product.defaultVariant.salePrice, pLastV.salePrice, pLastV.variantWeight.value, cart) }}</b></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="product-buy-now">
-            {% include 'shop/_includes/product/_productCardFooterQuickBuy' %}
-        </div>
+        {% if productStock > 0 %}
+            {% set variantWeights =[
+            {weight: '1g', gramWeight: 1},
+            {weight: '1/8oz', gramWeight: 3.5},
+            {weight: '1/4oz', gramWeight: 7},
+            {weight: '1/2oz', gramWeight: 14},
+            {weight: '1oz', gramWeight: 28}
+            ] %}
+
+            {% for variant in product.variants %}
+                {% set placement = variant.variantWeight.value %}
+                {% set purchasableId = variant.purchasableId %}
+                {% set price = variant.price | commerceCurrency(cart.currency) %}
+                {% set salePrice = variant.salePrice | commerceCurrency(cart.currency) %}
+                {% set savings = (variant.price - variant.salePrice) | commerceCurrency(cart.currency) %}
+                {% if variantInfo is defined %}
+                    {% set variantInfo = variantInfo | merge({('var_' ~ placement): {salePrice: salePrice, price: price, savings: savings, purchasableId: purchasableId}}) %}
+                {% else %}
+                    {% set variantInfo =  {('var_' ~ placement) : {salePrice: salePrice, price: price, savings: savings,  purchasableId: purchasableId}} %}
+                {% endif %}
+            {% endfor %}
+            {% set isChecked = false %}
+            {% for variant in variantWeights %}
+                {% set noVariant = true %}
+                {% set purchasableId = '' %}
+                {% set price = '' %}
+                {% set salePrice = '' %}
+                {% if variantInfo['var_' ~ (loop.index)] is defined %}
+                    {% set noVariant = false %}
+                    {% set purchasableId = variantInfo['var_' ~ (loop.index)].purchasableId %}
+                    {% set price = variantInfo['var_' ~ (loop.index)].price %}
+                    {% set salePrice = variantInfo['var_' ~ (loop.index)].salePrice %}
+                    {% set savings = variantInfo['var_' ~ (loop.index)].savings %}
+                    {% set isDisabled =   (productStock < variant.gramWeight or noVariant) %}
+                    {% set isChecked = loop.first %}
+                {% endif %}
+                {% set
+                productVariant = {
+                    purchasableId: purchasableId,
+                    disabled: isDisabled,
+                    checked: isChecked,
+                    weight: variant.weight,
+                    place: 'variant_' ~ loop.index,
+                    price: price,
+                    salePrice: salePrice,
+                    savings: savings
+                }
+                %}
+                {% set productVariants = productVariants|merge([productVariant]) %}
+            {% endfor %}
+        {% endif %}
+
+        {% set pLastV = product.variants|last %}
+        {% set productSalePrice = prodmac.priceRange(product.defaultVariant.price, pLastV.price, pLastV.variantWeight.value, cart)  %}
+        {% set productPrice = prodmac.priceRange(product.defaultVariant.salePrice, pLastV.salePrice, pLastV.variantWeight.value, cart)  %}
+
+        {% set
+            productVariant = {
+            purchasableId: purchasableId,
+            disabled: isDisabled,
+            checked: isChecked,
+            weight: variant.weight,
+            place: 'variant_' ~ loop.index,
+            price: price,
+            salePrice: salePrice,
+            savings: savings
+        }
+
+        {% set productVue = {
+            id: product.id,
+            title: product.title,
+            stock: productStock,
+            sale: product.defaultVariant.onSale,
+            organic: product.organic == '1' ? true : false,
+            price: productPrice,
+            salePrice: productSalePrice,
+            strainType: product.strainType.first().slug,
+            strainTypeFrontVal: product.strainType.first().slug|first|upper,
+            form : formVals,
+            variants: productVariants
+        } %}
+
+
+        <buynow :product="{{ productVue | json_encode() }}" :currentUserEmail="{{ currentUserEmail | json_encode() }}"></buynow>
     </div>
 </footer>

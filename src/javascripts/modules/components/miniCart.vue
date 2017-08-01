@@ -41,7 +41,7 @@
     import bus from '../index'
 
     export default {
-        name: 'password',
+        name: 'minicart',
         props:{
             cart:{
                 type: String,
