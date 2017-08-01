@@ -1,6 +1,6 @@
 <template>
     <div class="mini-cart__wrapper">
-        <a class="cart-button app-menu__link" @click="showMiniCart = !showMiniCart">
+        <a class="cart-button app-menu__link" @click="showMiniCart = !showMiniCart && lineItems.length > 0">
             <i class="icon-basket cart-count-wrapper app-menu__icon">
                 <span class="cart-count count" v-show="lineItems.length">{{lineItems.length}}</span>
             </i>
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+    import bus from '../index'
+
     export default {
         name: 'password',
         props:{
@@ -71,6 +73,17 @@
             this.lineItems = this.cartJson.lineitems;
             this.subTotal = this.cartJson.subtotal;
             this.showMiniCart = this.showMiniCartInitial;
+            bus.$on('cartUpdate', (ajaxCart) => {
+                console.log(ajaxCart);
+                this.updateCartVal(ajaxCart);
+            });
+        },
+        methods:{
+            updateCartVal(ajaxCart){
+                this.subTotal= ajaxCart.itemSubtotal;
+                this.showMiniCart = true;
+                this.lineItems = ajaxCart.lineItems;
+            }
         }
     }
 </script>

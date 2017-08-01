@@ -76,15 +76,15 @@
   }
   input[type="radio"]:disabled ~ label{
     cursor: not-allowed;
-    border: 2px solid map-get($colors, mid-grey);
+    border: 2px solid map-get($colors, mid-grey) !important;
     .variant-weight{
-      color:  map-get($colors, mid-grey);
+      color:  map-get($colors, mid-grey) !important;
     }
 
     &:hover{
-      border: 2px solid map-get($colors, mid-grey);
+      border: 2px solid map-get($colors, mid-grey) !important;
      .variant-weight{
-        color:  map-get($colors, mid-grey);
+        color:  map-get($colors, mid-grey) !important;
       }
     }
   }

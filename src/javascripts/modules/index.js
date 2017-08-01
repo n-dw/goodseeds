@@ -20,9 +20,13 @@ import Autocomplete from './components/autocomplete.vue';
 import Password from './components/password.vue';
 import Notify from './components/notify.vue';
 import Minicart from './components/miniCart.vue';
+import BuyNow from './components/buynow.vue';
+
+var bus = new Vue({});
+export default bus;
 
 var data = {menuOpen: false,  navMenuStatus: "mobile-nav--closed"};
-var components = {autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart};
+var components = {autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
     toggle: function() {
         this.menuOpen = !this.menuOpen;
@@ -56,6 +60,10 @@ var methods = {
 thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
 thcpost.vueParams.components = Object.assign(thcpost.vueParams.components, components);
 thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);
+
+
+/*Vue.http.options.emulateJSON = true;
+Vue.http.options.emulateHTTP = true;*/
 
 new Vue({
     el: '.vue-app',

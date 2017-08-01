@@ -121,6 +121,9 @@
 {% block scripts %}
 
 {% endblock %}
+<script type="text/javascript">
+    window.csrfTokenName = "{{ craft.config.get('csrfTokenName')  }}";window.csrfTokenValue = "{{ craft.request.getCsrfToken }}";
+</script>
 {%  set appJS =  'assets/js/app.js' | gulp_rev %}
 {% includeJsFile appJS %}
 </body>
