@@ -80,9 +80,21 @@
         },
         methods:{
             updateCartVal(ajaxCart){
-                this.subTotal= ajaxCart.itemSubtotal;
+                this.subTotal= '$' + ajaxCart.itemSubtotal;
                 this.showMiniCart = true;
-                this.lineItems = ajaxCart.lineItems;
+                let lItems = [];
+                console.log( ajaxCart.lineItems);
+                for (let lineItem of ajaxCart.lineItems) {
+                    console.log(lineItem);
+
+                    lItems.push({
+                        qty: lineItem.qty,
+                        total: '$' + lineItem.qty,
+                        name: lineItem.snapshot.product.title,
+                    });
+
+                }
+                this.lineItems = lItems;
             }
         }
     }

@@ -38,6 +38,7 @@
                 {% set purchasableId = '' %}
                 {% set price = '' %}
                 {% set salePrice = '' %}
+                {% set isDisabled = true %}
                 {% if variantInfo['var_' ~ (loop.index)] is defined %}
                     {% set noVariant = false %}
                     {% set purchasableId = variantInfo['var_' ~ (loop.index)].purchasableId %}
@@ -51,9 +52,9 @@
                 productVariant = {
                     purchasableId: purchasableId,
                     disabled: isDisabled,
-                    checked: isChecked,
+                    checked: false,
                     weight: variant.weight,
-                    place: 'variant_' ~ loop.index,
+                    place: 'product_' ~ product.id ~ '_variant_' ~ loop.index,
                     price: price,
                     salePrice: salePrice,
                     savings: savings
@@ -67,33 +68,35 @@
         {% set productSalePrice = prodmac.priceRange(product.defaultVariant.price, pLastV.price, pLastV.variantWeight.value, cart)  %}
         {% set productPrice = prodmac.priceRange(product.defaultVariant.salePrice, pLastV.salePrice, pLastV.variantWeight.value, cart)  %}
 
-        {% set
-            productVariant = {
-            purchasableId: purchasableId,
-            disabled: isDisabled,
-            checked: isChecked,
-            weight: variant.weight,
-            place: 'variant_' ~ loop.index,
-            price: price,
-            salePrice: salePrice,
-            savings: savings
-        }
+        {% set formAction = productStock > 0 ? '/commerce/cart/updateCart' : '/inStockNotifier/notification/requestRestockNotification' %}
+        {% set inputs =[
+                    {name: 'action', value:  formAction, type:'hidden',},
+                    {name: 'productId', value: product.id, type:'hidden',},
+                    {name: 'productName', value: product.title , type:'hidden',}
+                ]
+        %}
+        {% if currentUser.email is defined %}
+            {% set inputs = inputs|merge([{name: 'customerEmail', value: currentUser.email , type:'hidden',}]) %}
+        {% endif %}
 
+        {% set
+         formVals = {inputs : inputs}
+        %}
         {% set productVue = {
             id: product.id,
             title: product.title,
             stock: productStock,
+            formAction: formAction,
             sale: product.defaultVariant.onSale,
             organic: product.organic == '1' ? true : false,
             price: productPrice,
             salePrice: productSalePrice,
             strainType: product.strainType.first().slug,
             strainTypeFrontVal: product.strainType.first().slug|first|upper,
-            form : formVals,
             variants: productVariants
         } %}
 
 
-        <buynow :product="{{ productVue | json_encode() }}" :currentUserEmail="{{ currentUserEmail | json_encode() }}"></buynow>
+        <buynow :product="{{ productVue | json_encode() }}" formaction="{{ formAction }}" :form="{{ formVals | json_encode() }}" :currentUserEmail="{{ currentUserEmail | json_encode() }}"></buynow>
     </div>
 </footer>

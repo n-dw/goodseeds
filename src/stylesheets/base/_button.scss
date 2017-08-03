@@ -4,6 +4,28 @@
 button{
 	cursor: pointer;
 }
+.is-loading{
+	color: transparent !important;
+	pointer-events: none;
+
+	&:after{
+		-webkit-animation: spinAround 500ms infinite linear;
+		animation: spinAround 500ms infinite linear;
+		border: 2px solid $black;
+		border-radius: 290486px;
+		border-right-color: transparent;
+		border-top-color: transparent;
+		content: "";
+		display: block;
+		height: 1em;
+		position: relative;
+		width: 1em;
+		position: absolute;
+		left: calc(50% - (1em / 2));
+		top: calc(50% - (1em / 2));
+		position: absolute !important;
+	}
+}
 .c-button {
 
 	// Reset appearance
@@ -55,13 +77,13 @@ button{
 	}
 	&--cta-blue{
 
-		border: 2px solid $cta-blue-color !important;
-		color: $cta-blue-color !important;
+		border: 2px solid $cta-blue-color;
+		color: $cta-blue-color;
 
 
 		&:hover{
-			border: 2px solid $cta-blue-hover-color !important;
-			color: $cta-blue-hover-color !important;
+			border: 2px solid $cta-blue-hover-color;
+			color: $cta-blue-hover-color;
 		}
 	}
 	&--cta-white{
@@ -77,13 +99,13 @@ button{
 	}
 	&--cta-black{
 
-		border: 2px solid map_get($colors, black) !important;
-		color: map_get($colors, black) !important;
+		border: 2px solid map_get($colors, black);
+		color: map_get($colors, black);
 
 
 		&:hover{
-			border: 2px solid $promotion-hover-color !important;
-			color: $promotion-hover-color !important;
+			border: 2px solid $promotion-hover-color;
+			color: $promotion-hover-color;
 		}
 
 	}

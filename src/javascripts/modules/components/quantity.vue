@@ -1,7 +1,7 @@
 <template>
     <div class="qty-cpt">
         <button @click="decrease" type="button" class="c-button c-button--small c-button--cta-black quantity-control quantity-control--decrement">-</button>
-        <input :disabled="disabled == 'true' ? true : false" type="number" name="qty" min="1" maxlength="3" v-model="quantity">
+        <input  @change="change" :disabled="disabled == 'true' ? true : false" type="number" name="qty" min="1" maxlength="3" v-model="quantity">
         <button @click="increase"  type="button" class="c-button c-button--small c-button--cta-black quantity-control quantity-control--decrement">+</button>
     </div>
 </template>
@@ -30,13 +30,23 @@
             this.dis = this.disabled;
         },
         methods: {
+            change(){
+                if (this.dis !== false)
+                 this.$emit('changequantity', this.quantity);
+
+            },
             increase() {
-                if (this.dis == false)
+                if (this.dis == false) {
                     this.quantity++;
+                    this.$emit('changequantity', this.quantity);
+                }
+
             },
             decrease() {
-                if (this.dis == false && this.quantity > 1)
+                if (this.dis == false && this.quantity > 1) {
                     this.quantity--;
+                    this.$emit('changequantity', this.quantity);
+                }
             },
         }
     }

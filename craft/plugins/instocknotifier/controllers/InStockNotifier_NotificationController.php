@@ -67,10 +67,21 @@ class InStockNotifier_NotificationController extends BaseController {
 
         if (craft()->inStockNotifier_notification->createNotificationRequest($model))
         {
+            if (craft()->request->isAjaxRequest)
+            {
+                $this->returnJson(['success' => true, 'msg' => $customerEmail . ' has been added and you will be notified when ' . $product->getName() . ' is restocked.']);
+            }
             craft()->userSession->setNotice(Craft::t($customerEmail . ' has been added and you will be notified when ' . $product->getName() . ' is restocked.'));
         } else
         {
-            craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+            if (craft()->request->isAjaxRequest)
+            {
+                $error = 'Sorry you couldn\'t be added to the notifications list';
+                $this->returnErrorJson($error);
+            }
+            else{
+                craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+            }
         }
     }
 }

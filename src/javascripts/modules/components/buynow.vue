@@ -22,21 +22,18 @@
         <div class="buy-now">
             <form method="POST" id="addToCartForm"  @submit.prevent="submitForm">
 
-                    <input v-for="input in form.inputs" type="input.type" name="input.name" value="input.value">
-                    <input type="hidden" name="action" value="commerce/cart/updateCart">
-                    <input type="hidden" name="productId" :value="productData.id">
-                    <input type="hidden" name="productName" :value="productData.title">
-
-                    <input v-if="currentuseremail != ''" type="hidden" name="customerEmail" :value="currentuseremail">
+                <input v-for="input in form.inputs" :type="input.type" :name="input.name" :value="input.value">
 
                 <div v-if=" productData.stock > 0" class="in-stock-controls">
                     <div class="row">
                         <div class="product-variants col-xs">
+                            <!--<input v-model="picked" :id="purchasableId" name="purchasableId" type="hidden"
+                                   :value="variant.purchasableId"  :disabled="variant.disabled">-->
                             <template v-for="(variant, index) in productData.variants">
                                 <div class="radio-wrapper variant">
                                     <input v-model="picked" :id="variant.place" name="purchasableId" type="radio"
-                                       :value="variant.purchasableId"  :disabled="variant.disabled">
-                                    <label  class="c-radio c-button--cta-black c-button--small variant-label" :disabled="variant.disabled" :for="variant.place">
+                                       :value="variant.purchasableId" :checked="variant.checked" :disabled="variant.disabled">
+                                    <label  class="c-radio c-button--cta-black c-button--small variant-label"  @click="variantClick(index)" :disabled="variant.disabled" :for="variant.place">
                                         <span class="variant-weight">
                                         <strike v-if="variant.disabled">
                                                 {{ variant.weight }}
@@ -52,17 +49,17 @@
                     </div>
                     <div class="row center-xs">
                         <div class="col-xs">
-                            <quantity :disabled="productData.stock < 1" qty="1"></quantity>
+                            <quantity @changequantity="changeQuantity" :disabled="productData.stock < 1" qty="1"></quantity>
                         </div>
                     </div>
                 </div>
 
-                <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-black add-to-cart">Buy Now</button>
+                <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-black add-to-cart"  :class="loading">Buy Now</button>
 
-                <button v-else-if="currentuseremail != '' && productData.stock < 1" type="submit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+                <button v-else-if="currentuseremail != '' && productData.stock < 1" type="submit" :class="loading" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 <div v-else class="notify-stock-component">
-                    <input type="email"  v-show="notifyEmailShow" class="c-input u-width-auto" name="customerEmail" required aria-label="Email" placeholder="Email">
-                    <button type="submit" @click.stop.prevent="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+                    <input type="email" v-model="email"  v-show="notifyEmailShow" class="c-input has-text-centered" name="customerEmail" required aria-label="Email" placeholder="Email">
+                    <button type="submit" :class="loading" @click="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 </div>
             </form>
         </div>
@@ -74,13 +71,7 @@
 
     import bus from '../index';
     import quantityComp from './quantity.vue';
-    import axios from 'axios';
-    <input v-for="input in form.inputs" type="input.type" name="input.name" value="input.value">
-        <input type="hidden" name="action" value="commerce/cart/updateCart">
-        <input type="hidden" name="productId" :value="productData.id">
-        <input type="hidden" name="productName" :value="productData.title">
 
-        <input v-if="currentuseremail != ''" type="hidden" name="customerEmail" :value="currentuseremail">
     export default {
         name: 'buynow',
         components: {quantity: quantityComp},
@@ -138,6 +129,9 @@
                 picked: '',
                 price: '',
                 salePrice: '',
+                email: '',
+                qty: '1',
+                loading: '',
             };
         },
         mounted(){
@@ -145,39 +139,95 @@
             this.productData = this.product;
             this.price = this.product.price;
             this.salePrice = this.product.salePrice;
-            //this.picked = this.product;
-            console.log(this.productData);
-            console.log(this.currentuseremail);
+            this.email = this.currentuseremail;
         },
         methods: {
             notifyEmailShowSubmit: function(e) {
                 if(this.notifyEmailShow){
-                   this.submitForm();
+                   return true;
                 }
                 this.notifyEmailShow = !this.notifyEmailShow;
             },
-            submitForm: () =>{
+            submitForm: function(e){
+                this.loading = 'is-loading';
                 var config = {
                     responseType: 'json'
                 };
 
-                var data = {
-                    purchasableId: this.picked,
-                };
-                for (var input in this.form.inputs){
-                    data[input.name] = input.value;
+                let params = new URLSearchParams();
+
+                var dataXHR = {};
+
+                if(this.picked !== ''){
+                    dataXHR['purchasableId'] = this.picked;
+                    params.append('purchasableId', this.picked);
                 }
 
-                data[window.csrfTokenName] = window.csrfTokenValue; // Append CSRF Token
+                if(this.email !== ''){
+                    dataXHR['customerEmail'] = this.email;
+                    params.append('customerEmail', this.email);
+                }
 
-                axios.post('/', data, config)
+                if(this.qty !== ''){
+                    dataXHR['qty'] = this.qty;
+                    params.append('qty', this.qty);
+                }
+
+                for (let input of this.form.inputs){
+
+                    if(input.name !== 'customerEmail') {
+                        dataXHR[input.name] = input.value;
+                        params.append(input.name, input.value);
+                    }
+                }
+                params.append('action', this.productData.formAction);
+
+                dataXHR[window.csrfTokenName] = window.csrfTokenValue; // Append CSRF Token
+                params.append(window.csrfTokenName, window.csrfTokenValue);
+               /* axios.post(this.productData.formAction, params)
                     .then(function(response) {
                         console.log('saved', response, data)
+                    });*/
+                Vue.http.post('/', dataXHR)
+                    .then(function(response) {
+                        console.log(response);
+                        if('error' in response.body){
+                            let msgData = {
+                                type: 'error',
+                                msg: response.body.error
+                            }
+                            bus.$emit('Message',msgData);
+                        }
+                        else if('success' in response.body){
+                            if('cart' in response.body){
+                                bus.$emit('cartUpdate', response.body.cart);
+
+                                let msgData = {
+                                    type: 'success',
+                                    msg: productData.title + 'has been successfully added to your cart.'
+                                }
+                                bus.$emit('Message', msgData);
+                            }
+                        }
                     });
+
+                this.loading = '';
             },
-            togglePassword(){
-                bus.$emit('cartUpdate', cart);
-            }
+            changeQuantity(qty) {
+                    this.qty = qty;
+                },
+            handleAjax(response){
+                bus.$emit('cartUpdate', response);
+            },
+            variantClick(index){
+                if( ! this.product.variants[index].disabled){
+                    this.price = this.product.variants[index].price;
+                    this.salePrice = this.product.variants[index].salePrice;
+
+                    this.picked = this.product.variants[index].purchasableId;
+                    this.productData.variants[index].checked = true;
+                }
+            },
         },
     }
 </script>

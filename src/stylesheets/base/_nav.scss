@@ -169,6 +169,31 @@ APP MENU
     .mini-cart__footer{
       .mini-cart__links{
         margin-top: .7rem;
+
+        .c-button--cta-blue{
+
+          border: 2px solid $cta-blue-color;
+          color: $cta-blue-color;
+
+
+          &:hover{
+            border: 2px solid $cta-blue-hover-color;
+            color: $cta-blue-hover-color;
+          }
+        }
+        .c-button--cta-black{
+
+          border: 2px solid map_get($colors, black);
+          color: map_get($colors, black);
+
+
+          &:hover{
+            border: 2px solid $promotion-hover-color;
+            color: $promotion-hover-color;
+          }
+
+        }
+
       }
     }
     .mini-cart__link{

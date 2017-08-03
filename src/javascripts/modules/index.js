@@ -21,12 +21,19 @@ import Password from './components/password.vue';
 import Notify from './components/notify.vue';
 import Minicart from './components/miniCart.vue';
 import BuyNow from './components/buynow.vue';
+import Message from './components/message.vue';
+
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+
+Vue.http.options.emulateJSON = true;
+Vue.http.options.emulateHTTP = true;
 
 var bus = new Vue({});
 export default bus;
 
 var data = {menuOpen: false,  navMenuStatus: "mobile-nav--closed"};
-var components = {autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
+var components = {message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
     toggle: function() {
         this.menuOpen = !this.menuOpen;
