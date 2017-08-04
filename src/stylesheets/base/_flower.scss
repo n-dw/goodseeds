@@ -52,11 +52,14 @@
       visibility: hidden;
     }
     label{
+      margin-top: 0;
+      margin-left: 0;
+      margin-right: 0;
       text-align: center;
       display: inline-block;
       position: relative;
       cursor: pointer;
-      border-radius: 0;
+
 
       font-family: $font-headings;
 
@@ -76,15 +79,15 @@
   }
   input[type="radio"]:disabled ~ label{
     cursor: not-allowed;
-    border: 2px solid map-get($colors, mid-grey);
+    border: 2px solid map-get($colors, mid-grey) !important;
     .variant-weight{
-      color:  map-get($colors, mid-grey);
+      color:  map-get($colors, mid-grey) !important;
     }
 
     &:hover{
-      border: 2px solid map-get($colors, mid-grey);
+      border: 2px solid map-get($colors, mid-grey) !important;
      .variant-weight{
-        color:  map-get($colors, mid-grey);
+        color:  map-get($colors, mid-grey) !important;
       }
     }
   }

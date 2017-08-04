@@ -15,16 +15,7 @@
                     </li>
                     {% else %}
                         <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} col-xs">
-                            <a class="app-menu__link" href="/{{ navItem.url }}">
-                                <i class="app-menu__icon {{ navItem.iconClass }}   cart-count-wrapper">
-                                    {% if cart.lineItems|length > 0 %}
-                                        <span class="cart-count count">
-                                {{ cart.lineItems|length }}
-                            </span>
-                                    {% endif %}
-                                </i>
-                                {{ navItem.label }}
-                            </a>
+                            <minicart :mobile="true" cart="{{ cartJson | json_encode() }}"></minicart>
                         </li>
                     {% endif %}
                 {% endfor %}

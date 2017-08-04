@@ -32,15 +32,17 @@
   cursor: pointer;
 }
 
+.product-card-wrapper{
+  margin-bottom: 1.5rem;
+}
 .product-card{
   display: block;
   position: relative;
   transition: all 0.3s ease-out 0s;
-  margin-bottom: 1.5rem;
   overflow: hidden;
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
   border: 2px solid $black;
+  height: 100%;
 
 
   &:hover{
@@ -70,7 +72,7 @@
 
     }
 
-    .product-info-wrapper {
+    .product-info-wrapper, .product-buy-now {
       padding: 0 1.5rem;
     }
 
@@ -126,6 +128,7 @@
 }
 
 .product-strain-type{
+  border-radius: 5px;
   padding: 0.7rem 2rem;
   font-weight: 500;
   border: 2px solid $black;

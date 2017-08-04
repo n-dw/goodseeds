@@ -43,13 +43,29 @@ class InStockNotifier_NotificationController extends BaseController {
 
         if ($productId == '' || !is_numeric($productId))
         {
-            craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+            if (craft()->request->isAjaxRequest)
+            {
+                $error = 'Sorry you couldn\'t be added to the notifications list';
+                $this->returnErrorJson($error);
+            }
+            else{
+                craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+
+            }
 
             return false;
         }
         if (!filter_var($customerEmail, FILTER_VALIDATE_EMAIL))
         {
-            craft()->userSession->setError(Craft::t('Please Enter a Valid Email Address'));
+            if (craft()->request->isAjaxRequest)
+            {
+                $error = 'Please Enter a Valid Email Address';
+                $this->returnErrorJson($error);
+            }
+            else{
+                craft()->userSession->setError(Craft::t('Please Enter a Valid Email Address'));
+
+            }
 
             return false;
         }
@@ -67,10 +83,21 @@ class InStockNotifier_NotificationController extends BaseController {
 
         if (craft()->inStockNotifier_notification->createNotificationRequest($model))
         {
+            if (craft()->request->isAjaxRequest)
+            {
+                $this->returnJson(['success' => true, 'msg' => $customerEmail . ' has been added and you will be notified when ' . $product->getName() . ' is restocked.']);
+            }
             craft()->userSession->setNotice(Craft::t($customerEmail . ' has been added and you will be notified when ' . $product->getName() . ' is restocked.'));
         } else
         {
-            craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+            if (craft()->request->isAjaxRequest)
+            {
+                $error = 'Sorry you couldn\'t be added to the notifications list';
+                $this->returnErrorJson($error);
+            }
+            else{
+                craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+            }
         }
     }
 }

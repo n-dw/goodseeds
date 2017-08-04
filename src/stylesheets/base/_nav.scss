@@ -94,9 +94,6 @@ APP MENU
   margin-left: 0;
   margin-right: 0;
 
-  a,i{
-    color: $link-header-color;
-  }
 
   &--fixed{
     position: fixed;
@@ -108,15 +105,25 @@ APP MENU
   &__item{
     padding: 0;
     cursor: pointer;
-  }
-  &__item--active{
-    a,i{
-      color: $link-header-color-hover;
+
+    &--active{
+      .app-menu__icon, .app-menu__link{
+        color: $link-header-color-hover;
+      }
+    }
+
+    &:hover{
+      .app-menu__icon, .app-menu__link{
+        color: $link-header-color-hover;
+      }
     }
   }
+
   &__icon,&__link{
     text-align: center;
+    color: $link-header-color;
   }
+
   &__icon{
     display: block;
     font-size: 2rem;
@@ -131,6 +138,75 @@ APP MENU
   }
 }
 
+.mini-cart__wrapper{
+  position: relative;
+
+  .mini-cart{
+    z-index: 5;
+    position: absolute;
+    right: 0;
+    margin-top: 2rem;
+    width: 25rem;
+    color: $black;
+
+    &--mobile{
+      bottom: 7.5rem;
+
+    }
+
+    .close-cart{
+      position: absolute;
+      top: .3rem;
+      right: .3rem;
+      padding: 0;
+      color: $black;
+
+    }
+    .mini-cart__content{
+      border-bottom: 1px solid $black;
+      margin-bottom: .7rem;
+    }
+    .mini-cart__footer{
+      .mini-cart__links{
+        margin-top: .7rem;
+
+        .c-button--cta-blue{
+
+          border: 2px solid $cta-blue-color;
+          color: $cta-blue-color;
+
+
+          &:hover{
+            border: 2px solid $cta-blue-hover-color;
+            color: $cta-blue-hover-color;
+          }
+        }
+        .c-button--cta-black{
+
+          border: 2px solid map_get($colors, black);
+          color: map_get($colors, black);
+
+
+          &:hover{
+            border: 2px solid $promotion-hover-color;
+            color: $promotion-hover-color;
+          }
+
+        }
+
+      }
+    }
+    .mini-cart__link{
+      color: $link-color;
+
+      &--underline{
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
 
 /*shared nav items */
 .cart-count-wrapper{
@@ -163,7 +239,7 @@ APP MENU
 }
 
 @media only screen and (max-width: 23.438em){
-  .app-menu__link {
+  .app-menu .app-menu__link {
     padding: 0.2em 0.5em;
   }
 }

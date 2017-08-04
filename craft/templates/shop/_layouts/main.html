@@ -14,9 +14,15 @@
 {label: "Hybrids", url: 'shop?cat=hybrid',  show: true},
 {label: "Organic", url: 'shop?cat=organic',  show: true},
 {label: "Flowers", url: 'shop?cat=flowers',  show: true},
-{label: "Concentrates", url: 'shop?cat=concentrates', show: true},
-{label: "Edibles", url: 'shop?cat=concentrates', show: false}
+{label: "Concentrates", url: 'shop?cat=oil', show: true},
+{label: "Edibles", url: 'shop?cat=edibles', show: false}
 ] %}
+{% set cart = craft.commerce.cart %}
+{% set lineItems = {} %}
+{% for lineItem in cart.lineItems %}
+    {% set lineItems = lineItems|merge([{'qty': lineItem.qty, 'total': lineItem.total | commerceCurrency(cart.currency), 'name': lineItem.snapshot.product.title, 'uri': lineItem.snapshot.product.uri }]) %}
+{% endfor %}
+{% set cartJson = {'lineitems': lineItems, 'subtotal': cart.itemSubtotal | commerceCurrency(cart.currency)} %}
 
 {% if craft.request.getPost('ageVerification') %}
     {% set isOld = craft.request.getPost('ageVerification') %}
@@ -32,13 +38,16 @@
     <meta charset="utf-8">
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     {% if craft.config.devMode %}
-        <script type="text/javascript" src="https://unpkg.com/vue"></script>
-        <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        {% else %}
+       {# <script type="text/javascript" src="https://unpkg.com/vue"></script>
+        <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>#}
         <script async type="text/javascript" src="static/assets/js/vue.min.js"></script>
         <script async type="text/javascript" src="static/assets/js/axios.min.js"></script>
+        {% else %}
+        <script type="text/javascript" src="https://unpkg.com/vue"></script>
+        <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+       {# <script async type="text/javascript" src="static/assets/js/vue.min.js"></script>
+        <script async type="text/javascript" src="static/assets/js/axios.min.js"></script>#}
     {% endif %}
 
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
@@ -59,7 +68,6 @@
 {% if not currentUser and getSecureCookie('ageVerified') != 'true' %}
     {% include "shop/_includes/ageVerificationModal" %}
 {% endif %}
-{% set cart = craft.commerce.cart %}
 <div class="vue-app">
 <div class="screen-fill-box">
 {% block header %}
@@ -104,6 +112,7 @@
                     {{ cartError }}
                 </div>
             {% endif %}
+            <message></message>
         </div>
     {% endblock %}
     {% include "shop/_includes/fixedFooterNav" %}
@@ -114,6 +123,9 @@
 {% block scripts %}
 
 {% endblock %}
+<script type="text/javascript">
+    window.csrfTokenName = "{{ craft.config.csrfTokenName|e('js') }}";window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
+</script>
 {%  set appJS =  'assets/js/app.js' | gulp_rev %}
 {% includeJsFile appJS %}
 </body>
