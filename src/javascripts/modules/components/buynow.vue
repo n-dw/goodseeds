@@ -54,12 +54,12 @@
                     </div>
                 </div>
 
-                <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-black add-to-cart"  :class="loading">Buy Now</button>
+                <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-black add-to-cart"  :class="{'is-loading' : loading}">Buy Now</button>
 
-                <button v-else-if="currentuseremail != '' && productData.stock < 1" type="submit" :class="loading" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+                <button v-else-if="currentuseremail != '' && productData.stock < 1" type="submit" :class="{'is-loading' : loading}" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 <div v-else class="notify-stock-component">
-                    <input type="email" v-model="email"  v-show="notifyEmailShow" class="c-input has-text-centered"  name="customerEmail" required aria-label="Email" placeholder="Email">
-                    <button type="submit" :class="loading" @click="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+                    <input type="email" v-model="email"  v-show="notifyEmailShow" class="c-input has-text-centered" :class="{'error' : emailError}"  name="customerEmail" required aria-label="Email" placeholder="Email">
+                    <button type="submit" :class="{'is-loading' : loading}" @click="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 </div>
             </form>
         </div>
@@ -131,7 +131,8 @@
                 salePrice: '',
                 email: '',
                 qty: '1',
-                loading: '',
+                loading: false,
+                emailError: false,
             };
         },
         mounted(){
@@ -148,10 +149,11 @@
                 }
                 this.notifyEmailShow = !this.notifyEmailShow;
             },
-            submitForm: function(e){
-                this.loading = 'is-loading';
+            submitForm: function(){
+                this.loading = true;
                 var config = {
-                    responseType: 'json'
+                    responseType: 'json',
+                    headers: {  'Content-Type': 'application/json' }
                 };
 
                 let params = new URLSearchParams();
@@ -184,11 +186,11 @@
 
                 dataXHR[window.csrfTokenName] = window.csrfTokenValue; // Append CSRF Token
                 params.append(window.csrfTokenName, window.csrfTokenValue);
-               /* axios.post(this.productData.formAction, params)
-                    .then(function(response) {
-                        console.log('saved', response, data)
-                    });*/
-                Vue.http.post('/', dataXHR)
+
+                axios.post('/', params).then(({ data }) => this.setState({ teams: data })).catch(err => {console.log('Error: ', err)});
+              //let results = this.postData(dataXHR);
+               //console.log(results);
+               /* Vue.http.post('/', dataXHR)
                     .then(function(response) {
                         console.log(response);
                         if('error' in response.body){
@@ -234,15 +236,27 @@
                                 bus.$emit('Message', msgData);
                             }
                         }
+                        this.loading = false;
                     }).catch(function(error){
                             let msgData = {
                                 type: 'error',
                                 msg: 'Something went wrong with the request.'
                             }
                             bus.$emit('Message',msgData);
-                });
-
-                this.loading = '';
+                        this.loading = false;
+                });*/
+                this.loading = false;
+            },
+            setState(dataXHR){console.log('state', dataXHR)},
+            postData(dataXHR){
+                Vue.http.post('/', dataXHR)
+                    .then(function(response) {
+                        console.log(this.loading);
+                        console.log(response);
+                       return response;
+                    }).catch(function(error){
+                        return error;
+                    });
             },
             changeQuantity(qty) {
                     this.qty = qty;

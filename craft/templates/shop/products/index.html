@@ -120,7 +120,7 @@
                             {{ params is defined and params ? productForm(formParams) }}
                         </div>
                     </div>
-                    <div class="products-list row">
+                    <div class="products-list has-text-centered row">
                         {% set imageSetting = { width: 460, ratio: 1 , jpegQuality: 85} %}
                         {% cache  globally using key "products-" ~ craft.request.path ~ '-' ~ hashVal %}
                             {% minify %}
