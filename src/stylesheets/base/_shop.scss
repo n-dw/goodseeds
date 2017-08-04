@@ -40,8 +40,7 @@
   position: relative;
   transition: all 0.3s ease-out 0s;
   overflow: hidden;
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
   border: 2px solid $black;
   height: 100%;
 
@@ -129,6 +128,7 @@
 }
 
 .product-strain-type{
+  border-radius: 5px;
   padding: 0.7rem 2rem;
   font-weight: 500;
   border: 2px solid $black;

@@ -4,15 +4,15 @@
         <div class="media">
             <div class="media-left">
                 <div class="product-details-wrapper">
-                    <h4 class="product-strain-type" :class="product.strainType">
-                        {{ product.strainTypeFrontVal }}
+                    <h4 class="product-strain-type" :class="productData.strainType">
+                        {{ productData.strainTypeFrontVal }}
                     </h4>
-                    <h4 v-if="product.organic" class="product-strain-type organic">O</h4>
+                    <h4 v-if="productData.organic" class="product-strain-type organic">O</h4>
                 </div>
             </div>
             <div class="media-content">
                 <div class="product-price-wrapper has-text-right">
-                    <span v-if=" product.sale" class="sale-price">was  <strike>{{price}}</strike></span>
+                    <span v-if=" productData.sale" class="sale-price">was  <strike>{{price}}</strike></span>
                     <span class="price"><b>{{ salePrice }}</b></span>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                                 <div class="radio-wrapper variant">
                                     <input v-model="picked" :id="variant.place" name="purchasableId" type="radio"
                                        :value="variant.purchasableId" :checked="variant.checked" :disabled="variant.disabled">
-                                    <label  class="c-radio c-button--cta-black c-button--small variant-label"  @click="variantClick(index)" :disabled="variant.disabled" :for="variant.place">
+                                    <label  class="c-radio c-button c-button--cta-black c-button--small variant-label"  @click="variantClick(index)" :disabled="variant.disabled" :for="variant.place">
                                         <span class="variant-weight">
                                         <strike v-if="variant.disabled">
                                                 {{ variant.weight }}
@@ -58,7 +58,7 @@
 
                 <button v-else-if="currentuseremail != '' && productData.stock < 1" type="submit" :class="loading" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 <div v-else class="notify-stock-component">
-                    <input type="email" v-model="email"  v-show="notifyEmailShow" class="c-input has-text-centered" name="customerEmail" required aria-label="Email" placeholder="Email">
+                    <input type="email" v-model="email"  v-show="notifyEmailShow" class="c-input has-text-centered"  name="customerEmail" required aria-label="Email" placeholder="Email">
                     <button type="submit" :class="loading" @click="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 </div>
             </form>
@@ -200,16 +200,47 @@
                         }
                         else if('success' in response.body){
                             if('cart' in response.body){
-                                bus.$emit('cartUpdate', response.body.cart);
+                                let ajaxCart = {}
+
+                                let lItems = [];
+                                for (let lineItem of response.body.cart.lineItems) {
+                                    console.log(lineItem);
+
+                                    lItems.push({
+                                        qty: lineItem.qty,
+                                        total: '$' + lineItem.qty,
+                                        name: lineItem.snapshot.product.title,
+                                        uri: lineItem.snapshot.product.uri,
+                                    });
+
+                                }
+                                ajaxCart.lineItems = lItems;
+                                ajaxCart.subTotal = response.body.cart.itemSubtotal;
+
+                                bus.$emit('cartUpdate', ajaxCart);
 
                                 let msgData = {
                                     type: 'success',
-                                    msg: productData.title + 'has been successfully added to your cart.'
+                                    msg: this.productData.title + 'has been successfully added to your cart.'
+                                }
+                                bus.$emit('Message', msgData);
+                            }
+                            else {
+                                this.notifyEmailShow = false;
+                                let msgData = {
+                                    type: 'success',
+                                    msg: response.body.msg
                                 }
                                 bus.$emit('Message', msgData);
                             }
                         }
-                    });
+                    }).catch(function(error){
+                            let msgData = {
+                                type: 'error',
+                                msg: 'Something went wrong with the request.'
+                            }
+                            bus.$emit('Message',msgData);
+                });
 
                 this.loading = '';
             },

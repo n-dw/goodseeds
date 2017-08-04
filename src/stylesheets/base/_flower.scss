@@ -52,11 +52,14 @@
       visibility: hidden;
     }
     label{
+      margin-top: 0;
+      margin-left: 0;
+      margin-right: 0;
       text-align: center;
       display: inline-block;
       position: relative;
       cursor: pointer;
-      border-radius: 0;
+
 
       font-family: $font-headings;
 

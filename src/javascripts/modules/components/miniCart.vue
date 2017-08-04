@@ -16,9 +16,11 @@
                     <ul class="line-items c-list--clean">
                         <li v-for="(lineItem, index) in lineItems" v-if="index < 4">
                             <div class="line-item">
-                                <span class="product-title"><b>{{lineItem.name}}</b></span>,
-                                <span class="product-qty">Qty: {{lineItem.qty}}</span>,
-                                <span class="product-sub-total">{{lineItem.total}}</span>
+                                <a class="mini-cart__link mini-cart__link--underline" :href="lineItem.uri">
+                                    <span class="product-title"><b>{{lineItem.name}}</b></span>,
+                                    <span class="product-qty">Qty: {{lineItem.qty}}</span>,
+                                    <span class="product-sub-total">{{lineItem.total}}</span>
+                                </a>
                             </div>
                         </li>
                     </ul>
@@ -29,7 +31,7 @@
             <footer class="mini-cart__footer">
                 <div class="subtotal"><b>Subtotal:</b> <span class="price">{{subTotal}}</span></div>
                 <div class="mini-cart__links">
-                    <a class="c-button c-button--cta-black c-button--small c-button--cart u-display--inline-block" href="/shop/cart">View Cart</a>
+                    <a class="c-button c-button--cta-black c-button--small c-button--cart u-display--inline-block" href="/shop/cart"><i class="icon-basket"></i> Cart</a>
                     <a href="/shop/checkout" class="c-button c-button--cta-blue c-button--small u-display--inline-block"><i class="icon-lock"></i>Checkout</a>
                 </div>
             </footer>
@@ -82,19 +84,7 @@
             updateCartVal(ajaxCart){
                 this.subTotal= '$' + ajaxCart.itemSubtotal;
                 this.showMiniCart = true;
-                let lItems = [];
-                console.log( ajaxCart.lineItems);
-                for (let lineItem of ajaxCart.lineItems) {
-                    console.log(lineItem);
-
-                    lItems.push({
-                        qty: lineItem.qty,
-                        total: '$' + lineItem.qty,
-                        name: lineItem.snapshot.product.title,
-                    });
-
-                }
-                this.lineItems = lItems;
+                this.lineItems = ajaxCart.lineItems;
             }
         }
     }

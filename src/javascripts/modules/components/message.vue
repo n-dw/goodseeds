@@ -1,8 +1,8 @@
 <template>
     <div class="message">
-        <div v-if="show" class="notification has-text-centered" :class="{ 'is-danger' :  error,  'is-success': !error}">
+        <div v-if="show" class="notification has-text-centered" :class="{ 'is-danger' :  isErr,  'is-success': !isErr}">
             <button class="delete"  @click="show = !show"></button>
-            {{ message }}
+            <h4>{{ message }}</h4>
         </div>
     </div>
 </template>
@@ -12,7 +12,7 @@
     import bus from '../index';
 
     export default {
-        name: 'quantity',
+        name: 'message',
         props: {
             msg: {
                 type: String,
@@ -26,11 +26,13 @@
         data() {
             return {
                 show: false,
-                message: ''
+                message: '',
+                isErr: false
             };
         },
         mounted(){
             this.message = this.msg;
+            this.isErr = this.error;
             bus.$on('Message', (message) => {
                 console.log(message);
                 this.updateMessage(message);
@@ -38,7 +40,7 @@
         },
         methods: {
             updateMessage(message){
-                 this.error = message.type == 'error' ? true : false;
+                 this.isErr = message.type == 'error' ? true : false;
                  this.show = true;
                  this.message = message.msg;
             }

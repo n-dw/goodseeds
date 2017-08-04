@@ -9,7 +9,6 @@ button{
 	pointer-events: none;
 
 	&:after{
-		-webkit-animation: spinAround 500ms infinite linear;
 		animation: spinAround 500ms infinite linear;
 		border: 2px solid $black;
 		border-radius: 290486px;
@@ -17,9 +16,9 @@ button{
 		border-top-color: transparent;
 		content: "";
 		display: block;
-		height: 1em;
+		height: $font-size-body;
 		position: relative;
-		width: 1em;
+		width: $font-size-body;
 		position: absolute;
 		left: calc(50% - (1em / 2));
 		top: calc(50% - (1em / 2));
@@ -31,7 +30,7 @@ button{
 	// Reset appearance
 	appearance: none;
 	border: none;
-
+	position: relative;
 	display: inline-block;
 	margin: (0) ($base-space / 6) ($base-space) (0);
 	padding: ($base-space / 3) ($base-space);

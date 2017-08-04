@@ -20,7 +20,7 @@
 {% set cart = craft.commerce.cart %}
 {% set lineItems = {} %}
 {% for lineItem in cart.lineItems %}
-    {% set lineItems = lineItems|merge([{'qty': lineItem.qty, 'total': lineItem.total | commerceCurrency(cart.currency), 'name': lineItem.snapshot.product.title }]) %}
+    {% set lineItems = lineItems|merge([{'qty': lineItem.qty, 'total': lineItem.total | commerceCurrency(cart.currency), 'name': lineItem.snapshot.product.title, 'uri': lineItem.snapshot.product.uri }]) %}
 {% endfor %}
 {% set cartJson = {'lineitems': lineItems, 'subtotal': cart.itemSubtotal | commerceCurrency(cart.currency)} %}
 

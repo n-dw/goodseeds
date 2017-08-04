@@ -43,13 +43,29 @@ class InStockNotifier_NotificationController extends BaseController {
 
         if ($productId == '' || !is_numeric($productId))
         {
-            craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+            if (craft()->request->isAjaxRequest)
+            {
+                $error = 'Sorry you couldn\'t be added to the notifications list';
+                $this->returnErrorJson($error);
+            }
+            else{
+                craft()->userSession->setError(Craft::t('Sorry you couldn\'t be added to the notifications list'));
+
+            }
 
             return false;
         }
         if (!filter_var($customerEmail, FILTER_VALIDATE_EMAIL))
         {
-            craft()->userSession->setError(Craft::t('Please Enter a Valid Email Address'));
+            if (craft()->request->isAjaxRequest)
+            {
+                $error = 'Please Enter a Valid Email Address';
+                $this->returnErrorJson($error);
+            }
+            else{
+                craft()->userSession->setError(Craft::t('Please Enter a Valid Email Address'));
+
+            }
 
             return false;
         }
