@@ -16,6 +16,7 @@
     "flexboxgrid-sass": "^8.0.5",
     "lazysizes": "^4.0.0-rc1",
     "normalize.css": "^7.0.0",
+    "qs": "^6.5.0",
     "vue": "^2.4.1",
     "vue-cli": "^2.8.2",
     "vue-loader": "^12.2.2",

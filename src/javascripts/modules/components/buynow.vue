@@ -71,6 +71,7 @@
 
     import bus from '../index';
     import quantityComp from './quantity.vue';
+    import qs from 'qs';
 
     export default {
         name: 'buynow',
@@ -151,9 +152,10 @@
             },
             submitForm: function(){
                 this.loading = true;
+
                 var config = {
                     responseType: 'json',
-                    headers: {  'Content-Type': 'application/json' }
+                    headers: {  'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' }
                 };
 
                 let params = new URLSearchParams();
@@ -187,76 +189,83 @@
                 dataXHR[window.csrfTokenName] = window.csrfTokenValue; // Append CSRF Token
                 params.append(window.csrfTokenName, window.csrfTokenValue);
 
-                axios.post('/', params).then(({ data }) => this.setState({ teams: data })).catch(err => {console.log('Error: ', err)});
-              //let results = this.postData(dataXHR);
-               //console.log(results);
-               /* Vue.http.post('/', dataXHR)
-                    .then(function(response) {
-                        console.log(response);
-                        if('error' in response.body){
-                            let msgData = {
-                                type: 'error',
-                                msg: response.body.error
-                            }
-                            bus.$emit('Message',msgData);
-                        }
-                        else if('success' in response.body){
-                            if('cart' in response.body){
-                                let ajaxCart = {}
-
-                                let lItems = [];
-                                for (let lineItem of response.body.cart.lineItems) {
-                                    console.log(lineItem);
-
-                                    lItems.push({
-                                        qty: lineItem.qty,
-                                        total: '$' + lineItem.qty,
-                                        name: lineItem.snapshot.product.title,
-                                        uri: lineItem.snapshot.product.uri,
-                                    });
-
-                                }
-                                ajaxCart.lineItems = lItems;
-                                ajaxCart.subTotal = response.body.cart.itemSubtotal;
-
-                                bus.$emit('cartUpdate', ajaxCart);
-
-                                let msgData = {
-                                    type: 'success',
-                                    msg: this.productData.title + 'has been successfully added to your cart.'
-                                }
-                                bus.$emit('Message', msgData);
-                            }
-                            else {
-                                this.notifyEmailShow = false;
-                                let msgData = {
-                                    type: 'success',
-                                    msg: response.body.msg
-                                }
-                                bus.$emit('Message', msgData);
-                            }
-                        }
+                axios.post('/', params, config).then(
+                    ({ data }) =>{
+                        this.setState({data});
                         this.loading = false;
-                    }).catch(function(error){
-                            let msgData = {
-                                type: 'error',
-                                msg: 'Something went wrong with the request.'
-                            }
-                            bus.$emit('Message',msgData);
+                    }).catch(
+                    err =>
+                    {
+                        this.setError({err});
                         this.loading = false;
-                });*/
-                this.loading = false;
-            },
-            setState(dataXHR){console.log('state', dataXHR)},
-            postData(dataXHR){
-                Vue.http.post('/', dataXHR)
-                    .then(function(response) {
-                        console.log(this.loading);
-                        console.log(response);
-                       return response;
-                    }).catch(function(error){
-                        return error;
                     });
+            },
+            setError(err){
+                let msgData = {
+                    type: 'error',
+                    msg: 'Something went wrong with the request.'
+                }
+                bus.$emit('Message',msgData);
+            },
+            setState(dataXHR){
+                dataXHR = dataXHR.data;
+
+                let msgData = {};
+                if('error' in dataXHR){
+                    if('cart' in dataXHR){
+                        if('errors' in dataXHR.cart){
+                            msgData = {
+                                type: 'error',
+                                msg: dataXHR.cart.errors.lineItems[0]
+                            }
+                        }
+                    }
+                   else{
+                        msgData = {
+                            type: 'error',
+                            msg: dataXHR.error
+                        }
+                        this.emailError = true;
+                    }
+                    bus.$emit('Message',msgData);
+                }
+                else if('success' in dataXHR){
+                    if('cart' in dataXHR){
+                        let ajaxCart = {}
+                        let lItems = [];
+
+                        for (let key in dataXHR.cart.lineItems) {
+
+                            let totalCurrency = dataXHR.cart.lineItems[key].total;
+                           lItems.push({
+                                qty: dataXHR.cart.lineItems[key].qty,
+                                total: '$' + totalCurrency,
+                                name: dataXHR.cart.lineItems[key].snapshot.product.title,
+                                uri: dataXHR.cart.lineItems[key].snapshot.product.uri,
+                            });
+
+                        }
+                        ajaxCart.lineItems = lItems;
+                        ajaxCart.subTotal = dataXHR.cart.itemSubtotal;
+
+                        bus.$emit('cartUpdate', ajaxCart);
+
+                        let msgData = {
+                            type: 'success',
+                            msg: this.productData.title + ' has been successfully added to your cart.'
+                        }
+                        bus.$emit('Message', msgData);
+                    }
+                    else {
+                        this.notifyEmailShow = false;
+                        this.emailError = false;
+                        let msgData = {
+                            type: 'success',
+                            msg: dataXHR.msg
+                        }
+                        bus.$emit('Message', msgData);
+                    }
+                }
             },
             changeQuantity(qty) {
                     this.qty = qty;
