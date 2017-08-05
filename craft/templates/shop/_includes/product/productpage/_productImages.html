@@ -1,7 +1,7 @@
 {% set image = productImage %}
 {% set transformedImages = craft.imager.transformImage(image,
 [
-{ width: 800, ratio: 16/9},
+{ width: 1400, ratio: 16/9},
 { width: 710, ratio: 16/9},
 { width: 200, ratio: 16/9},
 { width: 45, ratio: 1/1 , jpegQuality: 60}
@@ -19,7 +19,7 @@
         <div class="col-xs-12">
             <a id="flower-group" class="MagicZoom" href="{{ transformedImages[0].url }}"
                data-mobile-options="lazyZoom: true; zoomPosition: inner;"
-               data-options="cssClass: mz-square; hint:always; zoomPosition: outer; zoomOn: click; lazyZoom: true; variableZoom: true;">
+               data-options="hint:always; zoomPosition: inner; zoomOn: hover; expand: off;">
                 <img src="{{ transformedImages[1].url }}" alt="{{ image.title }}">
             </a>
         </div>

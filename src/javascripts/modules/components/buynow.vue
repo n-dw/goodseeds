@@ -1,7 +1,7 @@
 <template>
     <div class="bnc">
-    <div class="product-info-wrapper">
-        <div class="media">
+    <div class="product-info-wrapper row">
+        <div class="media col-xs">
             <div class="media-left">
                 <div class="product-details-wrapper">
                     <h4 class="product-strain-type" :title="productData.strainType" :class="productData.strainType">
@@ -27,8 +27,6 @@
                 <div v-if=" productData.stock > 0" class="in-stock-controls">
                     <div class="row">
                         <div class="product-variants col-xs">
-                            <!--<input v-model="picked" :id="purchasableId" name="purchasableId" type="hidden"
-                                   :value="variant.purchasableId"  :disabled="variant.disabled">-->
                             <template v-for="(variant, index) in productData.variants">
                                 <div class="radio-wrapper variant">
                                     <input v-model="picked" :id="variant.place" name="purchasableId" type="radio"

@@ -73,7 +73,7 @@
         mounted(){
             this.cartJson = JSON.parse(this.cart);
             this.lineItems = this.cartJson.lineitems;
-            this.subTotal = this.cartJson.subTotal;
+            this.subTotal = this.cartJson.itemSubtotal;
             this.showMiniCart = this.showMiniCartInitial;
             bus.$on('cartUpdate', (ajaxCart) => {
                 console.log(ajaxCart);

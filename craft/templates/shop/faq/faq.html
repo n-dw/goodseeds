@@ -9,7 +9,7 @@
     {% set hashVal =  craft.thcpost.hashValue(activeFaqs) %}
     {% cache  globally using key craft.request.path ~ '-' ~ hashVal %}
     {% minify %}
-    <section class="frequently-asked-questions">
+    <section class="frequently-asked-questions content-section">
         <div class="wrapper container-fluid">
             <div class="row center-md">
                 <div class="col-xs-12 col-md-10">
