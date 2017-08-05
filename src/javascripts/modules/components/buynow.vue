@@ -4,10 +4,10 @@
         <div class="media">
             <div class="media-left">
                 <div class="product-details-wrapper">
-                    <h4 class="product-strain-type" :class="productData.strainType">
+                    <h4 class="product-strain-type" :title="productData.strainType" :class="productData.strainType">
                         {{ productData.strainTypeFrontVal }}
                     </h4>
-                    <h4 v-if="productData.organic" class="product-strain-type organic">O</h4>
+                    <h4 v-if="productData.organic" title="Organic" class="product-strain-type organic">O</h4>
                 </div>
             </div>
             <div class="media-content">

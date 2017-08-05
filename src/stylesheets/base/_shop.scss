@@ -135,4 +135,9 @@
   font-size: map-get($heading-sizes, 3);
   margin-bottom: ($base-space / 2.148);
   display: inline-block;
+  cursor: help;
+
+  &:hover{
+    text-decoration: dotted;
+  }
 }
