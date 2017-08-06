@@ -22,7 +22,7 @@
         <div class="buy-now">
             <form method="POST" id="addToCartForm"  @submit.prevent="submitForm">
 
-                <input v-for="input in form.inputs" :type="input.type" :name="input.name" :value="input.value">
+                <input v-for="input in formData.inputs" :type="input.type" :name="input.name" :value="input.value">
 
                 <div v-if=" productData.stock > 0" class="in-stock-controls">
                     <div class="row">
@@ -125,6 +125,7 @@
             return {
                 notifyEmailShow: false,
                 productData: {},
+                formData: {},
                 picked: '',
                 price: '',
                 salePrice: '',
@@ -135,6 +136,7 @@
             };
         },
         mounted(){
+            this.formData = this.form;
             this.notifyEmailShow = false;
             this.productData = this.product;
             this.price = this.product.price;

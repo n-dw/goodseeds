@@ -22,12 +22,16 @@ import Notify from './components/notify.vue';
 import Minicart from './components/miniCart.vue';
 import BuyNow from './components/buynow.vue';
 import Message from './components/message.vue';
+import Openclose from './components/openClose.vue';
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
 
 var bus = new Vue({});
 export default bus;
 
 var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed" };
-var components = { message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
+var components = { openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
     toggle: function() {
         this.menuOpen = !this.menuOpen;

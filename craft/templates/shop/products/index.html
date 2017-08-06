@@ -1,123 +1,75 @@
 {% extends 'shop/_layouts/main' %}
- {% import "shop/macros/product.html" as prodmac %}
-    {% set params = {with: ['productImages']} %}
-    {% set formParams = {'productParam' : ''} %}
-    {% set categoriesArray = ['or'] %}
+
+{% import "shop/macros/product.html" as prodmac %}
+
+{% set params = {with: ['productImages']} %}
+{% set formParams = {'productParam' : ''} %}
+{% set categoriesArray = ['or'] %}
+
+{% if craft.request.getPost() %}
+ {% set formResults = craft.request.getPost() %}
+ {% set formParams = formParams|merge(formResults) %}
+ {% for postVarName,postVarValue in formResults  %}
+     {% switch postVarName %}
+     {% case "sale" %}
+     {% set params = params|merge({hasSales : true}) %}
+     {% case "sativa" or "indica" or "hybrid" %}
+     {% set category = craft.categories.slug(postVarName).ids() %}
+     {% set categoriesArray = categoriesArray|merge([{targetElement: category,}]) %}
+     {% set params = params|merge({relatedTo : categoriesArray}) %}
+     {% case "oil" %}
+     {% set params = params|merge({type : 'Oil'}) %}
+     {% case "flower" %}
+     {% set params = params|merge({type : 'Flower'}) %}
+     {% case "edibles" %}
+     {% set params = params|merge({type : 'Edibles'}) %}
+     {% case "stock" %}
+     {% set params = params|merge({hasVariant:{hasStock : true}}) %}
+     {% case "sortBy" %}
+     {% if postVarValue == "new" %}
+         {% set params = params|merge({order : 'postDate DESC'}) %}
+     {% elseif postVarValue == "htl" %}
+         {% set params = params|merge({order : 'defaultPrice DESC'}) %}
+     {% elseif postVarValue == "lth" %}
+         {% set params = params|merge({order : 'defaultPrice ASC'}) %}
+     {% elseif postVarValue == "reviewHtl" %}
+         {% set params = params|merge({order : 'averageRating DESC'}) %}
+     {% endif %}
+     {% endswitch %}
+ {% endfor %}
+{% endif %}
+{% if craft.request.getParam('cat') is not null %}
+    {% set productParam = craft.request.getParam('cat') %}
+    {% set formParams = {'productParam' : productParam} %}
+    {% switch productParam %}
+    {% case "sale" %}
+    {% set params = params|merge({hasSales : true}) %}
+    {% case "sativa" or "indica" or "hybrid" %}
+    {% set category = craft.categories.slug(productParam).ids() %}
+    {% set categoriesArray = categoriesArray|merge([{targetElement: category,}]) %}
+    {% set params = params|merge({relatedTo : categoriesArray}) %}
+    {% case "organic" %}
+    {% set params = params|merge({'organic' : true}) %}
+    {% case "oil" %}
+    {% set params = params|merge({type : 'Oil'}) %}
+    {% case "Edibles" %}
+    {% set params = params|merge({type : 'Edibles'}) %}
+    {% endswitch %}
+{% endif %}
+{% set products = craft.commerce.products(params) %}
+{% set hashVal =  craft.thcpost.hashValue(formParams) %}
+
 {% block main %}
-
-    {% if craft.request.getPost() %}
-        {% set formResults = craft.request.getPost() %}
-        {% set formParams = formParams|merge(formResults) %}
-        {% for postVarName,postVarValue in formResults  %}
-            {% switch postVarName %}
-            {% case "sale" %}
-                {% set params = params|merge({hasSales : true}) %}
-            {% case "sativa" or "indica" or "hybrid" %}
-                {% set category = craft.categories.slug(postVarName).ids() %}
-                {% set categoriesArray = categoriesArray|merge([{targetElement: category,}]) %}
-                {% set params = params|merge({relatedTo : categoriesArray}) %}
-            {% case "oil" %}
-                {% set params = params|merge({type : 'Oil'}) %}
-            {% case "flower" %}
-                {% set params = params|merge({type : 'Flower'}) %}
-            {% case "edibles" %}
-                {% set params = params|merge({type : 'Edibles'}) %}
-            {% case "stock" %}
-                {% set params = params|merge({hasVariant:{hasStock : true}}) %}
-            {% case "sortBy" %}
-                    {% if postVarValue == "new" %}
-                        {% set params = params|merge({order : 'postDate DESC'}) %}
-                    {% elseif postVarValue == "htl" %}
-                        {% set params = params|merge({order : 'defaultPrice DESC'}) %}
-                    {% elseif postVarValue == "lth" %}
-                        {% set params = params|merge({order : 'defaultPrice ASC'}) %}
-                    {% elseif postVarValue == "reviewHtl" %}
-                        {% set params = params|merge({order : 'averageRating DESC'}) %}
-                    {% endif %}
-            {% endswitch %}
-        {% endfor %}
-    {% endif %}
-    {% if craft.request.getParam('cat') is not null %}
-        {% set productParam = craft.request.getParam('cat') %}
-        {% set formParams = {'productParam' : productParam} %}
-        {% switch productParam %}
-        {% case "sale" %}
-            {% set params = params|merge({hasSales : true}) %}
-        {% case "sativa" or "indica" or "hybrid" %}
-            {% set category = craft.categories.slug(productParam).ids() %}
-            {% set categoriesArray = categoriesArray|merge([{targetElement: category,}]) %}
-            {% set params = params|merge({relatedTo : categoriesArray}) %}
-        {% case "organic" %}
-        {% set params = params|merge({'organic' : true}) %}
-        {% case "oil" %}
-            {% set params = params|merge({type : 'Oil'}) %}
-        {% case "Edibles" %}
-            {% set params = params|merge({type : 'Edibles'}) %}
-        {% endswitch %}
-    {% endif %}
-    {% set products = craft.commerce.products(params) %}
-    {% macro productForm(params) %}
-        {% if params %}
-            <div class="form-filter-wrapper">
-            <h5 class="form-filter-toggle is-black" @click="toggleFilters"><i :class="formToggleIcon"></i>Filters</h5>
-            <form id="product_filters_form" :class="formState + ' is-black'" action="{{ url('shop/') }}" method="POST">
-                {{ getCsrfInput() }}
-                {% set form = {'checkboxes' : [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'},{name: 'oil', value: '1'},{name: 'sale',value: '1'},
-                    {name: 'stock', value: '1', label: 'In Stock'}],
-                'select' : {
-                    name:'sortBy',
-                    options: [{name: 'Latest Products', value: 'new'},{name: 'Price: Low to High', value: 'lth'},{name: 'Price: High to Low', value: 'htl'}, {name: 'Best Reviews', value: 'reviewHtl'}]
-                }
-                } %}
-                <fieldset class="c-fieldset c-fieldset--border">
-                    <div class="product-cat-checkboxes row">
-                        {% for cbk in form.checkboxes %}
-                            <div class="col-xs-4 col-sm-3">
-                                <div class="row start-xs">
-                                    <div class="col-xs-12">
-                                <input  v-model="form.{{ cbk.name }}"
-                                       {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
-                                       type="checkbox"
-                                         id="{{ cbk.name }}" name="{{ cbk.name }}"
-                                       value="{{ cbk.value }}">
-                                <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>
-                            </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-
-                        <div class="input-wrapper col-xs-12 col-sm-6 col-md-6">
-                            <select v-model="form.sortBy" class="c-input-option" aria-label="Sort Product By" name="sortBy" id="sortBy">
-                                {% for option in form.select.options %}
-                                    <option {% if loop.index == 1 and params[form.select.name] is not defined %}selected{% endif %} value="{{ option.value }}"
-                                            {% if params[form.select.name] is defined and params[form.select.name] == option.value %}selected{% endif %}>{{ option.name | title }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="row">
-                            <div class="input-wrapper col-xs-12">
-                                <div class="form-controls form-controls--product-filters">
-                                    <button class="c-button c-button--cta-black c-button--mrg-bttm" type="submit">Submit</button>
-                                    <button class="c-button c-button--cta-black c-button--mrg-bttm" type="reset">Reset</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-            </div>
-        {% endif %}
-    {% endmacro %}
-    {% from _self import productForm %}
-    {% set hashVal =  craft.thcpost.hashValue(formParams) %}
     <section class="shop product-listings product-listing-app content-section">
         <div class="wrapper container-fluid">
-            <div class="row">
-                <div class="col-xs-12">
                     <h1>Shop</h1>
                     <div class="product-filters-wrapper row center-xs">
                         <div class="col-xs-12 col-sm-8 col-md-6">
-                            {{ params is defined and params ? productForm(formParams) }}
+                            {% cache  globally using key "productsform-" ~ craft.request.path ~ '-' ~ hashVal %}
+                                {% minify %}
+                                    {{ params is defined and params ? prodmac.productForm(formParams) }}
+                                {% endminify %}
+                            {% endcache %}
                         </div>
                     </div>
                     <div class="products-list has-text-centered row">
@@ -129,17 +81,16 @@
                                 {% endfor %}
                             {% endminify %}
                         {% endcache %}
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 {% endblock %}
- {% block scripts %}
+{% block scripts %}
+    {% cache  globally using key "productsjs-" ~ craft.request.path ~ '-' ~ hashVal %}
      {% minify js %}
      <script type="text/javascript">
          var dataProducts = {
-             form :{
+             formShop :{
                  sativa: {{ formParams['sativa'] is defined or formParams['productParam'] == 'sativa' ? 'true' : 'false' }},
                  indica: {{ formParams['indica'] is defined or formParams['productParam'] == 'indica' ? 'true' : 'false' }},
                  hybrid: {{ formParams['hybrid'] is defined or formParams['productParam'] == 'hybrid' ? 'true' : 'false' }},
@@ -164,4 +115,5 @@
          thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methodsProducts);
      </script>
      {% endminify %}
+    {% endcache %}
  {% endblock %}
