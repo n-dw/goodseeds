@@ -1,0 +1,9 @@
+.open-close-component{
+  position: relative;
+
+  .occ-icon{
+    position: absolute;
+    left: 0;
+    font-size: map-get($heading-sizes, 3);
+  }
+}

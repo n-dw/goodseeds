@@ -17,7 +17,7 @@
 
 .order-status{
   &--paymentPending{
-    color: map_get($colors, yellow);
+    color: map_get($colors, cream);
   }
   &--processing{
     color: map-get($colors, dark-purple);

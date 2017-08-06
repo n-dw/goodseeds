@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'faq--active' : isActive}" class="faq" :id="faqId">
+    <div :class="{'faq--active' : isActive}" class="faq box" :id="faqId">
         <h3 @click="activate" class="faq__question">
             <i :class="icon" ></i>
             <slot name="question"></slot>

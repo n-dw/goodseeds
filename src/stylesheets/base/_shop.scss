@@ -11,13 +11,20 @@
     display: none;
   }
 
-
 }
-.is-black{
-  .c-fieldset--border,
-  .c-input-option{
-    border: 2px solid $black;
-    padding: 0.5rem;
+
+#product_filters_form{
+  .filter-group{
+    margin-bottom: 1rem;
+
+    .checkbox-wrapper{
+      display: inline-block;
+      margin-right: 0.7rem;
+    }
+  }
+
+  .form-controls__product-filters{
+    margin-top: .4rem;
   }
 }
 
@@ -68,26 +75,6 @@
   }
   .product-card-footer{
     padding-top: 1.5rem;
-    h3.product-title{
-
-    }
-
-    .product-info-wrapper, .product-buy-now {
-      padding: 0 1.5rem;
-    }
-
-    .product-price-wrapper{
-      span{
-        display: block;
-      }
-      .sale-price{
-        color: $hybrid-color;
-      }
-      .price{
-        font-size: 2rem;
-        color: $promotion-color;
-      }
-    }
   }
 }
 .product-card__image{
@@ -127,12 +114,3 @@
   }
 }
 
-.product-strain-type{
-  border-radius: 5px;
-  padding: 0.7rem 2rem;
-  font-weight: 500;
-  border: 2px solid $black;
-  font-size: map-get($heading-sizes, 3);
-  margin-bottom: ($base-space / 2.148);
-  display: inline-block;
-}

@@ -16,49 +16,19 @@
 {% block main %}
     <section class="shop product-page product-listing-app content-section">
         <div class="container-fluid wrapper">
-            <div class="row center-xs start-lg">
-                <div class="col-xs-12">
+            <div class="row center-xs">
+                <div class="col-xs-12 col-lg-8">
                     <article class="product">
-                        <div class="row">
-                            <div class="col-xs-12 col-md-6">
-                                <div class="product-images has-text-centered">
+                        <header class="product-header">
+                            <div class="product-images has-text-centered">
                                     {% for productImage in product.productImages %}
                                         {% include 'shop/_includes/product/productpage/_productImages' %}
                                     {% endfor %}
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <div class="row text-align-left">
-                                    <div class="col-xs-12">
-                                        <h1 class="product-heading">{{ product.title }}</h1><h4
-                                                class="product-strain-type {{ product.strainType.first().slug }}">
-                                            {{ product.strainType.first().slug|first|upper }}
-                                        </h4> {{ prodmac.starRating(avgRating) }}
+                            <div class="row">
+                                <div class="col-xs-12 box">
 
-
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs">
-                                        <div class="product-price-hook">
-                                            <div class="price-info">
-                                                <b><span class="price dynamic-price">{| salePrice |}</span></b>{{ shippingamount | raw }}
-                                            </div>
-                                            {% if product.defaultVariant.onSale %}
-                                                <i><span class="sale">Save {| savings |} <strike>(reg {| price |})</strike></span></i>
-                                            {% endif %}
-                                            {% if not qualifyFreeShipping %}
-                                                <div class="shipping-message"> Order <span
-                                                            class="amount-to-free-shipping">{{ amountQualify | commerceCurrency(cart.currency) }}</span>
-                                                    more to qualify for free shipping.
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div class="product-commerce">
+                                        <h1 class="product-heading">{{ product.title }}</h1>
                                             {% include 'shop/_includes/product/productpage/_productForm' %}
                                             <div class="share-links">
                                                 <span>Share: </span>
@@ -75,16 +45,20 @@
                                                    class="pin-share share-link" rel="noopener" target="_blank"><i
                                                             class="icon-pinterest-squared"></i></a>
                                             </div>
-                                        </div>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
+                        </header>
                         <footer class="product-footer">
+                            <div class="tabs is-centered">
+                                <ul>
+                                    <li class="is-active is-large"><a>Details</a></li>
+                                    <li><a>Effects</a></li>
+                                    <li><a>Reviews</a></li>
+                                </ul>
+                            </div>
                             <div class="row">
-                                <div class="col-xs-12 col-md-6">
-                                    <h2>Details</h2>
+                                <div class="col-xs-12 col-lg-8">
+
                                     <div class="product-description box">
                                         {{ product.productDescription }}
                                     </div>
@@ -104,7 +78,7 @@
                                         {% endfor %}
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-md-6">
+                                <div class="col-xs-12 col-lg-8">
                                 <h2>Reviews</h2>
                                 <div class="box">
                                 {%  set ratings = craft.commentsrating.elementRatings(product.id)%}
@@ -126,7 +100,7 @@
      {% minify js %}
      <script type="text/javascript">
 
-         var data = {
+        /* var data = {
              stockModalOpen: false,
              modalClass: '',
              price: "{{ product.defaultVariant.salePrice| commerceCurrency(cart.currency) }}",
@@ -142,7 +116,7 @@
 
 
          thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
-         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);
+         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);*/
      </script>
      {% endminify %}
  {% endblock %}

@@ -1,75 +1,65 @@
 <template>
-    <div class="bnc">
-    <div class="product-info-wrapper row">
-        <div class="media col-xs">
-            <div class="media-left">
-                <div class="product-details-wrapper">
-                    <h4 class="product-strain-type" :title="productData.strainType" :class="productData.strainType">
-                        {{ productData.strainTypeFrontVal }}
-                    </h4>
-                    <h4 v-if="productData.organic" title="Organic" class="product-strain-type organic">O</h4>
-                </div>
-            </div>
-            <div class="media-content">
-                <div class="product-price-wrapper has-text-right">
-                    <span v-if=" productData.sale" class="sale-price">was  <strike>{{price}}</strike></span>
-                    <span class="price"><b>{{ salePrice }}</b></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="product-buy-now">
-        <div class="buy-now">
-            <form method="POST" id="addToCartForm"  @submit.prevent="submitForm">
+   <!-- <div class="form-filter-wrapper">
+        <h5 class="form-filter-toggle is-black" @click="showForm"><i :class="formToggleIcon"></i>Filters</h5>
+        <form id="product_filters_form" v-show="showForm" action="/shop" method="POST">
+            {% set form = {
+            'checkboxes' : {
+            'products': [{name: 'Flower', value: '1'},{name: 'Oil', value: '1', label: 'Concentrates'}],
+            'strains': [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'}],
+            'other': [{name: 'Organic', value: '1'},{name: 'sale',value: '1'},{name: 'stock', value: '1', label: 'In Stock'}],
+            },
+            'select' : {
+            name:'sortBy',
+            options: [{name: 'Latest Products', value: 'new'},{name: 'Price: Low to High', value: 'lth'},{name: 'Price: High to Low', value: 'htl'}, {name: 'Best Reviews', value: 'reviewHtl'}]
+            }
+            } %}
 
-                <input v-for="input in formData.inputs" :type="input.type" :name="input.name" :value="input.value">
-
-                <div v-if=" productData.stock > 0" class="in-stock-controls">
-                    <div class="row">
-                        <div class="product-variants col-xs">
-                            <template v-for="(variant, index) in productData.variants">
-                                <div class="radio-wrapper variant">
-                                    <input v-model="picked" :id="variant.place" name="purchasableId" type="radio"
-                                       :value="variant.purchasableId" :checked="variant.checked" :disabled="variant.disabled">
-                                    <label  class="c-radio c-button c-button--cta-black c-button--small variant-label"  @click="variantClick(index)" :disabled="variant.disabled" :for="variant.place">
-                                        <span class="variant-weight">
-                                        <strike v-if="variant.disabled">
-                                                {{ variant.weight }}
-                                        </strike>
-                                        <template v-else>
-                                            {{ variant.weight }}
-                                        </template>
-                                        </span>
-                                    </label>
-                                </div>
-                            </template>
+            <div class="row">
+                {% for key, checkboxes in form.checkboxes %}
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="box filter-group">
+                        <div class="has-text-left"><strong>{{ key | capitalize}}</strong></div>
+                        {% for cbk in checkboxes %}
+                        <div class="checkbox-wrapper">
+                            <input  v-model="formShop.{{ cbk.name }}"
+                                    {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
+                            type="checkbox"
+                            id="{{ cbk.name }}" name="{{ cbk.name }}"
+                            value="{{ cbk.value }}">
+                            <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>
                         </div>
-                    </div>
-                    <div class="row center-xs">
-                        <div class="col-xs">
-                            <quantity @changequantity="changeQuantity" :disabled="productData.stock < 1" qty="1"></quantity>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
+                {% endfor %}
 
-                <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-black add-to-cart"  :class="{'is-loading' : loading}">Buy Now</button>
-
-                <button v-else-if="currentuseremail != '' && productData.stock < 1" type="submit" :class="{'is-loading' : loading}" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
-                <div v-else class="notify-stock-component">
-                    <input type="email" v-model="email"  v-show="notifyEmailShow" class="c-input has-text-centered" :class="{'error' : emailError}"  name="customerEmail" required aria-label="Email" placeholder="Email">
-                    <button type="submit" :class="{'is-loading' : loading}" @click="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="box filter-group">
+                        <div class="has-text-left"><strong>Sort By </strong></div>
+                        <select v-model="formShop.sortBy" class="c-input-option" aria-label="Sort Product By" name="sortBy" id="sortBy">
+                            {% for option in form.select.options %}
+                            <option {% if loop.index == 1 and params[form.select.name] is not defined %}selected{% endif %} value="{{ option.value }}"
+                                    {% if params[form.select.name] is defined and params[form.select.name] == option.value %}selected{% endif %}>{{ option.name | title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
-            </form>
-        </div>
-    </div>
-    </div>
+            </div>
+            <div class="row center-xs">
+                <div class="input-wrapper col-xs-12">
+                    <div class="form-controls__product-filters">
+                        <button :class="{'is-loading' : loading}" class="c-button c-button&#45;&#45;cta-black" type="submit">Submit</button>
+                        <button class="c-button c-button&#45;&#45;cta-black" type="reset">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>-->
 </template>
 
 <script>
 
     import bus from '../index';
-    import quantityComp from './quantity.vue';
-    import qs from 'qs';
 
     export default {
         name: 'buynow',
@@ -110,16 +100,6 @@
                     strainTypeFrontVal: 'S'
                 }
             },
-            variantWeights: {
-                type: Array,
-                default: () => [
-                    {weight: '1g', gramWeight: 1},
-                    {weight: '1/8oz', gramWeight: 3.5},
-                    {weight: '1/4oz', gramWeight: 7},
-                    {weight: '1/2oz', gramWeight: 14},
-                    {weight: '1oz', gramWeight: 28}
-                ]
-            },
         },
         data() {
             return {
@@ -132,23 +112,16 @@
                 email: '',
                 qty: '1',
                 loading: false,
-                emailError: false,
+                showForm: false,
             };
         },
         mounted(){
             this.formData = this.form;
-            this.notifyEmailShow = false;
-            this.productData = this.product;
-            this.price = this.product.price;
-            this.salePrice = this.product.salePrice;
             this.email = this.currentuseremail;
         },
         methods: {
-            notifyEmailShowSubmit: function(e) {
-                if(this.notifyEmailShow){
-                   return true;
-                }
-                this.notifyEmailShow = !this.notifyEmailShow;
+            showForm() {
+                this.showForm = !this.showForm;
             },
             submitForm: function(){
                 this.loading = true;
@@ -220,7 +193,7 @@
                             }
                         }
                     }
-                   else{
+                    else{
                         msgData = {
                             type: 'error',
                             msg: dataXHR.error
@@ -237,7 +210,7 @@
                         for (let key in dataXHR.cart.lineItems) {
 
                             let totalCurrency = dataXHR.cart.lineItems[key].total;
-                           lItems.push({
+                            lItems.push({
                                 qty: dataXHR.cart.lineItems[key].qty,
                                 total: '$' + totalCurrency,
                                 name: dataXHR.cart.lineItems[key].snapshot.product.title,
@@ -268,8 +241,8 @@
                 }
             },
             changeQuantity(qty) {
-                    this.qty = qty;
-                },
+                this.qty = qty;
+            },
             handleAjax(response){
                 bus.$emit('cartUpdate', response);
             },

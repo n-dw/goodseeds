@@ -5,13 +5,14 @@
         <div class="wrapper container-fluid">
             <div class="row center-xs">
                 <div class="col-xs-12 col-sm-6 col-md-4">
-                    <h1>Register</h1>
+                    <h1 class="page-title">Register</h1>
                     <form enctype="multipart/form-data" class="user-registration-form"  id="user_register" method="post" accept-charset="UTF-8">
                         {{ getCsrfInput() }}
                         <input type="hidden" name="action" value="users/saveUser">
                         <input type="hidden" name="redirect" value="/">
 
                         <div class="row has-text-left">
+                            <div class="box">
                             <div class="input-wrapper col-xs-12 c-fieldset">
                                 <label for="email">Email *</label>
                                 <input class="c-input {% if account is defined and account.getErrors('email') %}error{% endif %}" placeholder="Email *" required aria-label="Email" id="email" type="email"
@@ -46,6 +47,7 @@
                                 {% if account is defined %}
                                     {{errList.errorList(account.getErrors('fields[userGovernmentId]')) }}
                                 {% endif %}
+                            </div>
                             </div>
                             <div class="input-wrapper col-xs-12 c-fieldset has-text-centered">
                                 <input class="c-button c-button--large c-button--cta-black" type="submit"

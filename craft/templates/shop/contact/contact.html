@@ -5,13 +5,13 @@
     <div class="wrapper container-fluid">
         <div class="row center-xs">
             <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
-                <h1>Contact Us</h1>
+                <h1 class="page-title">Contact Us</h1>
                 <form id="contact_form" class="c-form" method="post" action="" accept-charset="UTF-8">
                     {{ getCsrfInput() }}
                     <input type="hidden" name="action" value="contactForm/sendMessage">
                     <input type="hidden" name="redirect" value="contact">
                     <input id="subject" type="hidden" name="subject" value="Contact Form Submission">
-
+                    <div class="box">
                     <div class="row has-text-left">
                         <div class="input-wrapper col-xs-12 col-sm-6 c-fieldset">
                             <label for="fromName">Name</label>
@@ -47,7 +47,7 @@
                             {{ message is defined and message ? errList.errorList(message.getErrors('message')) }}
                         </div>
                     </div>
-
+                    </div>
                     <div class="row">
                         <div class="input-wrapper col-xs-12">
                             <input aria-label="Send" type="submit" class="c-button c-button--large c-button--cta-black"

@@ -1,0 +1,34 @@
+.bnc{
+
+
+    .product-info-wrapper, .product-buy-now{
+      padding: 0 1.5rem;
+    }
+    .product-price-wrapper{
+      span{
+        display: block;
+      }
+      .sale-price{
+        color: $hybrid-color;
+      }
+      .price{
+        font-size: 2rem;
+        color: $promotion-color;
+      }
+  }
+}
+
+.product-strain-type{
+  border-radius: 5px;
+  padding: 0.7rem 1.5rem;
+  font-weight: 500;
+  border: 2px solid $black;
+  font-size: map-get($heading-sizes, 4);
+  margin-bottom: ($base-space / 2.148);
+  display: inline-block;
+  cursor: help;
+
+  &:hover{
+    text-decoration: dotted;
+  }
+}
