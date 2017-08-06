@@ -11,13 +11,20 @@
     display: none;
   }
 
-
 }
-.is-black{
-  .c-fieldset--border,
-  .c-input-option{
-    border: 2px solid $black;
-    padding: 0.5rem;
+
+#product_filters_form{
+  .filter-group{
+    margin-bottom: 1rem;
+
+    .checkbox-wrapper{
+      display: inline-block;
+      margin-right: 0.7rem;
+    }
+  }
+
+  .form-controls__product-filters{
+    margin-top: .4rem;
   }
 }
 

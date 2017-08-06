@@ -2,11 +2,11 @@
         {% if params %}
             <div class="form-filter-wrapper">
                 <h5 class="form-filter-toggle is-black" @click="toggleFilters"><i :class="formToggleIcon"></i>Filters</h5>
-                <form id="product_filters_form" :class="formState + ' is-black'" class="box" action="{{ url('shop/') }}" method="POST">
+                <form id="product_filters_form" :class="formState + ' is-black'" action="{{ url('shop/') }}" method="POST">
                     {{ getCsrfInput() }}
                     {% set form = {
                     'checkboxes' : {
-                    'products': [{name: 'Flower', value: '1'},{name: 'Oil', value: '1'}],
+                    'products': [{name: 'Flower', value: '1'},{name: 'Oil', value: '1', label: 'Concentrates'}],
                     'strains': [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'}],
                     'other': [{name: 'Organic', value: '1'},{name: 'sale',value: '1'},{name: 'stock', value: '1', label: 'In Stock'}],
                     },
@@ -15,79 +15,46 @@
                     options: [{name: 'Latest Products', value: 'new'},{name: 'Price: Low to High', value: 'lth'},{name: 'Price: High to Low', value: 'htl'}, {name: 'Best Reviews', value: 'reviewHtl'}]
                     }
                     } %}
-                    <div class="product-cat-checkboxes">
-                        <div class="has-text-left">Product</div>
-                        <div class="row">
 
-                            {% for cbk in form.checkboxes.products %}
-                                <div class="col-xs-4 col-sm-3">
-                                    <div class="row start-xs">
-                                        <div class="col-xs-12">
-                                            <input  v-model="formShop.{{ cbk.name }}"
-                                                    {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
-                                                    type="checkbox"
-                                                    id="{{ cbk.name }}" name="{{ cbk.name }}"
-                                                    value="{{ cbk.value }}">
-                                            <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>
-                                        </div>
+                    <div class="row">
+                        {% for key, checkboxes in form.checkboxes %}
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="box filter-group">
+                                <div class="has-text-left"><strong>{{ key | capitalize}}</strong></div>
+                                {% for cbk in checkboxes %}
+                                    <div class="checkbox-wrapper">
+                                        <input  v-model="formShop.{{ cbk.name }}"
+                                                {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
+                                                type="checkbox"
+                                                id="{{ cbk.name }}" name="{{ cbk.name }}"
+                                                value="{{ cbk.value }}">
+                                        <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>
                                     </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="has-text-left">Strain</div>
-                        <div class="row">
-                            {% for cbk in form.checkboxes.strains %}
-                                <div class="col-xs-4 col-sm-3">
-                                    <div class="row start-xs">
-                                        <div class="col-xs-12">
-                                            <input  v-model="formShop.{{ cbk.name }}"
-                                                    {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
-                                                    type="checkbox"
-                                                    id="{{ cbk.name }}" name="{{ cbk.name }}"
-                                                    value="{{ cbk.value }}">
-                                            <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="has-text-left">Other</div>
-                        <div class="row">
-                            {% for cbk in form.checkboxes.other %}
-                                <div class="col-xs-4 col-sm-3">
-                                    <div class="row start-xs">
-                                        <div class="col-xs-12">
-                                            <input  v-model="formShop.{{ cbk.name }}"
-                                                    {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
-                                                    type="checkbox"
-                                                    id="{{ cbk.name }}" name="{{ cbk.name }}"
-                                                    value="{{ cbk.value }}">
-                                            <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="has-text-left">Sort By</div>
-                        <div class="row">
-                            <div class="input-wrapper col-xs-12 col-sm-6 col-md-6">
+                    {% endfor %}
+
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="box filter-group">
+                                <div class="has-text-left"><strong>Sort By </strong></div>
                                 <select v-model="formShop.sortBy" class="c-input-option" aria-label="Sort Product By" name="sortBy" id="sortBy">
                                     {% for option in form.select.options %}
                                         <option {% if loop.index == 1 and params[form.select.name] is not defined %}selected{% endif %} value="{{ option.value }}"
                                                 {% if params[form.select.name] is defined and params[form.select.name] == option.value %}selected{% endif %}>{{ option.name | title }}</option>
                                     {% endfor %}
                                 </select>
-                            </div>
+                             </div>
                         </div>
-                        <div class="row">
+                    </div>
+                    <div class="row center-xs">
                             <div class="input-wrapper col-xs-12">
-                                <div class="form-controls form-controls--product-filters">
-                                    <button class="c-button c-button--cta-black c-button--mrg-bttm" type="submit">Submit</button>
-                                    <button class="c-button c-button--cta-black c-button--mrg-bttm" type="reset">Reset</button>
+                                <div class="form-controls__product-filters">
+                                    <button class="c-button c-button--cta-black" type="submit">Submit</button>
+                                    <button class="c-button c-button--cta-black" type="reset">Reset</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </form>
             </div>
         {% endif %}

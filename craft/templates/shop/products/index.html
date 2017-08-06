@@ -60,30 +60,28 @@
 {% set hashVal =  craft.thcpost.hashValue(formParams) %}
 
 {% block main %}
-    <section class="shop product-listings product-listing-app content-section">
-        <div class="wrapper container-fluid">
-                    <h1>Shop</h1>
-                    <div class="product-filters-wrapper row center-xs">
-                        <div class="col-xs-12 col-sm-8 col-md-6">
-                            {% cache  globally using key "productsform-" ~ craft.request.path ~ '-' ~ hashVal %}
-                                {% minify %}
-                                    {{ params is defined and params ? prodmac.productForm(formParams) }}
-                                {% endminify %}
-                            {% endcache %}
-                        </div>
-                    </div>
-                    <div class="products-list has-text-centered row">
-                        {% set imageSetting = { width: 460, ratio: 1 , jpegQuality: 85} %}
-                        {% cache  globally using key "products-" ~ craft.request.path ~ '-' ~ hashVal %}
-                            {% minify %}
-                                {% for product in products %}
-                                    {% include '/shop/_includes/product/_productCard.html' %}
-                                {% endfor %}
-                            {% endminify %}
-                        {% endcache %}
-            </div>
+<section class="shop product-listings product-listing-app content-section">
+    <div class="wrapper container-fluid">
+        <h1 class="page-title">Shop</h1>
+        <div class="product-filters-wrapper">
+                {% cache  globally using key "productsform-" ~ craft.request.path ~ '-' ~ hashVal %}
+                    {% minify %}
+                        {{ params is defined and params ? prodmac.productForm(formParams) }}
+                    {% endminify %}
+                {% endcache %}
         </div>
-    </section>
+        <div class="products-list has-text-centered row">
+            {% set imageSetting = { width: 460, ratio: 1 , jpegQuality: 85} %}
+            {% cache  globally using key "products-" ~ craft.request.path ~ '-' ~ hashVal %}
+                {% minify %}
+                    {% for product in products %}
+                        {% include '/shop/_includes/product/_productCard.html' %}
+                    {% endfor %}
+                {% endminify %}
+            {% endcache %}
+        </div>
+    </div>
+</section>
 {% endblock %}
 {% block scripts %}
     {% cache  globally using key "productsjs-" ~ craft.request.path ~ '-' ~ hashVal %}

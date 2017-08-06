@@ -23,9 +23,7 @@ import Minicart from './components/miniCart.vue';
 import BuyNow from './components/buynow.vue';
 import Message from './components/message.vue';
 import Openclose from './components/openClose.vue';
-import Vuex from 'vuex';
 
-Vue.use(Vuex);
 
 var bus = new Vue({});
 export default bus;

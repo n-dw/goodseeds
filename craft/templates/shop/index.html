@@ -14,26 +14,19 @@
 {% block main %}
 <section class="hp-content-section u-text-center product-categories u-brd-bttm-black">
     <div class="wrapper container-fluid">
+        <h2>Shop by Category</h2>
         <div class="row">
-            <div class="col-xs-12">
-                <h2>Shop by Category</h2>
-                <div class="row">
-                    {% cache  globally using key "product-categories-" ~ craft.request.path %}
-                            {% include '/shop/_includes/home/_productCatItem.html' %}
-                    {% endcache %}
-                </div>
-            </div>
+            {% cache  globally using key "product-categories-" ~ craft.request.path %}
+                    {% include '/shop/_includes/home/_productCatItem.html' %}
+            {% endcache %}
         </div>
     </div>
 </section>
-
-{%  set thcpicksSection = craft.entries.section('thcpicks').first() %}
+    {%  set thcpicksSection = craft.entries.section('thcpicks').first() %}
     {%  set thcpicks = thcpicksSection.thcpicks %}
     {% if thcpicks |length > 0 %}
         <section class="hp-content-section about u-text-center u-brd-bttm-black">
             <div class="wrapper container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
                         <openclose >
                             <template slot="title"><h2 class="about__section-header">THC Picks</h2></template>
                             <template slot="content">
@@ -46,8 +39,6 @@
                                 </div>
                             </template>
                         </openclose>
-                    </div>
-                </div>
             </div>
         </section>
     {% endif %}
@@ -61,8 +52,6 @@
     {% if sales|length > 0 %}
         <section class="hp-content-section about u-text-center u-brd-bttm-black">
             <div class="wrapper container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
                         <openclose >
                             <template slot="title"><h2 class="about__section-header">Hot Deals</h2></template>
                             <template slot="content">
@@ -76,8 +65,6 @@
 
                             </template>
                         </openclose>
-                    </div>
-                </div>
             </div>
         </section>
     {% endif %}
@@ -95,8 +82,6 @@
 
 <section class="hp-content-section customer-assurance u-text-center u-brd-bttm-black">
     <div class="wrapper container-fluid">
-        <div class="row">
-            <div class="col-xs-12">
                 <h2 class="customer-assurance__header section-header">{{entry.toutSectionHeader}}</h2>
                 <div class="touts row">
                     {% cache  globally using key "touts-" ~ craft.request.path %}
@@ -105,8 +90,6 @@
                     {% endfor %}
                     {% endcache %}
                 </div>
-            </div>
-        </div>
     </div>
 </section>
 <section class="hp-content-section questions-concerns u-text-center">
