@@ -27,8 +27,8 @@
                                 </div>
                             <div class="row">
                                 <div class="col-xs-12 box">
-
-                                        <h1 class="product-heading">{{ product.title }}</h1>
+                                    <h1 class="product-heading">{{ product.title }}</h1>
+                                    <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
                                             {% include 'shop/_includes/product/productpage/_productForm' %}
                                             <div class="share-links">
                                                 <span>Share: </span>

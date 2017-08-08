@@ -14,12 +14,16 @@
 {% block main %}
 <section class="hp-content-section u-text-center product-categories u-brd-bttm-black">
     <div class="wrapper container-fluid">
-        <h2>Shop by Category</h2>
-        <div class="row">
-            {% cache  globally using key "product-categories-" ~ craft.request.path %}
-                    {% include '/shop/_includes/home/_productCatItem.html' %}
-            {% endcache %}
-        </div>
+        <openclose >
+            <template slot="title"> <h2>Shop by Category</h2></template>
+            <template slot="content">
+                    <div class="row">
+                        {% cache  globally using key "product-categories-" ~ craft.request.path %}
+                            {% include '/shop/_includes/home/_productCatItem.html' %}
+                        {% endcache %}
+                    </div>
+            </template>
+        </openclose>
     </div>
 </section>
     {%  set thcpicksSection = craft.entries.section('thcpicks').first() %}
