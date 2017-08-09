@@ -41,6 +41,12 @@
     display: inline-block;
     //margin-left: 1.3rem;
   }
+  .product-buy-wrapper{
+    padding-bottom: ($base-space) * 0.6;
+  }
+  .add-to-cart{
+    margin-bottom:  ($base-space) * 0.6;
+  }
 }
 
 .product-variants{
