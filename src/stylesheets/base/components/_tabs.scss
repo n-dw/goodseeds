@@ -1,0 +1,44 @@
+.c-tabs{
+
+  .c-tab{
+    // Reset appearance
+    appearance: none;
+    border: none;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: ($base-space / 3) 0;
+    vertical-align: middle;
+    white-space: nowrap;
+    line-height: inherit;
+    font-size: $font-size-body;
+    cursor: pointer;
+    color: $text-color;
+    background: transparent;
+    cursor: pointer;
+    border: 2px solid map_get($colors, black);
+    color: map_get($colors, black);
+
+    a{
+      color: map_get($colors, black);
+
+      &:hover{
+        color: $promotion-hover-color;
+      }
+    }
+
+    &:hover{
+      border: 2px solid $promotion-hover-color;
+      color: $promotion-hover-color;
+
+      a{
+        color: $promotion-hover-color;
+      }
+    }
+
+    &--active{
+      border: 2px solid $promotion-hover-color;
+      color: $promotion-hover-color;
+    }
+  }
+}

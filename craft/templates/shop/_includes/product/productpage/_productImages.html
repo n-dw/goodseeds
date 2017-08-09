@@ -15,17 +15,14 @@
 }
 ) %}
 {% if loop.index == 1 %}
-    <div class="row">
-        <div class="col-xs-12">
+    <div class="main-image">
             <a id="flower-group" class="MagicZoom" href="{{ transformedImages[0].url }}"
                data-mobile-options="lazyZoom: true; zoomPosition: inner;"
                data-options="hint:always; zoomPosition: inner; zoomOn: hover; expand: off;">
                 <img src="{{ transformedImages[1].url }}" alt="{{ image.title }}">
             </a>
-        </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12 has-text-centered">
+        <div class="has-text-centered selectors">
     <a data-zoom-id="flower-group" data-image="{{ transformedImages[1].url }}"
        href="{{ transformedImages[0].url }}">
         <img src="{{ transformedImages[3].url }}" alt="{{ image.title }}">
@@ -38,5 +35,5 @@
 {% endif %}
 {% if loop.last %}
         </div>
-    </div>
+
             {% endif %}

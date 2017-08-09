@@ -8,61 +8,50 @@
 {% set isStockLessOunce = (productStock < 28) ? true : false %}
 {% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">$'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
 {% set variantInfo = {} %}
-
+{#
  {% block breadcrumbs %}
      {% include 'shop/_includes/_breadcrumb' %}
- {% endblock %}
+ {% endblock %}#}
 
 {% block main %}
     <section class="shop product-page product-listing-app content-section">
-        <div class="container-fluid wrapper">
-            <div class="row center-xs">
-                <div class="col-xs-12 col-lg-8">
-                    <article class="product">
+        <div class="wrapper">
+                    <article class="product card">
                         <header class="product-header">
-                            <div class="product-images has-text-centered">
+                            <div class="product-images has-text-centered card-image">
+
+                                {% cache  globally using key "product-images-" ~ craft.request.path%}
+                                    {% minify %}
                                     {% for productImage in product.productImages %}
                                         {% include 'shop/_includes/product/productpage/_productImages' %}
                                     {% endfor %}
-                                </div>
-                            <div class="row">
-                                <div class="col-xs-12 box">
-                                    <h1 class="product-heading">{{ product.title }}</h1>
-                                    <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
-                                            {% include 'shop/_includes/product/productpage/_productForm' %}
-                                            <div class="share-links">
-                                                <span>Share: </span>
-                                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url | url_encode }}"
-                                                   class="fb-share share-link" rel="noopener" target="_blank"><i
-                                                            class="icon-facebook-official"></i></a>
-                                                <a href="https://twitter.com/home?status={{ product.url | url_encode }}"
-                                                   class="tw-share share-link" rel="noopener" target="_blank"><i
-                                                            class="icon-twitter"></i></a>
-                                                <a href="mailto:?&body={{ product.url | url_encode }}"
-                                                   class="email-share share-link" rel="noopener"
-                                                   target="_blank" ><i class="icon-mail"></i></a>
-                                                <a href="https://pinterest.com/pin/create/button/?url={{ product.url | url_encode }}"
-                                                   class="pin-share share-link" rel="noopener" target="_blank"><i
-                                                            class="icon-pinterest-squared"></i></a>
-                                            </div>
+                                    {% endminify %}
+                                {% endcache %}
+
                             </div>
-                        </div>
+                                <div class="row center-xs">
+                                    <div class="col-xs-12 col-sm-6">
+                                   <h1 class="product-heading">{{ product.title }}</h1>
+                                    <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
+                                    {% include 'shop/_includes/product/productpage/_productForm' %}
+                                    {% include 'shop/_includes/product/productpage/_productShareLinks' %}
+                                </div>
+                                </div>
                         </header>
                         <footer class="product-footer">
-                            <div class="tabs is-centered">
-                                <ul>
-                                    <li class="is-active is-large"><a>Details</a></li>
-                                    <li><a>Effects</a></li>
-                                    <li><a>Reviews</a></li>
+                            <div class="product-details-tabs c-tabs">
+                                <ul class="c-list--clean card-footer">
+                                    <li class="card-footer-item ">Details</li>
+                                    <li class=" card-footer-item ">Attributes</li>
+                                    <li class=" card-footer-item ">Reviews</li>
                                 </ul>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-lg-8">
-
-                                    <div class="product-description box">
-                                        {{ product.productDescription }}
-                                    </div>
-                                    <div class="product-attributes">
+                           <div class="card-content">
+                            <tabs>
+                                <tab name="Details" id="details" :selected="true">
+                                    <div class="product-description">{{ product.productDescription }}</div>
+                                </tab>
+                                <tab name="Effects" id="effects">
+                                    <div class="product-effects">
                                         {% for attribute in product.productAttributes %}
                                             {% if attribute.type == 'effects' %}
                                                 {{ attribute.effectTerm.first.title | t }}
@@ -77,48 +66,21 @@
                                             {% endif %}
                                         {% endfor %}
                                     </div>
-                                </div>
-                                <div class="col-xs-12 col-lg-8">
-                                <h2>Reviews</h2>
-                                <div class="box">
-                                {%  set ratings = craft.commentsrating.elementRatings(product.id)%}
-                                   {% set params = {
-                                    order: 'dateCreated desc',
-                                    } %}
-                                    {{ craft.comments.form(product.id, params) }}
-                            </div>
+                                </tab>
+                                <tab name="Reviews">
+                                    <div class="product-reviews">
+                                        {% set ratings = craft.commentsrating.elementRatings(product.id) %}
+                                        {% set params = {order: 'dateCreated desc'} %}
+                                        {{ craft.comments.form(product.id, params) }}
+                                    </div>
+                                </tab>
+                            </tabs>
+                           </div>
                             </div>
                         </footer>
-                </div>
                 </article>
-            </div>
-        </div>
+                </div>
     </section>
 {% endblock %}
-
- {% block scripts %}
-     {% minify js %}
-     <script type="text/javascript">
-
-        /* var data = {
-             stockModalOpen: false,
-             modalClass: '',
-             price: "{{ product.defaultVariant.salePrice| commerceCurrency(cart.currency) }}",
-             salePrice: "{{ product.defaultVariant.price| commerceCurrency(cart.currency) }}",
-             savings: "{{ (product.defaultVariant.price - product.defaultVariant.salePrice) | commerceCurrency(cart.currency) }}"
-         };
-         var methods = {
-             toggleStockModal: function() {
-                 this.stockModalOpen = !this.stockModalOpen;
-                 this.stockModalOpen ? this.modalClass = "is-active" : this.modalClass = "";
-             },
-         };
-
-
-         thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
-         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);*/
-     </script>
-     {% endminify %}
- {% endblock %}
 {% includeCssFile "/static/assets/zoom/mz.min.css" %}
 {% includeJsFile "/static/assets/zoom/magiczoomplus.js" %}

@@ -21,9 +21,11 @@
     padding: 0 !important;
   }
 }
-
+.selectors{
+  padding: ($base-space) * 0.3;
+}
 .product-page{
-  padding-top: 3.2rem;
+ // padding-top: 3.2rem;
 }
 
 .product-heading{
@@ -37,7 +39,7 @@
   }
   .product-strain-type{
     display: inline-block;
-    margin-left: 1.3rem;
+    //margin-left: 1.3rem;
   }
 }
 
