@@ -1,8 +1,8 @@
-@import "base/variables";
-// 1. Import the initial variables
-@import "../../node_modules/bulma/sass/utilities/initial-variables";
 
-$success: $pinkPastel;
+// 1. Import the initial variables
+/*@import "../../node_modules/bulma/sass/utilities/initial-variables";
+
+$success: $pinkPastel;*/
 
 @import "../../node_modules/bulma/sass/utilities/_all";
 @import "../../node_modules/bulma/sass/base/helpers";
@@ -13,7 +13,7 @@ $success: $pinkPastel;
 
 
 @import "base/fonts";
-
+@import "base/variables";
 @import "base/mixins/mixins";
 @import "base/functions";
 @import "base/base";

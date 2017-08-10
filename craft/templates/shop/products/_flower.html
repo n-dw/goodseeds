@@ -16,8 +16,10 @@
 {% block main %}
     <section class="shop product-page product-listing-app content-section">
         <div class="wrapper">
-                    <article class="product card">
-                        <header class="product-header">
+                    <article class="product">
+                        <header class="product-header box">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-7">
                             <div class="product-images has-text-centered card-image">
 
                                 {% cache  globally using key "product-images-" ~ craft.request.path%}
@@ -29,21 +31,25 @@
                                 {% endcache %}
 
                             </div>
+                                </div>
+                                <div class="col-xs-12 col-md-5">
                                 <div class="row center-xs product-buy-wrapper">
-                                    <div class="col-xs-12 col-sm-6">
+                                    <div class="col-xs-12">
                                    <h1 class="product-heading">{{ product.title }}</h1>
                                     <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
                                     {% include 'shop/_includes/product/productpage/_productForm' %}
                                     {% include 'shop/_includes/product/productpage/_productShareLinks' %}
                                 </div>
                                 </div>
+                            </div>
+                            </div>
                         </header>
-                        <footer class="product-footer">
+                        <footer class="product-footer card">
                             <div class="product-details-tabs c-tabs">
                                 <ul class="c-list--clean card-footer">
-                                    <li class="card-footer-item ">Details</li>
-                                    <li class=" card-footer-item ">Attributes</li>
-                                    <li class=" card-footer-item ">Reviews</li>
+                                    <li class="card-footer-item c-tab c-tab--active">Details</li>
+                                    <li class=" card-footer-item c-tab">Attributes</li>
+                                    <li class=" card-footer-item c-tab">Reviews</li>
                                 </ul>
                            <div class="card-content">
                             <tabs>

@@ -21,6 +21,9 @@
     padding: 0 !important;
   }
 }
+.mz-zoom-window{
+  z-index: 4 !important;
+}
 .selectors{
   padding: ($base-space) * 0.3;
 }
@@ -36,6 +39,7 @@
 .product{
   .product-heading{
     display: inline-block;
+    margin-bottom: ($base-space / 3.33);
   }
   .product-strain-type{
     display: inline-block;
@@ -147,3 +151,18 @@ progress{
     text-align: left;
   }
 }
+@include bpmax(large){
+  .product-header.box{
+    padding-left: 0;
+    padding-right: 0
+  }
+}
+@include bp(medium){
+  .product-page{
+     padding-top: 3.2rem;
+  }
+  .product-heading{
+       margin-top: ($base-space / 3.33);
+  }
+}
+

@@ -18,6 +18,7 @@
     cursor: pointer;
     border: 2px solid map_get($colors, black);
     color: map_get($colors, black);
+    text-align: center;
 
     a{
       color: map_get($colors, black);
