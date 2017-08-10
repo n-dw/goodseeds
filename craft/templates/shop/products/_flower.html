@@ -86,6 +86,29 @@
                         </footer>
                 </article>
                 </div>
+        {%  set thcpicksSection = product.relatedProducts.first() %}
+        {%  set relatedProducts =  product.relatedProducts %}
+        {% if relatedProducts |length > 0 %}
+            {% set imageSetting = { width: 460, ratio: 4/3 , jpegQuality: 85} %}
+            <section class="hp-content-section u-text-center">
+                <div class="wrapper container-fluid">
+                    <openclose >
+                        <template slot="title"><h2 class="about__section-header">Related Products</h2></template>
+                        <template slot="content">
+                            <div class="thcpicks-list products-list row">
+                                {% cache  globally using key "related-products-" ~ craft.request.path %}
+                                    {% minify %}
+                                        {% for product in relatedProducts %}
+                                            {% include '/shop/_includes/product/_productCard.html' %}
+                                        {% endfor %}
+                                    {% endminify %}
+                                {% endcache %}
+                            </div>
+                        </template>
+                    </openclose>
+                </div>
+            </section>
+        {% endif %}
     </section>
 {% endblock %}
 {% includeCssFile "/static/assets/zoom/mz.min.css" %}

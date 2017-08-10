@@ -19,7 +19,9 @@
             <template slot="content">
                     <div class="row">
                         {% cache  globally using key "product-categories-" ~ craft.request.path %}
-                            {% include '/shop/_includes/home/_productCatItem.html' %}
+                            {% minify %}
+                                {% include '/shop/_includes/home/_productCatItem.html' %}
+                            {% endminify %}
                         {% endcache %}
                     </div>
             </template>
@@ -36,9 +38,11 @@
                             <template slot="content">
                                 <div class="thcpicks-list products-list row">
                                     {% cache  globally using key "thcpicks-" ~ craft.request.path %}
-                                    {% for product in thcpicks %}
-                                        {% include '/shop/_includes/product/_productCard.html' %}
-                                    {% endfor %}
+                                        {% minify %}
+                                            {% for product in thcpicks %}
+                                                {% include '/shop/_includes/product/_productCard.html' %}
+                                            {% endfor %}
+                                        {% endminify %}
                                     {% endcache %}
                                 </div>
                             </template>
@@ -61,9 +65,11 @@
                             <template slot="content">
                                 <div class="thcpicks-list products-list row">
                                     {% cache  globally using key "hot-deals-" ~ craft.request.path %}
-                                    {% for product in sales %}
-                                        {% include '/shop/_includes/product/_productCard.html' %}
-                                    {% endfor %}
+                                        {% minify %}
+                                            {% for product in sales %}
+                                                {% include '/shop/_includes/product/_productCard.html' %}
+                                            {% endfor %}
+                                        {% endminify %}
                                     {% endcache %}
                                 </div>
 
@@ -89,9 +95,11 @@
                 <h2 class="customer-assurance__header section-header">{{entry.toutSectionHeader}}</h2>
                 <div class="touts row">
                     {% cache  globally using key "touts-" ~ craft.request.path %}
-                    {% for tout in entry.touts %}
-                        {% include '/shop/_includes/home/_tout.html' %}
-                    {% endfor %}
+                        {% minify %}
+                            {% for tout in entry.touts %}
+                                {% include '/shop/_includes/home/_tout.html' %}
+                            {% endfor %}
+                        {% endminify %}
                     {% endcache %}
                 </div>
     </div>
