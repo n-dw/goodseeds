@@ -76,7 +76,6 @@
             this.subTotal = this.cartJson.itemSubtotal;
             this.showMiniCart = this.showMiniCartInitial;
             bus.$on('cartUpdate', (ajaxCart) => {
-                console.log(ajaxCart);
                 this.updateCartVal(ajaxCart);
             });
         },

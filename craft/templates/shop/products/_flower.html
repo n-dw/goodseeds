@@ -48,29 +48,27 @@
                             <div class="product-details-tabs c-tabs">
                                 <ul class="c-list--clean card-footer">
                                     <li class="card-footer-item c-tab c-tab--active">Details</li>
-                                    <li class=" card-footer-item c-tab">Attributes</li>
+                                    <li class=" card-footer-item c-tab">Effects</li>
                                     <li class=" card-footer-item c-tab">Reviews</li>
                                 </ul>
                            <div class="card-content">
                             <tabs>
-                                <tab name="Details" id="details" :selected="true">
-                                    <div class="product-description">{{ product.productDescription }}</div>
+                                <tab name="Details" id="details">
+                                    <div class="product-description">
+                                        {% cache  globally using key "product-description-" ~ craft.request.path%}
+                                            {% minify %}
+                                                {% include 'shop/_includes/product/productpage/_productDescription' %}
+                                            {% endminify %}
+                                        {% endcache %}
+                                    </div>
                                 </tab>
-                                <tab name="Effects" id="effects">
+                                <tab name="Effects" id="effects" :selected="true" >
                                     <div class="product-effects">
-                                        {% for attribute in product.productAttributes %}
-                                            {% if attribute.type == 'effects' %}
-                                                {{ attribute.effectTerm.first.title | t }}
-                                                <progress class="progress is-large is-info effects-term"
-                                                          value="{{ attribute.effectPercentage }}"
-                                                          max="100"></progress>
-                                            {% else %}
-                                                {{ attribute.medicalSymptom.first.title |t }}
-                                                <progress class="progress is-large is-success medical-term"
-                                                          value="{{ attribute.medicalEffectPercentage }}"
-                                                          max="100"></progress>
-                                            {% endif %}
-                                        {% endfor %}
+                                        {% cache  globally using key "product-effects-" ~ craft.request.path%}
+                                            {% minify %}
+                                                {% include 'shop/_includes/product/productpage/_productEffects' %}
+                                            {% endminify %}
+                                        {% endcache %}
                                     </div>
                                 </tab>
                                 <tab name="Reviews">
