@@ -60,7 +60,6 @@
         {% endif %}
     {% endmacro %}
 
-
 {% macro priceRange(priceA, priceB, variantWeight, cart) %}
     {% if priceA == priceB %}
         {{ priceA|commerceCurrency(cart.currency) }}
@@ -70,6 +69,7 @@
             {{ priceB|commerceCurrency(cart.currency) ~ ' - ' ~ priceA|commerceCurrency(cart.currency) }}
     {% endif %}
 {% endmacro %}
+
 {% macro starRating(rating, starcount) %}
     {% set hasHalfStar = (rating % 2 != 0) %}
     {% set starAmount = (rating / 2) |round(0, 'floor') %}

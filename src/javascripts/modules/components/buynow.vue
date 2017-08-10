@@ -1,7 +1,7 @@
 <template>
     <div class="bnc">
-    <div class="product-info-wrapper row">
-        <div class="media col-xs">
+    <div class="product-info-wrapper">
+        <div class="media">
             <div class="media-left">
                 <div class="product-details-wrapper">
                     <h4 class="product-strain-type" :title="productData.strainType" :class="productData.strainType">
@@ -25,8 +25,7 @@
                 <input v-for="input in formData.inputs" :type="input.type" :name="input.name" :value="input.value">
 
                 <div v-if=" productData.stock > 0" class="in-stock-controls">
-                    <div class="row">
-                        <div class="product-variants col-xs">
+                        <div class="product-variants">
                             <template v-for="(variant, index) in productData.variants">
                                 <div class="radio-wrapper variant">
                                     <input v-model="picked" :id="variant.place" name="purchasableId" type="radio"
@@ -43,13 +42,9 @@
                                     </label>
                                 </div>
                             </template>
-                        </div>
                     </div>
-                    <div class="row center-xs">
-                        <div class="col-xs">
-                            <quantity @changequantity="changeQuantity" :disabled="productData.stock < 1" qty="1"></quantity>
-                        </div>
-                    </div>
+
+                    <quantity @changequantity="changeQuantity" :disabled="productData.stock < 1" qty="1"></quantity>
                 </div>
 
                 <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-black add-to-cart"  :class="{'is-loading' : loading}">Buy Now</button>

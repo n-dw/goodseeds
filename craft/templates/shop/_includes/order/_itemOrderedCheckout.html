@@ -3,27 +3,31 @@
         <div class="image is-128x128">
             <picture class="full-width">
                 {% if item.purchasable is not null %}
-                    {% set image = item.purchasable.product.productImages.first() %}
-                    {% set transformedImages = craft.imager.transformImage(image,
-                    [{ width: 128, ratio: 1 , jpegQuality: 80}],
-                    {format: 'jpg',    allowUpscale: false, mode: 'crop', jpegQuality: 90,    position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
-                    ) %}
-                    {% if craft.imager.serverSupportsWebp() %}
-                        {% set transformedImagesWebP = craft.imager.transformImage(image,[
-                        {width: 128, ratio:1, webpQuality: 80},
-                        ],
-                        { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
-                    {% endif %}
-                    {% if craft.imager.serverSupportsWebp() %}
-                        <source class="product-image" sizes="100vw"
-                                srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
-                    {% endif %}
+                    {% cache  globally using key "128-product-image-" ~  item.snapshot.product.title %}
+                        {% minify %}
+                            {% set image = item.purchasable.product.productImages.first() %}
+                            {% set transformedImages = craft.imager.transformImage(image,
+                            [{ width: 128, ratio: 1 , jpegQuality: 80}],
+                            {format: 'jpg',    allowUpscale: false, mode: 'crop', jpegQuality: 90,    position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
+                            ) %}
+                            {% if craft.imager.serverSupportsWebp() %}
+                                {% set transformedImagesWebP = craft.imager.transformImage(image,[
+                                {width: 128, ratio:1, webpQuality: 80},
+                                ],
+                                { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
+                            {% endif %}
+                            {% if craft.imager.serverSupportsWebp() %}
+                                <source class="product-image" sizes="100vw"
+                                        srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
+                            {% endif %}
 
-                    <img class="product-image"
-                         src="{{ transformedImages[0].url }}"
-                         sizes="100vw"
-                         srcset="{{ craft.imager.srcset(transformedImages) }}"
-                         alt="{{ image.title }}"/>
+                            <img class="product-image"
+                                 src="{{ transformedImages[0].url }}"
+                                 sizes="100vw"
+                                 srcset="{{ craft.imager.srcset(transformedImages) }}"
+                                 alt="{{ image.title }}"/>
+                        {% endminify %}
+                    {% endcache %}
                 {% endif %}
             </picture>
         </div>
@@ -31,7 +35,7 @@
     <div class="media-content">
         <div class="content">
 
-            <strong>{{ item.description }}</strong>
+            <strong>{{ item.snapshot.product.title }}</strong>
             <div>
                 {% if item.onSale %}
                     <span class="price">{{ item.salePrice|commerceCurrency(cart.currency) }}</span> <i>Save {{ item.saleAmount|commerceCurrency(cart.currency)  }}(reg. {{ item.price|commerceCurrency(cart.currency) }})</i>

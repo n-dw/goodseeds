@@ -1,8 +1,12 @@
 .bnc{
+  margin: 0 auto;
+  max-width: 34rem;
 
-
-    .product-info-wrapper, .product-buy-now{
+    .product-info-wrapper{
       padding: 0 1.5rem;
+    }
+    .product-buy-now{
+      padding: 0.7rem 1.5rem 0;
     }
     .product-price-wrapper{
       span{
