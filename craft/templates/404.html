@@ -20,10 +20,23 @@
 {% set title = "404" %}
 
 {% block main %}
-	<div class="container-fluid has-text-centered">
-		<h1>Page not found</h1>
+	<div class="container-fluid has-text-centered wrapper">
+		<h1 class="page-title">Page not found</h1>
 
 		<p>What’s worse, a hilarious 404 page can’t be found either.</p>
+		<p>Perhaps we will put in some weed puns :)</p>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<h2 class="section-header u-text-center">Questions or Concerns</h2>
+						<p class="box">Let us put your mind at ease, please visit our <a href="/frequently-asked-questions">FAQ</a> for
+							common questions or contact us us via <a href="/contact">contact</a> form or email
+							<a href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a> and
+							we will get back to you as soon as possible.
+						</p><a href="/shop/products" class="c-button c-button--large c-button--cta-black">Shop Now</a>
+					</div>
+				</div>
+
 	</div>
 
 {% endblock %}
