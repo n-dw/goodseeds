@@ -63,6 +63,7 @@
                             <li>
                                 <strong>Subtotal : </strong> {{ cart.itemSubtotal|commerceCurrency(cart.currency) }}
                             </li>
+                            {% if cart.shippingMethod is null %}
                             <li>
                                 <strong>Shipping: </strong>
                                 {{ shippingAmount }}.
@@ -72,6 +73,7 @@
                                     shipping, <a href="{{ url('/shop') }}">Continue Shopping</a>.
                                 {% endif %}
                             </li>
+                            {% endif %}
                             {% for adjustment in cart.adjustments %}
                                 <li>
                                     <strong>{{ adjustment.type }}:</strong>
