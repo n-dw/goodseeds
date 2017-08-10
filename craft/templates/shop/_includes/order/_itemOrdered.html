@@ -31,10 +31,10 @@
     <div class="media-content">
         <div class="content">
 
-                <strong>{{ item.description }}</strong>
+                <strong>{{ item.snapshot.product.title }}</strong>
             <div>
                 {% if item.onSale %}
-                   ea. <span class="price">{{ item.salePrice|commerceCurrency(cart.currency) }}</span> <i>Save {{ item.saleAmount|commerceCurrency(cart.currency)  }}(reg. {{ item.price|commerceCurrency(cart.currency) }})</i>
+                    ea. <span class="price">{{ item.salePrice|commerceCurrency(cart.currency) }}</span> <span class="sale"><i>Save {{ item.saleAmount|commerceCurrency(cart.currency)  }}(reg. {{ item.price|commerceCurrency(cart.currency) }})</i></span>
                 {% else %}
                    ea. <span class="price">{{ item.price|commerceCurrency(cart.currency) }}</span>
                 {% endif %}

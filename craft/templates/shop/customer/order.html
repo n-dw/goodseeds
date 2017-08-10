@@ -114,7 +114,7 @@
                                 </div>
                             </div>
 
-                    {% if order.message is not empty %}
+                    {% if order.orderNotes is not empty %}
 
                             <div class="box">
 
@@ -122,8 +122,8 @@
                                         Order Notes
                                     </h2>
 
-                                <div class="card-content">
-                                    {{ order.message }}
+                                <div class="card-content has-text-left">
+                                    {{ order.orderNotes }}
                                 </div>
                             </div>
 

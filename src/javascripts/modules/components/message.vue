@@ -2,7 +2,7 @@
     <div class="message">
         <div v-if="show" class="notification has-text-centered" :class="{ 'is-danger' :  isErr,  'is-success': !isErr}">
             <button class="delete"  @click="show = !show"></button>
-            <h4>{{ message }}</h4>
+            <h4 class="notification-header">{{ message }}</h4>
         </div>
     </div>
 </template>
