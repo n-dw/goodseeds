@@ -98,6 +98,14 @@ class ThcpostPlugin extends BasePlugin
             }
 
         });
+        //make sure we have enough stock
+        craft()->on('commerce_cart.onAddToCart', function(Event $event) {
+            //when the user submits the cart via ajax the success msg is added
+            if (craft()->request->isAjaxRequest)
+            {
+                craft()->userSession->setNotice(Craft::t('jkljdjslkjaslejljljl'));
+            }
+        });
         /*  So far this would only be called when the discount has matched with everything else about the product. */
         craft()->on('commerce_discounts.onBeforeMatchLineItem',
             function($event){

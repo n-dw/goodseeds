@@ -94,22 +94,22 @@
         {% set messageError = craft.session.getFlash( 'error' ) %}
         {% set cartError = cart.getError('stock') %}
         <div class="messages">
-            {% if messageNotice %}
+            {% if messageNotice and (messageNotice != 'Cart updated.' or craft.request.getPost())  %}
                 <div class="notification has-text-centered is-success">
                     <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
-                    {{ messageNotice }}
+                    <h4 class="notification-header">{{ messageNotice }}</h4>
                 </div>
             {% endif %}
             {% if messageError %}
                 <div class="notification has-text-centered is-danger">
                     <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
-                    {{ messageError }}
+                    <h4 class="notification-header">{{ messageError }}</h4>
                 </div>
             {% endif %}
             {% if cartError %}
                 <div class="notification has-text-centered is-danger">
                     <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
-                    {{ cartError }}
+                    <h4 class="notification-header"> {{ cartError }}</h4>
                 </div>
             {% endif %}
             <message></message>
