@@ -1,0 +1,32 @@
+
+{%  set effectArr = [] %}
+{%  set MedicalArr = [] %}
+
+{% for attribute in product.productAttributes %}
+    {% if attribute.type == 'effects' %}
+        {% set effectArr = effectArr | merge({(attribute.effectPercentage): {title:  attribute.effectTerm.first.title, percentage: attribute.effectPercentage, uri: attribute.effectTerm.first.uri}}) %}
+    {% else %}
+        {% set MedicalArr = MedicalArr | merge({(attribute.medicalEffectPercentage): {title:  attribute.medicalSymptom.first.title, percentage: attribute.medicalEffectPercentage , uri: attribute.medicalSymptom.first.uri}}) %}
+    {% endif %}
+{% endfor %}
+
+<div class="row">
+    <div class="col-xs-12 col-md-6">
+        <h3 class="effect-title">Effects</h3>
+        {% for attribute in effectArr %}
+            <span class="progress-container">
+                <span class="progress-title"><strong><a class="effect-link" href="{{url(attribute.uri)}}">{{attribute.title}}</a></strong></span>
+                 <span class="progress-bar progress-bar--effect" style="width:{{attribute.percentage}}%;"></span>
+            </span>
+        {% endfor %}
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <h3 class="effect-title">Medical Symptoms</h3>
+        {% for attribute in MedicalArr %}
+            <span class="progress-container">
+                <span class="progress-title"><strong><a class="effect-link" href="{{url(attribute.uri)}}">{{attribute.title}}</a></strong></span>
+                 <span class="progress-bar progress-bar--medical" style="width:{{attribute.percentage}}%;"></span>
+            </span>
+        {% endfor %}
+    </div>
+</div>

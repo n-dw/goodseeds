@@ -34,7 +34,6 @@
             this.message = this.msg;
             this.isErr = this.error;
             bus.$on('Message', (message) => {
-                console.log(message);
                 this.updateMessage(message);
             });
         },

@@ -134,14 +134,56 @@
     }
 }
 
-progress{
-  &.medical-term{
-      background-color: $cta-blue-color;
-  }
-  &.effects-term{
-    background-color: $pastelGreen;
+
+.tag{
+  font-size: 2rem;
+  background-color: $pinkPastel;
+  color: $white;
+  a.tag-link{
+    color: $white;
+    &:hover{
+      text-decoration: underline;
+    }
   }
 }
+
+.progress-container{
+  display: block;
+  width: 100%;
+  height: 4.5rem;
+  margin-bottom: ($base-space / 2.148);
+  border-radius: 999px;
+  position: relative;
+  border: 2px solid $black;
+
+  .progress-title{
+    position: absolute;
+    left: 1.5rem;
+    top: 0.5rem;
+    font-size: 2rem;
+
+    a.effect-link{
+      color: $black;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
+  .progress-bar{
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+
+    &--effect{
+      background-color: $pastelGreen;
+    }
+    &--medical{
+      background-color: $cta-blue-color;
+    }
+  }
+}
+
+
 
 @include bpmax(small){
   .product-heading{

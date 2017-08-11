@@ -298,6 +298,12 @@ class ThcpostPlugin extends BasePlugin
         return 'natedewaard.com';
     }
 
+    public function addTwigExtension()
+    {
+       /* Craft::import('plugins.thcpost.twigextensions.Thcpost_TwigExtentions');
+        return new Thcpost_TwigExtensions();*/
+    }
+
     /**
      * Returns whether the plugin should get its own tab in the CP header.
      *

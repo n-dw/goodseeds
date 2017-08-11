@@ -1,0 +1,14 @@
+<h3>Description</h3>
+{{ product.productDescription }}
+
+{% if product.productFlavour.total() > 0 %}
+    <h3>Flavours</h3>
+
+    {% for flavour in product.productFlavour %}
+        {% if flavour.flavourColour and flavour.flavourColour != '#000000' %}
+            <span class="tag" style="background-color: {{ flavour.flavourColour  }}"><a class="tag-link" href="{{url(flavour.uri)}}">{{ flavour.title }}</a></span>
+        {% else %}
+            <span class="tag"><a class="tag-link" href="{{url(flavour.uri)}}">{{ flavour.title }}</a></span>
+        {% endif %}
+    {% endfor %}
+{% endif %}
