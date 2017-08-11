@@ -6,6 +6,8 @@
     {% if currentUser %}
         {% include 'shop/comments/_forms/templates/form' %}
     {% else %}
-        <p>Please <a href="/login">sign in</a> or <a href="/register">register</a> to review.</p>
+        <div class="login-review-message">
+                <p>Please <a href="/login">sign in</a> or <a href="/register">register</a> to review.</p>
+        </div>
     {% endif %}
 </div>

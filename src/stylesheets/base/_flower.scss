@@ -126,14 +126,9 @@
     font-size: 2rem;
   }
  }
-.product-attributes{
-    meter{
-      height: 7.5rem;
-      width: 100%;
-
-    }
+.product-footer{
+  border-radius: 0.5rem;
 }
-
 
 .tag{
   font-size: 2rem;
@@ -181,6 +176,16 @@
       background-color: $cta-blue-color;
     }
   }
+}
+
+//reviews
+.login-review-message{
+  border-top: 1px solid rgba(219, 219, 219, 0.5);
+  padding-top: ($base-space / 2.148);
+    p{
+      font-size: larger;
+       margin-bottom: 0;
+    }
 }
 
 
