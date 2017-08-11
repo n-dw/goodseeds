@@ -62,7 +62,7 @@
                                         {% endcache %}
                                     </div>
                                 </tab>
-                                <tab name="Effects" id="effects" :selected="true" >
+                                <tab name="Effects" id="effects">
                                     <div class="product-effects">
                                         {% cache  globally using key "product-effects-" ~ craft.request.path%}
                                             {% minify %}
@@ -71,7 +71,7 @@
                                         {% endcache %}
                                     </div>
                                 </tab>
-                                <tab name="Reviews">
+                                <tab name="Reviews" :selected="true" >
                                     <div class="product-reviews">
                                         {% set ratings = craft.commentsrating.elementRatings(product.id) %}
                                         {% set params = {order: 'dateCreated desc'} %}
