@@ -20,6 +20,13 @@
     color: map_get($colors, black);
     text-align: center;
 
+    &:first-of-type{
+      border-top-left-radius: 0.5rem;
+    }
+    &:last-of-type{
+      border-top-right-radius: 0.5rem;
+    }
+
     a{
       color: map_get($colors, black);
 
