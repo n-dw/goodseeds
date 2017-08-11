@@ -183,6 +183,16 @@
   }
 }
 
+//reviews
+.login-review-message{
+  border-top: 1px solid rgba(219, 219, 219, 0.5);
+  padding-top: ($base-space / 2.148);
+    p{
+      font-size: larger;
+       margin-bottom: 0;
+    }
+}
+
 
 
 @include bpmax(small){

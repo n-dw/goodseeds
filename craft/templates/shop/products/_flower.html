@@ -73,9 +73,13 @@
                                 </tab>
                                 <tab name="Reviews" :selected="true" >
                                     <div class="product-reviews">
-                                        {% set ratings = craft.commentsrating.elementRatings(product.id) %}
-                                        {% set params = {order: 'dateCreated desc'} %}
-                                        {{ craft.comments.form(product.id, params) }}
+                                        {% cache  globally using key "product-reviews-" ~ craft.request.path%}
+                                            {% minify %}
+                                                {% set ratings = craft.commentsrating.elementRatings(product.id) %}
+                                                {% set params = {order: 'dateCreated desc'} %}
+                                                {{ craft.comments.form(product.id, params) }}
+                                            {% endminify %}
+                                        {% endcache %}
                                     </div>
                                 </tab>
                             </tabs>
@@ -91,7 +95,7 @@
             <section class="hp-content-section u-text-center">
                 <div class="wrapper container-fluid">
                     <openclose >
-                        <template slot="title"><h2 class="about__section-header">Related Products</h2></template>
+                        <template slot="title"><h2 class="related-products-header">Others Enjoyed</h2></template>
                         <template slot="content">
                             <div class="thcpicks-list products-list row">
                                 {% cache  globally using key "related-products-" ~ craft.request.path %}

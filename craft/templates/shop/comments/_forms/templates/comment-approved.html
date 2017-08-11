@@ -2,29 +2,27 @@
 <article class="comment media">
     <div class="media-content">
         <div class="content">
-            <p>
-                <strong>THCPOST Customer</strong>
+            <strong>THCPOST Customer</strong>
                 <small>
                     <time itemprop="commentTime" datetime="{{ comment.dateCreated | date('c') }}">
                         {{ comment.dateCreated | date('M jS, Y') }}
                     </time>
                 </small>
-                <br>
                 {{ prodmac.starRating(craft.commentsrating.commentRating(comment.id)) }}
-                <br>
-                {{ comment.comment | nl2br }}
+                 <div class="comment"> {{ comment.comment | nl2br }}</div>
+
                 {% if currentUser and (comment.canEdit() or comment.canTrash()) %}
-                    <br>
-                    <small>
+
+                    <div class="comment-edit-controls">
                         {% if comment.canEdit() %}
-                            <a class="comment-action">Edit</a>
+                            <a onclick="document.getElementById('comment_edit_form_{{ comment.id }}').style.display = 'block';" class="comment-action">Edit</a>
                         {% endif %}
                         {% if comment.canTrash() %}
-                            <a href="{{ comment.trashActionUrl }}" class=comment-action">Delete</a>
+                            <a href="{{ comment.trashActionUrl }}" class="comment-action">Delete</a>
                         {% endif %}
-                    </small>
+                    </div>
                 {% endif %}
-            </p>
+
         </div>
 
        {# Inline edit form (initially hidden) - only available on approved comment #}

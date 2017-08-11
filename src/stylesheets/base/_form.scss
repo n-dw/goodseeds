@@ -93,6 +93,10 @@
     outline: none;
     border: 2px solid $formElementBorderColorFocus;
   }
+
+  &--fixed-width-mobile{
+    max-width: 36rem;
+  }
 }
 .form-controls{
   padding: 0.5rem;
