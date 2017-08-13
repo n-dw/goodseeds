@@ -1,10 +1,7 @@
-
-
 /*
   Automatically instantiates modules based on data-attributes
   specifying module file-names.
 */
-
 const moduleElements = document.querySelectorAll('[data-module]')
 
 for (var i = 0; i < moduleElements.length; i++) {
@@ -33,22 +30,6 @@ var methods = {
     toggle: function() {
         this.menuOpen = !this.menuOpen;
         this.menuOpen ? this.navMenuStatus = "mobile-nav--open" : this.navMenuStatus = "mobile-nav--closed";
-    },
-    prerenderLink: function(e) {
-        var head = document.getElementsByTagName("head")[0];
-        var refs = head.childNodes;
-        ref = refs[ refs.length - 1];
-
-        var elements = head.getElementsByTagName("link");
-        Array.prototype.forEach.call(elements, function(el, i) {
-            if (("rel" in el) && (el.rel === "prerender"))
-                el.parentNode.removeChild(el);
-        });
-
-        var prerenderTag = document.createElement("link");
-        prerenderTag.rel = "prerender";
-        prerenderTag.href = e.currentTarget.href;
-        ref.parentNode.insertBefore(prerenderTag,  ref);
     },
     itemSelected: function(data) {
         // ga('send', 'pageview', data.searchUrl);

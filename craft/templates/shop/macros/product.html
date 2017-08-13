@@ -1,7 +1,11 @@
 {% macro productForm(params) %}
         {% if params %}
+            {% if params.action is not defined %}
+                {% set params = params|merge({action : 'shop'}) %}
+            {% else %}
+            {% endif %}
             <div class="form-filter-wrapper">
-                <form id="product_filters_form" action="{{ url('shop/') }}" method="POST">
+                <form id="product_filters_form" action="{{ url(params.action) }}" method="POST">
                     {{ getCsrfInput() }}
                     {% set form = {
                     'checkboxes' : {
