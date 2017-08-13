@@ -44,35 +44,47 @@
                             </div>
                             </div>
                         </header>
+
+                        <div class="row center-xs container-fluid">
+                            <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
+                                <button  data-show="product_description" data-module="productTabs" class="product-tab-button product-cat-card product-cat-card--link c-button c-button--cta-black  c-button--cta-black--active c-button--medium" type="button">
+                                    Details
+                                </button>
+                            </div>
+                            <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
+                                <button  data-show="product_effects" data-module="productTabs" class="product-tab-button product-cat-card product-cat-card--link c-button c-button--cta-black c-button--medium" type="button">
+                                    Effects
+                                </button>
+                            </div>
+                            <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
+                                <button  data-show="product_reviews" data-module="productTabs" class="product-tab-button product-cat-card product-cat-card--link c-button--tab c-button c-button--cta-black c-button--medium" type="button" >
+                                    Reviews
+                                </button>
+                            </div>
+                        </div>
                         <footer class="product-footer card">
                             <div class="product-details-tabs c-tabs">
-                                <ul class="c-list--clean card-footer">
-                                    <li class="card-footer-item c-tab c-tab--active">Details</li>
-                                    <li class=" card-footer-item c-tab">Effects</li>
-                                    <li class=" card-footer-item c-tab">Reviews</li>
-                                </ul>
+
                            <div class="card-content">
-                            <tabs>
-                                <tab name="Details" id="details">
-                                    <div class="product-description">
+
+
+                                    <div class="product-description product-tab" id="product_description">
                                         {% cache  globally using key "product-description-" ~ craft.request.path%}
                                             {% minify %}
                                                 {% include 'shop/_includes/product/productpage/_productDescription' %}
                                             {% endminify %}
                                         {% endcache %}
                                     </div>
-                                </tab>
-                                <tab name="Effects" id="effects">
-                                    <div class="product-effects">
+
+                                    <div class="product-effects product-tab" id="product_effects" data-module="disappear">
                                         {% cache  globally using key "product-effects-" ~ craft.request.path%}
                                             {% minify %}
                                                 {% include 'shop/_includes/product/productpage/_productEffects' %}
                                             {% endminify %}
                                         {% endcache %}
                                     </div>
-                                </tab>
-                                <tab name="Reviews" :selected="true" >
-                                    <div class="product-reviews">
+
+                                    <div class="product-reviews product-tab" id="product_reviews" data-module="disappear">
                                         {% cache  globally using key "product-reviews-" ~ craft.request.path%}
                                             {% minify %}
                                                 {% set ratings = craft.commentsrating.elementRatings(product.id) %}
@@ -81,8 +93,6 @@
                                             {% endminify %}
                                         {% endcache %}
                                     </div>
-                                </tab>
-                            </tabs>
                            </div>
                             </div>
                         </footer>

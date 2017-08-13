@@ -23,15 +23,12 @@ import Minicart from './components/miniCart.vue';
 import BuyNow from './components/buynow.vue';
 import Message from './components/message.vue';
 import Openclose from './components/openClose.vue';
-import Tabs from './components/tabs.vue';
-import Tab from './components/tab.vue';
-
 
 var bus = new Vue({});
 export default bus;
 
 var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed" };
-var components = { tabs: Tabs, tab: Tab, openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
+var components = {openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
     toggle: function() {
         this.menuOpen = !this.menuOpen;
@@ -65,6 +62,7 @@ var methods = {
 thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
 thcpost.vueParams.components = Object.assign(thcpost.vueParams.components, components);
 thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);
+
 
 new Vue({
     el: '.vue-app',
