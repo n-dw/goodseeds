@@ -7,14 +7,24 @@
             <div class="form-filter-wrapper">
                 <form id="product_filters_form" action="{{ url(params.action) }}" method="POST">
                     {{ getCsrfInput() }}
+
+                    {% if params.strainName is defined%}
+                        {% set checkboxes = {
+                            'products': [{name: 'flower', value: '1'},{name: 'oil', value: '1', label: 'Concentrates'}],
+                            'strains': [{name: params.strainName, value: '1', disabled: true, checked: true}],
+                            'other': [{name: 'organic', value: '1'},{name: 'sale',value: '1'},{name: 'stock', value: '1', label: 'In Stock'}],
+                        } %}
+                    {% else %}
+                        {% set checkboxes = {
+                        'products': [{name: 'flower', value: '1'},{name: 'oil', value: '1', label: 'Concentrates'}],
+                        'strains': [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'}],
+                        'other': [{name: 'organic', value: '1'},{name: 'sale',value: '1'},{name: 'stock', value: '1', label: 'In Stock'}],
+                        } %}
+                    {% endif %}
                     {% set form = {
-                    'checkboxes' : {
-                    'products': [{name: 'flower', value: '1'},{name: 'oil', value: '1', label: 'Concentrates'}],
-                    'strains': [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'}],
-                    'other': [{name: 'organic', value: '1'},{name: 'sale',value: '1'},{name: 'stock', value: '1', label: 'In Stock'}],
-                    },
-                    'select' : {
-                    name:'sortBy',
+                    'checkboxes': checkboxes,
+                    'select': {
+                        name: 'sortBy',
                     options: [{name: 'Latest Products', value: 'new'},{name: 'Price: Low to High', value: 'lth'},{name: 'Price: High to Low', value: 'htl'}, {name: 'Best Reviews', value: 'reviewHtl'}]
                     }
                     } %}
@@ -26,8 +36,9 @@
                                 <div class="has-text-left"><strong>{{ key | capitalize}}</strong></div>
                                 {% for cbk in checkboxes %}
                                     <div class="checkbox-wrapper">
-                                        <input {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
+                                        <input {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') or (cbk.checked is defined and cbk.checked) %}checked{% endif %}
                                                 type="checkbox"
+                                                {% if cbk.disabled is defined and cbk.disabled %}disabled{% endif %}
                                                 id="{{ cbk.name }}" name="{{ cbk.name }}"
                                                 value="{{ cbk.value }}">
                                         <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>

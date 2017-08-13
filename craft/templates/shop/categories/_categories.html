@@ -12,6 +12,9 @@
     {% set params = params|merge({relatedTo : categoriesArray}) %}
     {% set params = params|merge({order : 'postDate DESC'}) %}
     {% set formParams = formParams|merge({action : craft.request.path}) %}
+    {% if category.group.name == 'Strains' %}
+        {% set formParams = formParams|merge({strainName : category.title}) %}
+    {% endif %}
 {% endif %}
 
 {% if craft.request.getPost() %}
@@ -79,7 +82,7 @@
     <section class="shop product-listings product-listing-app content-section">
         <div class="wrapper container-fluid">
             {% if category.title is defined  %}
-                <h1 class="page-title">Shop {{ category.title }}</h1>
+                <h1 class="page-title">Shop {{ category.group.name |trim('s', 'right')  }}: {{ category.title }}</h1>
             {% else %}
                 <h1 class="page-title">Shop</h1>
             {% endif %}
@@ -109,5 +112,5 @@
     </section>
 {% endblock %}
 {% block scripts %}
-    
+
 {% endblock %}
