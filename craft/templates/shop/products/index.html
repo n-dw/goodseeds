@@ -8,6 +8,7 @@
 
 {% if craft.request.getPost() %}
  {% set formResults = craft.request.getPost() %}
+ {% set productTypes = {} %}
  {% set formParams = formParams|merge(formResults) %}
  {% for postVarName,postVarValue in formResults  %}
      {% switch postVarName %}
@@ -18,11 +19,13 @@
      {% set categoriesArray = categoriesArray|merge([{targetElement: category,}]) %}
      {% set params = params|merge({relatedTo : categoriesArray}) %}
      {% case "oil" %}
-     {% set params = params|merge({type : 'Oil'}) %}
+     {% set productTypes = productTypes|merge(['Oil']) %}
+     {% case "organic" %}
+     {% set params = params|merge({'organic' : true}) %}
      {% case "flower" %}
-     {% set params = params|merge({type : 'Flower'}) %}
+     {% set productTypes = productTypes|merge(['Flower']) %}
      {% case "edibles" %}
-     {% set params = params|merge({type : 'Edibles'}) %}
+     {% set productTypes = productTypes|merge(['Edibles']) %}
      {% case "stock" %}
      {% set params = params|merge({hasVariant:{hasStock : true}}) %}
      {% case "sortBy" %}
@@ -37,6 +40,7 @@
      {% endif %}
      {% endswitch %}
  {% endfor %}
+    {% set params = params|merge({type : productTypes}) %}
 {% endif %}
 {% if craft.request.getParam('cat') is not null %}
     {% set productParam = craft.request.getParam('cat') %}
@@ -50,6 +54,8 @@
     {% set params = params|merge({relatedTo : categoriesArray}) %}
     {% case "organic" %}
     {% set params = params|merge({'organic' : true}) %}
+    {% case "flower" %}
+    {% set params = params|merge({type : 'Flower'}) %}
     {% case "oil" %}
     {% set params = params|merge({type : 'Oil'}) %}
     {% case "Edibles" %}
@@ -64,11 +70,16 @@
     <div class="wrapper container-fluid">
         <h1 class="page-title">Shop</h1>
         <div class="product-filters-wrapper">
-                {% cache  globally using key "productsform-" ~ craft.request.path ~ '-' ~ hashVal %}
-                    {% minify %}
-                        {{ params is defined and params ? prodmac.productForm(formParams) }}
-                    {% endminify %}
-                {% endcache %}
+            <openclose :opened="false" class="product-form-opc">
+                <template slot="title"><h2 class="product-form__title">Filters</h2></template>
+                <template slot="content">
+                    {% cache  globally using key "productsform-" ~ craft.request.path ~ '-' ~ hashVal %}
+                        {% minify %}
+                            {{ params is defined and params ? prodmac.productForm(formParams) }}
+                        {% endminify %}
+                    {% endcache %}
+                </template>
+            </openclose>
         </div>
         <div class="products-list has-text-centered row">
             {% set imageSetting = { width: 460, ratio: 1 , jpegQuality: 85} %}
@@ -83,35 +94,3 @@
     </div>
 </section>
 {% endblock %}
-{% block scripts %}
-    {% cache  globally using key "productsjs-" ~ craft.request.path ~ '-' ~ hashVal %}
-     {% minify js %}
-     <script type="text/javascript">
-         var dataProducts = {
-             formShop :{
-                 sativa: {{ formParams['sativa'] is defined or formParams['productParam'] == 'sativa' ? 'true' : 'false' }},
-                 indica: {{ formParams['indica'] is defined or formParams['productParam'] == 'indica' ? 'true' : 'false' }},
-                 hybrid: {{ formParams['hybrid'] is defined or formParams['productParam'] == 'hybrid' ? 'true' : 'false' }},
-                 oil: {{ formParams['oil'] is defined or formParams['productParam'] == 'concentrates' ? 'true' : 'false' }},
-                 stock: {{ formParams['stock'] is defined ? 'true' : 'false' }},
-                 sale: {{ formParams['sale'] is defined or formParams['productParam'] == 'sale' ? 'true' : 'false' }},
-                 sortBy: '{{ formParams['sortBy'] is defined ?  formParams['sortBy']  : 'new' }}',
-             },
-             filtersExposed: false,
-             formToggleIcon: 'icon-plus-1',
-             formState: 'product-filters-form--closed'
-         };
-         var methodsProducts = {
-             toggleFilters: function() {
-                 this.filtersExposed = !this.filtersExposed;
-                 this.filtersExposed ? this.formToggleIcon = "icon-minus" : this.formToggleIcon = "icon-plus-1";
-                 this.filtersExposed ? this.formState = "product-filters-form--open" : this.formState = "product-filters-form--closed";
-             },
-         };
-
-         thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, dataProducts);
-         thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methodsProducts);
-     </script>
-     {% endminify %}
-    {% endcache %}
- {% endblock %}
