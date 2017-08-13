@@ -63,6 +63,7 @@ thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
 thcpost.vueParams.components = Object.assign(thcpost.vueParams.components, components);
 thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);
 
+
 new Vue({
     el: '.vue-app',
     components: thcpost.vueParams.components,

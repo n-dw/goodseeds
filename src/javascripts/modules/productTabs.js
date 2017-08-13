@@ -3,17 +3,24 @@
  */
 export default class productTabs {
     constructor(el) {
-        this.el = el;
-        el.addEventListener("click", evt => this.toggleTab(evt));
-        console.log(this.el);
-    }
-    toggleTab(evt){
-        console.log(evt);
-        let tabsToHide  = document.getElementsByClassName('product-tab');
-        let elementToShow = document.getElementById(this.el.dataset.show);
+       el.onclick = (e) => {
+           let button = e.target;
+           let tabsToHide  = document.getElementsByClassName('product-tab');
 
-        elementToShow.style.display = "block";
-        this.el.classList.add("c-button--cta-black--active");
-    }
+           for (let i = 0; i < tabsToHide.length; i++ ) {
+               tabsToHide[i].style.display = "none";
+           }
 
+           let elementToShow = document.getElementById(button.dataset.show);
+           elementToShow.style.display = "block";
+
+           let buttons = document.getElementsByClassName('product-tab-button');
+
+           for (let i = 0; i < buttons.length; i++ ) {
+               buttons[i].classList.remove("c-button--cta-black--active");
+           }
+
+           button.classList.add("c-button--cta-black--active");
+       };
+    }
 }
