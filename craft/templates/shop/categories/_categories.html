@@ -1,31 +1,102 @@
 {% extends 'shop/_layouts/main' %}
 
-{% set formParams = {'productParam' : ''} %}
 {% import "shop/macros/product.html" as prodmac %}
 
 {% set params = {with: ['productImages']} %}
-{% set categoriesArray = ['or'] %}
+{% set formParams = {'productParam' : ''} %}
+{% set categoriesArray = ['and'] %}
 
-{% if category.slug %}
+{% if category.slug is defined %}
     {% set cat = craft.categories.slug(category.slug).ids() %}
     {% set categoriesArray = categoriesArray|merge([{targetElement: cat,}]) %}
     {% set params = params|merge({relatedTo : categoriesArray}) %}
     {% set params = params|merge({order : 'postDate DESC'}) %}
+    {% set formParams = formParams|merge({action : craft.request.path}) %}
+    {% if category.group.name == 'Strains' %}
+        {% set formParams = formParams|merge({strainName : category.title}) %}
+    {% endif %}
 {% endif %}
 
+{% if craft.request.getPost() %}
+    {% set formResults = craft.request.getPost() %}
+    {% set productTypes = {} %}
+    {% set formParams = formParams|merge(formResults) %}
+
+    {% for postVarName,postVarValue in formResults  %}
+        {% switch postVarName %}
+        {% case "sale" %}
+            {% set params = params|merge({hasSales : true}) %}
+        {% case "sativa" or "indica" or "hybrid" %}
+            {% set cat = craft.categories.slug(postVarName).ids() %}
+            {% set categoriesArray = categoriesArray|merge([{targetElement: cat,}]) %}
+            {% set params = params|merge({relatedTo : categoriesArray}) %}
+        {% case "oil" %}
+            {% set productTypes = productTypes|merge(['Oil']) %}
+        {% case "organic" %}
+            {% set params = params|merge({'organic' : true}) %}
+        {% case "flower" %}
+            {% set productTypes = productTypes|merge(['Flower']) %}
+        {% case "edibles" %}
+            {% set productTypes = productTypes|merge(['Edibles']) %}
+        {% case "stock" %}
+            {% set params = params|merge({hasVariant:{hasStock : true}}) %}
+        {% case "sortBy" %}
+        {% if postVarValue == "new" %}
+            {% set params = params|merge({order : 'postDate DESC'}) %}
+        {% elseif postVarValue == "htl" %}
+            {% set params = params|merge({order : 'defaultPrice DESC'}) %}
+        {% elseif postVarValue == "lth" %}
+            {% set params = params|merge({order : 'defaultPrice ASC'}) %}
+        {% elseif postVarValue == "reviewHtl" %}
+            {% set params = params|merge({order : 'averageRating DESC'}) %}
+        {% endif %}
+        {% endswitch %}
+    {% endfor %}
+    {% set params = params|merge({type : productTypes}) %}
+{% endif %}
+{% if craft.request.getParam('cat') is not null %}
+    {% set productParam = craft.request.getParam('cat') %}
+    {% set formParams = {'productParam' : productParam} %}
+
+    {% switch productParam %}
+    {% case "sale" %}
+        {% set params = params|merge({hasSales : true}) %}
+    {% case "sativa" or "indica" or "hybrid" %}
+        {% set cat = craft.categories.slug(productParam).ids() %}
+        {% set categoriesArray = categoriesArray|merge([{targetElement: cat,}]) %}
+        {% set params = params|merge({relatedTo : categoriesArray}) %}
+    {% case "organic" %}
+        {% set params = params|merge({'organic' : true}) %}
+    {% case "flower" %}
+        {% set params = params|merge({type : 'Flower'}) %}
+    {% case "oil" %}
+        {% set params = params|merge({type : 'Oil'}) %}
+    {% case "Edibles" %}
+        {% set params = params|merge({type : 'Edibles'}) %}
+    {% endswitch %}
+{% endif %}
 {% set products = craft.commerce.products(params) %}
 {% set hashVal =  craft.thcpost.hashValue(formParams) %}
 
 {% block main %}
     <section class="shop product-listings product-listing-app content-section">
         <div class="wrapper container-fluid">
-            <h1 class="page-title">Shop {{ category.title }}</h1>
+            {% if category.title is defined  %}
+                <h1 class="page-title">Shop {{ category.group.name |trim('s', 'right')  }}: {{ category.title }}</h1>
+            {% else %}
+                <h1 class="page-title">Shop</h1>
+            {% endif %}
             <div class="product-filters-wrapper">
-                {% cache  globally using key "productsform-" ~ craft.request.path ~ '-' ~ hashVal %}
-                    {% minify %}
-                     {{ params is defined and params ? prodmac.productForm(formParams) }}
-                    {% endminify %}
-                {% endcache %}
+                <openclose :opened="false" class="product-form-opc">
+                    <template slot="title"><h2 class="product-form__title">Filters</h2></template>
+                    <template slot="content">
+                        {% cache  globally using key "productsform-" ~ craft.request.path ~ '-' ~ hashVal %}
+                        {% minify %}
+                        {{ params is defined and params ? prodmac.productForm(formParams) }}
+                        {% endminify %}
+                        {% endcache %}
+                    </template>
+                </openclose>
             </div>
             <div class="products-list has-text-centered row">
                 {% set imageSetting = { width: 460, ratio: 1 , jpegQuality: 85} %}
@@ -39,4 +110,7 @@
             </div>
         </div>
     </section>
+{% endblock %}
+{% block scripts %}
+
 {% endblock %}

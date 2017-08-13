@@ -1,16 +1,13 @@
-.form-filter-toggle{
-    cursor: pointer;
-    color: $black;
-    text-align: left;
-}
-.product-filters-form{
-  &--open{
-    display: block;
-  }
-  &--closed{
-    display: none;
-  }
+.product-form__title{
+  font-size: map-get($heading-sizes, 4);
+  margin-left: 4rem;
+  line-height: 1.7;
 
+}
+.product-form-opc{
+  .occ-icon{
+    font-size: map-get($heading-sizes, 4);
+  }
 }
 
 #product_filters_form{

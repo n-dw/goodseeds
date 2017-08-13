@@ -1,17 +1,30 @@
 {% macro productForm(params) %}
         {% if params %}
+            {% if params.action is not defined %}
+                {% set params = params|merge({action : 'shop'}) %}
+            {% else %}
+            {% endif %}
             <div class="form-filter-wrapper">
-                <h5 class="form-filter-toggle is-black" @click="toggleFilters"><i :class="formToggleIcon"></i>Filters</h5>
-                <form id="product_filters_form" :class="formState + ' is-black'" action="{{ url('shop/') }}" method="POST">
+                <form id="product_filters_form" action="{{ url(params.action) }}" method="POST">
                     {{ getCsrfInput() }}
+
+                    {% if params.strainName is defined%}
+                        {% set checkboxes = {
+                            'products': [{name: 'flower', value: '1'},{name: 'oil', value: '1', label: 'Concentrates'}],
+                            'strains': [{name: params.strainName, value: '1', disabled: true, checked: true}],
+                            'other': [{name: 'organic', value: '1'},{name: 'sale',value: '1'},{name: 'stock', value: '1', label: 'In Stock'}],
+                        } %}
+                    {% else %}
+                        {% set checkboxes = {
+                        'products': [{name: 'flower', value: '1'},{name: 'oil', value: '1', label: 'Concentrates'}],
+                        'strains': [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'}],
+                        'other': [{name: 'organic', value: '1'},{name: 'sale',value: '1'},{name: 'stock', value: '1', label: 'In Stock'}],
+                        } %}
+                    {% endif %}
                     {% set form = {
-                    'checkboxes' : {
-                    'products': [{name: 'Flower', value: '1'},{name: 'Oil', value: '1', label: 'Concentrates'}],
-                    'strains': [{name: 'sativa', value: '1'},{name: 'indica', value: '1'},{name: 'hybrid', value: '1'}],
-                    'other': [{name: 'Organic', value: '1'},{name: 'sale',value: '1'},{name: 'stock', value: '1', label: 'In Stock'}],
-                    },
-                    'select' : {
-                    name:'sortBy',
+                    'checkboxes': checkboxes,
+                    'select': {
+                        name: 'sortBy',
                     options: [{name: 'Latest Products', value: 'new'},{name: 'Price: Low to High', value: 'lth'},{name: 'Price: High to Low', value: 'htl'}, {name: 'Best Reviews', value: 'reviewHtl'}]
                     }
                     } %}
@@ -23,9 +36,9 @@
                                 <div class="has-text-left"><strong>{{ key | capitalize}}</strong></div>
                                 {% for cbk in checkboxes %}
                                     <div class="checkbox-wrapper">
-                                        <input  v-model="formShop.{{ cbk.name }}"
-                                                {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') %}checked{% endif %}
+                                        <input {% if params.productParam == cbk.name or (params[cbk.name] is defined and params[cbk.name] == '1') or (cbk.checked is defined and cbk.checked) %}checked{% endif %}
                                                 type="checkbox"
+                                                {% if cbk.disabled is defined and cbk.disabled %}disabled{% endif %}
                                                 id="{{ cbk.name }}" name="{{ cbk.name }}"
                                                 value="{{ cbk.value }}">
                                         <label for="{{ cbk.name }}">{% if cbk.label is defined and cbk.label != '' %}{{ cbk.label | title }}{% else %}{{ cbk.name | capitalize }}{% endif %}</label>
@@ -38,7 +51,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="box filter-group">
                                 <div class="has-text-left"><strong>Sort By </strong></div>
-                                <select v-model="formShop.sortBy" class="c-input-option" aria-label="Sort Product By" name="sortBy" id="sortBy">
+                                <select class="c-input-option" aria-label="Sort Product By" name="sortBy" id="sortBy">
                                     {% for option in form.select.options %}
                                         <option {% if loop.index == 1 and params[form.select.name] is not defined %}selected{% endif %} value="{{ option.value }}"
                                                 {% if params[form.select.name] is defined and params[form.select.name] == option.value %}selected{% endif %}>{{ option.name | title }}</option>

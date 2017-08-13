@@ -13,7 +13,7 @@
 {label: "Indica", url: 'shop?cat=indica',  show: true},
 {label: "Hybrids", url: 'shop?cat=hybrid',  show: true},
 {label: "Organic", url: 'shop?cat=organic',  show: true},
-{label: "Flowers", url: 'shop?cat=flowers',  show: true},
+{label: "Flowers", url: 'shop?cat=flower',  show: true},
 {label: "Concentrates", url: 'shop?cat=oil', show: true},
 {label: "Edibles", url: 'shop?cat=edibles', show: false}
 ] %}
@@ -40,12 +40,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% if craft.config.devMode %}
         <script type="text/javascript" src="https://unpkg.com/vue"></script>
-        <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        {#<script async type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>
-        <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>#}
+
+        {#<script async type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>#}
+        <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
         {% else %}
-       {# <script type="text/javascript" src="https://unpkg.com/vue"></script>
-        <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>#}
         <script async type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>
         <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
     {% endif %}
@@ -69,22 +67,21 @@
     {% include "shop/_includes/ageVerificationModal" %}
 {% endif %}
 <div class="vue-app">
-<div class="screen-fill-box">
-{% block header %}
-    {% include "shop/_includes/header" %}
-{% endblock %}
-{% block body %}
-    <main id="main" class="main">
-        <section class="content-wrapper">
-            {% block promotions %}
-            {% endblock %}
-            {% block breadcrumbs %}
-            {% endblock %}
-            {% block main %}
-            {% endblock %}
-        </section>
-    </main>
-{% endblock %}
+    {% block header %}
+        {% include "shop/_includes/header" %}
+    {% endblock %}
+    {% block body %}
+        <main id="main" class="main">
+            <section class="content-wrapper">
+                {% block promotions %}
+                {% endblock %}
+                {% block breadcrumbs %}
+                {% endblock %}
+                {% block main %}
+                {% endblock %}
+            </section>
+        </main>
+    {% endblock %}
 </div>
 {% block footer %}
     {% include "shop/_includes/footer" %}
@@ -118,7 +115,7 @@
     {% include "shop/_includes/fixedFooterNav" %}
     </div>
 {% endblock %}
-</div>
+
 
 {% block scripts %}
 
