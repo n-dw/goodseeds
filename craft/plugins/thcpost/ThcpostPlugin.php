@@ -189,6 +189,7 @@ class ThcpostPlugin extends BasePlugin
 
                 if($product instanceof Commerce_ProductModel)
                 {
+                    $message = 'Thank you for reviewing ' . $product->getName() . '. Your review will appear after moderation.';
 
                     $productAvgRating = craft()->commentsRating->elementAvgRatings($elementId);
                     $productNumberRatings = craft()->commentsRating->elementTotalRatings($elementId);
@@ -200,15 +201,13 @@ class ThcpostPlugin extends BasePlugin
 
                         if (! craft()->commerce_products->saveProduct($product))
                         {
-                            craft()->userSession->setNotice(Craft::t('Thank you for taking the time to review' . $product->getName() . ' Your review will appear after moderation. Thank you for your feedback.'));
-                            //craft()->userSession->setError(Craft::t('Couldn’t save product.'));
+                            craft()->userSession->setNotice(Craft::t($message));
+                           // craft()->userSession->setError(Craft::t('Couldn’t save product.'));
                             Craft::log('REVIEW PRODUCT SAVE ERROR: ' . $product->getName());
                         }
                         else{
-                            craft()->userSession->setNotice(Craft::t('Thank you for taking the time to review' . $product->getName() . ' Your review will appear after moderation. Thank you for your feedback.'));
+                            craft()->userSession->setNotice(Craft::t($message));
                         }
-
-
                     }
 
                 }
