@@ -121,7 +121,7 @@
                 notifyEmailShow: false,
                 productData: {},
                 formData: {},
-                picked: '',
+                picked: false,
                 price: '',
                 salePrice: '',
                 email: '',
@@ -147,6 +147,17 @@
             },
             submitForm: function(){
                 this.loading = true;
+
+                if(! this.picked){
+                   let msgData = {
+                        type: 'error',
+                        msg: 'Please choose a product variant, for ' + this.productData.title
+                    }
+
+                    bus.$emit('Message',msgData);
+                    this.loading = false;
+                    return false;
+                }
 
                 var config = {
                     responseType: 'json',
