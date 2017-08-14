@@ -200,13 +200,25 @@ class ThcpostPlugin extends BasePlugin
 
                         if (! craft()->commerce_products->saveProduct($product))
                         {
-                            craft()->userSession->setError(Craft::t('Couldn’t save product.'));
+                            craft()->userSession->setNotice(Craft::t('Thank you for taking the time to review' . $product->getName() . ' Your review will appear after moderation. Thank you for your feedback.'));
+                            //craft()->userSession->setError(Craft::t('Couldn’t save product.'));
+                            Craft::log('REVIEW PRODUCT SAVE ERROR: ' . $product->getName());
+                        }
+                        else{
+                            craft()->userSession->setNotice(Craft::t('Thank you for taking the time to review' . $product->getName() . ' Your review will appear after moderation. Thank you for your feedback.'));
                         }
 
 
                     }
 
                 }
+            }
+        });
+        //we need to less the stock here this is called on each variant on order complete
+        craft()->on('commerce_variants.onOrderVariant', function($event){
+            $variant = $event->params['variant'];
+            if ($variant->stock < 5){
+                Craft::log('Stock Low');
             }
         });
     }
