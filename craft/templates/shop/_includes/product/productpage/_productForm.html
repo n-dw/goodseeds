@@ -83,6 +83,5 @@ strainTypeFrontVal: product.strainType.first().slug|first|upper,
 variants: productVariants
 } %}
 
-
 <buynow :product="{{ productVue | json_encode() }}" formaction="{{ formAction }}" :form="{{ formVals | json_encode() }}"
         :currentUserEmail="{{ currentUserEmail | json_encode() }}"></buynow>

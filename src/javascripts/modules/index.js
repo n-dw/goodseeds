@@ -20,12 +20,14 @@ import Minicart from './components/miniCart.vue';
 import BuyNow from './components/buynow.vue';
 import Message from './components/message.vue';
 import Openclose from './components/openClose.vue';
+import productTabs from './components/productTabs.vue';
+
 
 var bus = new Vue({});
 export default bus;
 
 var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed" };
-var components = {openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
+var components = {ptabs: productTabs, openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
     toggle: function() {
         this.menuOpen = !this.menuOpen;

@@ -17,7 +17,11 @@
 {label: "Concentrates", url: 'shop?cat=oil', show: true},
 {label: "Edibles", url: 'shop?cat=edibles', show: false}
 ] %}
+
+{% set imageSetting = { width: 460, ratio: 4/3 , jpegQuality: 70} %}
+
 {% set cart = craft.commerce.cart %}
+
 {% set lineItems = {} %}
 {% for lineItem in cart.lineItems %}
     {% set lineItems = lineItems|merge([{'qty': lineItem.qty, 'total': lineItem.total | commerceCurrency(cart.currency), 'name': lineItem.snapshot.product.title, 'uri': lineItem.snapshot.product.uri }]) %}
@@ -30,6 +34,7 @@
         {% do craft.cookies.setSecure('ageVerified', 'true',  now | date_modify("+30 days").timestamp  ) %}
     {% endif %}
 {% endif %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,7 +87,7 @@
             </section>
         </main>
     {% endblock %}
-</div>
+
 {% block footer %}
     {% include "shop/_includes/footer" %}
     <div class="fixed-bottom">
@@ -115,7 +120,7 @@
     {% include "shop/_includes/fixedFooterNav" %}
     </div>
 {% endblock %}
-
+</div>
 
 {% block scripts %}
 
