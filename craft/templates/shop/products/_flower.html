@@ -12,108 +12,76 @@
  {% block breadcrumbs %}
      {% include 'shop/_includes/_breadcrumb' %}
  {% endblock %}#}
-
 {% block main %}
     <section class="shop product-page product-listing-app content-section">
         <div class="wrapper">
-                    <article class="product">
-                        <header class="product-header box">
-                            <div class="row">
-                                <div class="col-xs-12 col-md-7">
+            <article class="product">
+                <header class="product-header box">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-7">
                             <div class="product-images has-text-centered card-image">
-
-                                {% cache  globally using key "product-images-" ~ craft.request.path%}
-                                    {% minify %}
-                                    {% for productImage in product.productImages %}
-                                        {% include 'shop/_includes/product/productpage/_productImages' %}
-                                    {% endfor %}
-                                    {% endminify %}
+                                {% cache  globally using key "product-images-" ~ craft.request.path %}
+                                {% minify %}
+                                {% for productImage in product.productImages %}
+                                    {% include 'shop/_includes/product/productpage/_productImages' %}
+                                {% endfor %}
+                                {% endminify %}
                                 {% endcache %}
-
                             </div>
-                                </div>
-                                <div class="col-xs-12 col-md-5">
-                                <div class="row center-xs product-buy-wrapper">
-                                    <div class="col-xs-12">
-                                   <h1 class="product-heading">{{ product.title }}</h1>
+                        </div>
+                        <div class="col-xs-12 col-md-5">
+                            <div class="row center-xs product-buy-wrapper">
+                                <div class="col-xs-12">
+                                    <h1 class="product-heading">{{ product.title }}</h1>
                                     <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
                                     {% include 'shop/_includes/product/productpage/_productForm' %}
                                     {% include 'shop/_includes/product/productpage/_productShareLinks' %}
                                 </div>
-                                </div>
-                            </div>
-                            </div>
-                        </header>
-
-                        <div class="row center-xs container-fluid">
-                            <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
-                                <button  data-show="product_description" data-module="productTabs" class="product-tab-button product-cat-card product-cat-card--link c-button c-button--cta-black  c-button--cta-black--active c-button--medium" type="button">
-                                    Details
-                                </button>
-                            </div>
-                            <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
-                                <button  data-show="product_effects" data-module="productTabs" class="product-tab-button product-cat-card product-cat-card--link c-button c-button--cta-black c-button--medium" type="button">
-                                    Effects
-                                </button>
-                            </div>
-                            <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
-                                <button  data-show="product_reviews" data-module="productTabs" class="product-tab-button product-cat-card product-cat-card--link c-button--tab c-button c-button--cta-black c-button--medium" type="button" >
-                                    Reviews
-                                </button>
                             </div>
                         </div>
-                        <footer class="product-footer card">
-                            <div class="product-details-tabs c-tabs">
-
-                           <div class="card-content">
-
-
-                                    <div class="product-description product-tab" id="product_description">
-                                        {% cache  globally using key "product-description-" ~ craft.request.path%}
-                                            {% minify %}
-                                                {% include 'shop/_includes/product/productpage/_productDescription' %}
-                                            {% endminify %}
-                                        {% endcache %}
-                                    </div>
-
-                                    <div class="product-effects product-tab" id="product_effects" data-module="disappear">
-                                        {% cache  globally using key "product-effects-" ~ craft.request.path%}
-                                            {% minify %}
-                                                {% include 'shop/_includes/product/productpage/_productEffects' %}
-                                            {% endminify %}
-                                        {% endcache %}
-                                    </div>
-
-                                    <div class="product-reviews product-tab" id="product_reviews" data-module="disappear">
-                                        {% cache  globally using key "product-reviews-" ~ craft.request.path%}
-                                            {% minify %}
-                                                {% set ratings = craft.commentsrating.elementRatings(product.id) %}
-                                                {% set params = {order: 'dateCreated desc'} %}
-                                                {{ craft.comments.form(product.id, params) }}
-                                            {% endminify %}
-                                        {% endcache %}
-                                    </div>
-                           </div>
-                            </div>
-                        </footer>
-                </article>
-                </div>
-        {%  set thcpicksSection = product.relatedProducts.first() %}
-        {%  set relatedProducts =  product.relatedProducts %}
+                    </div>
+                </header>
+                <ptabs>
+                    <template slot="details">
+                        {% cache  globally using key "product-description-" ~ craft.request.path %}
+                        {% minify %}
+                        {% include 'shop/_includes/product/productpage/_productDescription' %}
+                        {% endminify %}
+                        {% endcache %}
+                    </template>
+                    <template slot="effects">
+                        {% cache  globally using key "product-effects-" ~ craft.request.path %}
+                        {% minify %}
+                        {% include 'shop/_includes/product/productpage/_productEffects' %}
+                        {% endminify %}
+                        {% endcache %}
+                    </template>
+                    <template slot="reviews">
+                        {% cache  globally using key "product-reviews-" ~ craft.request.path %}
+                        {% minify %}
+                        {% set ratings = craft.commentsrating.elementRatings(product.id) %}
+                        {% set params = {order: 'dateCreated desc'} %}
+                        {{ craft.comments.form(product.id, params) }}
+                        {% endminify %}
+                        {% endcache %}
+                    </template>
+                </ptabs>
+            </article>
+        </div>
+        {% set relatedProducts =  product.relatedProducts %}
         {% if relatedProducts |length > 0 %}
-            {% set imageSetting = { width: 460, ratio: 4/3 , jpegQuality: 85} %}
             <section class="hp-content-section u-text-center">
                 <div class="wrapper container-fluid">
-                    <openclose >
+                    <openclose>
                         <template slot="title"><h2 class="related-products-header">Others Enjoyed</h2></template>
                         <template slot="content">
                             <div class="thcpicks-list products-list row">
                                 {% cache  globally using key "related-products-" ~ craft.request.path %}
-                                    {% minify %}
-                                        {% for product in relatedProducts %}
-                                            {% include '/shop/_includes/product/_productCard.html' %}
-                                        {% endfor %}
-                                    {% endminify %}
+                                {% minify %}
+                                {% for product in relatedProducts %}
+                                    {% include '/shop/_includes/product/_productCard.html' %}
+                                {% endfor %}
+                                {% endminify %}
                                 {% endcache %}
                             </div>
                         </template>
