@@ -26,6 +26,7 @@ class CommentsRatingService extends BaseApplicationComponent {
             //we already have a record
             if ($record)
             {
+                $userReview = false;
                 $model = new CommentsRatingModel();
 
                 $model->id = $record->id;
@@ -37,6 +38,7 @@ class CommentsRatingService extends BaseApplicationComponent {
                 if (craft()->request->getPost('fields.commentsRating'))
                 {
                     $model->rating = craft()->request->getPost('fields.commentsRating');
+                    $userReview = true;
                 } else
                 {
                     $model->rating = $record->rating;
@@ -49,7 +51,9 @@ class CommentsRatingService extends BaseApplicationComponent {
                     'commentRating' => array(
                         'commentId' => $model->commentId,
                         'elementId' => $model->elementId,
-                        'rating'    => $model->rating
+                        'rating'    => $model->rating,
+                        'approved'  => $model->comment_approved,
+                        'userReview'  => $userReview
                     ))));
 
                 return true;
@@ -80,7 +84,9 @@ class CommentsRatingService extends BaseApplicationComponent {
                         'commentRating' => array(
                             'commentId' => $model->commentId,
                             'elementId' => $model->elementId,
-                            'rating'    => $model->rating
+                            'rating'    => $model->rating,
+                            'approved'  => $model->comment_approved,
+                            'userReview'  => true
                         ))));
 
                     return true;
@@ -136,7 +142,7 @@ class CommentsRatingService extends BaseApplicationComponent {
     {
 
         $query = craft()->db->createCommand()
-            ->select('AVG(rating) as average')
+            ->select('rating')
             ->from('comments_rating')
             ->where('elementId=' . $elementId)
             ->andWhere('comment_approved = 1')

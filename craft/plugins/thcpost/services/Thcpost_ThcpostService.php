@@ -47,5 +47,24 @@ class Thcpost_ThcpostService extends BaseApplicationComponent
         }
         return false;
     }
+//was doing product save from the product service and setpost but wanst saving for some rerasons so i edit the fields oops
+    public function saveProductRatings($elementId, $avgRating, $totalRatings)
+    {
+        $values = array(
+            'field_averageRating' => $avgRating,
+            'field_totalratings' => $totalRatings,
+        );
+
+        return craft()->db->createCommand()->update('content', $values, array('elementId' => $elementId));
+    }
+
+    public function adjustVariantStock($variantId, $qty)
+    {
+        $values = array(
+            'stock' => $qty,
+        );
+
+        return craft()->db->createCommand()->update('commerce_variants', $values, array('id' => $variantId));
+    }
 
 }

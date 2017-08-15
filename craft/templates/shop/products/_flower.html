@@ -33,7 +33,9 @@
                             <div class="row center-xs product-buy-wrapper">
                                 <div class="col-xs-12">
                                     <h1 class="product-heading">{{ product.title }}</h1>
-                                    <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
+                                    {% if avgRating > 0 %}
+                                        <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
+                                    {% endif %}
                                     {% include 'shop/_includes/product/productpage/_productForm' %}
                                     {% include 'shop/_includes/product/productpage/_productShareLinks' %}
                                 </div>

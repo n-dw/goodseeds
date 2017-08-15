@@ -65,6 +65,23 @@ class ThcpostPlugin extends BasePlugin
                 }
             }
         });
+
+        /*  So far this would only be called when the discount has matched with everything else about the product. */
+        craft()->on('commerce_discounts.onBeforeMatchLineItem',
+            function($event){
+
+                $lineItem = $event->params['lineItem'];
+                $discount = $event->params['discount'];
+
+                if (stripos($discount->description, 'only') === false) {
+                    return; /* do nothing, and let the discount match as it normally would, because the discount does not have 'only' in the description. */
+                } else {
+                    if (stripos($discount->description, $lineItem->sku) === false) {
+                        $event->performAction = false; /* since this SKU is not in the description string, then don't apply this discount */
+                    }
+                }
+            });
+
         //make sure we have enough stock
         craft()->on('commerce_cart.onBeforeAddToCart', function(Event $event) {
             //only do this with product with master stock
@@ -98,21 +115,6 @@ class ThcpostPlugin extends BasePlugin
             }
 
         });
-        /*  So far this would only be called when the discount has matched with everything else about the product. */
-        craft()->on('commerce_discounts.onBeforeMatchLineItem',
-            function($event){
-
-                $lineItem = $event->params['lineItem'];
-                $discount = $event->params['discount'];
-
-                if (stripos($discount->description, 'only') === false) {
-                    return; /* do nothing, and let the discount match as it normally would, because the discount does not have 'only' in the description. */
-                } else {
-                    if (stripos($discount->description, $lineItem->sku) === false) {
-                        $event->performAction = false; /* since this SKU is not in the description string, then don't apply this discount */
-                    }
-                }
-            });
 
         //make sure we have enough stock do this on save order as well as this is called before payment
         craft()->on('commerce_orders.onBeforeSaveOrder', function(Event $event) {
@@ -146,9 +148,11 @@ class ThcpostPlugin extends BasePlugin
         });
 
         //make sure we have enough stock do this on save order as well as this is called before payment
-        craft()->on('commerce_orders.onOrderComplete', function(Event $event) {
+        //we may want to leave this out if we want customers to pay and we
+        // contact them after saying we are out of such and such would you take another
+       /* craft()->on('commerce_orders.onBeforeOrderComplete', function(Event $event) {
 
-       /*     $fieldNames = ['gramToGrams', 'eighthToGrams', 'quarterToGrams', 'halfToGrams', 'ounceToGrams'];
+           $fieldNames = ['gramToGrams', 'eighthToGrams', 'quarterToGrams', 'halfToGrams', 'ounceToGrams'];
             $order = $event->params['order'];
             $lineItems = $order->lineItems;
 
@@ -173,16 +177,17 @@ class ThcpostPlugin extends BasePlugin
                     $event->performAction = false;
                     break;
                 }
-            }*/
-        });
+            }
+        });*/
 
         //change the field on the product for its average rating everytime a review is updated.
         craft()->on('commentsRating.onSaveCommentRating', function(Event $event) {
 
-           $params = $event->params;
+            $params = $event->params;
             $elementId = $params['commentRating']['elementId'];
+            $approved = $params['commentRating']['approved'];
+            $customerReview = $params['commentRating']['userReview'];
 
-            // Only do anything if it is a front end submission
             if(is_numeric($elementId))
             {
                 $product = craft()->commerce_products->getProductById($elementId);
@@ -194,30 +199,47 @@ class ThcpostPlugin extends BasePlugin
                     $productAvgRating = craft()->commentsRating->elementAvgRatings($elementId);
                     $productNumberRatings = craft()->commentsRating->elementTotalRatings($elementId);
 
-                    if(is_numeric($productAvgRating))
+                    if(is_numeric($productAvgRating) && is_numeric($productNumberRatings))
                     {
-                         $product->setContentFromPost(array('averageRating' => $productAvgRating, 'totalRatings' => $productNumberRatings));
-                       // $product->getContent()->setAttributes(array('averageRating' => $productAvgRating, 'totalRatings' => $productNumberRatings));
-
-                        if (! craft()->commerce_products->saveProduct($product))
+                        if(! craft()->thcpost_thcpost->saveProductRatings($product->id, $productAvgRating, $productNumberRatings))
                         {
-                            craft()->userSession->setNotice(Craft::t($message));
-                           // craft()->userSession->setError(Craft::t('Couldn’t save product.'));
-                            Craft::log('REVIEW PRODUCT SAVE ERROR: ' . $product->getName());
-                        }
-                        else{
-                            craft()->userSession->setNotice(Craft::t($message));
+                            ThcpostPlugin::log('REVIEW PRODUCT SAVE ERROR: ' . $product->getName());
                         }
                     }
-
+                    if($customerReview){
+                        craft()->userSession->setNotice(Craft::t($message));
+                    }
                 }
             }
         });
         //we need to less the stock here this is called on each variant on order complete
-        craft()->on('commerce_variants.onOrderVariant', function($event){
-            $variant = $event->params['variant'];
-            if ($variant->stock < 5){
-                Craft::log('Stock Low');
+        craft()->on('commerce_orders.onOrderComplete', function($event){
+            $order = $event->params['order'];
+            $lineItems = $order->lineItems;
+
+            $variantsToLessStock = [];
+
+            foreach ($lineItems as $lineitem){
+                $purchasable = $lineitem->getPurchasable();
+                $quantity =  $lineitem->qty;
+
+                $productStock = $purchasable->product->getTotalStock();
+                $variant = craft()->commerce_variants->getVariantById($purchasable->id);
+                $vWeight = $variant->variantWeight->value;
+
+                $field = $fieldNames[$vWeight -1];
+                $settings = craft()->globals->getSetByHandle('gramWeights');
+                $multiplier = $settings->$field;
+                $totalGramAmount = $quantity * $multiplier;
+
+                if($totalGramAmount > $productStock)
+                {
+                    $cart = craft()->commerce_cart->getCart();
+                    craft()->userSession->setError(Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
+                    $cart->addError( 'stock', Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
+                    $event->performAction = false;
+                    break;
+                }
             }
         });
     }
