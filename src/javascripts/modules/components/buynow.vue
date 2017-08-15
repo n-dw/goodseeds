@@ -147,8 +147,8 @@
             },
             submitForm: function(){
                 this.loading = true;
-
-                if(! this.picked){
+                //if no vairant picked and its a buy click not a notify
+                if(! this.picked && productData.stock > 0){
                    let msgData = {
                         type: 'error',
                         msg: 'Please choose a product variant, for ' + this.productData.title
