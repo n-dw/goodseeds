@@ -213,17 +213,11 @@ class ThcpostPlugin extends BasePlugin
             }
         });
         //we need to less the stock here this is called on each variant on order complete
-        craft()->on('commerce_variants.onOrderVariant', function($event){
-            $variant = $event->params['variant'];
-            if ($variant->stock < 5){
-                Craft::log('Stock Low');
-            }
-        });
-        //we need to less the stock here this is called on each variant on order complete
         craft()->on('commerce_orders.onOrderComplete', function($event){
             $order = $event->params['order'];
             $lineItems = $order->lineItems;
 
+            $variantsToLessStock = [];
 
             foreach ($lineItems as $lineitem){
                 $purchasable = $lineitem->getPurchasable();
