@@ -199,7 +199,7 @@ class ThcpostPlugin extends BasePlugin
                     $productAvgRating = craft()->commentsRating->elementAvgRatings($elementId);
                     $productNumberRatings = craft()->commentsRating->elementTotalRatings($elementId);
 
-                    if($approved && (is_numeric($productAvgRating) && is_numeric($productNumberRatings)))
+                    if(is_numeric($productAvgRating) && is_numeric($productNumberRatings))
                     {
                         if(! craft()->thcpost_thcpost->saveProductRatings($product->id, $productAvgRating, $productNumberRatings))
                         {

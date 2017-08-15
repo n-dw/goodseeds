@@ -142,7 +142,7 @@ class CommentsRatingService extends BaseApplicationComponent {
     {
 
         $query = craft()->db->createCommand()
-            ->select('AVG(rating) as average')
+            ->select('rating')
             ->from('comments_rating')
             ->where('elementId=' . $elementId)
             ->andWhere('comment_approved = 1')
