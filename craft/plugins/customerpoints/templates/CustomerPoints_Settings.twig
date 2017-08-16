@@ -12,15 +12,84 @@
  */
 #}
 
+{% macro configWarning(setting) -%}
+    {{ "This is being overridden by the {setting} config setting in your customerpoints.php config file."|t({
+        setting: setting
+    })|raw }}
+{%- endmacro %}
+
+{% from _self import configWarning %}
+
 {% import "_includes/forms" as forms %}
 
-{% includeCssResource "customerpoints/css/CustomerPoints_Style.css" %}
-{% includeJsResource "customerpoints/js/CustomerPoints_Script.js" %}
+{#{% includeCssResource "customerpoints/css/CustomerPoints_Style.css" %}
+{% includeJsResource "customerpoints/js/CustomerPoints_Script.js" %}#}
 
 {{ forms.textField({
-    label: 'Some Setting',
-    instructions: 'Enter some setting here.',
-    id: 'someSetting',
-    name: 'someSetting', 
-    value: settings['someSetting']})
-}}
+    label: 'Points Earned Per Dollar Spent',
+    instructions: 'For every dollar spend how many points does a customer earn',
+    id: 'pointsPerDollerEarned',
+    name: 'pointsPerDollerEarned',
+    value: settings.pointsPerDollerEarned,
+    disabled:     (craft.config.get('pointsPerDollerEarned', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('pointsPerDollerEarned', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollerEarned'),
+    errors:       settings.getErrors('pointsPerDollerEarned')
+}) }}
+
+{{ forms.textField({
+    label: 'Points needed to redeem a dollar',
+    instructions: 'How many points needed to take off a dollar',
+    id: 'pointsPerDollerSpent',
+    name: 'pointsPerDollerSpent',
+    value: settings.pointsPerDollerSpent,
+    disabled:     (craft.config.get('pointsPerDollerSpent', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('pointsPerDollerSpent', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollerSpent'),
+    errors:       settings.getErrors('pointsPerDollerSpent')
+}) }}
+
+{{ forms.textField({
+    label: 'Max Redeemable Amount',
+    instructions: 'Total Dollar amount that a customer can redeem at one time',
+    id: 'maxAmountRedeemable',
+    name: 'maxAmountRedeemable',
+    value: settings.maxAmountRedeemable,
+    disabled:     (craft.config.get('maxAmountRedeemable', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('maxAmountRedeemable', 'customerpoints') is not sameas(null)) ? configWarning('maxAmountRedeemable'),
+    errors:       settings.getErrors('maxAmountRedeemable')
+}) }}
+
+
+{{ forms.lightswitchField({
+    label:        "Allow With Discounts"|t,
+    instructions: "Can customers redeem points with discounts and sales"|t,
+    id:           'allowWithDiscounts',
+    name:         'allowWithDiscounts',
+    on:           settings.allowWithDiscounts,
+    disabled:     (craft.config.get('allowWithDiscounts', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('allowWithDiscounts', 'customerpoints') is not sameas(null)) ? configWarning('allowWithDiscounts'),
+    errors:       settings.getErrors('allowWithDiscounts')
+}) }}
+
+{{ forms.lightswitchField({
+    label:        "Earn Points When Redeeming"|t,
+    instructions: "Can customers earn points when points are redeemed"|t,
+    id:           'earnWithRedemption',
+    name:         'earnWithRedemption',
+    on:           settings.allowWithDiscounts,
+    disabled:     (craft.config.get('earnWithRedemption', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('earnWithRedemption', 'customerpoints') is not sameas(null)) ? configWarning('earnWithRedemption'),
+    errors:       settings.getErrors('earnWithRedemption')
+}) }}
+
+
+
+{{ forms.textField({
+    label:        "Success Flash Message"|t,
+    id:           "successFlashMessage",
+    name:         "successFlashMessage",
+    instructions: "The flash message displayed after successfully redeeming points."|t,
+    value:        settings.successFlashMessage,
+    disabled:     (craft.config.get('successFlashMessage', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('successFlashMessage', 'customerpoints') is not sameas(null)) ? configWarning('successFlashMessage'),
+    errors:       settings.getErrors('successFlashMessage')
+}) }}

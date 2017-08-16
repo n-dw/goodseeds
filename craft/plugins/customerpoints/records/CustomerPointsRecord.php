@@ -69,7 +69,7 @@ class CustomerPointsRecord extends BaseRecord
     public function defineRelations()
     {
         return array(
-            'customer' => array(static::BELONGS_TO, 'Commerce_CustomerRecord', 'id', 'default' => null),
+            'customer' => array(static::BELONGS_TO, 'Commerce_CustomerRecord'),
         );
     }
 }
