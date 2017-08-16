@@ -1,0 +1,14 @@
+{
+	"name": "n-dw/customerpoints",
+	"description": "Rewards points for customer",
+	"type": "craft-plugin",
+	"authors": [
+		{
+			"name": "Nathan de Waard",
+			"homepage": "https://github.com/n-dw"
+		}
+	],
+	"require": {
+		"composer/installers": "~1.0"
+	}
+}

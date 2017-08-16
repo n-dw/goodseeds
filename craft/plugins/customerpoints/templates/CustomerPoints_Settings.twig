@@ -1,0 +1,26 @@
+{#
+/**
+ * Customer Points plugin for Craft CMS
+ *
+ * Customer Points Settings.twig
+ *
+ * @author    Nathan de Waard
+ * @copyright Copyright (c) 2017 Nathan de Waard
+ * @link      https://github.com/n-dw
+ * @package   CustomerPoints
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% includeCssResource "customerpoints/css/CustomerPoints_Style.css" %}
+{% includeJsResource "customerpoints/js/CustomerPoints_Script.js" %}
+
+{{ forms.textField({
+    label: 'Some Setting',
+    instructions: 'Enter some setting here.',
+    id: 'someSetting',
+    name: 'someSetting', 
+    value: settings['someSetting']})
+}}
