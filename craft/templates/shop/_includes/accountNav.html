@@ -31,7 +31,7 @@
                    <a class="account-nav__link account-nav__link--login" href="/login">{{ "Sign in"|t }}</a>
             </li>
         {% endif %}
-    <li class="account-nav__item {% if page == 'cart' %}app-menu__item--active{% endif %}">
+    <li class="account-nav__item {% if page == 'shop/cart' %}app-menu__item--active{% endif %}">
         <minicart cart="{{ cartJson | json_encode() }}"></minicart>
     </li>
 </ul>

@@ -117,35 +117,35 @@ class ThcpostPlugin extends BasePlugin
         });
 
         //make sure we have enough stock do this on save order as well as this is called before payment
-        craft()->on('commerce_orders.onBeforeSaveOrder', function(Event $event) {
+      /*  craft()->on('commerce_orders.onBeforeSaveOrder', function(Event $event) {
 
-//            $fieldNames = ['gramToGrams', 'eighthToGrams', 'quarterToGrams', 'halfToGrams', 'ounceToGrams'];
-//            $order = $event->params['order'];
-//            $lineItems = $order->lineItems;
-//
-//            foreach ($lineItems as $lineitem){
-//                $purchasable = $lineitem->getPurchasable();
-//                $quantity =  $lineitem->qty;
-//
-//                $productStock = $purchasable->product->getTotalStock();
-//                $variant = craft()->commerce_variants->getVariantById($purchasable->id);
-//                $vWeight = $variant->variantWeight->value;
-//
-//                $field = $fieldNames[$vWeight -1];
-//                $settings = craft()->globals->getSetByHandle('gramWeights');
-//                $multiplier = $settings->$field;
-//                $totalGramAmount = $quantity * $multiplier;
-//
-//                if($totalGramAmount > $productStock)
-//                {
-//                    $cart = craft()->commerce_cart->getCart();
-//                    craft()->userSession->setError(Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
-//                    $cart->addError( 'stock', Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
-//                    $event->performAction = false;
-//                    break;
-//                }
-//            }
-        });
+            $fieldNames = ['gramToGrams', 'eighthToGrams', 'quarterToGrams', 'halfToGrams', 'ounceToGrams'];
+            $order = $event->params['order'];
+            $lineItems = $order->lineItems;
+
+            foreach ($lineItems as $lineitem){
+                $purchasable = $lineitem->getPurchasable();
+                $quantity =  $lineitem->qty;
+
+                $productStock = $purchasable->product->getTotalStock();
+                $variant = craft()->commerce_variants->getVariantById($purchasable->id);
+                $vWeight = $variant->variantWeight->value;
+
+                $field = $fieldNames[$vWeight -1];
+                $settings = craft()->globals->getSetByHandle('gramWeights');
+                $multiplier = $settings->$field;
+                $totalGramAmount = $quantity * $multiplier;
+
+                if($totalGramAmount > $productStock)
+                {
+                    $cart = craft()->commerce_cart->getCart();
+                    craft()->userSession->setError(Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
+                    $cart->addError( 'stock', Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
+                    $event->performAction = false;
+                    break;
+                }
+            }
+        });*/
 
         //make sure we have enough stock do this on save order as well as this is called before payment
         //we may want to leave this out if we want customers to pay and we
@@ -218,6 +218,8 @@ class ThcpostPlugin extends BasePlugin
             $lineItems = $order->lineItems;
 
             $variantsToLessStock = [];
+
+
 
             foreach ($lineItems as $lineitem){
                 $purchasable = $lineitem->getPurchasable();

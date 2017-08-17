@@ -45,41 +45,15 @@ class CustomerPointsPlugin extends BasePlugin
 
        //since on order complete we have a customer add points to there account after payment recieved
         //since we use e transfer watch out for fuckers finishing orders and not paing and using the points - could look for status change on order to paid as well..
+        // use for from payment pending commerce_orderHistories.onStatusChange
         craft()->on('commerce_orders.onOrderComplete', function($event){
             $order = $event->params['order'];
             $lineItems = $order->lineItems;
             $settings = craft()->plugins->getPlugin('customerpoints')->getSettings();
-
-
             //if there are discounts we dont want to give out extra points
             $itemTotal = $order->itemTotal;
 
 
-
-            $variantsToLessStock = [];
-
-            foreach ($lineItems as $lineitem){
-                $purchasable = $lineitem->getPurchasable();
-                $quantity =  $lineitem->qty;
-
-                $productStock = $purchasable->product->getTotalStock();
-                $variant = craft()->commerce_variants->getVariantById($purchasable->id);
-                $vWeight = $variant->variantWeight->value;
-
-                $field = $fieldNames[$vWeight -1];
-                $settings = craft()->globals->getSetByHandle('gramWeights');
-                $multiplier = $settings->$field;
-                $totalGramAmount = $quantity * $multiplier;
-
-                if($totalGramAmount > $productStock)
-                {
-                    $cart = craft()->commerce_cart->getCart();
-                    craft()->userSession->setError(Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
-                    $cart->addError( 'stock', Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
-                    $event->performAction = false;
-                    break;
-                }
-            }
         });
     }
 

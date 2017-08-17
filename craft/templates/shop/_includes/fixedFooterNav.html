@@ -7,14 +7,14 @@
                     {% if (navItem.currentUser and not currentUser) or (navItem.guestUser is defined and navItem.guestUser and currentUser) %}
 
                     {% elseif navItem.label|lower != 'cart' %}
-                    <li class="app-menu__item {% if page == navItem.url %}app-menu__item--active {% elseif navItem.label|lower == 'shop' and navItem.url in page %} app-menu__item--active {% endif %} col-xs">
+                    <li class="app-menu__item {% if page == navItem.url %}app-menu__item--active {% elseif navItem.label|lower == 'shop' and navItem.url in page and page != 'shop/cart' %} app-menu__item--active {% endif %} col-xs">
                         <a class="app-menu__link" href="/{{ navItem.url }}">
                             <i class="app-menu__icon {{ navItem.iconClass }}"></i>
                             {{ navItem.label }}
                         </a>
                     </li>
                     {% else %}
-                        <li class="app-menu__item {% if page == 'home' %}app-menu__item--active{% endif %} col-xs">
+                        <li class="app-menu__item {% if page == 'shop/cart' %}app-menu__item--active{% endif %} col-xs">
                             <minicart :mobile="true" cart="{{ cartJson | json_encode() }}"></minicart>
                         </li>
                     {% endif %}
