@@ -1,6 +1,6 @@
 <nav class="shopping-nav" data-mobile="false">
     <ul class="c-list--clean">
-        <li class="shopping-nav__item {% if 'shop' in page %} shopping-nav__item--active  nav__item--active {% endif %}"><a href="/shop" class="shopping-nav__link">Shop</a></li>
+        <li class="shopping-nav__item {% if 'shop' in page and page != 'shop/cart' %} shopping-nav__item--active  nav__item--active {% endif %}"><a href="/shop" class="shopping-nav__link">Shop</a></li>
         {% for shopCat in shopCategories %}
             {% if shopCat.show %}
                 <li class="shopping-nav__item"><a href="/{{  shopCat.url }}" class="shopping-nav__link">{{ shopCat.label }}</a></li>

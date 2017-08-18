@@ -67,4 +67,95 @@ class Thcpost_ThcpostService extends BaseApplicationComponent
         return craft()->db->createCommand()->update('commerce_variants', $values, array('id' => $variantId));
     }
 
+    public function getVariantStock($variantId)
+    {
+        $query = craft()->db->createCommand()
+            ->select('stock')
+            ->from('commerce_variants')
+            ->where('id=' . $variantId)
+            ->queryAll();
+
+        return (count($query) == 0) ? false : $query[0]['stock'];
+
+    }
+
+    public function getProductRound($productId)
+    {
+        $record =  Thcpost_productRoundRecord::model()->findByAttributes(array('productId' => $productId));
+        $fields = ['productId', 'lastRoundUp'];
+        //we already have a record
+        if ($record)
+        {
+            $model = new Thcpost_productRoundModel();
+
+            $model->id = $record->id;
+            $model->productId = $record->productId;
+            $model->lastRoundUp = ! $record->lastRoundUp;
+
+            foreach ($fields as $field)
+            {
+                $record->$field = $model->$field;
+            }
+        }
+        else
+        {
+            $record = new Thcpost_productRoundRecord();
+            $model =  new Thcpost_productRoundModel();
+
+            $model->productId = $productId;
+            $model->lastRoundUp = true;
+
+            foreach ($fields as $field)
+            {
+                $record->$field = $model->$field;
+            }
+        }
+
+
+        if($this->saveproductRoundRecord($model, $record))
+        {
+            return $model->lastRoundUp;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    private function saveproductRoundRecord(Thcpost_productRoundModel $model, Thcpost_productRoundRecord$record)
+    {
+        $record->validate();
+        $model->addErrors($record->getErrors());
+
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+        try
+        {
+            if (!$model->hasErrors())
+            {
+                $record->save(false);
+                $model->id = $record->id;
+
+                if ($transaction !== null)
+                {
+                    $transaction->commit();
+                }
+
+                return true;
+            }
+        } catch (\Exception $e)
+        {
+            if ($transaction !== null)
+            {
+                $transaction->rollback();
+            }
+            throw $e;
+        }
+
+        if ($transaction !== null)
+        {
+            $transaction->rollback();
+        }
+
+        return false;
+    }
+
 }
