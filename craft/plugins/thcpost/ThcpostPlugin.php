@@ -212,36 +212,97 @@ class ThcpostPlugin extends BasePlugin
                 }
             }
         });
-        //we need to less the stock here this is called on each variant on order complete
+        //we need to less the stock here this is called on each variant on order complete, only do this on
+        //flowers and oil or any products that use grams
         craft()->on('commerce_orders.onOrderComplete', function($event){
             $order = $event->params['order'];
             $lineItems = $order->lineItems;
 
-            $variantsToLessStock = [];
+            //2 = flower, 3 = oil
+            $productTypesByID = [2, 3];
+            $products = [];
+            $fieldNames = ['gramToGrams', 'eighthToGrams', 'quarterToGrams', 'halfToGrams', 'ounceToGrams'];
 
+            foreach ($lineItems as $lineitem)
+            {
+                $product = $lineitem->purchasable->product;
+                $variantId = $lineitem->purchasable->id;
+                $productDefaultVariantID = $product->defaultVariant->id;
+                $productDefaultVariantStock = $product->getTotalStock();
 
-
-            foreach ($lineItems as $lineitem){
-                $purchasable = $lineitem->getPurchasable();
-                $quantity =  $lineitem->qty;
-
-                $productStock = $purchasable->product->getTotalStock();
-                $variant = craft()->commerce_variants->getVariantById($purchasable->id);
-                $vWeight = $variant->variantWeight->value;
-
-                $field = $fieldNames[$vWeight -1];
-                $settings = craft()->globals->getSetByHandle('gramWeights');
-                $multiplier = $settings->$field;
-                $totalGramAmount = $quantity * $multiplier;
-
-                if($totalGramAmount > $productStock)
+                //we have this product already and its one of the products that we do this too
+                // and its not the default variant as it will less the stock for this on its own later
+                // so we just want other variants and not less extra stock
+                //if already in the products list update the qty
+                if(in_array($product->typeId, $productTypesByID))
                 {
-                    $cart = craft()->commerce_cart->getCart();
-                    craft()->userSession->setError(Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
-                    $cart->addError( 'stock', Craft::t($purchasable->product->getName() . ' Could not be added to your cart. There is '. $productStock . 'g' .' of stock left.'));
-                    $event->performAction = false;
-                    break;
+                    $vWeight = $lineitem->purchasable->variantWeight->value;
+
+                    $field = $fieldNames[$vWeight - 1];
+                    $settings = craft()->globals->getSetByHandle('gramWeights');
+                    $variantWeightMultiplier = $settings->$field;
+
+                    if((!array_key_exists($product->id, $products)) && $productDefaultVariantID != $variantId)
+                    {
+                        $productInfo = array(
+                                'productTitle' => $product->title,
+                                'defaultVariantId' => $productDefaultVariantID,
+                                'qty' => ($lineitem->qty * $variantWeightMultiplier),
+                                'defaultVariantStock' => $productDefaultVariantStock
+                        );
+                        $products[$product->id ] = $productInfo;
+                    }
+                    else if(array_key_exists($product->id, $products))
+                    {
+                        $products[$product->id]['qty'] = $products[$product->id]['qty'] + ($lineitem->qty * $variantWeightMultiplier);
+                    }
+
                 }
+            }
+            foreach ($products as $k => $product)
+            {
+                $vStock = craft()->thcpost_thcpost->getVariantStock($product['defaultVariantId']);
+
+                if($vStock)
+                {
+
+                    $productQuantity = $product['qty'];
+                    $needRound = !is_int($productQuantity);
+                    $roundUp = false;
+                    //check if we need to round
+                    if($needRound)
+                    {
+                        $roundUp = craft()->thcpost_thcpost->getProductRound($k);
+
+                        if($roundUp)
+                        {
+                            $productQuantity = ceil($productQuantity);
+                        }
+                        else
+                        {
+                            $productQuantity = floor($productQuantity);
+                        }
+                    }
+
+                    $stockToLess = $vStock - $productQuantity;
+                    craft()->thcpost_thcpost->adjustVariantStock($product['defaultVariantId'], $stockToLess);
+                    $newStock  = craft()->thcpost_thcpost->getVariantStock($product['defaultVariantId']);
+
+                    $msg = '';
+
+                    if($needRound){
+                        $msg = '[STOCK-LESS-SUCCESS] We rounded , '. $roundUp .', lessed stock new calced qty:' . $stockToLess . ' ACTUAL NEW QTY IN DB: ' . $newStock  .' product: ' . $product['productTitle'] . ' variantId: ' . $product['defaultVariantId'] . ' qty: ' . $product['qty'] . ' totalStock: ' . $product['defaultVariantStock'] . 'stockdbBefore: ' . $vStock;
+                    }
+                    else{
+                        $msg = '[STOCK-LESS-SUCCESS] lessed stock new calced qty:' . $stockToLess . ' ACTUAL NEW QTY IN DB: ' . $newStock  .' product: ' . $product['productTitle'] . ' variantId: ' . $product['defaultVariantId'] . ' qty: ' . $product['qty'] . ' totalStock: ' . $product['defaultVariantStock'] . 'stockdbBefore: ' . $vStock;
+                    }
+
+                    ThcpostPlugin::log($msg);
+                }
+                else{
+                    ThcpostPlugin::log('[STOCK-LESS-ERR] Error getting variant stock and less stock ' . $product['productTitle'] . ' variantId: ' . $product['defaultVariantId'] . ' qty: ' . $product['qty'] . ' totalStock: ' . $product['defaultVariantStock']);
+                }
+
             }
         });
     }
