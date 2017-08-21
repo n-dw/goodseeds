@@ -3,6 +3,31 @@
 {% includeCssResource 'comments/css/comments.css' %}
 {% includeJsResource 'comments/js/comments.js' %}
 
+
+{% macro starRating(rating, starcount) %}
+    {% set hasHalfStar = (rating % 2 != 0) %}
+    {% set starAmount = (rating / 2) |round(0, 'floor') %}
+    {% set emptyStarAmount = starcount|default(5) - starAmount  %}
+    {% if hasHalfStar %}
+        {% set emptyStarAmount = emptyStarAmount - 1 %}
+    {% endif %}
+    <div class="product__star-rating">
+        {% for i in 0..starAmount - 1  %}
+            <i class="icon-star"></i>
+        {% endfor %}
+        {% if hasHalfStar %}
+            <i class="icon-star-half"></i>
+        {% endif %}
+        {% if emptyStarAmount > 0 %}
+            {% for i in 0..emptyStarAmount - 1  %}
+                <i class="icon-star-empty"></i>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% endmacro %}
+{% from _self import starRating %}
+
 {% import "_includes/forms" as forms %}
 
 {% set title = 'Edit Comment' %}
@@ -55,6 +80,46 @@
 
                     <hr/>
 
+
+                    <div id="ratings" class="">
+                        <h2>Comment Rating</h2>
+                        {% set rating = craft.commentsrating.commentRating(comment.id) %}
+                        <p>Rating out of 10:  <b>{{ rating }}</b></p>
+                        {# {% if comment.canEdit() %}
+                            <form class="edit-comment-form" id="comment_edit_form_{{ comment.id }}" role="form" method="post">
+                                <input type="hidden" name="action" value="comments/edit">
+                               #}{# <input type="hidden" name="elementId" value="{{ element.id }}">#}{#
+                                <input type="hidden" name="commentId" value="{{ comment.id }}">
+
+                                #}{# Anti-spam and security measures #}{#
+                                {{ craft.comments.protect() }}
+                                {{ getCsrfInput() }}
+
+                                <div class="input-wrapper c-fieldset">
+                                    <label for="rate_product">Rating *</label>
+                                    <div class="field-control">
+                                        <select id="rate_product" class="c-input-option u-max-width--input" name="fields[commentsRating]">
+                                            <option value="2" {% if rating == 2 %}{{ 'selected' }}{% endif %}>1</option>
+                                            <option value="3" {% if rating == 3 %}{{ 'selected' }}{% endif %}>1.5</option>
+                                            <option value="4" {% if rating == 4 %}{{ 'selected' }}{% endif %}>2</option>
+                                            <option value="5" {% if rating == 5 %}{{ 'selected' }}{% endif %}>2.5</option>
+                                            <option value="6" {% if rating == 6 %}{{ 'selected' }}{% endif %}>3</option>
+                                            <option value="7" {% if rating == 7 %}{{ 'selected' }}{% endif %}>3.5</option>
+                                            <option value="8" {% if rating == 8 %}{{ 'selected' }}{% endif %}>4</option>
+                                            <option value="9" {% if rating == 9 %}{{ 'selected' }}{% endif %}>4.5</option>
+                                            <option value="10" {% if rating == 10 %}{{ 'selected' }}{% endif %}>5</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="input-wrapper c-fieldset">
+                                    <button type="submit" class="c-button c-button--cta-black c-button--small">Save Review</button>
+                                </div>
+
+                            </form>
+                        {% endif %}#}
+                    </div>
+                    <hr/>
                     <div id="items" class="">
                         <h2>Replies</h2>
 

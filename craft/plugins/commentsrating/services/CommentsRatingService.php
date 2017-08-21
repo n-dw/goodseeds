@@ -98,6 +98,10 @@ class CommentsRatingService extends BaseApplicationComponent {
 
     public function deleteRating($commentIds)
     {
+        if (!$commentIds) {
+            return false;
+        }
+
         foreach ($commentIds as $commentid)
         {
             if ($commentid)
