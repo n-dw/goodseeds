@@ -22,6 +22,10 @@ namespace Craft;
 
 class ContactFormDb_CfdbService extends BaseApplicationComponent
 {
+    public function getContactFormSubmissionById($submissionId)
+    {
+        return craft()->elements->getElementById($submissionId, 'ContactFormDb_Submission');
+    }
     /**
      * This function can literally be anything you want, and you can have as many service functions as you want
      *
@@ -29,25 +33,41 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
      *
      *     craft()->contactFormDb_cfdb->exampleService()
      */
-    public function saveContactFormSubmission($submission)
+    public function saveContactFormSubmission(ContactFormDb_CfdbModel $submission)
     {
         //check if we have the submission, in case the email is sent multiple times or form submitted.
-        $record = ContactFormDb_CfdbRecord::model()->findByAttributes(
-            array(
-                'email' => $submission['email'],
-                'name' => $submission['name'],
-                'inquiryType' => $submission['inquiryType'],
-                'message' => $submission['message'],
-            )
-        );
+        $isNewSubmission = !$submission->id;
 
-        if(!$record){
+        if($isNewSubmission)
+        {
+            $record = ContactFormDb_CfdbRecord::model()->findByAttributes(
+                array(
+                    'email' => $submission->email,
+                    'name' => $submission->name,
+                    'inquiryType' => $submission->inquiryType,
+                    'message' => $submission->message,
+                )
+            );
+            if($record != null)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            $record = ContactFormDb_CfdbRecord::model()->findById($submission->id);
+        }
+
+        if(!$record)
+        {
             $record = new ContactFormDb_CfdbRecord();
+        }
 
-            $fields = ['name', 'email', 'inquiryType', 'message'];
+            $fields = ['name', 'email', 'inquiryType', 'message', 'status', 'ipAddress', 'userAgent', 'urlReferrer', 'answered', 'answeredDate', 'archived' , 'archivedDate'];
+
             foreach ($fields as $field)
             {
-                $record->$field = $submission[$field];
+                $record->$field = $submission->$field;
             }
 
             $record->validate();
@@ -57,12 +77,23 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
             {
                 if (!$record->getErrors())
                 {
+                    // Fire an 'onBeforeSaveEvent' event
+                    $this->onBeforeSaveSubmission(new Event($this, array(
+                        'submission'      => $submission,
+                        'isNewSubmission' => $isNewSubmission
+                    )));
+
                     $record->save(false);
 
                     if ($transaction !== null)
                     {
                         $transaction->commit();
                     }
+
+                    $this->onSaveSubmission(new Event($this, array(
+                        'submission'      => $submission,
+                        'isNewSubmission' => $isNewSubmission
+                    )));
 
                     return true;
                 }
@@ -81,6 +112,66 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
             }
 
             return false;
+
+    }
+
+    // Event Handlers
+    // =========================================================================
+
+    public function onBeforeSaveSubmission(\CEvent $event)
+    {
+        $params = $event->params;
+
+        if (empty($params['submission']) || !($params['submission'] instanceof ContactFormDb_CfdbModel)) {
+            throw new Exception('onBeforeSaveSubmission event requires "submission" param with ContactFormDb_CfdbModel instance');
         }
+
+        $this->raiseEvent('onBeforeSaveSubmission', $event);
+    }
+    // Event Handlers
+    // =========================================================================
+
+    public function onDeleteSubmission(\CEvent $event)
+    {
+        $params = $event->params;
+
+        if (empty($params['submissionIds'])) {
+            throw new Exception('onDeleteSubmission event requires "submissions" param with ContactFormDb_CfdbModel instance');
+        }
+
+        $this->raiseEvent('onDeleteSubmission', $event);
+    }
+
+    public function onSaveSubmission(\CEvent $event)
+    {
+        $params = $event->params;
+
+        if (empty($params['submission']) || !($params['submission'] instanceof ContactFormDb_CfdbModel)) {
+            throw new Exception('onSaveSubmission event requires "submission" param with ContactFormDb_CfdbModel instance');
+        }
+
+        $this->raiseEvent('onSaveSubmission', $event);
+    }
+
+    public function onBeforeTrashSubmission(\CEvent $event)
+    {
+        $params = $event->params;
+
+        if (empty($params['submission']) || !($params['submission'] instanceof ContactFormDb_CfdbModel)) {
+            throw new Exception('onBeforeTrashSubmission event requires "submission" param with ContactFormDb_CfdbModel instance');
+        }
+
+        $this->raiseEvent('onBeforeTrashSubmission', $event);
+    }
+
+    public function onTrashSubmission(\CEvent $event)
+    {
+        $params = $event->params;
+
+        if (empty($params['submission']) || !($params['submission'] instanceof ContactFormDb_CfdbModel)) {
+            throw new Exception('onTrashSubmission event requires "submission" param with ContactFormDb_CfdbModel instance');
+        }
+
+        $this->raiseEvent('onTrashSubmission', $event);
     }
 }

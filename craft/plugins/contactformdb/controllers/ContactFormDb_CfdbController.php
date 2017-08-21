@@ -29,18 +29,14 @@ namespace Craft;
 
 class ContactFormDb_CfdbController extends BaseController
 {
-
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     * @access protected
-     */
-    protected $allowAnonymous = array('actionIndex',
-        );
-
-    /**
-     * Handle a request going to our plugin's index action URL, e.g.: actions/contactFormDb
-     */
-    public function actionIndex()
+    public function actionEditSubmission(array $variables = array())
     {
+        $submissionId = $variables['cfdbId'];
+        $submission = craft()->contactFormDb_cfdb->getContactFormSubmissionById($submissionId);
+
+        $variables['$submission'] = $submission;
+
+        $this->renderTemplate('contactFormDb/edit', $variables);
     }
+
 }

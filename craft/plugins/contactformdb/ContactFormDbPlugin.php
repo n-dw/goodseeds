@@ -44,11 +44,17 @@ class ContactFormDbPlugin extends BasePlugin
         craft()->on('contactForm.beforeSend', function(ContactFormEvent $event){
             $message = $event->params['message'];
 
-            $submission = [];
-            $submission['name'] = $message->fromName;
-            $submission['email'] = $message->fromEmail;
-            $submission['inquiryType'] = $message['messageFields']['inquiryType'];
-            $submission['message'] = $message['messageFields']['body'];
+            $submission = new ContactFormDb_CfdbModel();
+            $submission->name = $message->fromName;
+            $submission->email = $message->fromEmail;
+            $submission->inquiryType = $message['messageFields']['inquiryType'];
+            $submission->message = $message['messageFields']['body'];
+
+            $submission->urlReferrer = craft()->request->urlReferrer;
+            $submission->ipAddress = craft()->request->getUserHostAddress();
+            $submission->userAgent = craft()->request->getUserAgent();
+
+            $submission->status = ContactFormDb_CfdbModel::UNREAD;
 
             $settings = craft()->plugins->getPlugin('contactform')->getSettings();
 
@@ -60,6 +66,7 @@ class ContactFormDbPlugin extends BasePlugin
                 return;
             }
             catch(\Exception $e){
+                ContactFormDbPlugin::log('Error Saving Contact Submission: ' . $submission->email . ' ' . $submission->name . ' '. $submission->message );
                 return;
             }
         });
@@ -176,7 +183,7 @@ class ContactFormDbPlugin extends BasePlugin
      */
     public function hasCpSection()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -191,35 +198,27 @@ class ContactFormDbPlugin extends BasePlugin
         return new ContactFormDbTwigExtension();
     }
 
-    /**
-     * Called right before your plugin’s row gets stored in the plugins database table, and tables have been created
-     * for it based on its records.
-     */
-    public function onBeforeInstall()
+    public function registerCpRoutes()
     {
+        return array(
+            'contactFormDb/submissions/edit/(?P<cfdbId>\d+)'     => array('action' => 'contactFormDb/cfdb/editSubmission'),
+        );
     }
 
-    /**
-     * Called right after your plugin’s row has been stored in the plugins database table, and tables have been
-     * created for it based on its records.
-     */
-    public function onAfterInstall()
+    //if we want emails later on
+    public function registerEmailMessages()
     {
+
     }
 
-    /**
-     * Called right before your plugin’s record-based tables have been deleted, and its row in the plugins table
-     * has been deleted.
-     */
-    public function onBeforeUninstall()
+    public function registerUserPermissions()
     {
-    }
-
-    /**
-     * Called right after your plugin’s record-based tables have been deleted, and its row in the plugins table
-     * has been deleted.
-     */
-    public function onAfterUninstall()
-    {
+        return array(
+            'contactFormDbEdit'     => array('label' => Craft::t('Edit other users\' contact form submissions')),
+            'contactFormDbStatus'   => array('label' => Craft::t('Change the status of contact form submissions. (replied to customer) etc')),
+            'contactFormDbArchive'  => array('label' => Craft::t('Archive other users\' contact form submissions')),
+            'contactFormDbTrash'    => array('label' => Craft::t('Trash other users\' contact form submissions')),
+            'contactFormDbDelete'   => array('label' => Craft::t('Delete contact form submissions')),
+        );
     }
 }

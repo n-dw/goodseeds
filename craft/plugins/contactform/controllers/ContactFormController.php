@@ -142,7 +142,7 @@ class ContactFormController extends BaseController
 			// Only actually send it if the honeypot test was valid
 			if ($this->validateHoneypot($settings->honeypotField) && !$event->fakeIt)
 			{
-				craft()->contactForm->sendMessage($message);
+				//craft()->contactForm->sendMessage($message);
 			}
 
 			if (craft()->request->isAjaxRequest())
