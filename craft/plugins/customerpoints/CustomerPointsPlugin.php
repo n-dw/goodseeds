@@ -52,8 +52,6 @@ class CustomerPointsPlugin extends BasePlugin
             $settings = craft()->plugins->getPlugin('customerpoints')->getSettings();
             //if there are discounts we dont want to give out extra points
             $itemTotal = $order->itemTotal;
-
-
         });
     }
 

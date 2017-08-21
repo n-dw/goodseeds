@@ -32,8 +32,43 @@ class CustomerPointsVariable
      *
      *     {{ craft.customerPoints.exampleVariable(twigValue) }}
      */
-    public function exampleVariable($optional = null)
+    /**
+     * gets points if the user has them
+     *
+     * @return integer
+     */
+    public function getUserPoints($customerEmail)
     {
-        return "And away we go to the Twig template...";
+        return craft()->customerPoints->getUserPoints($customerEmail);
+    }
+
+    /**
+     * Rating - Elements
+     *
+     * @return models
+     */
+    public function elementRatings($elementId)
+    {
+        return craft()->commentsRating->elementRatings($elementId);
+    }
+
+    /**
+     * Rating - Elements
+     *
+     * @return avg rating out of 10
+     */
+    public function elementAvgRatings($elementId)
+    {
+        return craft()->commentsRating->elementAvgRatings($elementId);
+    }
+
+    /**
+     * Rating - Comment
+     *
+     * @return integer
+     */
+    public function commentRating($commentId)
+    {
+        return craft()->commentsRating->commentRating($commentId);
     }
 }
