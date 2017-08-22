@@ -1,0 +1,19 @@
+{% macro accountMenu(positionActive) %}
+    {% set accountMenu = [
+    {label: 'My Orders', href: '/account/orders'},
+    {label: 'My Address', href: '/account'},
+    {label: 'My Points', href: '/account/thcpoints'},
+    {label: 'Change Password', href: '/account/change-password'}
+    ] %}
+
+    {% set classes = 'c-button c-button--cta-black c-button--small '%}
+    {% set activeClass = 'c-button--cta-black--active'%}
+
+    <div class="controls">
+        {% for item in accountMenu %}
+            <a href="{{ url(item.href) }}" class="{{ classes }}{% if (loop.index == positionActive) %}{{activeClass}}{% endif %}">
+                {{item.label}}
+            </a>
+        {% endfor %}
+    </div>
+{% endmacro %}

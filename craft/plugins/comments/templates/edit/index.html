@@ -3,6 +3,31 @@
 {% includeCssResource 'comments/css/comments.css' %}
 {% includeJsResource 'comments/js/comments.js' %}
 
+
+{% macro starRating(rating, starcount) %}
+    {% set hasHalfStar = (rating % 2 != 0) %}
+    {% set starAmount = (rating / 2) |round(0, 'floor') %}
+    {% set emptyStarAmount = starcount|default(5) - starAmount  %}
+    {% if hasHalfStar %}
+        {% set emptyStarAmount = emptyStarAmount - 1 %}
+    {% endif %}
+    <div class="product__star-rating">
+        {% for i in 0..starAmount - 1  %}
+            <i class="icon-star"></i>
+        {% endfor %}
+        {% if hasHalfStar %}
+            <i class="icon-star-half"></i>
+        {% endif %}
+        {% if emptyStarAmount > 0 %}
+            {% for i in 0..emptyStarAmount - 1  %}
+                <i class="icon-star-empty"></i>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% endmacro %}
+{% from _self import starRating %}
+
 {% import "_includes/forms" as forms %}
 
 {% set title = 'Edit Comment' %}
@@ -55,6 +80,13 @@
 
                     <hr/>
 
+
+                    <div id="ratings" class="">
+                        <h2>Comment Rating</h2>
+                        {% set rating = craft.commentsrating.commentRating(comment.id) %}
+                        <p>Rating out of 10:  <b>{{ rating }}</b></p>
+                    </div>
+                    <hr/>
                     <div id="items" class="">
                         <h2>Replies</h2>
 
