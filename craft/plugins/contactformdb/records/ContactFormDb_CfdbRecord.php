@@ -41,7 +41,7 @@ class ContactFormDb_CfdbRecord extends BaseRecord
      */
     public function getTableName()
     {
-        return 'contactformdb_submissions';
+        return 'contactformdb_cfdb';
     }
 
     public function scopes()
@@ -60,14 +60,14 @@ class ContactFormDb_CfdbRecord extends BaseRecord
     protected function defineAttributes()
     {
         return array(
-            'status'        => array(AttributeType::Enum, 'values' => array(
-                ContactFormDb_CfdbModel::UNREAD,
-                ContactFormDb_CfdbModel::READ,
-                ContactFormDb_CfdbModel::ARCHIVED,
-                ContactFormDb_CfdbModel::RESPONDED,
-                ContactFormDb_CfdbModel::RESOLVED,
-                ContactFormDb_CfdbModel::SPAM,
-                ContactFormDb_CfdbModel::TRASHED
+            'status'            => array(AttributeType::Enum, 'values' => array(
+                                        ContactFormDb_CfdbModel::UNREAD,
+                                        ContactFormDb_CfdbModel::READ,
+                                        ContactFormDb_CfdbModel::ARCHIVED,
+                                        ContactFormDb_CfdbModel::RESPONDED,
+                                        ContactFormDb_CfdbModel::RESOLVED,
+                                        ContactFormDb_CfdbModel::SPAM,
+                                        ContactFormDb_CfdbModel::TRASHED
             )),
             'name'              => array(AttributeType::String, 'required' => true),
             'email'             => array(AttributeType::String, 'required' => true),
@@ -77,16 +77,16 @@ class ContactFormDb_CfdbRecord extends BaseRecord
             'answeredDate'      => array(AttributeType::DateTime, 'default' => null),
             'archived'          => array(AttributeType::Bool, 'default' => false),
             'archivedDate'      => array(AttributeType::DateTime, 'default' => null),
-            'ipAddress'     => array(AttributeType::String, 'default' => null),
-            'userAgent'     => array(AttributeType::String, 'default' => null),
-            'urlReferrer'     => array(AttributeType::String, 'default' => null),
+            'ipAddress'         => array(AttributeType::String, 'default' => null),
+            'userAgent'         => array(AttributeType::String, 'default' => null),
+            'urlReferrer'       => array(AttributeType::String, 'default' => null),
         );
     }
 
     public function defineRelations()
     {
         return array(
-            'element'  => array(static::BELONGS_TO, 'ElementRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE)
+            'element'  => array(static::BELONGS_TO, 'ElementRecord', 'required' => true, 'onDelete' => static::CASCADE)
         );
     }
 }

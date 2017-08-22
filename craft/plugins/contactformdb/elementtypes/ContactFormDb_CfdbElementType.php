@@ -29,12 +29,12 @@ class ContactFormDb_CfdbElementType extends BaseElementType
     public function getStatuses()
     {
         return array(
-            ContactFormDb_CfdbModel::UNREAD => Craft::t('Unread'),
             ContactFormDb_CfdbModel::READ => Craft::t('Read'),
-            ContactFormDb_CfdbModel::ARCHIVED => Craft::t('Archived'),
+            ContactFormDb_CfdbModel::UNREAD => Craft::t('Unread'),
             ContactFormDb_CfdbModel::RESPONDED => Craft::t('Responded'),
             ContactFormDb_CfdbModel::RESOLVED => Craft::t('Resolved'),
             ContactFormDb_CfdbModel::SPAM => Craft::t('Spam'),
+            ContactFormDb_CfdbModel::ARCHIVED => Craft::t('Archived'),
             ContactFormDb_CfdbModel::TRASHED => Craft::t('Trashed')
         );
     }
@@ -58,11 +58,11 @@ class ContactFormDb_CfdbElementType extends BaseElementType
     public function defineTableAttributes($source = null)
     {
         return array(
+            'elementId'     => Craft::t('Edit Link'),
+            'email'         => Craft::t('Email'),
             'status'        => Craft::t('Status'),
-            'email'       => Craft::t('Email'),
-            'name'       => Craft::t('name'),
+            'name'          => Craft::t('name'),
             'message'       => Craft::t('message'),
-            'answered'       => Craft::t('answered'),
             'dateCreated'   => Craft::t('Date'),
             'ipAddress'     => Craft::t('IP Address'),
         );
@@ -72,9 +72,8 @@ class ContactFormDb_CfdbElementType extends BaseElementType
     {
         return array(
             'status'        => Craft::t('Status'),
-            'email'       => Craft::t('Email'),
-            'name'       => Craft::t('name'),
-            'answered'       => Craft::t('answered'),
+            'email'         => Craft::t('Email'),
+            'name'          => Craft::t('name'),
             'dateCreated'   => Craft::t('Date'),
             'ipAddress'     => Craft::t('IP Address'),
         );
@@ -82,7 +81,25 @@ class ContactFormDb_CfdbElementType extends BaseElementType
 
     public function getTableAttributeHtml(BaseElementModel $element, $attribute)
     {
-        return parent::getTableAttributeHtml($element, $attribute);
+        switch ($attribute)
+        {
+            case 'status':
+            {
+                $status = $element->$attribute;
+
+               return '<span class="status ' . strtolower($status) . '"></span> ' . $status;
+            }
+            case 'elementId':
+            {
+
+                return 's';
+            }
+
+            default:
+            {
+                return parent::getTableAttributeHtml($element, $attribute);
+            }
+        }
     }
 
     public function defineCriteriaAttributes()
@@ -100,7 +117,7 @@ class ContactFormDb_CfdbElementType extends BaseElementType
             'ipAddress'         => array(AttributeType::String),
             'userAgent'         => array(AttributeType::String),
             'urlReferrer'       => array(AttributeType::String),
-            'order'             => array(AttributeType::String, 'default' => 'lft, submissionDate desc'),
+            'order'             => array(AttributeType::String, 'default' => 'submissionDate desc'),
         );
     }
 
@@ -108,7 +125,7 @@ class ContactFormDb_CfdbElementType extends BaseElementType
     {
         $query
             ->addSelect('submissions.status, submissions.name, submissions.email, submissions.inquiryType, submissions.message, submissions.answered, submissions.answeredDate, submissions.archived, submissions.archivedDate, submissions.urlReferrer, submissions.ipAddress, submissions.userAgent, submissions.dateCreated AS submissionDate')
-            ->join('contactformdb_submissions submissions', 'submissions.id = elements.id');
+            ->join('contactformdb_cfdb submissions', 'submissions.elementId = elements.id');
 
         if ($criteria->status) {
             $query->andWhere(DbHelper::parseParam('submissions.status', $criteria->status, $query->params));
@@ -123,11 +140,11 @@ class ContactFormDb_CfdbElementType extends BaseElementType
         }
 
         if ($criteria->inquiryType) {
-            $query->andWhere(DbHelper::parseParam('submissions.inquiryType', $criteria->email, $query->params));
+            $query->andWhere(DbHelper::parseParam('submissions.inquiryType', $criteria->inquiryType, $query->params));
         }
 
         if ($criteria->message) {
-            $query->andWhere(DbHelper::parseParam('submissions.message', $criteria->email, $query->params));
+            $query->andWhere(DbHelper::parseParam('submissions.message', $criteria->message, $query->params));
         }
 
         if ($criteria->answered) {
@@ -135,19 +152,19 @@ class ContactFormDb_CfdbElementType extends BaseElementType
         }
 
         if ($criteria->answeredDate) {
-            $query->andWhere(DbHelper::parseParam('submissions.answeredDate', $criteria->email, $query->params));
+            $query->andWhere(DbHelper::parseParam('submissions.answeredDate', $criteria->answeredDate, $query->params));
         }
 
         if ($criteria->archived) {
-            $query->andWhere(DbHelper::parseParam('submissions.email', $criteria->archived, $query->params));
+            $query->andWhere(DbHelper::parseParam('submissions.archived', $criteria->archived, $query->params));
         }
 
         if ($criteria->archivedDate) {
-            $query->andWhere(DbHelper::parseParam('submissions.email', $criteria->archivedDate, $query->params));
+            $query->andWhere(DbHelper::parseParam('submissions.archivedDate', $criteria->archivedDate, $query->params));
         }
 
         if ($criteria->urlReferrer) {
-            $query->andWhere(DbHelper::parseParam('submissions.urlReferrer', $criteria->url, $query->params));
+            $query->andWhere(DbHelper::parseParam('submissions.urlReferrer', $criteria->urlReferrer, $query->params));
         }
 
         if ($criteria->ipAddress) {

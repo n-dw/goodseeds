@@ -24,7 +24,26 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
 {
     public function getContactFormSubmissionById($submissionId)
     {
-        return craft()->elements->getElementById($submissionId, 'ContactFormDb_Submission');
+        return craft()->elements->getElementById($submissionId, 'ContactFormDb_Cfdb');
+    }
+    public function getSubmissionTitleTableElement(&$context)
+    {
+        if (!isset($context['element'])) {
+            return;
+        }
+
+        // Only do this for a Comment ElementType
+        if ($context['element']->getElementType() == 'ContactFormDb_Cfdb') {
+
+            $html = '<div class="submission-title-element">';
+            $html .= '<span class="status ' . $context['element']->status . '"></span>';
+            $html .= '<a href="' . $context['element']->getCpEditUrl() . '">';
+            $html .= '<span class="username">' . $context['element']->name . ' ' . $context['element']->email . '</span>';
+            $html .= '<small>' . htmlspecialchars($context['element']->getExcerpt(0, 100)) . '</small></a>';
+            $html .= '</div>';
+
+            return $html;
+        }
     }
     /**
      * This function can literally be anything you want, and you can have as many service functions as you want
@@ -71,44 +90,59 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
             }
 
             $record->validate();
+            $submission->addErrors($record->getErrors());
 
-            $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
-            try
+            if(!$submission->hasErrors())
             {
-                if (!$record->getErrors())
+                $event = new Event($this, array(
+                    'submission'      => $submission,
+                    'isNewSubmission' => $isNewSubmission
+                ));
+                $this->onBeforeSaveSubmission($event);
+
+                if (!$event->performAction)
                 {
-                    // Fire an 'onBeforeSaveEvent' event
-                    $this->onBeforeSaveSubmission(new Event($this, array(
-                        'submission'      => $submission,
-                        'isNewSubmission' => $isNewSubmission
-                    )));
+                    return false;
+                }
 
-                    $record->save(false);
+                $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+                try
+                {
+                    if (craft()->elements->saveElement($submission))
+                    {
+                        if ($isNewSubmission)
+                        {
+                            //$record->id = $submission->id;
+                            $record->elementId = $submission->id;
+                        }
 
+                        $record->save(false);
+
+                        if ($transaction !== null)
+                        {
+                            $transaction->commit();
+                        }
+
+                        $this->onSaveSubmission(new Event($this, array(
+                            'submission'      => $submission,
+                            'isNewSubmission' => $isNewSubmission
+                        )));
+
+                        return true;
+                    }
+                } catch (\Exception $e)
+                {
                     if ($transaction !== null)
                     {
-                        $transaction->commit();
+                        $transaction->rollback();
                     }
-
-                    $this->onSaveSubmission(new Event($this, array(
-                        'submission'      => $submission,
-                        'isNewSubmission' => $isNewSubmission
-                    )));
-
-                    return true;
+                    throw $e;
                 }
-            } catch (\Exception $e)
-            {
+
                 if ($transaction !== null)
                 {
                     $transaction->rollback();
                 }
-                throw $e;
-            }
-
-            if ($transaction !== null)
-            {
-                $transaction->rollback();
             }
 
             return false;

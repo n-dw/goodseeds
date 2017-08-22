@@ -41,6 +41,13 @@ class ContactFormDbPlugin extends BasePlugin
     public function init()
     {
         parent::init();
+
+        // Only used on the /submissions page, hook onto the 'cp.elements.element' hook to allow us to
+        // modify the Title column for the element index table - we want something special.
+        if (craft()->request->isCpRequest()) {
+            craft()->templates->hook('cp.elements.element', array(craft()->contactFormDb_cfdb, 'getSubmissionTitleTableElement'));
+        }
+
         craft()->on('contactForm.beforeSend', function(ContactFormEvent $event){
             $message = $event->params['message'];
 
@@ -201,7 +208,7 @@ class ContactFormDbPlugin extends BasePlugin
     public function registerCpRoutes()
     {
         return array(
-            'contactFormDb/submissions/edit/(?P<cfdbId>\d+)'     => array('action' => 'contactFormDb/cfdb/editSubmission'),
+            'contactformdb/submissions/edit/(?P<cfdbId>\d+)'     => array('action' => 'contactFormDb/cfdb/editSubmission'),
         );
     }
 

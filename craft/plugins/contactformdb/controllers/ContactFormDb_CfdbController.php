@@ -34,7 +34,7 @@ class ContactFormDb_CfdbController extends BaseController
         $submissionId = $variables['cfdbId'];
         $submission = craft()->contactFormDb_cfdb->getContactFormSubmissionById($submissionId);
 
-        $variables['$submission'] = $submission;
+        $variables['submission'] = $submission;
 
         $this->renderTemplate('contactFormDb/edit', $variables);
     }

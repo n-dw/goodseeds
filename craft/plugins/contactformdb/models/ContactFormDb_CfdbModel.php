@@ -36,10 +36,8 @@ class ContactFormDb_CfdbModel extends BaseElementModel
 
     public function getCpEditUrl()
     {
-        return UrlHelper::getCpUrl('contactFormDb/cfdb/editSubmission/' . $this->id);
+        return UrlHelper::getCpUrl('contactformdb/submissions/edit/' . $this->id);
     }
-
-
 
     public function getExcerpt($startPos=0, $maxLength=100) {
         if (strlen($this->message) > $maxLength) {
@@ -48,21 +46,11 @@ class ContactFormDb_CfdbModel extends BaseElementModel
             $excerpt   = substr($excerpt, 0, $lastSpace);
             $excerpt  .= '...';
         } else {
-            $excerpt = $this->comment;
+            $excerpt = $this->message;
         }
 
         return $excerpt;
     }
-
-
-
-
-    public function getElement()
-    {
-        return craft()->elements->getElementById($this->elementId);
-    }
-
-
 
     public function canEdit()
     {
@@ -151,15 +139,16 @@ class ContactFormDb_CfdbModel extends BaseElementModel
     protected function defineAttributes()
     {
         return array_merge(parent::defineAttributes(), array(
-            'id'            => AttributeType::Number,
+            'id'            => array(AttributeType::Number),
+            'elementId'     => array(AttributeType::Number, 'default' => 0),
             'status'        => array(AttributeType::Enum, 'values' => array(
-                ContactFormDb_CfdbModel::UNREAD,
-                ContactFormDb_CfdbModel::READ,
-                ContactFormDb_CfdbModel::ARCHIVED,
-                ContactFormDb_CfdbModel::RESPONDED,
-                ContactFormDb_CfdbModel::RESOLVED,
-                ContactFormDb_CfdbModel::SPAM,
-                ContactFormDb_CfdbModel::TRASHED
+                                        ContactFormDb_CfdbModel::UNREAD,
+                                        ContactFormDb_CfdbModel::READ,
+                                        ContactFormDb_CfdbModel::ARCHIVED,
+                                        ContactFormDb_CfdbModel::RESPONDED,
+                                        ContactFormDb_CfdbModel::RESOLVED,
+                                        ContactFormDb_CfdbModel::SPAM,
+                                        ContactFormDb_CfdbModel::TRASHED,
             )),
             'ipAddress'         => array(AttributeType::String),
             'userAgent'         => array(AttributeType::String),
