@@ -96,9 +96,13 @@ structureEditable: false,
 
                 <h2>Submission events</h2>
                 <p>{{ "Has been Read" | t }} <b>{{ (submission.read  == 0 ) ? 'False' : 'True'}}</b></p>
-                <p><b>Date Read: {{ submission.readDate }}</b></p>
+                {% if submission.readDate is not null %}
+                    <p><b>Date Read: {{ submission.readDate.localeDate() }} {{ submission.readDate.localeTime() }}</b></p>
+                {% endif %}
                 <p>{{ "Has been Resolved" | t }} <b>{{ (submission.resolved  == 0 ) ? 'False' : 'True'}}</b></p>
-                <p> <b>Date Resolved: {{ submission.readDate }}</b></p>
+                {% if submission.resolvedDate is not null %}
+                <p> <b>Date Resolved: {{ submission.resolvedDate.localeDate() }} {{ submission.resolvedDate.localeTime() }}</b></p>
+                {% endif %}
 
                 {% if currentUser.can('contactFormDbDelete') %}
                     <hr>
