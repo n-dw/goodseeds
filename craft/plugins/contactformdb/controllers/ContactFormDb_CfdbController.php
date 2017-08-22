@@ -39,4 +39,68 @@ class ContactFormDb_CfdbController extends BaseController
         $this->renderTemplate('contactFormDb/edit', $variables);
     }
 
+    public function actionSaveSubmission()
+    {
+        $this->requirePostRequest();
+
+        $submissionId = craft()->request->getRequiredPost('submissionId');
+        $submission = craft()->contactFormDb_cfdb->getContactFormSubmissionById($submissionId);
+
+        if($submission)
+        {
+            $submission->elementId = $submissionId;
+            $statusChange = craft()->request->getRequiredPost('status');
+
+            if($statusChange)
+            {
+                $submission->status = $statusChange;
+
+                if($statusChange == 'Read'){
+                    $submission->read = true;
+                    $submission->readDate = date('Y-m-d H:i:s');
+                }
+                elseif($statusChange == 'Responded'){
+                    $submission->answered = true;
+                    $submission->answeredDate = date('Y-m-d H:i:s');
+                }
+                elseif($statusChange == 'Resolved')
+                {
+                    $submission->resolved = true;
+                    $submission->resolvedDate = date('Y-m-d H:i:s');
+                }
+                elseif($statusChange == 'Archived')
+                {
+                    $submission->archived = true;
+                    $submission->archivedDate = date('Y-m-d H:i:s');
+                }
+            }
+            if ($result = craft()->contactFormDb_cfdb->saveContactFormSubmission($submission)) {
+                craft()->userSession->setNotice(Craft::t('Submission Saved.'));
+                $this->redirectToPostedUrl($submission);
+            } else {
+                craft()->userSession->setError($result);
+            }
+        }
+        else
+        {
+            craft()->userSession->setError('There is no Submission of id: ' . $submissionId);
+        }
+
+    }
+
+    public function actionDeleteSubmission()
+    {
+        $this->requirePostRequest();
+
+        $submissionId = craft()->request->getRequiredPost('submissionId');
+        $submission = craft()->contactFormDb_cfdb->getContactFormSubmissionById($submissionId);
+
+        if ($result = craft()->contactFormDb_cfdb->deleteContactFormSubmission($submission)) {
+            craft()->userSession->setNotice(Craft::t('Submission deleted.'));
+            $this->redirectToPostedUrl($submission);
+        } else {
+            craft()->userSession->setError($result);
+        }
+    }
+
 }

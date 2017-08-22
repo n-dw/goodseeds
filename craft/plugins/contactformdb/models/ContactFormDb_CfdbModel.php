@@ -39,6 +39,11 @@ class ContactFormDb_CfdbModel extends BaseElementModel
         return UrlHelper::getCpUrl('contactformdb/submissions/edit/' . $this->id);
     }
 
+    public function getElement()
+    {
+        return craft()->elements->getElementById($this->elementId);
+    }
+
     public function getExcerpt($startPos=0, $maxLength=100) {
         if (strlen($this->message) > $maxLength) {
             $excerpt   = substr($this->message, $startPos, $maxLength-3);
@@ -140,7 +145,7 @@ class ContactFormDb_CfdbModel extends BaseElementModel
     {
         return array_merge(parent::defineAttributes(), array(
             'id'            => array(AttributeType::Number),
-            'elementId'     => array(AttributeType::Number, 'default' => 0),
+            'elementId'     => array(AttributeType::Number),
             'status'        => array(AttributeType::Enum, 'values' => array(
                                         ContactFormDb_CfdbModel::UNREAD,
                                         ContactFormDb_CfdbModel::READ,
@@ -161,6 +166,10 @@ class ContactFormDb_CfdbModel extends BaseElementModel
             'answeredDate'      => array(AttributeType::DateTime),
             'archived'          => array(AttributeType::Bool),
             'archivedDate'      => array(AttributeType::DateTime),
+            'read'              => array(AttributeType::Bool),
+            'readDate'          => array(AttributeType::DateTime),
+            'resolved'              => array(AttributeType::Bool),
+            'resolvedDate'          => array(AttributeType::DateTime),
         ));
     }
 }

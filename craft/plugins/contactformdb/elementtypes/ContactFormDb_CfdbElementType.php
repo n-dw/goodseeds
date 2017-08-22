@@ -59,10 +59,11 @@ class ContactFormDb_CfdbElementType extends BaseElementType
     {
         return array(
             'elementId'     => Craft::t('Edit Link'),
+            'message'       => Craft::t('message'),
+            'inquiryType'   => Craft::t('Inquiry Type'),
             'email'         => Craft::t('Email'),
             'status'        => Craft::t('Status'),
             'name'          => Craft::t('name'),
-            'message'       => Craft::t('message'),
             'dateCreated'   => Craft::t('Date'),
             'ipAddress'     => Craft::t('IP Address'),
         );
@@ -72,6 +73,7 @@ class ContactFormDb_CfdbElementType extends BaseElementType
     {
         return array(
             'status'        => Craft::t('Status'),
+            'inquiryType'   => Craft::t('Inquiry Type'),
             'email'         => Craft::t('Email'),
             'name'          => Craft::t('name'),
             'dateCreated'   => Craft::t('Date'),
@@ -89,12 +91,12 @@ class ContactFormDb_CfdbElementType extends BaseElementType
 
                return '<span class="status ' . strtolower($status) . '"></span> ' . $status;
             }
-            case 'elementId':
+           /* case 'dateCreated':
             {
+                d($element->$attribute);
 
-                return 's';
-            }
-
+                return  $element->$attribute->localeTime();
+            }*/
             default:
             {
                 return parent::getTableAttributeHtml($element, $attribute);
@@ -114,6 +116,10 @@ class ContactFormDb_CfdbElementType extends BaseElementType
             'answeredDate'      => array(AttributeType::DateTime),
             'archived'          => array(AttributeType::Bool),
             'archivedDate'      => array(AttributeType::DateTime),
+            'read'              => array(AttributeType::Bool),
+            'readDate'          => array(AttributeType::DateTime),
+            'resolved'          => array(AttributeType::Bool),
+            'resolvedDate'      => array(AttributeType::DateTime),
             'ipAddress'         => array(AttributeType::String),
             'userAgent'         => array(AttributeType::String),
             'urlReferrer'       => array(AttributeType::String),
@@ -124,7 +130,7 @@ class ContactFormDb_CfdbElementType extends BaseElementType
     public function modifyElementsQuery(DbCommand $query, ElementCriteriaModel $criteria)
     {
         $query
-            ->addSelect('submissions.status, submissions.name, submissions.email, submissions.inquiryType, submissions.message, submissions.answered, submissions.answeredDate, submissions.archived, submissions.archivedDate, submissions.urlReferrer, submissions.ipAddress, submissions.userAgent, submissions.dateCreated AS submissionDate')
+            ->addSelect('submissions.status, submissions.name, submissions.email, submissions.inquiryType, submissions.message, submissions.answered, submissions.answeredDate, submissions.archived, submissions.archivedDate, submissions.read, submissions.readDate , submissions.resolved, submissions.resolvedDate, submissions.urlReferrer, submissions.ipAddress, submissions.userAgent, submissions.dateCreated AS submissionDate')
             ->join('contactformdb_cfdb submissions', 'submissions.elementId = elements.id');
 
         if ($criteria->status) {
@@ -161,6 +167,22 @@ class ContactFormDb_CfdbElementType extends BaseElementType
 
         if ($criteria->archivedDate) {
             $query->andWhere(DbHelper::parseParam('submissions.archivedDate', $criteria->archivedDate, $query->params));
+        }
+
+        if ($criteria->read) {
+            $query->andWhere(DbHelper::parseParam('submissions.read', $criteria->read, $query->params));
+        }
+
+        if ($criteria->readDate) {
+            $query->andWhere(DbHelper::parseParam('submissions.readDate', $criteria->readDate, $query->params));
+        }
+
+        if ($criteria->resolved) {
+            $query->andWhere(DbHelper::parseParam('submissions.resolved', $criteria->resolved, $query->params));
+        }
+
+        if ($criteria->resolvedDate) {
+            $query->andWhere(DbHelper::parseParam('submissions.resolvedDate', $criteria->resolvedDate, $query->params));
         }
 
         if ($criteria->urlReferrer) {

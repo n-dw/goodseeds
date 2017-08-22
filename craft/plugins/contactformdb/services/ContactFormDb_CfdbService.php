@@ -39,19 +39,42 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
             $html .= '<span class="status ' . $context['element']->status . '"></span>';
             $html .= '<a href="' . $context['element']->getCpEditUrl() . '">';
             $html .= '<span class="username">' . $context['element']->name . ' ' . $context['element']->email . '</span>';
-            $html .= '<small>' . htmlspecialchars($context['element']->getExcerpt(0, 100)) . '</small></a>';
             $html .= '</div>';
 
             return $html;
         }
     }
-    /**
-     * This function can literally be anything you want, and you can have as many service functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     craft()->contactFormDb_cfdb->exampleService()
-     */
+
+    public function deleteContactFormSubmission(ContactFormDb_CfdbModel $submission)
+    {
+        if (!$submission) {
+            return false;
+        }
+
+        $submissionId = $submission->id;
+
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+
+        try {
+            $success = craft()->elements->deleteElementById($submissionId);
+
+            if ($transaction !== null) {
+                $transaction->commit();
+            }
+        }catch (\Exception $e) {
+            if ($transaction !== null) {
+                $transaction->rollback();
+            }
+
+            throw $e;
+        }
+
+        $this->onDeleteSubmission(new Event($this, array('submissionId' => $submissionId)));
+
+        return $success;
+    }
+
+
     public function saveContactFormSubmission(ContactFormDb_CfdbModel $submission)
     {
         //check if we have the submission, in case the email is sent multiple times or form submitted.
@@ -82,7 +105,7 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
             $record = new ContactFormDb_CfdbRecord();
         }
 
-            $fields = ['name', 'email', 'inquiryType', 'message', 'status', 'ipAddress', 'userAgent', 'urlReferrer', 'answered', 'answeredDate', 'archived' , 'archivedDate'];
+            $fields = ['name', 'email', 'inquiryType', 'message', 'status', 'ipAddress', 'userAgent', 'urlReferrer', 'answered', 'answeredDate', 'archived' , 'archivedDate', 'read' , 'readDate' , 'resolved' , 'resolvedDate'];
 
             foreach ($fields as $field)
             {
@@ -169,7 +192,7 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
     {
         $params = $event->params;
 
-        if (empty($params['submissionIds'])) {
+        if (empty($params['submissionId'])) {
             throw new Exception('onDeleteSubmission event requires "submissions" param with ContactFormDb_CfdbModel instance');
         }
 

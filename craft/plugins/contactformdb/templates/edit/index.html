@@ -1,6 +1,7 @@
 {% extends "_layouts/cp" %}
 
 {% includeCssResource 'contactformdb/css/ContactFormDb_Cfbd.css' %}
+{% includeJsResource 'contactformdb/js/ContactFormDb_Cfdb.js' %}
 
 {% import "_includes/forms" as forms %}
 
@@ -32,9 +33,9 @@ structureEditable: false,
 {% endset %}
 
 {% block main %}
-    <input type="hidden" name="action" value="comments/saveComment">
-    <input type="hidden" name="redirect" value="contactformdb/edit/{{ submission.id }}">
-    <input type="hidden" name="commentId" value="{{ submission.id }}">
+    <input type="hidden" name="action" value="contactFormDb/cfdb/saveSubmission">
+    <input type="hidden" name="redirect" value="contactformdb/submissions/edit/{{ submission.id }}">
+    <input type="hidden" name="submissionId" value="{{ submission.id }}">
 
     <div class="grid first">
         <div class="item" data-position="left" data-colspan="2">
@@ -91,6 +92,13 @@ structureEditable: false,
 
                 <h5>{{ "Updated Date" | t }}</h5>
                 <p>{{ submission.dateUpdated.localeDate() }} {{ submission.dateUpdated.localeTime() }}</p>
+                <hr/>
+
+                <h2>Submission events</h2>
+                <p>{{ "Has been Read" | t }} <b>{{ (submission.read  == 0 ) ? 'False' : 'True'}}</b></p>
+                <p><b>Date Read: {{ submission.readDate }}</b></p>
+                <p>{{ "Has been Resolved" | t }} <b>{{ (submission.resolved  == 0 ) ? 'False' : 'True'}}</b></p>
+                <p> <b>Date Resolved: {{ submission.readDate }}</b></p>
 
                 {% if currentUser.can('contactFormDbDelete') %}
                     <hr>

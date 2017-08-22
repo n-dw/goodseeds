@@ -1,0 +1,54 @@
+
+<h2>Yay!</h2>
+
+<p>All of us at {{ siteName }} were so excited to see your order come in.</p>
+
+<p>We will treat <strong>Order #{{ order.id }}</strong> with care and will let you know when we have shipped it out.</p>
+
+<p>Here is the information on your order:</p>
+<table>
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in order.lineItems %}
+        <tr>
+            <td>
+                <strong>{{ item.description }}</strong><br>
+                SKU: {{ item.sku }}
+            </td>
+            <td>
+                {% if item.onSale %}
+                    <strike>{{ item.price|commerceCurrency(order.paymentCurrency) }}</strike>   {{ item.salePrice|commerceCurrency(order.paymentCurrency }}
+                {% else %}
+                    {{ item.price|commerceCurrency(order.paymentCurrency }}
+                {% endif %}
+            </td>
+            <td>{{ item.qty }}</td>
+            <td class="text-right">{{ item.total|commerceCurrency(order.paymentCurrency }}</td>
+        </tr>
+    {% endfor %}
+
+    {% for adjustment in order.adjustments %}
+        <tr>
+            <td>{{ adjustment.type }}</td>
+            <td colspan="2"><strong>{{ adjustment.name }}</strong><br>({{ adjustment.description }})</td>
+            <td class="text-right">{{ adjustment.amount|commerceCurrency(order.paymentCurrency }}</td>
+        </tr>
+    {% endfor %}
+
+    <tr>
+        <td colspan="4" class="text-right">
+            <h4>Total: {{ order.totalPrice|commerceCurrency(order.paymentCurrency }}</h4>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+<p>If you have any order questions, don't hesitate to contact us.</p>
