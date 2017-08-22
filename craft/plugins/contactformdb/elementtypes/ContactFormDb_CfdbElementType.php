@@ -107,6 +107,7 @@ class ContactFormDb_CfdbElementType extends BaseElementType
     public function defineCriteriaAttributes()
     {
         return array(
+            'elementId'         => array(AttributeType::Number),
             'status'            => array(AttributeType::String),
             'name'              => array(AttributeType::String),
             'email'             => array(AttributeType::Email),
@@ -130,8 +131,12 @@ class ContactFormDb_CfdbElementType extends BaseElementType
     public function modifyElementsQuery(DbCommand $query, ElementCriteriaModel $criteria)
     {
         $query
-            ->addSelect('submissions.status, submissions.name, submissions.email, submissions.inquiryType, submissions.message, submissions.answered, submissions.answeredDate, submissions.archived, submissions.archivedDate, submissions.read, submissions.readDate , submissions.resolved, submissions.resolvedDate, submissions.urlReferrer, submissions.ipAddress, submissions.userAgent, submissions.dateCreated AS submissionDate')
+            ->addSelect('submissions.elementId, submissions.status, submissions.name, submissions.email, submissions.inquiryType, submissions.message, submissions.answered, submissions.answeredDate, submissions.archived, submissions.archivedDate, submissions.read, submissions.readDate , submissions.resolved, submissions.resolvedDate, submissions.urlReferrer, submissions.ipAddress, submissions.userAgent, submissions.dateCreated AS submissionDate')
             ->join('contactformdb_cfdb submissions', 'submissions.elementId = elements.id');
+
+        if ($criteria->elementId) {
+            $query->andWhere(DbHelper::parseParam('submissions.elementId', $criteria->elementId, $query->params));
+        }
 
         if ($criteria->status) {
             $query->andWhere(DbHelper::parseParam('submissions.status', $criteria->status, $query->params));

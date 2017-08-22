@@ -135,7 +135,7 @@ class ContactFormDb_CfdbService extends BaseApplicationComponent
                     {
                         if ($isNewSubmission)
                         {
-                            //$record->id = $submission->id;
+                            $record->id = $submission->id;
                             $record->elementId = $submission->id;
                         }
 
