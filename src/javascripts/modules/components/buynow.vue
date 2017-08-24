@@ -6,13 +6,13 @@
                 <table class="table is-striped">
                     <thead>
                     <tr>
-                        <th colspan="2">Cannabis Conversion Chart</th>
+                        <th>Our Weights</th>
+                        <th>Metric</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>Our Weights</th>
-                        <th>Metric</th>
+                        <th colspan="2">Cannabis Conversion Chart</th>
                     </tr>
                     </tfoot>
                     <tbody>
