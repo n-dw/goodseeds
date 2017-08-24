@@ -1,5 +1,46 @@
 <template>
     <div class="bnc">
+        <div class="modal" :class="{'is-active': cannabisConversionChartShow}">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <table class="table is-striped">
+                    <thead>
+                    <tr>
+                        <th colspan="2">Cannabis Conversion Chart</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Our Weights</th>
+                        <th>Metric</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <td>1g</td>
+                            <td>1 gram </td>
+                        </tr>
+                        <tr>
+                            <td>1/8 oz</td>
+                            <td>3.5 grams</td>
+                        </tr>
+                        <tr>
+                            <td>1/4 oz</td>
+                            <td>7 grams</td>
+                        </tr>
+                        <tr>
+                            <td>1/2 oz</td>
+                            <td>14 grams</td>
+                        </tr>
+                        <tr>
+                            <td>1 oz</td>
+                            <td>28 grams</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="modal-close is-large" @click="toggleChart" aria-label="close"></button>
+        </div>
     <div class="product-info-wrapper">
         <div class="media">
             <div class="media-left">
@@ -25,6 +66,7 @@
                 <input v-for="input in formData.inputs" :type="input.type" :name="input.name" :value="input.value">
 
                 <div v-if=" productData.stock > 0" class="in-stock-controls">
+                    <a class="conversion-chart-link" @click="toggleChart">Conversion Chart</a>
                         <div class="product-variants">
                             <template v-for="(variant, index) in productData.variants">
                                 <div class="radio-wrapper variant">
@@ -119,6 +161,7 @@
         data() {
             return {
                 notifyEmailShow: false,
+                cannabisConversionChartShow: false,
                 productData: {},
                 formData: {},
                 picked: false,
@@ -151,7 +194,7 @@
                 if(! this.picked && this.productData.stock > 0){
                    let msgData = {
                         type: 'error',
-                        msg: 'Please choose a product variant, for ' + this.productData.title
+                        msg: 'Please choose a product weight, for ' + this.productData.title
                     }
 
                     bus.$emit('Message',msgData);
@@ -205,6 +248,9 @@
                         this.setError({err});
                         this.loading = false;
                     });
+            },
+            toggleChart(){
+                this.cannabisConversionChartShow = !this.cannabisConversionChartShow;
             },
             capitalize(stringToCap){
                 return stringToCap.charAt(0).toUpperCase() + stringToCap.slice(1);

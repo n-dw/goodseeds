@@ -7,6 +7,20 @@
     }
     .product-buy-now{
       padding: 0.7rem 1.5rem 0;
+
+      .in-stock-controls{
+        position: relative;
+        margin-top: 1.333rem;
+
+        .conversion-chart-link{
+          position: absolute;
+          left: 0;
+          top: -3rem;
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+      }
     }
     .product-price-wrapper{
       span{
