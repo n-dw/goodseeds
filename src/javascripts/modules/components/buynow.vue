@@ -45,7 +45,7 @@
         <div class="media">
             <div class="media-left">
                 <div class="product-details-wrapper">
-                    <h4 class="product-strain-type" :title="capitalize(productData.strainType)" :class="productData.strainType">
+                    <h4 class="product-strain-type" :title="capitalizeStrainType" :class="productData.strainType">
                         {{ productData.strainTypeFrontVal }}
                     </h4>
                     <h4 v-if="productData.organic" title="Organic" class="product-strain-type organic">O</h4>
@@ -173,6 +173,11 @@
                 emailError: false,
             };
         },
+        computed:{
+            capitalizeStrainType(){
+                return this.product.strainType.charAt(0).toUpperCase() + this.product.strainType.slice(1);
+            }
+        },
         mounted(){
             this.formData = this.form;
             this.notifyEmailShow = false;
@@ -251,9 +256,6 @@
             },
             toggleChart(){
                 this.cannabisConversionChartShow = !this.cannabisConversionChartShow;
-            },
-            capitalize(stringToCap){
-                return stringToCap.charAt(0).toUpperCase() + stringToCap.slice(1);
             },
             setError(err){
                 let msgData = {
