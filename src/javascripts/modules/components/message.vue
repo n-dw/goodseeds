@@ -27,8 +27,12 @@
             return {
                 show: false,
                 message: '',
-                isErr: false
+                isErr: false,
+                timer: ''
             };
+        },
+        created(){
+
         },
         mounted(){
             this.message = this.msg;
@@ -38,10 +42,14 @@
             });
         },
         methods: {
+            hideMessage(){
+                this.show = false;
+            },
             updateMessage(message){
                  this.isErr = message.type == 'error' ? true : false;
                  this.show = true;
                  this.message = message.msg;
+                 this.timer = setTimeout(this.hideMessage, 15000)
             }
         }
     }
