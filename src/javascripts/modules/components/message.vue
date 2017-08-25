@@ -49,7 +49,7 @@
                  this.isErr = message.type == 'error' ? true : false;
                  this.show = true;
                  this.message = message.msg;
-                 this.timer = setTimeout(this.hideMessage, 15000)
+                 this.timer = setTimeout(this.hideMessage, 7000)
             }
         }
     }
