@@ -22,60 +22,15 @@
 
 {% import "_includes/forms" as forms %}
 
-{{ forms.textField({
-    label: 'Points Earned Per Dollar Spent',
-    instructions: 'For every dollar spend how many points does a customer earn',
-    id: 'pointsPerDollarEarned',
-    name: 'pointsPerDollarEarned',
-    value: settings.pointsPerDollarEarned,
-    disabled:     (craft.config.get('pointsPerDollarEarned', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsPerDollarEarned', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollarEarned'),
-    errors:       settings.getErrors('pointsPerDollarEarned')
-}) }}
-
-{{ forms.textField({
-    label: 'Points needed to redeem a dollar',
-    instructions: 'How many points needed to take off a dollar',
-    id: 'pointsPerDollarSpent',
-    name: 'pointsPerDollarSpent',
-    value: settings.pointsPerDollarSpent,
-    disabled:     (craft.config.get('pointsPerDollarSpent', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsPerDollarSpent', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollarSpent'),
-    errors:       settings.getErrors('pointsPerDollarSpent')
-}) }}
-
-{{ forms.textField({
-    label: 'Max Redeemable Amount',
-    instructions: 'Total Dollar amount that a customer can redeem at one time',
-    id: 'maxAmountRedeemable',
-    name: 'maxAmountRedeemable',
-    value: settings.maxAmountRedeemable,
-    disabled:     (craft.config.get('maxAmountRedeemable', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('maxAmountRedeemable', 'customerpoints') is not sameas(null)) ? configWarning('maxAmountRedeemable'),
-    errors:       settings.getErrors('maxAmountRedeemable')
-}) }}
-
-
 {{ forms.lightswitchField({
-    label:        "Allow With Discounts"|t,
-    instructions: "Can customers redeem points with discounts and sales"|t,
-    id:           'allowWithDiscounts',
-    name:         'allowWithDiscounts',
-    on:           settings.allowWithDiscounts,
-    disabled:     (craft.config.get('allowWithDiscounts', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('allowWithDiscounts', 'customerpoints') is not sameas(null)) ? configWarning('allowWithDiscounts'),
-    errors:       settings.getErrors('allowWithDiscounts')
-}) }}
-
-{{ forms.lightswitchField({
-    label:        "Earn Points When Redeeming"|t,
-    instructions: "Can customers earn points when points are redeemed"|t,
-    id:           'earnWithRedemption',
-    name:         'earnWithRedemption',
-    on:           settings.allowWithDiscounts,
-    disabled:     (craft.config.get('earnWithRedemption', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('earnWithRedemption', 'customerpoints') is not sameas(null)) ? configWarning('earnWithRedemption'),
-    errors:       settings.getErrors('earnWithRedemption')
+    label:        "Round Points to Nearest Number"|t,
+    instructions: "No half points or fractions round when we come to this"|t,
+    id:           'roundPointsToNearestNumber',
+    name:         'roundPointsToNearestNumber',
+    on:           settings.roundPointsToNearestNumber,
+    disabled:     (craft.config.get('roundPointsToNearestNumber', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('roundPointsToNearestNumber', 'customerpoints') is not sameas(null)) ? configWarning('roundPointsToNearestNumber'),
+    errors:       settings.getErrors('roundPointsToNearestNumber')
 }) }}
 
 {{ forms.textField({

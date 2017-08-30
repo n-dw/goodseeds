@@ -1,2 +1,43 @@
 {% import "_includes/forms" as forms %}
 
+{% macro configWarning(setting) -%}
+    {{ "This is being overridden by the {setting} config setting in your customerpoints.php config file."|t({
+        setting: setting
+    })|raw }}
+{%- endmacro %}
+
+{% from _self import configWarning %}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.lightswitchField({
+    label:        "Earn Points For Reviewing a product"|t,
+    id:           'earnPointsReviews',
+    name:         'earnPointsReviews',
+    on:           settings.earnPointsReviews,
+    disabled:     (craft.config.get('earnPointsReviews', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('earnPointsReviews', 'customerpoints') is not sameas(null)) ? configWarning('earnPointsReviews'),
+    errors:       settings.getErrors('earnPointsReviews')
+}) }}
+
+{{  forms.lightswitchField({
+    label:        "Allow points to be earned once per product"|t,
+    instructions: "So the user doesnt submit multiple reviews to get points"|t,
+    id:           'oneReviewPerProduct',
+    name:         'oneReviewPerProduct',
+    on:           settings.oneReviewPerProduct,
+    disabled:     (craft.config.get('oneReviewPerProduct', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('oneReviewPerProduct', 'customerpoints') is not sameas(null)) ? configWarning('oneReviewPerProduct'),
+    errors:       settings.getErrors('oneReviewPerProduct')
+}) }}
+
+{{ forms.textField({
+    label: 'Points Earned Per Product Review',
+    id: 'pointsPerReview',
+    name: 'pointsPerReview',
+    value: settings.pointsPerAccount,
+    disabled:     (craft.config.get('pointsPerReview', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('pointsPerReview', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerReview'),
+    errors:       settings.getErrors('pointsPerReview')
+}) }}
+

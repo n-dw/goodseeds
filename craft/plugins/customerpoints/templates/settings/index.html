@@ -25,6 +25,7 @@
                 <li><a id="settings-tab-accountcreation" class="tab" href="#settings-accountcreation" tabindex="3">{{ 'Account Sign Up' | t }}</a></li>
                 <li><a id="settings-tab-socialpromotion" class="tab" href="#settings-socialpromotion" tabindex="4">{{ 'Social Promotions' | t }}</a></li>
                 <li><a id="settings-tab-referrals" class="tab" href="#settings-referrals" tabindex="5">{{ 'Referrals' | t }}</a></li>
+                <li><a id="settings-tab-retroactive" class="tab" href="#settings-retroactive" tabindex="6">{{ 'Retro Active' | t }}</a></li>
             </ul>
         </nav>
     </div>
@@ -57,6 +58,10 @@
 
             <div id="referrals" class="hidden">
                 {% include 'customerpoints/settings/referrals' %}
+            </div>
+
+            <div id="retroactive" class="hidden">
+                {% include 'customerpoints/settings/retroactive' %}
             </div>
 
         {% endnamespace %}

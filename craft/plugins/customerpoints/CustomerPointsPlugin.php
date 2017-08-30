@@ -220,6 +220,7 @@ class CustomerPointsPlugin extends BasePlugin
     {
         return [
             //GENERAL
+            'roundPointsToNearestNumber'  => [AttributeType::Bool, 'default' => true],
             'customerPointsName'          => [AttributeType::String, 'default' => Craft::t('Customer Points'), 'required' => true],
             'errorFlashMessage'           => [AttributeType::String, 'default' => Craft::t('There was an error redeeming your points'), 'required' => true],
             'successFlashMessage'         => [AttributeType::String, 'default' => Craft::t('Your Points have been applied'), 'required' => true],
@@ -230,14 +231,17 @@ class CustomerPointsPlugin extends BasePlugin
             'minimumCartSubTotal'         => [AttributeType::Number, 'default' => 0, 'required' => true],
             'minimumPointsRedemption'     => [AttributeType::Number, 'default' => 0, 'required' => true],
             'minimumPointsFirstRedemption' => [AttributeType::Number, 'default' => 0, 'required' => true],
-            'maxAmountRedeemable'         => [AttributeType::Number, 'required' => true],
+            //'maxAmountRedeemable'         => [AttributeType::Number, 'required' => true],
             'maxPointsRedeemable'         => [AttributeType::Number, 'required' => true],
             'allowWithDiscounts'          => [AttributeType::Bool, 'default' => false],
             'earnWithRedemption'          => [AttributeType::Bool, 'default' => false],
             'canRedeemFirstPurchase'      => [AttributeType::Bool, 'default' => false],
             //points for order if they want to give n points per order instead of for order subtotal
-            'pointsForOrder'              => [AttributeType::Bool, 'default' => false],
-            'pointsPerPurchase'             => [AttributeType::Number, 'default' => 0, 'required' => true],
+            'pointsForOrder'                => [AttributeType::Bool, 'default' => false],
+            'pointsPerOrder'             => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //points for each product if they want to give n points per order instead of for order subtotal
+            'pointsForProduct'              => [AttributeType::Bool, 'default' => false],
+            'pointsPerProduct'              => [AttributeType::Number, 'default' => 0, 'required' => true],
             //REVIEWS
             'earnPointsReviews'           => [AttributeType::Bool, 'default' => false],
             'oneReviewPerProduct'         => [AttributeType::Bool, 'default' => false],
@@ -250,6 +254,8 @@ class CustomerPointsPlugin extends BasePlugin
             'pointsPerPromotion'          => [AttributeType::Number, 'default' => 0, 'required' => true],
             //REFERRALS
             'earnPointsReferrals'         => [AttributeType::Bool, 'default' => false],
+            'referreeMustSignUp'          => [AttributeType::Bool, 'default' => true],
+            'referreeMustPurchase'        => [AttributeType::Bool, 'default' => true],
             'pointsPerReferral'           => [AttributeType::Number, 'default' => 0, 'required' => true],
         ];
     }

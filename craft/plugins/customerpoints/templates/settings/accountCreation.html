@@ -1,2 +1,33 @@
 {% import "_includes/forms" as forms %}
 
+{% macro configWarning(setting) -%}
+    {{ "This is being overridden by the {setting} config setting in your customerpoints.php config file."|t({
+        setting: setting
+    })|raw }}
+{%- endmacro %}
+
+{% from _self import configWarning %}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.lightswitchField({
+    label:        "Earn Points For Creating an Account"|t,
+    id:           'earnPointsAccountCreation',
+    name:         'earnPointsAccountCreation',
+    on:           settings.earnPointsAccountCreation,
+    disabled:     (craft.config.get('earnPointsAccountCreation', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('earnPointsAccountCreation', 'customerpoints') is not sameas(null)) ? configWarning('earnPointsAccountCreation'),
+    errors:       settings.getErrors('earnPointsAccountCreation')
+}) }}
+
+
+{{ forms.textField({
+    label: 'Points Earned For Creating an Account',
+    id: 'pointsPerAccount',
+    name: 'pointsPerAccount',
+    value: settings.pointsPerAccount,
+    disabled:     (craft.config.get('pointsPerAccount', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('pointsPerAccount', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerAccount'),
+    errors:       settings.getErrors('pointsPerAccount')
+}) }}
+
