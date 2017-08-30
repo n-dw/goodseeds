@@ -1,0 +1,68 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% includeJsResource 'customerpoints/js/CustomerPoints_Script.js' %}
+{% includeCssResource 'customerpoints/css/CustomerPoints_Style.css' %}
+
+{% set title = "Settings" | t %}
+
+{% set tabs = {
+    customerpoints: { label: "Customer Points by Event" | t, url: url('customerpoints') },
+    users: { label: "Customer Points By User" | t, url: url('customerpoints/user') },
+    settings: { label: "Settings" | t, url: url('customerpoints/settings') },
+} %}
+{% set selectedTab = 'settings' %}
+
+{% block content %}
+
+    <div class="pane first tableview settings-tabs">
+        <nav id="settings-tabs" class="tabs">
+            <ul>
+                <li class="label">{{ 'Settings' | t }}</li>
+                <li><a id="settings-tab-general" class="tab sel" href="#settings-general" tabindex="0">{{ 'General' | t }}</a></li>
+                <li><a id="settings-tab-purchases" class="tab" href="#settings-purchases" tabindex="1">{{ 'Purchases' | t }}</a></li>
+                <li><a id="settings-tab-reviews" class="tab" href="#settings-reviews" tabindex="2">{{ 'Reviews' | t }}</a></li>
+                <li><a id="settings-tab-accountcreation" class="tab" href="#settings-accountcreation" tabindex="3">{{ 'Account Sign Up' | t }}</a></li>
+                <li><a id="settings-tab-socialpromotion" class="tab" href="#settings-socialpromotion" tabindex="4">{{ 'Social Promotions' | t }}</a></li>
+                <li><a id="settings-tab-referrals" class="tab" href="#settings-referrals" tabindex="5">{{ 'Referrals' | t }}</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <form method="post" accept-charset="UTF-8" data-saveshortcut>
+        <input type="hidden" name="action" value="plugins/savePluginSettings">
+        <input type="hidden" name="pluginClass" value="customerpoints">
+        {{ getCsrfInput() }}
+
+        {% namespace 'settings' %}
+            <div id="general">
+                {% include 'customerpoints/settings/general' %}
+            </div>
+
+            <div id="purchases" class="hidden">
+                {% include 'customerpoints/settings/purchases' %}
+            </div>
+
+            <div id="reviews" class="hidden">
+                {% include 'customerpoints/settings/reviews' %}
+            </div>
+
+            <div id="accountcreation" class="hidden">
+                {% include 'customerpoints/settings/accountCreation' %}
+            </div>
+
+            <div id="socialpromotion" class="hidden">
+                {% include 'customerpoints/settings/socialPromotion' %}
+            </div>
+
+            <div id="referrals" class="hidden">
+                {% include 'customerpoints/settings/referrals' %}
+            </div>
+
+        {% endnamespace %}
+
+        <div class="buttons">
+            <input class="btn submit" type="submit" value="{{ 'Save' | t }}">
+        </div>
+    </form>
+{% endblock %}

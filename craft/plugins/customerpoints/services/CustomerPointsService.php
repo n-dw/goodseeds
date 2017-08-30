@@ -22,15 +22,14 @@ namespace Craft;
 
 class CustomerPointsService extends BaseApplicationComponent
 {
-    /**
-     * This function can literally be anything you want, and you can have as many service functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     craft()->customerPoints->exampleService()
-     */
-    public function exampleService()
+    public function getPlugin()
     {
+        return craft()->plugins->getPlugin('customerpoints');
+    }
+
+    public function getSettings()
+    {
+        return $this->getPlugin()->getSettings();
     }
 
 }

@@ -31,7 +31,7 @@
 
 namespace Craft;
 
-class CustomerPointsRecord extends BaseRecord
+class CustomerPointsEventRecord extends BaseRecord
 {
     /**
      * Returns the name of the database table the model is associated with (sans table prefix). By convention,
@@ -41,20 +41,30 @@ class CustomerPointsRecord extends BaseRecord
      */
     public function getTableName()
     {
-        return 'commerce_customer_points_events';
+        return 'customer_points_events';
     }
 
     /**
      * Returns an array of attributes which map back to columns in the database table.
      *
+     * eventType = self::Potential - user places order but has not paid yet.
      * @access protected
      * @return array
      */
     protected function defineAttributes()
     {
         return array(
-            'event'                        => array(AttributeType::String, 'required' => true),
-            'points'                       => array(AttributeType::Number, 'required' => true),
+            'eventType' => [
+            AttributeType::Enum,
+                'values' => [self::Review, self::Referral, self::Order, self::Potential],
+                'required' => true
+            ],
+            'action' => [
+                AttributeType::Enum,
+                'values' => [self::Earn, self::Redeem, self::FailRedeem, self::PotentialEarn],
+                'required' => true
+            ],
+            'points' => [ AttributeType::Number, 'required' => true ],
         );
     }
 
@@ -67,7 +77,8 @@ class CustomerPointsRecord extends BaseRecord
     public function defineRelations()
     {
         return array(
-            'customerPoints' => array(static::BELONGS_TO, 'CustomerPointsRecord'),
+            'customerPoints' => array(static::BELONGS_TO, 'CustomerPointsRecord', 'onDelete' => static::CASCADE),
+            'CustomerPointsEventsType' => array(static::HAS_MANY, 'CustomerPointsEventsTypeRecord')
         );
     }
 }

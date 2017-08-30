@@ -34,13 +34,14 @@ class CustomerPointsController extends BaseController
      * @var    bool|array Allows anonymous access to this controller's actions.
      * @access protected
      */
-    protected $allowAnonymous = array('actionIndex',
-        );
+    protected $allowAnonymous = [];
 
-    /**
-     * Handle a request going to our plugin's index action URL, e.g.: actions/customerPoints
-     */
-    public function actionIndex()
+    public function actionSettings()
     {
+        $settings = craft()->customerPoints->getSettings();
+
+        $this->renderTemplate('customerpoints/settings', array(
+            'settings' => $settings
+        ));
     }
 }

@@ -31,12 +31,18 @@ class CustomerPointsModel extends BaseModel
     {
         return array_merge(parent::defineAttributes(), array(
             'id'             => array(AttributeType::Number),
-            'customerId'     => array(AttributeType::Number),
             'email'          => array(AttributeType::String),
             'points'         => array(AttributeType::Number),
             'pointsUsed'     => array(AttributeType::Number),
             'totalPointsAcquired' => array(AttributeType::Number),
         ));
+    }
+
+    public function defineRelations()
+    {
+        return array(
+            'customer'  => array(static::BELONGS_TO, 'Commerce_CustomerRecord', 'required' => true, 'onDelete' => static::CASCADE)
+        );
     }
 
 }

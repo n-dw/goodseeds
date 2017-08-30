@@ -41,7 +41,7 @@ class CustomerPointsRecord extends BaseRecord
      */
     public function getTableName()
     {
-        return 'commerce_customer_points';
+        return 'customer_points';
     }
 
     /**

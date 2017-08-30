@@ -1,15 +1,15 @@
 {#
 /**
- * Customer Points plugin for Craft CMS
- *
- * Customer Points Settings.twig
- *
- * @author    Nathan de Waard
- * @copyright Copyright (c) 2017 Nathan de Waard
- * @link      https://github.com/n-dw
- * @package   CustomerPoints
- * @since     1.0.0
- */
+* Customer Points plugin for Craft CMS
+*
+* Customer Points Settings.twig
+*
+* @author    Nathan de Waard
+* @copyright Copyright (c) 2017 Nathan de Waard
+* @link      https://github.com/n-dw
+* @package   CustomerPoints
+* @since     1.0.0
+*/
 #}
 
 {% macro configWarning(setting) -%}
@@ -22,38 +22,26 @@
 
 {% import "_includes/forms" as forms %}
 
-{% set tabs = {
-    general: { label: "General" | t, url: url('comments') },
-    redemption: { label: "Redemption" | t, url: url('comments') },
-    purchases: { label: "Purchases" | t, url: url('comments/permissions') },
-    productReviews: { label: "Product Reviews" | t, url: url('comments/settings') },
-    signup: { label: "Account Sign Up" | t, url: url('comments/settings') },
-    socialPromotion: { label: "Social Promotion" | t, url: url('comments/settings') },
-} %}
-{% set selectedTab = 'general' %}
-{#{% includeCssResource "customerpoints/css/CustomerPoints_Style.css" %}
-{% includeJsResource "customerpoints/js/CustomerPoints_Script.js" %}#}
-
 {{ forms.textField({
     label: 'Points Earned Per Dollar Spent',
     instructions: 'For every dollar spend how many points does a customer earn',
-    id: 'pointsPerDollerEarned',
-    name: 'pointsPerDollerEarned',
-    value: settings.pointsPerDollerEarned,
-    disabled:     (craft.config.get('pointsPerDollerEarned', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsPerDollerEarned', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollerEarned'),
-    errors:       settings.getErrors('pointsPerDollerEarned')
+    id: 'pointsPerDollarEarned',
+    name: 'pointsPerDollarEarned',
+    value: settings.pointsPerDollarEarned,
+    disabled:     (craft.config.get('pointsPerDollarEarned', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('pointsPerDollarEarned', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollarEarned'),
+    errors:       settings.getErrors('pointsPerDollarEarned')
 }) }}
 
 {{ forms.textField({
     label: 'Points needed to redeem a dollar',
     instructions: 'How many points needed to take off a dollar',
-    id: 'pointsPerDollerSpent',
-    name: 'pointsPerDollerSpent',
-    value: settings.pointsPerDollerSpent,
-    disabled:     (craft.config.get('pointsPerDollerSpent', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsPerDollerSpent', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollerSpent'),
-    errors:       settings.getErrors('pointsPerDollerSpent')
+    id: 'pointsPerDollarSpent',
+    name: 'pointsPerDollarSpent',
+    value: settings.pointsPerDollarSpent,
+    disabled:     (craft.config.get('pointsPerDollarSpent', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('pointsPerDollarSpent', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollarSpent'),
+    errors:       settings.getErrors('pointsPerDollarSpent')
 }) }}
 
 {{ forms.textField({
@@ -111,4 +99,15 @@
     disabled:     (craft.config.get('successFlashMessage', 'customerpoints') is not sameas(null)),
     warning:      (craft.config.get('successFlashMessage', 'customerpoints') is not sameas(null)) ? configWarning('successFlashMessage'),
     errors:       settings.getErrors('successFlashMessage')
+}) }}
+
+{{ forms.textField({
+    label:        "Error Flash Message"|t,
+    id:           "errorFlashMessage",
+    name:         "errorFlashMessage",
+    instructions: "The flash message displayed after successfully redeeming points."|t,
+    value:        settings.errorFlashMessage,
+    disabled:     (craft.config.get('errorFlashMessage', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('successFlashMessage', 'customerpoints') is not sameas(null)) ? configWarning('errorFlashMessage'),
+    errors:       settings.getErrors('errorFlashMessage')
 }) }}
