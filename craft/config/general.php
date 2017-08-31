@@ -52,7 +52,7 @@ return array(
     // Local (development) environment
     'local'  => array(
         'devMode' => true,
-        'enableTemplateCaching' => false,
+        'enableTemplateCaching' => true,
         'allowAutoUpdates' => true,
     ),
 );

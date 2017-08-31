@@ -52,10 +52,8 @@
         <script async type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>
         <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
     {% endif %}
-
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
     {% block head %}
-
     {% endblock %}
     {% minify js %}
     <script>
@@ -69,7 +67,14 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 {% if not currentUser and getSecureCookie('ageVerified') != 'true' %}
+{% set ageModal %}
+    {% cache  globally using key "age-modal-" ~ craft.request.path %}
+    {% minify %}
     {% include "shop/_includes/ageVerificationModal" %}
+    {% endminify %}
+    {% endcache %}
+{% endset %}
+{{ ageModal|replace({'%%MY_CSRF%%': getCsrfInput()})|raw }}
 {% endif %}
 <div class="vue-app">
     {% block header %}
