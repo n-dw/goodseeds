@@ -38,7 +38,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% hook 'seomaticRender' %}
+    {% cache  globally using key "SEOMATIC-" ~ craft.request.path %}
+    {% minify %}
+        {% hook 'seomaticRender' %}
+    {% endminify %}
+    {% endcache %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>

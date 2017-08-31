@@ -24,7 +24,7 @@
                         <ul class="c-list c-list--clean">
                             {% if  cart.lineItems|length < 1 %}
                                 <p>There are no items in your cart.</p>
-                            {% else  %}
+                            {% else %}
                                 {% for item in cart.lineItems %}
                                     <li>
                                         {% include 'shop/_includes/order/_itemOrderedCart' %}
@@ -34,30 +34,35 @@
 
                         </ul>
                     </div>
-                     {% if  cart.lineItems|length > 0 %}
-                         <div class="box has-text-left">
-                             <form method="POST">
-                                 <input type="hidden" name="action" value="commerce/cart/updateCart">
-                                 <input type="hidden" name="redirect" value="shop/cart">
-                                 {{ getCsrfInput() }}
-                                 <div class="columns">
-                                     <div class="column">
-                                         <input type="text" name="couponCode" width="11"
-                                                class="{% if cart.getError('couponCode') %}is-danger{% endif %} c-input c-input--coupon" value=""
-                                                placeholder="{{ "Coupon Code"|t }}">
-                                         {% if cart.getError('couponCode') %} {{ errList.errorList([cart.getError('couponCode')]) }} {% endif %}
-                                     </div>
-                                     <div class="column">
-                                         <button type="submit" class="c-button c-button--small c-button--cta-black c-button--coupon">Apply Coupon</button>
-                                     </div></div>
-                             </form>
-                             {% if cart.couponCode and not cart.getError('couponCode') %}
-                                 <ul class="c-list c-list--clean c-list--margin-bottom">
-                                     <li><i><strong>Coupon "{{ cart.couponCode }}" applied to cart.</strong></i></li>
-                                 </ul>
-                             {% endif %}
-                         </div>
-                     {% endif %}
+                    {% if  cart.lineItems|length > 0 %}
+                        <div class="box has-text-left">
+                            <form method="POST">
+                                <input type="hidden" name="action" value="commerce/cart/updateCart">
+                                <input type="hidden" name="redirect" value="shop/cart">
+                                {{ getCsrfInput() }}
+                                <div class="columns">
+                                    <div class="column">
+                                        <input type="text" name="couponCode" width="11"
+                                               class="{% if cart.getError('couponCode') %}is-danger{% endif %} c-input c-input--coupon"
+                                               value=""
+                                               placeholder="{{ "Coupon Code"|t }}">
+                                        {% if cart.getError('couponCode') %} {{ errList.errorList([cart.getError('couponCode')]) }} {% endif %}
+                                    </div>
+                                    <div class="column">
+                                        <button type="submit"
+                                                class="c-button c-button--small c-button--cta-black c-button--coupon">
+                                            Apply Coupon
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            {% if cart.couponCode and not cart.getError('couponCode') %}
+                                <ul class="c-list c-list--clean c-list--margin-bottom">
+                                    <li><i><strong>Coupon "{{ cart.couponCode }}" applied to cart.</strong></i></li>
+                                </ul>
+                            {% endif %}
+                        </div>
+                    {% endif %}
 
                     <div class="box has-text-left">
                         <form method="POST">
@@ -65,14 +70,16 @@
                             <input type="hidden" name="redirect" value="shop/cart">
                             {{ getCsrfInput() }}
 
-                                    <label for="message">Order Notes</label>
-                                    <textarea
-                                            class="c-textarea {% if cart.orderNotes is defined and cart.getError('orderNotes') is not empty %}error{% endif %}"
-                                            aria-label="Order Notes" rows="5"  id="orderNotes"
-                                            name="fields[orderNotes]">{% if cart.orderNotes is defined %}{{ cart.orderNotes  }}{% endif %}</textarea>
+                            <label for="message">Order Notes</label>
+                            <textarea
+                                    class="c-textarea {% if cart.orderNotes is defined and cart.getError('orderNotes') is not empty %}error{% endif %}"
+                                    aria-label="Order Notes" rows="5" id="orderNotes"
+                                    name="fields[orderNotes]">{% if cart.orderNotes is defined %}{{ cart.orderNotes }}{% endif %}</textarea>
                             {% if cart.getError('orderNotes') %} {{ errList.errorList([cart.getError('orderNotes')]) }} {% endif %}
 
-                                <button type="submit" class="c-button c-button--small c-button--cta-black c-button--coupon">Apply Order Notes</button>
+                            <button type="submit" class="c-button c-button--small c-button--cta-black c-button--coupon">
+                                Apply Order Notes
+                            </button>
 
                         </form>
                     </div>
@@ -83,21 +90,22 @@
                                 <strong>Subtotal : </strong> {{ cart.itemSubtotal|commerceCurrency(cart.currency) }}
                             </li>
                             {% if cart.shippingMethod is null %}
-                            <li>
-                                <strong>Shipping: </strong>
-                                {{ shippingAmount }}.
-                                {% if not qualifyFreeShipping %}
-                                    {{ amountQualify | commerceCurrency(cart.currency) }} until you
-                                    qualify for free
-                                    shipping, <a href="{{ url('/shop') }}">Continue Shopping</a>.
-                                {% endif %}
-                            </li>
+                                <li>
+                                    <strong>Shipping: </strong>
+                                    {{ shippingAmount }}.
+                                    {% if not qualifyFreeShipping %}
+                                        {{ amountQualify | commerceCurrency(cart.currency) }} until you
+                                        qualify for free
+                                        shipping, <a href="{{ url('/shop') }}">Continue Shopping</a>.
+                                    {% endif %}
+                                </li>
                             {% endif %}
                             {% for adjustment in cart.adjustments %}
                                 <li>
                                     <strong>{{ adjustment.type }}:</strong>
-                                    {% if adjustment.type|lower == 'discount'  %}
-                                        <span class="sale">{{ adjustment.amount|commerceCurrency(cart.currency) }}  ({{ adjustment.name }})</span>
+                                    {% if adjustment.type|lower == 'discount' %}
+                                        <span class="sale">{{ adjustment.amount|commerceCurrency(cart.currency) }}
+                                            ({{ adjustment.name }})</span>
                                     {% else %}
                                         {{ adjustment.amount|commerceCurrency(cart.currency) }}  ({{ adjustment.name }})
                                     {% endif %}
@@ -105,28 +113,30 @@
                                 </li>
                             {% endfor %}
                             <li>
-                                 {% if not qualifyFreeShipping %}
-                                   {% set totalWithShipping =  cart.totalPrice +  siteSettings.shippingFlatCost %}
-                                     <strong>Total: </strong> <span class="price"><b>{{totalWithShipping |commerceCurrency(cart.currency) }}</b></span>
-                                     {% else %}
-                                         <strong>Total: </strong> <span class="price"><b>{{ cart.totalPrice|commerceCurrency(cart.currency) }}</b></span>
-                                 {% endif %}
+                                {% if not qualifyFreeShipping %}
+                                    {% set totalWithShipping =  cart.totalPrice +  siteSettings.shippingFlatCost %}
+                                    <strong>Total: </strong> <span
+                                        class="price"><b>{{ totalWithShipping |commerceCurrency(cart.currency) }}</b></span>
+                                {% else %}
+                                    <strong>Total: </strong> <span
+                                        class="price"><b>{{ cart.totalPrice|commerceCurrency(cart.currency) }}</b></span>
+                                {% endif %}
                             </li>
                         </ul>
                     </div>
 
 
-                {% if  cart.lineItems|length > 0 %}
-                    <div>
-                        <stong><i class="icon-lock"></i> Secure Checkout.</stong>
-                        <div><a href="{{ url('shop/checkout') }}"
-                                 class="c-button c-button--cta-blue c-button--large"><i
-                                        class="icon-lock"></i>Checkout</a></div>
-                    </div>
-                {% endif %}
+                    {% if  cart.lineItems|length > 0 %}
+                        <div>
+                            <stong><i class="icon-lock"></i> Secure Checkout.</stong>
+                            <div><a href="{{ url('shop/checkout') }}"
+                                    class="c-button c-button--cta-blue c-button--large"><i
+                                            class="icon-lock"></i>Checkout</a></div>
+                        </div>
+                    {% endif %}
                     <div><a href="{{ url('shop') }}" class="c-button c-button--cta-black c-button--large">Continue
                             Shopping</a></div>
+                </div>
             </div>
-        </div>
     </section>
 {% endblock %}

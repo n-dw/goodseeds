@@ -9,55 +9,53 @@
 {% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">$'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
 {% set variantInfo = {} %}
 {% block main %}
+    {% cache  globally using key "product-header-" ~ craft.request.path %}
+    {% minify %}
     <section class="shop product-page product-listing-app content-section">
         <div class="wrapper">
             <article class="product">
                 <header class="product-header box">
-                    <div class="row">
-                        <div class="col-xs-12 col-md-7">
-                            <div class="product-images has-text-centered card-image">
-                                {% cache  globally using key "product-images-" ~ craft.request.path %}
-                                    {% minify %}
-                                        {% for productImage in product.productImages %}
-                                            {% include 'shop/_includes/product/productpage/_productImages' %}
-                                        {% endfor %}
-                                    {% endminify %}
-                                {% endcache %}
+                        <div class="row">
+                            <div class="col-xs-12 col-md-7">
+                                <div class="product-images has-text-centered card-image">
+                                    {% for productImage in product.productImages %}
+                                        {% include 'shop/_includes/product/productpage/_productImages' %}
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-md-5">
-                            <div class="row center-xs product-buy-wrapper">
-                                <div class="col-xs-12">
-                                    <h1 class="product-heading">{{ product.title }}</h1>
-                                    {% if avgRating > 0 %}
-                                        <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
-                                    {% endif %}
-                                    {% include 'shop/_includes/product/productpage/_productForm' %}
-                                    {% include 'shop/_includes/product/productpage/_productShareLinks' %}
+                            <div class="col-xs-12 col-md-5">
+                                <div class="row center-xs product-buy-wrapper">
+                                    <div class="col-xs-12">
+                                        <h1 class="product-heading">{{ product.title }}</h1>
+                                        {% if avgRating > 0 %}
+                                            <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
+                                        {% endif %}
+                                        {% include 'shop/_includes/product/productpage/_productForm' %}
+                                        {% include 'shop/_includes/product/productpage/_productShareLinks' %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </header>
-                <ptabs>
-                    <template slot="details">
-                        {% cache  globally using key "product-description-" ~ craft.request.path %}
-                            {% minify %}
-                                {% include 'shop/_includes/product/productpage/_productDescription' %}
-                            {% endminify %}
-                        {% endcache %}
-                    </template>
-                    <template slot="effects">
-                        {% cache  globally using key "product-effects-" ~ craft.request.path %}
-                            {% minify %}
-                                {% include 'shop/_includes/product/productpage/_productEffects' %}
-                            {% endminify %}
-                        {% endcache %}
-                    </template>
-                    <template slot="reviews">
+                    </header>
+                    <ptabs>
+                        <template slot="details">
+                            {% include 'shop/_includes/product/productpage/_productDescription' %}
+                        </template>
+                        <template slot="effects">
+                            {% include 'shop/_includes/product/productpage/_productEffects' %}
+                        </template>
+                        <template slot="reviews">
+    {% endminify %}
+    {% endcache %}
+    {% cache  globally using key "product-reviews-" ~ craft.request.path unless currentUser %}
+    {% minify %}
                         {% set ratings = craft.commentsrating.elementRatings(product.id) %}
                         {% set params = {order: 'dateCreated desc'} %}
                         {{ craft.comments.form(product.id, params) }}
+    {% endminify %}
+    {% endcache %}
+    {% cache globally using key "related-products-" ~ craft.request.path %}
+    {% minify %}
                     </template>
                 </ptabs>
             </article>
@@ -70,20 +68,18 @@
                         <template slot="title"><h2 class="related-products-header">Others Enjoyed</h2></template>
                         <template slot="content">
                             <div class="thcpicks-list products-list row">
-                                {% cache  globally using key "related-products-" ~ craft.request.path %}
-                                {% minify %}
                                 {% for product in relatedProducts %}
                                     {% include '/shop/_includes/product/_productCard.html' %}
                                 {% endfor %}
-                                {% endminify %}
-                                {% endcache %}
                             </div>
                         </template>
                     </openclose>
                 </div>
             </section>
-        {% endif %}
+            {% endif %}
     </section>
+    {% endminify %}
+    {% endcache %}
 {% endblock %}
 {% includeCssFile "/static/assets/zoom/mz.min.css" %}
 {% includeJsFile "/static/assets/zoom/magiczoomplus.js" %}
