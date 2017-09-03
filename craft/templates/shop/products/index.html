@@ -1,7 +1,7 @@
 {% extends 'shop/_layouts/main' %}
 
 {% import "shop/macros/product.html" as prodmac %}
-
+{% set title = 'Shop' %}
 {% set params = {with: ['productImages']} %}
 {% set formParams = {'productParam' : ''} %}
 {% set categoriesArray = ['or'] %}

@@ -127,6 +127,11 @@
 {% endblock %}
 <script type="text/javascript">
     window.csrfTokenName = "{{ craft.config.csrfTokenName|e('js') }}";window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
+    {% if currentUser %}
+        thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, { currentUserEmail: "{{ currentUser.email }}" });
+    {% else %}
+        thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, { currentUserEmail: false });
+    {% endif %}
 </script>
 {%  set appJS =  'assets/js/app.js' | gulp_rev %}
 {% includeJsFile appJS %}

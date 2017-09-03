@@ -91,7 +91,7 @@
 
                 <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-black add-to-cart"  :class="{'is-loading' : loading}">Buy Now</button>
 
-                <button v-else-if="currentuseremail != '' && productData.stock < 1" type="submit" :class="{'is-loading' : loading}" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+                <button v-else-if="email != '' && productData.stock < 1" type="submit" :class="{'is-loading' : loading}" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 <div v-else class="notify-stock-component">
                     <input type="email" v-model="email"  v-show="notifyEmailShow" class="c-input has-text-centered" :class="{'error' : emailError}"  name="customerEmail" required aria-label="Email" placeholder="Email">
                     <button type="submit" :class="{'is-loading' : loading}" @click="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
@@ -184,7 +184,14 @@
             this.productData = this.product;
             this.price = this.product.price;
             this.salePrice = this.product.salePrice;
-            this.email = this.currentuseremail;
+            if(this.$parent.$data.currentUserEmail){
+                this.email = this.$parent.$data.currentUserEmail;
+            }
+            else{
+                this.email = this.currentuseremail;
+            }
+
+            console.log();
         },
         methods: {
             notifyEmailShowSubmit: function(e) {
