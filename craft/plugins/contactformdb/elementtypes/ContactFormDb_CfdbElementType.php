@@ -18,7 +18,17 @@ class ContactFormDb_CfdbElementType extends BaseElementType
 
     public function hasTitles()
     {
-        return false;
+        return true;
+    }
+
+    /**
+     * @inheritDoc IElementType::isLocalized()
+     *
+     * @return bool
+     */
+    public function isLocalized()
+    {
+        return true;
     }
 
     public function hasStatuses()
@@ -159,7 +169,7 @@ class ContactFormDb_CfdbElementType extends BaseElementType
         }
 
         if ($criteria->answered) {
-            $query->andWhere(DbHelper::parseParam('submissions.email', $criteria->answered, $query->params));
+            $query->andWhere(DbHelper::parseParam('submissions.answered', $criteria->answered, $query->params));
         }
 
         if ($criteria->answeredDate) {

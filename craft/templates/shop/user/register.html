@@ -48,6 +48,13 @@
                                     {{errList.errorList(account.getErrors('fields[userGovernmentId]')) }}
                                 {% endif %}
                             </div>
+                                <div class="input-wrapper col-xs-12 c-fieldset c-file-upload has-text-centered">
+                                    <input name="fields[subscribedToEmails]" checked type="checkbox">
+                                    <label class="has-text-left" for="fields[subscribedToEmails]">Subscribe to Newsletter</label>
+                                    {% if account is defined %}
+                                        {{errList.errorList(account.getErrors('fields[subscribedToEmails]')) }}
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="input-wrapper col-xs-12 c-fieldset has-text-centered">
                                 <input class="c-button c-button--large c-button--cta-black" type="submit"
