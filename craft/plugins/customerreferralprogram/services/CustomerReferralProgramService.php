@@ -29,8 +29,9 @@ class CustomerReferralProgramService extends BaseApplicationComponent
      *
      *     craft()->customerReferralProgram->exampleService()
      */
-    public function exampleService()
+    public function generateUserReferralHash()
     {
     }
+
 
 }

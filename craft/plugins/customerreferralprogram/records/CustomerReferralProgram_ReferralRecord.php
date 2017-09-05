@@ -53,7 +53,14 @@ class CustomerReferralProgram_ReferralRecord extends BaseRecord
    protected function defineAttributes()
     {
         return array(
-            'someField'     => array(AttributeType::String, 'default' => ''),
+            'referralEmail'             => array(AttributeType::String, 'default' => ''),
+            'emailSendFail'             => array(AttributeType::Bool, 'default' => false),
+            'hasSignedUp'               => array(AttributeType::Bool, 'default' => false),
+            'hasPurchased'              => array(AttributeType::Bool, 'default' => false),
+            'referrerIpAddress'         => array(AttributeType::String, 'default' => null),
+            'referrerUserAgent'         => array(AttributeType::String, 'default' => null),
+            'referreeIpAddress'         => array(AttributeType::String, 'default' => null),
+            'referreeUserAgent'         => array(AttributeType::String, 'default' => null),
         );
     }
 
@@ -66,6 +73,27 @@ class CustomerReferralProgram_ReferralRecord extends BaseRecord
     public function defineRelations()
     {
         return array(
+            'element'  => [static::BELONGS_TO, 'ElementRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE],
+            'user'     => [static::BELONGS_TO, 'UserRecord', 'required' => true],
         );
+    }
+
+    /**
+     * @inheritDoc BaseRecord::validate()
+     *
+     * @param null $attributes
+     * @param bool $clearErrors
+     *
+     * @return bool|null
+     */
+    public function validate($attributes = null, $clearErrors = true)
+    {
+        //email is email
+        if (!filter_var($this->referralEmail, FILTER_VALIDATE_EMAIL))
+        {
+            $this->addError('referralEmail', Craft::t('Please Enter a Valid Email Address.'));
+        }
+
+        return parent::validate($attributes, false);
     }
 }

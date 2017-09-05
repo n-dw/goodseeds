@@ -53,7 +53,7 @@ class CustomerReferralProgram_UserReferralDataRecord extends BaseRecord
    protected function defineAttributes()
     {
         return array(
-            'referrerHash'     => array(AttributeType::String, 'default' => ''),
+            'referrerHash'     => array(AttributeType::String, 'default' => '', 'required' => true),
         );
     }
 
@@ -66,7 +66,18 @@ class CustomerReferralProgram_UserReferralDataRecord extends BaseRecord
     public function defineRelations()
     {
         return array(
-
+            'user'  => [static::BELONGS_TO, 'UserRecord', 'required' => true, 'onDelete' => static::CASCADE],
+        );
+    }
+    /**
+     * @inheritDoc BaseRecord::defineIndexes()
+     *
+     * @return array
+     */
+    public function defineIndexes()
+    {
+        return array(
+            array('columns' => array('userId'), 'unique' => true),
         );
     }
 }
