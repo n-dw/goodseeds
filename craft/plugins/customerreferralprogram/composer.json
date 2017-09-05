@@ -1,0 +1,14 @@
+{
+	"name": "n-dw/customerreferralprogram",
+	"description": "Double Sided Customer Referral Program which integrates with the Customer Points Plugin",
+	"type": "craft-plugin",
+	"authors": [
+		{
+			"name": "NdW",
+			"homepage": "natedewaard.com"
+		}
+	],
+	"require": {
+		"composer/installers": "~1.0"
+	}
+}
