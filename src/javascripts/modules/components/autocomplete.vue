@@ -1,6 +1,7 @@
 <template>
     <div :class="(className ? className + '-wrapper ' : '') + 'autocomplete-wrapper'">
         <input  type="text"
+                aria-label="Site Search"
                 :id="id"
                 :class="(className ? className + '-input ' : '') + 'autocomplete-input'"
                 :placeholder="placeholder"
@@ -11,7 +12,7 @@
                 @keydown="keydown"
                 @focus="focus"
                 />
-        <button class="button--search" @click="clear" type="button" value="Search">
+        <button class="button--search" aria-label="Search Submit" @click="clear" type="button" value="Search">
             <i :class="icon"></i>
         </button>
 

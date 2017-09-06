@@ -1,5 +1,12 @@
 {% block btags %}{{ 'u-bg-light-grey secure-checkout-page' }}{% endblock %}
 
+{% block _inline_css %}
+    <style>
+        {{ _self.getTemplateName() }}
+        {{ source (_self.getTemplateName() ~ '_critical.min.css', ignore_missing = true) }}
+    </style>
+{% endblock %}
+
 {% set showNav = false %}
 {% extends 'shop/_layouts/main' %}
 

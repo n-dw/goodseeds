@@ -1,5 +1,13 @@
 {% extends 'shop/_layouts/main' %}
 {% import "shop/macros/product.html" as prodmac %}
+
+{% block _inline_css %}
+    <style>
+        {{ _self.getTemplateName() }}
+        {{ source (_self.getTemplateName() ~ '_critical.min.css', ignore_missing = true) }}
+    </style>
+{% endblock %}
+
 {% block promotions %}
     <div class="promotion-area u-bg-pastel-green has-text-centered">
         <div class="wrapper container-fluid">

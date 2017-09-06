@@ -2,6 +2,15 @@
   "src": "./src",
   "temp": "../temp",
   "dest": "./public/assets",
+  "templates": "./craft/templates/",
+
+  "dist": {
+    "base": "./public/",
+    "css": "./public/css/",
+    "js": "./public/js/",
+    "fonts": "./public/fonts/",
+    "img": "./public/img/"
+  },
 
   "javascripts": {
     "src": "javascripts",
@@ -26,5 +35,32 @@
   "icons": {
     "src": "icons",
     "dest": "images"
-  }
+  },
+
+  "urls": {
+    "live": "https://cbd.thcpost.ca/",
+    "local": "//localhost:3000/",
+    "critical": "https://cbd.thcpost.ca/"
+  },
+
+  "vars": {
+    "siteCssName": "style.css",
+    "scssName": "style.scss",
+    "cssName": "style.css"
+  },
+
+  "critical": [
+    { "url": "", "template": "shop/index" },
+    { "url": "shop", "template": "shop/products/index" },
+    { "url": "shop/flower", "template": "shop/products/_flower" },
+    { "url": "shop/cart", "template": "shop/cart" },
+    { "url": "shop/checkout", "template": "shop/checkout/index" },
+    { "url": "frequently-asked-questions", "template": "shop/faq/faq" },
+    { "url": "privacy-policy", "template": "shop/privacy/privacyPolicy" },
+    { "url": "terms", "template": "shop/terms/termConditions" },
+    { "url": "contact", "template": "shop/contact/contact" },
+    { "url": "contact", "template": "shop/user/register" },
+    { "url": "login", "template": "shop/user/login" },
+    { "url": "404", "template": "404" }
+  ]
 }

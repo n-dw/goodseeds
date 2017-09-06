@@ -53,7 +53,7 @@ class CustomerReferralProgram_UserReferralDataRecord extends BaseRecord
    protected function defineAttributes()
     {
         return array(
-            'referrerHash'     => array(AttributeType::String, 'default' => '', 'required' => true),
+            'referrerHash' => array(AttributeType::String, 'default' => '', 'required' => true),
         );
     }
 

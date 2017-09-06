@@ -1,6 +1,13 @@
 {% import "shop/macros/errors.html" as errList %}
 {% extends 'shop/_layouts/main' %}
 
+{% block _inline_css %}
+    <style>
+        {{ _self.getTemplateName() }}
+        {{ source (_self.getTemplateName() ~ '_critical.min.css', ignore_missing = true) }}
+    </style>
+{% endblock %}
+
 {% block main %}
 <section class="sign-in">
     <div class="wrapper container-fluid">

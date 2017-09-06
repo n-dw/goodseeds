@@ -48,15 +48,30 @@
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% if craft.config.devMode %}
-        <script type="text/javascript" src="https://unpkg.com/vue"></script>
-
+        <script async type="text/javascript" src="https://unpkg.com/vue"></script>
         {#<script async type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>#}
         <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
         {% else %}
         <script async type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>
         <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
     {% endif %}
+
+    {# -- CRITICAL CSS -- #}
+    {% set cacheVal = getCookie('critical-css') %}
+    {% set staticAssetsVersion = 'assets/css/app.css' | gulp_rev  %}
+    {% if not cacheVal or cacheVal != staticAssetsVersion or craft.config.devMode %}
+        {{ setCookie('critical-css', staticAssetsVersion, now | date_modify("+7 days").timestamp ) }}
+        {% block _inline_css %}
+        {% endblock %}
+        <link rel="preload" href="{{ 'assets/css/app.css' | gulp_rev }}" as="style" onload="this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"></noscript>
+        <script>
+            {{ source('_inlinejs/loadCSS.min.js', ignore_missing = true) }}
+            {{ source('_inlinejs/cssrelpreload.min.js', ignore_missing = true) }}
+        </script>
+    {% else %}
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
+    {% endif %}
     {% block head %}
     {% endblock %}
     {% minify js %}

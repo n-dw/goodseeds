@@ -61,7 +61,7 @@
     </div>
     <div class="product-buy-now">
         <div class="buy-now">
-            <form method="POST" id="addToCartForm"  @submit.prevent="submitForm">
+            <form method="POST" class="buy-now__add-to-cart-form"  @submit.prevent="submitForm">
 
                 <input v-for="input in formData.inputs" :type="input.type" :name="input.name" :value="input.value">
 
