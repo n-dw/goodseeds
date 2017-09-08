@@ -1,4 +1,7 @@
 const critical = require('critical');
+const fancyLog = require('fancy-log');
+const chalk = require('chalk');
+
 
 module.exports = {
     images: true,
@@ -15,20 +18,23 @@ module.exports = {
                PATH_CONFIG.critical.forEach(function(element) {
                    const criticalSrc = PATH_CONFIG.urls.critical + element.url;
                    const criticalDest = PATH_CONFIG.templates + element.template + '_critical.min.css';
+                   fancyLog("-> Generating critical CSS: " + chalk.cyan(criticalSrc) + " -> " + chalk.magenta(criticalDest));
 
                    critical.generate({
                         src: criticalSrc,
                         dest: criticalDest,
                         inline: false,
                         ignore: [],
-                        base: PATH_CONFIG.dist.base,
-                        css: [
-                            PATH_CONFIG.dist.css +  PATH_CONFIG.vars.siteCssName,
-                        ],
+                        base: '../public',
+
                         minify: true,
                         width: 1600,
                         height: 1200
-                    });
+                    }, (err, output) => {
+                       if (err) {
+                           fancyLog(chalk.magenta(err));
+                       }
+                   });
                 });
             });
         },

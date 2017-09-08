@@ -217,7 +217,7 @@ class CustomerReferralProgramPlugin extends BasePlugin
      */
     public function hasCpSection()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -263,7 +263,32 @@ class CustomerReferralProgramPlugin extends BasePlugin
     public function onAfterUninstall()
     {
     }
+    /**
+     * @param array|BaseModel $values
+     */
+    public function setSettings($values)
+    {
+        if (!$values)
+        {
+            $values = array();
+        }
 
+        if (is_array($values))
+        {
+            // Merge in any values that are stored in craft/config/customerpoints.php
+            foreach ($this->getSettings() as $key => $value)
+            {
+                $configValue = craft()->config->get($key, 'customerpoints');
+
+                if ($configValue !== null)
+                {
+                    $values[$key] = $configValue;
+                }
+            }
+        }
+
+        parent::setSettings($values);
+    }
     /**
      * Defines the attributes that model your plugin’s available settings.
      *
@@ -272,9 +297,24 @@ class CustomerReferralProgramPlugin extends BasePlugin
     protected function defineSettings()
     {
         return array(
-            'someSetting' => array(AttributeType::String, 'label' => 'Some Setting', 'default' => ''),
+            //REFERRALS
+            'earnPointsReferrals'         => [AttributeType::Bool, 'default' => false],
+            'referreeMustSignUp'          => [AttributeType::Bool, 'default' => true],
+            'referreeMustPurchase'        => [AttributeType::Bool, 'default' => true],
+            'pointsPerReferral'           => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //set this relative to points for account sign up 0 to leave same or 2 +2 from acount sign up
+            'pointsPerReferree'           => [AttributeType::Number, 'default' => 0, 'required' => true],
         );
     }
+
+    public function registerCpRoutes()
+    {
+        return array(
+            'customerreferralprogram/edit/(?P<referralId>\d+)' => array('action' => 'customerReferralProgram/editReferral'),
+            'customerreferralprogram/settings' => array('action' => 'customerReferralProgram/settings'),
+        );
+    }
+
 
     /**
      * Returns the HTML that displays your plugin’s settings.

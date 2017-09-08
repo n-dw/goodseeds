@@ -257,6 +257,8 @@ class CustomerPointsPlugin extends BasePlugin
             'referreeMustSignUp'          => [AttributeType::Bool, 'default' => true],
             'referreeMustPurchase'        => [AttributeType::Bool, 'default' => true],
             'pointsPerReferral'           => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //set this relative to points for account sign up 0 to leave same or 2 +2 from acount sign up
+            'pointsPerReferree'           => [AttributeType::Number, 'default' => 0, 'required' => true],
         ];
     }
 
@@ -265,6 +267,8 @@ class CustomerPointsPlugin extends BasePlugin
         return [
             'customerPoints/edit/(?P<customerPointsEventId>\d+)' => ['action' => 'customerPoints/editPointsEvent'],
             'customerpoints/settings' => ['action' => 'customerPoints/settings'],
+            'customerreferralprogram/edit/(?P<referralId>\d+)' => array('action' => 'customerReferralProgram/editReferral'),
+            'customerreferralprogram/settings' => array('action' => 'customerReferralProgram/settings'),
         ];
     }
 
