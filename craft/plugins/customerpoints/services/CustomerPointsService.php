@@ -20,7 +20,7 @@
 
 namespace Craft;
 
-class CustomerPointsService extends BaseApplicationComponent
+class  CustomerPointsService extends BaseApplicationComponent
 {
     public function getPlugin()
     {

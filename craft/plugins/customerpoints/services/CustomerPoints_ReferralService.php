@@ -20,7 +20,7 @@
 
 namespace Craft;
 
-class CustomerReferralProgramService extends BaseApplicationComponent
+class CustomerPoints_ReferralService extends BaseApplicationComponent
 {
     /**
      * This function can literally be anything you want, and you can have as many service functions as you want

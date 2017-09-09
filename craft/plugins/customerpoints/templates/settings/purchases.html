@@ -8,131 +8,131 @@
 
 {% import "_includes/forms" as forms %}
 
-{{ forms.lightswitchField({
-    label:        "Earn Points For Ordering"|t,
-    id:           'earnPointsPurchases',
-    name:         'earnPointsPurchases',
-    on:           settings.earnPointsPurchases,
-    disabled:     (craft.config.get('earnPointsPurchases', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('earnPointsPurchases', 'customerpoints') is not sameas(null)) ? configWarning('earnPointsPurchases'),
-    errors:       settings.getErrors('earnPointsPurchases')
-}) }}
+    {{ forms.lightswitchField({
+        label:        "Earn Points For Ordering"|t,
+        id:           'earnPointsPurchases',
+        name:         'earnPointsPurchases',
+        on:           settings.earnPointsPurchases,
+        disabled:     (craft.config.get('earnPointsPurchases', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('earnPointsPurchases', 'customerpoints') is not sameas(null)) ? configWarning('earnPointsPurchases'),
+        errors:       settings.getErrors('earnPointsPurchases')
+    }) }}
 
-{{ forms.textField({
-    label: 'Points Earned Per Dollar Spent',
-    instructions: 'For every dollar spend how many points does a customer earn',
-    id: 'pointsPerDollarEarned',
-    name: 'pointsPerDollarEarned',
-    value: settings.pointsPerDollarEarned,
-    disabled:     (craft.config.get('pointsPerDollarEarned', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsPerDollarEarned', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollarEarned'),
-    errors:       settings.getErrors('pointsPerDollarEarned')
-}) }}
+    {{ forms.textField({
+        label: 'Points Earned Per Dollar Spent',
+        instructions: 'For every dollar spend how many points does a customer earn',
+        id: 'pointsPerDollarEarned',
+        name: 'pointsPerDollarEarned',
+        value: settings.pointsPerDollarEarned,
+        disabled:     (craft.config.get('pointsPerDollarEarned', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('pointsPerDollarEarned', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollarEarned'),
+        errors:       settings.getErrors('pointsPerDollarEarned')
+    }) }}
 
-{{ forms.textField({
-    label: 'Points needed to redeem a dollar',
-    instructions: 'How many points needed to take off a dollar',
-    id: 'pointsPerDollarSpent',
-    name: 'pointsPerDollarSpent',
-    value: settings.pointsPerDollarSpent,
-    disabled:     (craft.config.get('pointsPerDollarSpent', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsPerDollarSpent', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollarSpent'),
-    errors:       settings.getErrors('pointsPerDollarSpent')
-}) }}
+    {{ forms.textField({
+        label: 'Points needed to redeem a dollar',
+        instructions: 'How many points needed to take off a dollar',
+        id: 'pointsPerDollarSpent',
+        name: 'pointsPerDollarSpent',
+        value: settings.pointsPerDollarSpent,
+        disabled:     (craft.config.get('pointsPerDollarSpent', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('pointsPerDollarSpent', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerDollarSpent'),
+        errors:       settings.getErrors('pointsPerDollarSpent')
+    }) }}
 
-{{ forms.textField({
-    label: 'Max Redeemable Point Amount',
-    instructions: 'max points that a customer can redeem at one time',
-    id: 'maxPointsRedeemable',
-    name: 'maxPointsRedeemable',
-    value: settings.maxPointsRedeemable,
-    disabled:     (craft.config.get('maxPointsRedeemable', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('maxPointsRedeemable', 'customerpoints') is not sameas(null)) ? configWarning('maxPointsRedeemable'),
-    errors:       settings.getErrors('maxPointsRedeemable')
-}) }}
+    {{ forms.textField({
+        label: 'Max Redeemable Point Amount',
+        instructions: 'max points that a customer can redeem at one time',
+        id: 'maxPointsRedeemable',
+        name: 'maxPointsRedeemable',
+        value: settings.maxPointsRedeemable,
+        disabled:     (craft.config.get('maxPointsRedeemable', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('maxPointsRedeemable', 'customerpoints') is not sameas(null)) ? configWarning('maxPointsRedeemable'),
+        errors:       settings.getErrors('maxPointsRedeemable')
+    }) }}
 
-{#{{ forms.textField({
-    label: 'Max Redeemable Amount',
-    instructions: 'Total Dollar amount that a customer can redeem at one time',
-    id: 'maxAmountRedeemable',
-    name: 'maxAmountRedeemable',
-    value: settings.maxAmountRedeemable,
-    disabled:     (craft.config.get('maxAmountRedeemable', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('maxAmountRedeemable', 'customerpoints') is not sameas(null)) ? configWarning('maxAmountRedeemable'),
-    errors:       settings.getErrors('maxAmountRedeemable')
-}) }}#}
+    {#{{ forms.textField({
+        label: 'Max Redeemable Amount',
+        instructions: 'Total Dollar amount that a customer can redeem at one time',
+        id: 'maxAmountRedeemable',
+        name: 'maxAmountRedeemable',
+        value: settings.maxAmountRedeemable,
+        disabled:     (craft.config.get('maxAmountRedeemable', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('maxAmountRedeemable', 'customerpoints') is not sameas(null)) ? configWarning('maxAmountRedeemable'),
+        errors:       settings.getErrors('maxAmountRedeemable')
+    }) }}#}
 
-{{ forms.lightswitchField({
-    label:        "Can the User Redeem Points on the first order"|t,
-    id:           'canRedeemFirstPurchase',
-    name:         'canRedeemFirstPurchase',
-    on:           settings.canRedeemFirstPurchase,
-    disabled:     (craft.config.get('canRedeemFirstPurchase', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('canRedeemFirstPurchase', 'customerpoints') is not sameas(null)) ? configWarning('canRedeemFirstPurchase'),
-    errors:       settings.getErrors('canRedeemFirstPurchase')
-}) }}
+    {{ forms.lightswitchField({
+        label:        "Can the User Redeem Points on the first order"|t,
+        id:           'canRedeemFirstPurchase',
+        name:         'canRedeemFirstPurchase',
+        on:           settings.canRedeemFirstPurchase,
+        disabled:     (craft.config.get('canRedeemFirstPurchase', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('canRedeemFirstPurchase', 'customerpoints') is not sameas(null)) ? configWarning('canRedeemFirstPurchase'),
+        errors:       settings.getErrors('canRedeemFirstPurchase')
+    }) }}
 
-{{ forms.lightswitchField({
-    label:        "Allow With Discounts"|t,
-    instructions: "Can customers redeem points with discounts and sales"|t,
-    id:           'allowWithDiscounts',
-    name:         'allowWithDiscounts',
-    on:           settings.allowWithDiscounts,
-    disabled:     (craft.config.get('allowWithDiscounts', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('allowWithDiscounts', 'customerpoints') is not sameas(null)) ? configWarning('allowWithDiscounts'),
-    errors:       settings.getErrors('allowWithDiscounts')
-}) }}
+    {{ forms.lightswitchField({
+        label:        "Allow With Discounts"|t,
+        instructions: "Can customers redeem points with discounts and sales"|t,
+        id:           'allowWithDiscounts',
+        name:         'allowWithDiscounts',
+        on:           settings.allowWithDiscounts,
+        disabled:     (craft.config.get('allowWithDiscounts', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('allowWithDiscounts', 'customerpoints') is not sameas(null)) ? configWarning('allowWithDiscounts'),
+        errors:       settings.getErrors('allowWithDiscounts')
+    }) }}
 
-{{ forms.lightswitchField({
-    label:        "Earn Points When Redeeming"|t,
-    instructions: "Can customers earn points when points are redeemed"|t,
-    id:           'earnWithRedemption',
-    name:         'earnWithRedemption',
-    on:           settings.earnWithRedemption,
-    disabled:     (craft.config.get('earnWithRedemption', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('earnWithRedemption', 'customerpoints') is not sameas(null)) ? configWarning('earnWithRedemption'),
-    errors:       settings.getErrors('earnWithRedemption')
-}) }}
+    {{ forms.lightswitchField({
+        label:        "Earn Points When Redeeming"|t,
+        instructions: "Can customers earn points when points are redeemed"|t,
+        id:           'earnWithRedemption',
+        name:         'earnWithRedemption',
+        on:           settings.earnWithRedemption,
+        disabled:     (craft.config.get('earnWithRedemption', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('earnWithRedemption', 'customerpoints') is not sameas(null)) ? configWarning('earnWithRedemption'),
+        errors:       settings.getErrors('earnWithRedemption')
+    }) }}
 
-{{  forms.lightswitchField({
-    label:        "Earn points per Order"|t,
-    instructions: "Instead of per product and subtotal, make sure others are off"|t,
-    id:           'pointsForOrder',
-    name:         'pointsForOrder',
-    on:           settings.pointsForOrder,
-    disabled:     (craft.config.get('pointsForOrder', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsForOrder', 'customerpoints') is not sameas(null)) ? configWarning('pointsForOrder'),
-    errors:       settings.getErrors('pointsForOrder')
-}) }}
+    {{  forms.lightswitchField({
+        label:        "Earn points per Order"|t,
+        instructions: "Instead of per product and subtotal, make sure others are off"|t,
+        id:           'pointsForOrder',
+        name:         'pointsForOrder',
+        on:           settings.pointsForOrder,
+        disabled:     (craft.config.get('pointsForOrder', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('pointsForOrder', 'customerpoints') is not sameas(null)) ? configWarning('pointsForOrder'),
+        errors:       settings.getErrors('pointsForOrder')
+    }) }}
 
-{{ forms.textField({
-    label: 'Points Earned Per Order',
-    id: 'pointsPerOrder',
-    name: 'pointsPerOrder',
-    value: settings.pointsPerOrder,
-    disabled:     (craft.config.get('pointsPerOrder', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsPerOrder', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerOrder'),
-    errors:       settings.getErrors('pointsPerOrder')
-}) }}
+    {{ forms.textField({
+        label: 'Points Earned Per Order',
+        id: 'pointsPerOrder',
+        name: 'pointsPerOrder',
+        value: settings.pointsPerOrder,
+        disabled:     (craft.config.get('pointsPerOrder', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('pointsPerOrder', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerOrder'),
+        errors:       settings.getErrors('pointsPerOrder')
+    }) }}
 
-{{  forms.lightswitchField({
-    label:        "Earn points per product Ordered"|t,
-    instructions: "Instead of per order and subtotal, make sure others are off"|t,
-    id:           'pointsForProduct',
-    name:         'pointsForProduct',
-    on:           settings.pointsForProduct,
-    disabled:     (craft.config.get('pointsForProduct', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsForProduct', 'customerpoints') is not sameas(null)) ? configWarning('pointsForProduct'),
-    errors:       settings.getErrors('pointsForProduct')
-}) }}
+    {{  forms.lightswitchField({
+        label:        "Earn points per product Ordered"|t,
+        instructions: "Instead of per order and subtotal, make sure others are off"|t,
+        id:           'pointsForProduct',
+        name:         'pointsForProduct',
+        on:           settings.pointsForProduct,
+        disabled:     (craft.config.get('pointsForProduct', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('pointsForProduct', 'customerpoints') is not sameas(null)) ? configWarning('pointsForProduct'),
+        errors:       settings.getErrors('pointsForProduct')
+    }) }}
 
-{{ forms.textField({
-    label: 'Points Earned Per Product Ordered',
-    instructions: "Points Earned Per Product Ordered."|t,
-    id: 'pointsPerProduct',
-    name: 'pointsPerProduct',
-    value: settings.pointsPerProduct,
-    disabled:     (craft.config.get('pointsPerProduct', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsPerProduct', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerProduct'),
-    errors:       settings.getErrors('pointsPerProduct')
-}) }}
+    {{ forms.textField({
+        label: 'Points Earned Per Product Ordered',
+        instructions: "Points Earned Per Product Ordered."|t,
+        id: 'pointsPerProduct',
+        name: 'pointsPerProduct',
+        value: settings.pointsPerProduct,
+        disabled:     (craft.config.get('pointsPerProduct', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('pointsPerProduct', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerProduct'),
+        errors:       settings.getErrors('pointsPerProduct')
+    }) }}

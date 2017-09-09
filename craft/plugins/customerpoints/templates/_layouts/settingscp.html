@@ -1,0 +1,9 @@
+{% extends "customerpoints/_layouts/cp" %}
+{% requireAdmin %}
+{% set selectedSubnavItem = 'settings' %}
+{% set bodyClass = (bodyClass is defined ? bodyClass~' ' : '') ~ "customerpointssettings" %}
+
+{% block content %}
+    {% block settingsForm %}
+    {% endblock %}
+{% endblock %}

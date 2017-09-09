@@ -43,7 +43,15 @@ class CustomerPointsPlugin extends BasePlugin
     {
         parent::init();
 
-       //since on order complete we have a customer add points to there account after payment recieved
+        $this->initEventHandlers();
+
+        // If this is a CP request, register the customerpoints.prepCpTemplate hook
+        if (craft()->request->isCpRequest()) {
+            $this->includeCpResources();
+            craft()->templates->hook('customerpoints.prepCpTemplate', array($this, 'prepCpTemplate'));
+        }
+
+      /* //since on order complete we have a customer add points to there account after payment recieved
         //since we use e transfer watch out for fuckers finishing orders and not paing and using the points - could look for status change on order to paid as well..
         // use for from payment pending commerce_orderHistories.onStatusChange
         craft()->on('commerce_orders.onOrderComplete', function($event){
@@ -52,7 +60,30 @@ class CustomerPointsPlugin extends BasePlugin
             $settings = craft()->plugins->getPlugin('customerpoints')->getSettings();
             //if there are discounts we dont want to give out extra points
             $itemTotal = $order->itemTotal;
-        });
+        });*/
+    }
+
+    /**
+     * Set up all event handlers.
+     */
+    private function initEventHandlers()
+    {
+       /* //init global event handlers
+        craft()->on('i18n.onAddLocale', array(craft()->commerce_productTypes, 'addLocaleHandler'));*/
+//        craft()->on('commerce_orders.onOrderComplete', array(craft()->commerce_customers, 'saveUserHandler'));
+//        craft()->on('users.onActivateUser', array(craft()->commerce_customers, 'loginHandler'));
+//        craft()->on('commerce_orderHistories.onStatusChange', array(craft()->commerce_customers, 'logoutHandler'));
+//        craft()->on('email.onSendEmailError', array(craft()->commerce_customers, 'logoutHandler'));
+
+    }
+    /**
+     * Includes front end resources for Control Panel requests.
+     */
+    private function includeCpResources()
+    {
+        $templatesService = craft()->templates;
+        $templatesService->includeCssResource('customerpoints/CustomerPoints_Style.css');
+        $templatesService->includeJsResource('customerpoints/js/CustomerPoints_Script.js');
     }
 
     /**
@@ -73,7 +104,7 @@ class CustomerPointsPlugin extends BasePlugin
      */
     public function getDescription()
     {
-        return Craft::t('Rewards points for customer');
+        return Craft::t('Customer Points System for Craft Commerce');
     }
 
     /**
@@ -264,17 +295,12 @@ class CustomerPointsPlugin extends BasePlugin
 
     public function registerCpRoutes()
     {
-        return [
-            'customerPoints/edit/(?P<customerPointsEventId>\d+)' => ['action' => 'customerPoints/editPointsEvent'],
-            'customerpoints/settings' => ['action' => 'customerPoints/settings'],
-            'customerreferralprogram/edit/(?P<referralId>\d+)' => array('action' => 'customerReferralProgram/editReferral'),
-            'customerreferralprogram/settings' => array('action' => 'customerReferralProgram/settings'),
-        ];
+        return require(__DIR__ . '/etc/routes.php');
     }
 
     public function getSettingsUrl()
     {
-        return 'customerpoints/settings';
+        return 'customerpoints/settings/general';
     }
 
     /**
@@ -303,5 +329,36 @@ class CustomerPointsPlugin extends BasePlugin
 
         return $settings;
     }
+
+    /**
+     * @return array
+     */
+    public function registerUserPermissions()
+    {
+        return array(
+            'customerpoints-managePoints' => array('label' => Craft::t('Manage points')),
+            'customerpoints-managePointsSettings' => array('label' => Craft::t('Manage points settings'))
+        );
+    }
+
+    /**
+     * Prepares a CP template.
+     *
+     * @param &$context The current template context
+     */
+    public function prepCpTemplate(&$context)
+    {
+        $context['subnav'] = array();
+
+        if (craft()->userSession->checkPermission('customerpoints-managePoints')) {
+            $context['subnav']['points'] = array('label' => Craft::t('Points'), 'url' => 'customerpoints/points');
+        }
+
+        if (craft()->userSession->checkPermission('customerpoints-managePointsSettings')) {
+            $context['subnav']['settings'] = array('label' => Craft::t('Settings'), 'url' => 'customerpoints/settings');
+        }
+
+    }
+
 
 }
