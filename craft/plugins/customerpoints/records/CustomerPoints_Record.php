@@ -31,7 +31,7 @@
 
 namespace Craft;
 
-class CustomerPointsRecord extends BaseRecord
+class CustomerPoints_Record extends BaseRecord
 {
     /**
      * Returns the name of the database table the model is associated with (sans table prefix). By convention,
@@ -69,7 +69,7 @@ class CustomerPointsRecord extends BaseRecord
     public function defineRelations()
     {
         return array(
-            'customer' => array(static::BELONGS_TO, 'Commerce_CustomerRecord'),
+            'customer' => array(static::BELONGS_TO, 'Commerce_CustomerRecord', 'required' => false, 'default' => null)
         );
     }
 }

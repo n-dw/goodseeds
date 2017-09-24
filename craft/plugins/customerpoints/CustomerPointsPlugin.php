@@ -353,6 +353,12 @@ class CustomerPointsPlugin extends BasePlugin
         if (craft()->userSession->checkPermission('customerpoints-managePoints')) {
             $context['subnav']['points'] = array('label' => Craft::t('Points'), 'url' => 'customerpoints/points');
         }
+        if (craft()->userSession->checkPermission('customerpoints-managePoints')) {
+            $context['subnav']['referrals'] = array('label' => Craft::t('Referrals'), 'url' => 'customerpoints/referrals');
+        }
+        if (craft()->userSession->checkPermission('customerpoints-managePoints')) {
+            $context['subnav']['reviews'] = array('label' => Craft::t('Reviews'), 'url' => 'customerpoints/reviews');
+        }
 
         if (craft()->userSession->checkPermission('customerpoints-managePointsSettings')) {
             $context['subnav']['settings'] = array('label' => Craft::t('Settings'), 'url' => 'customerpoints/settings');

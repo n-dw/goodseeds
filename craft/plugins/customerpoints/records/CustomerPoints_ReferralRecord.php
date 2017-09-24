@@ -2,7 +2,7 @@
 /**
  * Customer Referral Program plugin for Craft CMS
  *
- * CustomerReferralProgram_UserReferralData Record
+ * CustomerReferralProgram_Referral Record
  *
  * --snip--
  * Active record models (or “records”) are like models, except with a database-facing layer built on top. On top of
@@ -31,7 +31,7 @@
 
 namespace Craft;
 
-class CustomerReferralProgram_UserReferralDataRecord extends BaseRecord
+class CustomerPoints_ReferralRecord extends BaseRecord
 {
     /**
      * Returns the name of the database table the model is associated with (sans table prefix). By convention,
@@ -41,7 +41,7 @@ class CustomerReferralProgram_UserReferralDataRecord extends BaseRecord
      */
     public function getTableName()
     {
-        return 'customerreferralprogram_UserReferralData';
+        return 'customerpoints_Referral';
     }
 
     /**
@@ -53,7 +53,14 @@ class CustomerReferralProgram_UserReferralDataRecord extends BaseRecord
    protected function defineAttributes()
     {
         return array(
-            'referrerHash' => array(AttributeType::String, 'default' => '', 'required' => true),
+            'referralEmail'             => array(AttributeType::String, 'default' => ''),
+            'emailSendFail'             => array(AttributeType::Bool, 'default' => false),
+            'hasSignedUp'               => array(AttributeType::Bool, 'default' => false),
+            'hasPurchased'              => array(AttributeType::Bool, 'default' => false),
+            'referrerIpAddress'         => array(AttributeType::String, 'default' => null),
+            'referrerUserAgent'         => array(AttributeType::String, 'default' => null),
+            'referreeIpAddress'         => array(AttributeType::String, 'default' => null),
+            'referreeUserAgent'         => array(AttributeType::String, 'default' => null),
         );
     }
 
@@ -66,18 +73,27 @@ class CustomerReferralProgram_UserReferralDataRecord extends BaseRecord
     public function defineRelations()
     {
         return array(
-            'user'  => [static::BELONGS_TO, 'UserRecord', 'required' => true, 'onDelete' => static::CASCADE],
+            'element'  => [static::BELONGS_TO, 'ElementRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE],
+            'user'     => [static::BELONGS_TO, 'UserRecord', 'required' => true],
         );
     }
+
     /**
-     * @inheritDoc BaseRecord::defineIndexes()
+     * @inheritDoc BaseRecord::validate()
      *
-     * @return array
+     * @param null $attributes
+     * @param bool $clearErrors
+     *
+     * @return bool|null
      */
-    public function defineIndexes()
+    public function validate($attributes = null, $clearErrors = true)
     {
-        return array(
-            array('columns' => array('userId'), 'unique' => true),
-        );
+        //email is email
+        if (!filter_var($this->referralEmail, FILTER_VALIDATE_EMAIL))
+        {
+            $this->addError('referralEmail', Craft::t('Please Enter a Valid Email Address.'));
+        }
+
+        return parent::validate($attributes, false);
     }
 }

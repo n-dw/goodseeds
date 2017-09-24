@@ -22,7 +22,7 @@
 
 namespace Craft;
 
-class CustomerReferralProgram_ReferralModel extends BaseElementModel
+class CustomerPoints_ReferralModel extends BaseElementModel
 {
     /**
      * Defines this model's attributes.

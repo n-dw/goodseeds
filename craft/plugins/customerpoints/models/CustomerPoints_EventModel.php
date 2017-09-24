@@ -20,7 +20,7 @@
 
 namespace Craft;
 
-class CustomerPointsEventModel extends BaseModel
+class CustomerPoints_EventModel extends BaseModel
 {
     /**
      * Defines this model's attributes.
