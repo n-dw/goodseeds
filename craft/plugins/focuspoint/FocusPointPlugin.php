@@ -12,7 +12,7 @@ class FocusPointPlugin extends BasePlugin
 
 	public function getVersion()
 	{
-		return '1.1.3';
+		return '1.1.6';
 	}
 
 	public function getSchemaVersion()
@@ -47,12 +47,19 @@ class FocusPointPlugin extends BasePlugin
 
 	public function init()
 	{
-		craft()->on('elements.onBeforeDeleteElements', function (Event $event) {
-			$elementIds = $event->params['elementIds'];
-			foreach ($elementIds as $elementId) {
-				craft()->focusPoint_focusPoint->deleteFocusPointRecordsBySourceId($elementId);
-			}
-		});
+        craft()->on('elements.onBeforeDeleteElements', function (Event $event) {
+            $elementIds = $event->params['elementIds'];
+            foreach ($elementIds as $elementId) {
+                $element = craft()->elements->getElementById($elementId);
+                if ($element) {
+                    if ($element->elementType === "Asset") {
+                        craft()->focusPoint_focusPoint->deleteFocusPointRecordsByAssetId($elementId);
+                    } else {
+                        craft()->focusPoint_focusPoint->deleteFocusPointRecordsBySourceId($elementId);
+                    }
+                }
+            }
+        });
 
 		craft()->on('assets.onBeforeDeleteAsset', function (Event $event) {
 			$asset = $event->params["asset"];
