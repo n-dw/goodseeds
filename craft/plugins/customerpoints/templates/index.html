@@ -1,22 +1,6 @@
-{% extends "_layouts/elementindex" %}
+{% if currentUser.can('customerpoints-managePoints') %}
+    {% redirect 'customerpoints/points' %}
+{% endif %}
 
-{% includeJsResource 'customerpoints/js/CustomerPoints_Script.js' %}
-{% includeCssResource 'customerpoints/css/CustomerPoints_Style.css' %}
-
-{% set title = "Customer Points" | t %}
-
-{#
-{% set elementType = "Customer_Points" %}
-#}
-
-{% set showStatusMenu = true %}
-
-{% set tabs = {
-    customerpoints: { label: "Customer Points by Event" | t, url: url('customerpoints') },
-    users: { label: "Customer Points By User" | t, url: url('customerpoints/user') },
-    settings: { label: "Settings" | t, url: url('customerpoints/settings') },
-} %}
-
-{% block sidebar %}
-    {{ parent() }}
-{% endblock %}
+{% extends "403" %}
+{% set message = "You don’t have permission to access to any of the Customer Points sub-sections. Please contact an admin."|t %}

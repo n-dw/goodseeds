@@ -1,0 +1,31 @@
+{% extends "customerpoints/_layouts/settingsCp" %}
+
+{% set title = "Customer Points Settings"|t %}
+
+{% set navItems = {
+'general': { title: "General Settings"|t },
+'purchase-heading': { heading: "Purchases"|t },
+'signup-heading': { heading: "Account Creation"|t },
+'reviews-heading': { heading: "Product Reviews"|t },
+'referrals-heading': { heading: "Referrals"|t },
+'ordersettings': { title: "Order Fields"|t },
+
+} %}
+
+{% set selectedItem = craft.request.getSegment(3) %}
+{% set docTitle = navItems[selectedItem].title~' - '~title %}
+
+
+{% block sidebar %}
+    <nav>
+        <ul>
+            {% for id, item in navItems %}
+                {% if item.heading is defined %}
+                    <li class="heading"><span>{{ item.heading }}</span></li>
+                {% else %}
+                    <li><a href="{{ url('customerpoints/settings/'~id) }}"{% if id == selectedItem %} class="sel"{% endif %}>{{ item.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+{% endblock %}

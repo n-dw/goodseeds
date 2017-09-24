@@ -1,3 +1,5 @@
+{% set title = 'Account Creation' %}
+
 {% import "_includes/forms" as forms %}
 
 {% macro configWarning(setting) -%}
@@ -19,7 +21,6 @@
     warning:      (craft.config.get('earnPointsAccountCreation', 'customerpoints') is not sameas(null)) ? configWarning('earnPointsAccountCreation'),
     errors:       settings.getErrors('earnPointsAccountCreation')
 }) }}
-
 
 {{ forms.textField({
     label: 'Points Earned For Creating an Account',

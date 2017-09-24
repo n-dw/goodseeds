@@ -8,49 +8,57 @@
 
 {% import "_includes/forms" as forms %}
 
-{{ forms.lightswitchField({
-    label:        "Earn Points For Referrals"|t,
-    instructions: "Earn Points For Referrals"|t,
-    id:           'earnPointsReferrals',
-    name:         'earnPointsReferrals',
-    on:           settings.earnPointsReferrals,
-    disabled:     (craft.config.get('earnPointsReferrals', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('earnPointsReferrals', 'customerpoints') is not sameas(null)) ? configWarning('earnPointsReferrals'),
-    errors:       settings.getErrors('earnPointsReferrals')
-}) }}
+    {{ forms.lightswitchField({
+        label:        "Earn Points For Referrals"|t,
+        instructions: "Earn Points For Referrals"|t,
+        id:           'earnPointsReferrals',
+        name:         'earnPointsReferrals',
+        on:           settings.earnPointsReferrals,
+        disabled:     (craft.config.get('earnPointsReferrals', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('earnPointsReferrals', 'customerpoints') is not sameas(null)) ? configWarning('earnPointsReferrals'),
+        errors:       settings.getErrors('earnPointsReferrals')
+    }) }}
 
+    {{ forms.textField({
+        label: 'Points Earned Per Referral',
+        instructions: 'Points Earned Per Referral',
+        id: 'pointsPerReferral',
+        name: 'pointsPerReferral',
+        value: settings.pointsPerReferral,
+        disabled:     (craft.config.get('pointsPerReferral', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('pointsPerReferral', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerReferral'),
+        errors:       settings.getErrors('pointsPerReferral')
+    }) }}
 
-{{ forms.textField({
-    label: 'Points Earned Per Referral',
-    instructions: 'Points Earned Per Referral',
-    id: 'pointsPerReferral',
-    name: 'pointsPerReferral',
-    value: settings.pointsPerReferral,
-    disabled:     (craft.config.get('pointsPerReferral', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('pointsPerReferral', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerReferral'),
-    errors:       settings.getErrors('pointsPerReferral')
-}) }}
+    {{ forms.textField({
+        label: 'Points Earned Per Referree',
+        instructions: 'Points Earned Per Referree, set this relative to points for account sign up 0 to leave same or 2 +2 from acount sign up',
+        id: 'pointsPerReferree',
+        name: 'pointsPerReferree',
+        value: settings.pointsPerReferral,
+        disabled:     (craft.config.get('pointsPerReferree', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('pointsPerReferree', 'customerpoints') is not sameas(null)) ? configWarning('pointsPerReferree'),
+        errors:       settings.getErrors('pointsPerReferree')
+    }) }}
 
-{{ forms.lightswitchField({
-    label:        "Referree Must Sign Up"|t,
-    instructions: "Points earned after Referree Creates Account"|t,
-    id:           'referreeMustSignUp',
-    name:         'referreeMustSignUp',
-    on:           settings.earnPointsReferrals,
-    disabled:     (craft.config.get('referreeMustSignUp', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('referreeMustSignUp', 'customerpoints') is not sameas(null)) ? configWarning('referreeMustSignUp'),
-    errors:       settings.getErrors('referreeMustSignUp')
-}) }}
+    {{ forms.lightswitchField({
+        label:        "Referree Must Sign Up"|t,
+        instructions: "Points earned after Referree Creates Account"|t,
+        id:           'referreeMustSignUp',
+        name:         'referreeMustSignUp',
+        on:           settings.earnPointsReferrals,
+        disabled:     (craft.config.get('referreeMustSignUp', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('referreeMustSignUp', 'customerpoints') is not sameas(null)) ? configWarning('referreeMustSignUp'),
+        errors:       settings.getErrors('referreeMustSignUp')
+    }) }}
 
-{{ forms.lightswitchField({
-    label:        "Referree Must Purchase"|t,
-    instructions: "Points earned after Referree Makes a Purchase"|t,
-    id:           'referreeMustPurchase',
-    name:         'referreeMustPurchase',
-    on:           settings.earnPointsReferrals,
-    disabled:     (craft.config.get('referreeMustPurchase', 'customerpoints') is not sameas(null)),
-    warning:      (craft.config.get('referreeMustPurchase', 'customerpoints') is not sameas(null)) ? configWarning('referreeMustPurchase'),
-    errors:       settings.getErrors('referreeMustPurchase')
-}) }}
-
-
+    {{ forms.lightswitchField({
+        label:        "Referree Must Purchase"|t,
+        instructions: "Points earned after Referree Makes a Purchase"|t,
+        id:           'referreeMustPurchase',
+        name:         'referreeMustPurchase',
+        on:           settings.earnPointsReferrals,
+        disabled:     (craft.config.get('referreeMustPurchase', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('referreeMustPurchase', 'customerpoints') is not sameas(null)) ? configWarning('referreeMustPurchase'),
+        errors:       settings.getErrors('referreeMustPurchase')
+    }) }}

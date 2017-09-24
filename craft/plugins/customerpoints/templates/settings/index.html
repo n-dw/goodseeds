@@ -1,73 +1,70 @@
-{% extends "_layouts/cp" %}
-{% import "_includes/forms" as forms %}
+{% extends "customerpoints/_layouts/settingscp" %}
 
-{% includeJsResource 'customerpoints/js/CustomerPoints_Script.js' %}
-{% includeCssResource 'customerpoints/css/CustomerPoints_Style.css' %}
+{% set title = "Customer Points Settings"|t %}
 
-{% set title = "Settings" | t %}
-
-{% set tabs = {
-    customerpoints: { label: "Customer Points by Event" | t, url: url('customerpoints') },
-    users: { label: "Customer Points By User" | t, url: url('customerpoints/user') },
-    settings: { label: "Settings" | t, url: url('customerpoints/settings') },
+{% set navItems = {
+    'general': { title: "General Settings"|t, selected: true },
+    'purchase-heading': { heading: "Purchases"|t },
+    'purchases': { title: "Purchases"|t },
+    'signup-heading': { heading: "Account Creation"|t },
+    'accountcreation': { title: "Account Creation"|t },
+    'reviews-heading': { heading: "Product Reviews"|t },
+    'reviews': { title: "Product Reviews"|t },
+    'referrals-heading': { heading: "Referrals"|t },
+    'referrals': { title: "Referrals"|t },
 } %}
-{% set selectedTab = 'settings' %}
 
-{% block content %}
+{% block sidebar %}
 
-    <div class="pane first tableview settings-tabs">
-        <nav id="settings-tabs" class="tabs">
-            <ul>
-                <li class="label">{{ 'Settings' | t }}</li>
-                <li><a id="settings-tab-general" class="tab sel" href="#settings-general" tabindex="0">{{ 'General' | t }}</a></li>
-                <li><a id="settings-tab-purchases" class="tab" href="#settings-purchases" tabindex="1">{{ 'Purchases' | t }}</a></li>
-                <li><a id="settings-tab-reviews" class="tab" href="#settings-reviews" tabindex="2">{{ 'Reviews' | t }}</a></li>
-                <li><a id="settings-tab-accountcreation" class="tab" href="#settings-accountcreation" tabindex="3">{{ 'Account Sign Up' | t }}</a></li>
-                <li><a id="settings-tab-socialpromotion" class="tab" href="#settings-socialpromotion" tabindex="4">{{ 'Social Promotions' | t }}</a></li>
-                <li><a id="settings-tab-referrals" class="tab" href="#settings-referrals" tabindex="5">{{ 'Referrals' | t }}</a></li>
-                <li><a id="settings-tab-retroactive" class="tab" href="#settings-retroactive" tabindex="6">{{ 'Retro Active' | t }}</a></li>
-            </ul>
-        </nav>
-    </div>
+    <nav class="customer-points-tabs">
+        <ul>
+            {% for id, item in navItems %}
+                {% if item.heading is defined %}
+                    <li class="heading"><span>{{ item.heading }}</span></li>
+                {% else %}
+                    <li><a id="settings-tab-{{ item.title }}" href="#settings-{{id}}" tabindex="{{ loop.index }}" class="tab {% if  item.selected is defined and item.selected %} sel{% endif %}">{{ item.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+
+{% endblock %}
+
+{% block settingsForm %}
 
     <form method="post" accept-charset="UTF-8" data-saveshortcut>
         <input type="hidden" name="action" value="plugins/savePluginSettings">
         <input type="hidden" name="pluginClass" value="customerpoints">
+
         {{ getCsrfInput() }}
 
         {% namespace 'settings' %}
-            <div id="general">
-                {% include 'customerpoints/settings/general' %}
-            </div>
+        <div id="general" class="settings-pane">
+            {% include 'customerpoints/settings/general' %}
+        </div>
 
-            <div id="purchases" class="hidden">
-                {% include 'customerpoints/settings/purchases' %}
-            </div>
+        <div id="purchases" class="settings-pane hidden">
+            {% include 'customerpoints/settings/purchases' %}
+        </div>
 
-            <div id="reviews" class="hidden">
-                {% include 'customerpoints/settings/reviews' %}
-            </div>
+        <div id="reviews" class="settings-pane hidden">
+            {% include 'customerpoints/settings/reviews' %}
+        </div>
 
-            <div id="accountcreation" class="hidden">
-                {% include 'customerpoints/settings/accountCreation' %}
-            </div>
+        <div id="accountcreation" class="settings-pane hidden">
+            {% include 'customerpoints/settings/accountCreation' %}
+        </div>
 
-            <div id="socialpromotion" class="hidden">
-                {% include 'customerpoints/settings/socialPromotion' %}
-            </div>
-
-            <div id="referrals" class="hidden">
-                {% include 'customerpoints/settings/referrals' %}
-            </div>
-
-            <div id="retroactive" class="hidden">
-                {% include 'customerpoints/settings/retroactive' %}
-            </div>
+        <div id="referrals" class="settings-pane hidden">
+            {% include 'customerpoints/settings/referrals' %}
+        </div>
 
         {% endnamespace %}
 
         <div class="buttons">
-            <input class="btn submit" type="submit" value="{{ 'Save' | t }}">
+            <input type="submit" class="btn submit" value="{{ "Save"|t }}">
         </div>
     </form>
+
 {% endblock %}
+
