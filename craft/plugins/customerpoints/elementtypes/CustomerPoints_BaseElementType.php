@@ -11,6 +11,6 @@ namespace Craft;
  * @package   craft.plugins.customerpoints.elementtypes
  * @since     1.0
  */
-abstract class Customerpoints_BaseElementType extends BaseElementType
+abstract class CustomerPoints_BaseElementType extends BaseElementType
 {
 }

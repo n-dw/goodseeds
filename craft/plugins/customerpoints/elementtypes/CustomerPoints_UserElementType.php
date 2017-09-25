@@ -22,9 +22,9 @@
 
 namespace Craft;
 
-require_once(__DIR__ . '/Customerpoints_BaseElementType.php');
+require_once(__DIR__ . '/CustomerPoints_BaseElementType.php');
 
-class Customerpoints_PointEventElementType extends Customerpoints_BaseElementType
+class CustomerPoints_UserElementType extends CustomerPoints_BaseElementType
 {
     /**
      * Returns this element type's name.
@@ -33,7 +33,7 @@ class Customerpoints_PointEventElementType extends Customerpoints_BaseElementTyp
      */
     public function getName()
     {
-        return Craft::t('Referral');
+        return Craft::t('Customer Points Info');
     }
 
     /**
@@ -63,7 +63,7 @@ class Customerpoints_PointEventElementType extends Customerpoints_BaseElementTyp
      */
     public function hasStatuses()
     {
-        return true;
+        return  false;
     }
 
     /**
@@ -84,17 +84,13 @@ class Customerpoints_PointEventElementType extends Customerpoints_BaseElementTyp
      */
     public function getSources($context = null)
     {
-    }
+        $sources = array(
+            '*' => array(
+                'label'    => Craft::t('All Customers'),
+            )
+        );
 
-    /**
-     * @inheritDoc IElementType::getAvailableActions()
-     *
-     * @param string|null $source
-     *
-     * @return array|null
-     */
-    public function getAvailableActions($source = null)
-    {
+        return $sources;
     }
 
     /**
@@ -105,6 +101,23 @@ class Customerpoints_PointEventElementType extends Customerpoints_BaseElementTyp
      */
     public function defineTableAttributes($source = null)
     {
+        return [
+            'email'               => Craft::t('Email'),
+            'points'              => Craft::t('Points'),
+            'pointsUsed'          => Craft::t('Points Used'),
+            'totalPointsAcquired' => Craft::t('Total Points Earned'),
+            'referrerHash'        => Craft::t('Referrer Code')
+        ];
+    }
+
+    public function defineSortableAttributes()
+    {
+        return [
+            'email'               => Craft::t('Email'),
+            'points'              => Craft::t('Points'),
+            'pointsUsed'          => Craft::t('Points Used'),
+            'totalPointsAcquired' => Craft::t('Total Points Earned'),
+        ];
     }
 
     /**
@@ -116,6 +129,7 @@ class Customerpoints_PointEventElementType extends Customerpoints_BaseElementTyp
      */
     public function getTableAttributeHtml(BaseElementModel $element, $attribute)
     {
+        return parent::getTableAttributeHtml($element, $attribute);
     }
 
     /**
@@ -125,6 +139,13 @@ class Customerpoints_PointEventElementType extends Customerpoints_BaseElementTyp
      */
     public function defineCriteriaAttributes()
     {
+        return [
+            'customerId'          => array(AttributeType::Number),
+            'email'               => array(AttributeType::String),
+            'points'              => array(AttributeType::Number),
+            'pointsUsed'          => array(AttributeType::Number),
+            'totalPointsAcquired' => array(AttributeType::Number),
+        ];
     }
 
     /**
@@ -136,6 +157,31 @@ class Customerpoints_PointEventElementType extends Customerpoints_BaseElementTyp
      */
     public function modifyElementsQuery(DbCommand $query, ElementCriteriaModel $criteria)
     {
+        $query
+            ->addSelect('cp_user.id, cp_user.customerId, cp_user.email, cp_user.points, cp_user.pointsUsed, cp_user.totalPointsAcquired, cp_user.pointsUsed, cp_user.referrerHash, cp_user.dateCreated, cp_user.dateUpdated')
+            ->join('customerpoints_user cp_user', 'cp_user.id = elements.id');
+
+        if ($criteria->customerId) {
+            $query->andWhere(DbHelper::parseParam('cp_user.customerId', $criteria->customerId, $query->params));
+        }
+
+        if ($criteria->email) {
+            $query->andWhere(DbHelper::parseParam('cp_user.email', $criteria->email, $query->params));
+        }
+
+        if ($criteria->points)
+        {
+            $query->andWhere(DbHelper::parseParam('cp_user.points', $criteria->points, $query->params));
+        }
+
+        if ($criteria->pointsUsed) {
+            $query->andWhere(DbHelper::parseParam('cp_user.pointsUsed', $criteria->pointsUsed, $query->params));
+        }
+
+        if ($criteria->totalPointsAcquired) {
+            $query->andWhere(DbHelper::parseParam('cp_user.totalPointsAcquired', $criteria->totalPointsAcquired, $query->params));
+        }
+
     }
 
     /**
@@ -146,15 +192,6 @@ class Customerpoints_PointEventElementType extends Customerpoints_BaseElementTyp
      */
     public function populateElementModel($row)
     {
-    }
-
-    /**
-     * Returns the HTML for an editor HUD for the given element.
-     *
-     * @param BaseElementModel $element
-     * @return string
-     */
-    public function getEditorHtml(BaseElementModel $element)
-    {
+        return CustomerPoints_UserModel::populateModel($row);
     }
 }

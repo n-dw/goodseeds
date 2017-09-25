@@ -27,7 +27,7 @@
 
 namespace Craft;
 
-class CustomerPointsController extends BaseController
+class CustomerPoints_PointsController extends BaseController
 {
 
     /**
@@ -36,11 +36,12 @@ class CustomerPointsController extends BaseController
      */
     protected $allowAnonymous = [];
 
-    public function actionSettings()
+    
+    public function actionindex()
     {
         $settings = craft()->customerPoints->getSettings();
 
-        $this->renderTemplate('customerpoints/settings', array(
+        $this->renderTemplate('customerpoints/points/_index', array(
             'settings' => $settings
         ));
     }

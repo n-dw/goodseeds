@@ -5,6 +5,10 @@ return [
     // Settings
     'customerpoints/settings' => ['action' => 'customerPoints/settings/index'],
 
+    //Customer
+    'customerpoints/customers' => ['action' => 'customerPoints/customers/index'],
+    'customerpoints/customers/edit/(?P<customerPointsUserId>\d+)' => ['action' => 'customerPoints/customers/editPointsEvent'],
+
     //Points
     'customerpoints/points' => ['action' => 'customerPoints/points/index'],
     'customerpoints/points/edit/(?P<customerPointsEventId>\d+)' => ['action' => 'customerPoints/editPointsEvent'],

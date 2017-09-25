@@ -22,12 +22,16 @@
 
 namespace Craft;
 
-class CustomerPoints_ReferralModel extends BaseElementModel
+class CustomerPoints_ReviewModel extends BaseElementModel
 {
     /**
      * @var string
      */
-    protected $elementType = 'CustomerPoints_Referral';
+    protected $elementType = 'CustomerPoints_Review';
+
+    const PENDING       = 'Pending';
+    const APPROVED      = 'Approved';
+    const TRASHED       = 'Trashed';
 
     public function isEditable()
     {
@@ -46,7 +50,7 @@ class CustomerPoints_ReferralModel extends BaseElementModel
 
     public function getCpEditUrl()
     {
-        return UrlHelper::getCpUrl('customerpoints/referrals/edit/' . $this->id);
+        return UrlHelper::getCpUrl('customerpoints/reviews/edit/' . $this->id);
     }
 
     public function getElement()
@@ -82,14 +86,19 @@ class CustomerPoints_ReferralModel extends BaseElementModel
         return array_merge(parent::defineAttributes(), array(
             'id'                        => array(AttributeType::Number),
             'customerPointsId'          => array(AttributeType::Number),
-            'referralEmail'             => array(AttributeType::String),
-            'emailSendFail'             => array(AttributeType::Bool),
-            'hasSignedUp'               => array(AttributeType::Bool),
-            'hasPurchased'              => array(AttributeType::Bool),
-            'referrerIpAddress'         => array(AttributeType::String),
-            'referrerUserAgent'         => array(AttributeType::String),
-            'referreeIpAddress'         => array(AttributeType::String),
-            'referreeUserAgent'         => array(AttributeType::String),
+            'productId'     => array(AttributeType::Number),
+            'status'        => array(AttributeType::Enum, 'values' => array(
+                CustomerPoints_ReviewModel::APPROVED,
+                CustomerPoints_ReviewModel::PENDING,
+                CustomerPoints_ReviewModel::TRASHED,
+            )),
+            'name'          => array(AttributeType::String),
+            'email'         => array(AttributeType::Email),
+            'url'           => array(AttributeType::Url),
+            'ipAddress'     => array(AttributeType::String),
+            'userAgent'     => array(AttributeType::String),
+            'review'        => array(AttributeType::Mixed),
+            'rating'        => array(AttributeType::Number),
         ));
     }
 }

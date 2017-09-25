@@ -1,8 +1,8 @@
 <?php
 /**
- * Customer Referral Program plugin for Craft CMS
+ * Customer Points plugin for Craft CMS
  *
- * CustomerReferralProgram_UserReferralData Record
+ * CustomerPoints Record
  *
  * --snip--
  * Active record models (or “records”) are like models, except with a database-facing layer built on top. On top of
@@ -22,16 +22,16 @@
  * https://craftcms.com/docs/plugins/records
  * --snip--
  *
- * @author    NdW
- * @copyright Copyright (c) 2017 NdW
- * @link      natedewaard.com
- * @package   CustomerReferralProgram
+ * @author    Nathan de Waard
+ * @copyright Copyright (c) 2017 Nathan de Waard
+ * @link      https://github.com/n-dw
+ * @package   CustomerPoints
  * @since     1.0.0
  */
 
 namespace Craft;
 
-class CustomerPoints_UserReferralDataRecord extends BaseRecord
+class CustomerPoints_UserRecord extends BaseRecord
 {
     /**
      * Returns the name of the database table the model is associated with (sans table prefix). By convention,
@@ -41,7 +41,7 @@ class CustomerPoints_UserReferralDataRecord extends BaseRecord
      */
     public function getTableName()
     {
-        return 'customerpoints_userreferraldata';
+        return 'customerpoints_user';
     }
 
     /**
@@ -50,10 +50,15 @@ class CustomerPoints_UserReferralDataRecord extends BaseRecord
      * @access protected
      * @return array
      */
+    //use commerce customer create hook to add signup and add all this info
    protected function defineAttributes()
     {
         return array(
-            'referrerHash' => array(AttributeType::String, 'default' => '', 'required' => true),
+            'email'                        => array(AttributeType::String, 'required' => true),
+            'points'                       => array(AttributeType::Number, 'required' => true),
+            'pointsUsed'                   => array(AttributeType::Number, 'default' => null),
+            'totalPointsAcquired'          => array(AttributeType::Number, 'default' => null),
+            'referrerHash'                 => array(AttributeType::String, 'default' => '', 'required' => true),
         );
     }
 
@@ -66,18 +71,8 @@ class CustomerPoints_UserReferralDataRecord extends BaseRecord
     public function defineRelations()
     {
         return array(
-            'user'  => [static::BELONGS_TO, 'UserRecord', 'required' => true, 'onDelete' => static::CASCADE],
-        );
-    }
-    /**
-     * @inheritDoc BaseRecord::defineIndexes()
-     *
-     * @return array
-     */
-    public function defineIndexes()
-    {
-        return array(
-            array('columns' => array('userId'), 'unique' => true),
+            'customer' => [static::BELONGS_TO, 'Commerce_CustomerRecord', 'required' => false],
+            'element'  => [static::BELONGS_TO, 'ElementRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE],
         );
     }
 }

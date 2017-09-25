@@ -7,7 +7,7 @@
  */
 namespace Craft;
 
-class CustomerPoints_ReferralsController extends CustomerPoints_BaseAdminController
+class CustomerPoints_CustomersController extends CustomerPoints_BaseAdminController
 {
 
     /**
@@ -15,6 +15,10 @@ class CustomerPoints_ReferralsController extends CustomerPoints_BaseAdminControl
      */
     public function actionIndex()
     {
-        $this->renderTemplate('customerpoints/referrals/_index');
+
+        $settings = craft()->customerPoints->getSettings();
+
+        $this->renderTemplate('customerpoints/customers');
+
     }
 }

@@ -27,7 +27,7 @@ class CustomerPoints_ReviewsController extends CustomerPoints_BaseAdminControlle
      */
     public function actionEditReviews(array $variables = [])
     {
-        $variables['orderSettings'] = craft()->commerce_orderSettings->getOrderSettingByHandle('order');
+      /*  $variables['orderSettings'] = craft()->commerce_orderSettings->getOrderSettingByHandle('order');
 
         if (!$variables['orderSettings'])
         {
@@ -86,6 +86,6 @@ class CustomerPoints_ReviewsController extends CustomerPoints_BaseAdminControlle
 
         $variables['orderStatusesJson'] = JsonHelper::encode(craft()->commerce_orderStatuses->getAllOrderStatuses());
 
-        $this->renderTemplate('commerce/orders/_edit', $variables);
+        $this->renderTemplate('commerce/orders/_edit', $variables);*/
     }
 }

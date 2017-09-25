@@ -41,7 +41,7 @@ class CustomerPoints_ReferralRecord extends BaseRecord
      */
     public function getTableName()
     {
-        return 'customerpoints_Referral';
+        return 'customerpoints_referrals';
     }
 
     /**
@@ -74,7 +74,7 @@ class CustomerPoints_ReferralRecord extends BaseRecord
     {
         return array(
             'element'  => [static::BELONGS_TO, 'ElementRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE],
-            'user'     => [static::BELONGS_TO, 'UserRecord', 'required' => true],
+            'customerPoints' => [static::BELONGS_TO, 'CustomerPoints_UserRecord', 'required' => true, 'onDelete' => static::CASCADE],
         );
     }
 

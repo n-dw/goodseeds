@@ -22,9 +22,9 @@
 
 namespace Craft;
 
-require_once(__DIR__ . '/Customerpoints_BaseElementType.php');
+require_once(__DIR__ . '/CustomerPoints_BaseElementType.php');
 
-class Customerpoints_ReferralElementType extends Customerpoints_BaseElementType
+class CustomerPoints_ReviewElementType extends CustomerPoints_BaseElementType
 {
     /**
      * Returns this element type's name.
@@ -33,7 +33,7 @@ class Customerpoints_ReferralElementType extends Customerpoints_BaseElementType
      */
     public function getName()
     {
-        return Craft::t('Referral');
+        return Craft::t('Review');
     }
 
     /**
@@ -136,7 +136,7 @@ class Customerpoints_ReferralElementType extends Customerpoints_BaseElementType
      */
     public function modifyElementsQuery(DbCommand $query, ElementCriteriaModel $criteria)
     {
-   }
+    }
 
     /**
      * Populates an element model based on a query result.

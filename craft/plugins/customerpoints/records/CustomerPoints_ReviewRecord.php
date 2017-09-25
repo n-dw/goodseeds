@@ -1,8 +1,8 @@
 <?php
 /**
- * Customer Points plugin for Craft CMS
+ * Customer Referral Program plugin for Craft CMS
  *
- * CustomerPoints Record
+ * CustomerReferralProgram_Referral Record
  *
  * --snip--
  * Active record models (or “records”) are like models, except with a database-facing layer built on top. On top of
@@ -22,16 +22,16 @@
  * https://craftcms.com/docs/plugins/records
  * --snip--
  *
- * @author    Nathan de Waard
- * @copyright Copyright (c) 2017 Nathan de Waard
- * @link      https://github.com/n-dw
- * @package   CustomerPoints
+ * @author    NdW
+ * @copyright Copyright (c) 2017 NdW
+ * @link      natedewaard.com
+ * @package   CustomerReferralProgram
  * @since     1.0.0
  */
 
 namespace Craft;
 
-class CustomerPoints_Record extends BaseRecord
+class CustomerPoints_ReviewRecord extends BaseRecord
 {
     /**
      * Returns the name of the database table the model is associated with (sans table prefix). By convention,
@@ -41,7 +41,7 @@ class CustomerPoints_Record extends BaseRecord
      */
     public function getTableName()
     {
-        return 'customer_points';
+        return 'customerpoints_reviews';
     }
 
     /**
@@ -50,13 +50,22 @@ class CustomerPoints_Record extends BaseRecord
      * @access protected
      * @return array
      */
-   protected function defineAttributes()
+    protected function defineAttributes()
     {
         return array(
-            'email'                        => array(AttributeType::String, 'required' => true),
-            'points'                       => array(AttributeType::Number, 'required' => true),
-            'pointsUsed'                   => array(AttributeType::Number, 'default' => null),
-            'totalPointsAcquired'          => array(AttributeType::Number, 'default' => null),
+            'productId'     => array(AttributeType::Number),
+            'status'        => array(AttributeType::Enum, 'values' => array(
+                CustomerPoints_ReviewModel::APPROVED,
+                CustomerPoints_ReviewModel::PENDING,
+                CustomerPoints_ReviewModel::TRASHED,
+            )),
+            'name'          => array(AttributeType::String),
+            'email'         => array(AttributeType::Email),
+            'url'           => array(AttributeType::Url),
+            'ipAddress'     => array(AttributeType::String),
+            'userAgent'     => array(AttributeType::String),
+            'review'        => array(AttributeType::Mixed),
+            'rating'        => array(AttributeType::Number),
         );
     }
 
@@ -69,7 +78,8 @@ class CustomerPoints_Record extends BaseRecord
     public function defineRelations()
     {
         return array(
-            'customer' => array(static::BELONGS_TO, 'Commerce_CustomerRecord', 'required' => false, 'default' => null)
+            'element'  => [static::BELONGS_TO, 'ElementRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE],
+            'customerPoints' => [static::BELONGS_TO, 'CustomerPoints_UserRecord', 'required' => true, 'onDelete' => static::CASCADE],
         );
     }
 }

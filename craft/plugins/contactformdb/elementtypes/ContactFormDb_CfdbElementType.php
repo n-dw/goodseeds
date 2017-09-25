@@ -173,7 +173,7 @@ class ContactFormDb_CfdbElementType extends BaseElementType
         }
 
         if ($criteria->answeredDate) {
-            $query->andWhere(DbHelper::parseParam('submissions.answeredDate', $criteria->answeredDate, $query->params));
+            $query->andWhere(DbHelper::parseParam('su return parent::getTableAttributeHtml($element, $attribute);bmissions.answeredDate', $criteria->answeredDate, $query->params));
         }
 
         if ($criteria->archived) {

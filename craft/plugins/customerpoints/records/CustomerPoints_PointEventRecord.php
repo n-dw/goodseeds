@@ -31,7 +31,7 @@
 
 namespace Craft;
 
-class CustomerPointsEventRecord extends BaseRecord
+class CustomerPoints_PointEventRecord extends BaseRecord
 {
     /**
      * Returns the name of the database table the model is associated with (sans table prefix). By convention,
@@ -41,7 +41,7 @@ class CustomerPointsEventRecord extends BaseRecord
      */
     public function getTableName()
     {
-        return 'customer_points_events';
+        return 'customerpoints_pointevent';
     }
 
     /**
@@ -56,15 +56,17 @@ class CustomerPointsEventRecord extends BaseRecord
         return array(
             'eventType' => [
             AttributeType::Enum,
-                'values' => [self::Review, self::Referral, self::Order, self::Potential],
+                'values' => [CustomerPoints_PointEventModel::REVIEW, CustomerPoints_PointEventModel::REFERRAL, CustomerPoints_PointEventModel::ORDER, CustomerPoints_PointEventModel::REGISTER],
                 'required' => true
             ],
             'action' => [
                 AttributeType::Enum,
-                'values' => [self::Earn, self::Redeem, self::FailRedeem, self::PotentialEarn],
+                'values' => [CustomerPoints_PointEventModel::EARN, CustomerPoints_PointEventModel::REDEEM],
                 'required' => true
             ],
             'points' => [ AttributeType::Number, 'required' => true ],
+            'eventId' => [ AttributeType::Number, 'required' => true ],
+            'actionPending' => [ AttributeType::Bool, 'default' => false ],
         );
     }
 
@@ -76,9 +78,9 @@ class CustomerPointsEventRecord extends BaseRecord
      */
     public function defineRelations()
     {
-        return array(
-            'customerPoints' => array(static::BELONGS_TO, 'CustomerPointsRecord', 'onDelete' => static::CASCADE),
-            'CustomerPointsEventsType' => array(static::HAS_MANY, 'CustomerPointsEventsTypeRecord')
-        );
+        return [
+            'customerPoints' => [static::BELONGS_TO, 'CustomerPoints_UserRecord', 'onDelete' => static::CASCADE],
+            'element'  => [static::BELONGS_TO, 'ElementRecord', 'id', 'required' => true, 'onDelete' => static::CASCADE],
+        ];
     }
 }
