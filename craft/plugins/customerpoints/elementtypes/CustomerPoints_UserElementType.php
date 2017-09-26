@@ -53,7 +53,7 @@ class CustomerPoints_UserElementType extends CustomerPoints_BaseElementType
      */
     public function hasTitles()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -102,6 +102,7 @@ class CustomerPoints_UserElementType extends CustomerPoints_BaseElementType
     public function defineTableAttributes($source = null)
     {
         return [
+            'id'                  => Craft::t('Edit Link'),
             'email'               => Craft::t('Email'),
             'points'              => Craft::t('Points'),
             'pointsUsed'          => Craft::t('Points Used'),

@@ -197,6 +197,25 @@ class CustomerPointsPlugin extends BasePlugin
      */
     public function onAfterInstall()
     {
+        //do
+        $customers = craft()->commerce_customers->getAllCustomers();
+
+        foreach ($customers as $customer)
+        {
+
+            if($customer->id && $customer->email && $customer->userId)
+            {
+                $cpUser = new CustomerPoints_UserModel();
+                $cpUser->email = $customer->email;
+                $cpUser->customerId = $customer->id;
+                $cpUser->points = 0;
+                $cpUser->pointsUsed = 0;
+                $cpUser->totalPointsAcquired = 0;
+                $cpUser->referrerHash = craft()->customerPoints_user->getUserReferralHash($customer->email, $customer->id);
+
+                craft()->customerPoints_user->saveCustomerPointsUser($cpUser);
+            }
+        }
     }
 
     /**

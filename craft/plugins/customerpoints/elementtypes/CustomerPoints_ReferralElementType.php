@@ -102,8 +102,9 @@ class CustomerPoints_ReferralElementType extends CustomerPoints_BaseElementType
     public function defineTableAttributes($source = null)
     {
         return [
-            'referralEmail'         => Craft::t('Email'),
-            'hasSignedUp'           => Craft::t('Customer'),
+            'customerPointsId'      => Craft::t('Customer Email'),
+            'referralEmail'         => Craft::t('Referral Email'),
+            'hasSignedUp'           => Craft::t('Registered'),
             'hasPurchased'          => Craft::t('Has Purchased'),
         ];
     }
@@ -111,8 +112,9 @@ class CustomerPoints_ReferralElementType extends CustomerPoints_BaseElementType
     public function defineSortableAttributes()
     {
         return [
-            'referralEmail'         => Craft::t('Email'),
-            'hasSignedUp'           => Craft::t('Customer'),
+            'customerPointsId'      => Craft::t('Customer Email'),
+            'referralEmail'         => Craft::t('Referral Email'),
+            'hasSignedUp'           => Craft::t('Registered'),
             'hasPurchased'          => Craft::t('Has Purchased'),
         ];
     }
@@ -126,7 +128,22 @@ class CustomerPoints_ReferralElementType extends CustomerPoints_BaseElementType
      */
     public function getTableAttributeHtml(BaseElementModel $element, $attribute)
     {
-        return parent::getTableAttributeHtml($element, $attribute);
+        switch ($attribute)
+        {
+            case 'customerPointsId':
+            {
+                $customerPointsId = $element->$attribute;
+
+                $customerEmail = craft()->customerPoints_user->getUserCustomerEmail($customerPointsId);
+
+                return $customerEmail;
+            }
+
+            default:
+            {
+                return parent::getTableAttributeHtml($element, $attribute);
+            }
+        }
     }
 
     /**
@@ -158,7 +175,7 @@ class CustomerPoints_ReferralElementType extends CustomerPoints_BaseElementType
     public function modifyElementsQuery(DbCommand $query, ElementCriteriaModel $criteria)
     {
         $query
-            ->addSelect('cp_referral.id, cp_referral.referralEmail, cp_referral.emailSendFail, cp_referral.hasSignedUp, cp_referral.hasPurchased, cp_referral.referrerIpAddress, cp_referral.referrerUserAgent, cp_referral.referreeIpAddress, cp_referral.referreeUserAgent')
+            ->addSelect('cp_referral.id, cp_referral.customerPointsId, cp_referral.referralEmail, cp_referral.emailSendFail, cp_referral.hasSignedUp, cp_referral.hasPurchased, cp_referral.referrerIpAddress, cp_referral.referrerUserAgent, cp_referral.referreeIpAddress, cp_referral.referreeUserAgent')
             ->join('customerpoints_referrals cp_referral', 'cp_referral.id = elements.id');
 
         if ($criteria->referralEmail) {

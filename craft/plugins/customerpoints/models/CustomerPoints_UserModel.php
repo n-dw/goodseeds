@@ -49,7 +49,7 @@ class CustomerPoints_UserModel extends BaseElementModel
 
     public function getElement()
     {
-        return craft()->elements->getElementById($this->elementId);
+        return craft()->elements->getElementById($this->id);
     }
 
 

@@ -55,7 +55,7 @@ class CustomerPoints_UserRecord extends BaseRecord
     {
         return array(
             'email'                        => array(AttributeType::String, 'required' => true),
-            'points'                       => array(AttributeType::Number, 'required' => true),
+            'points'                       => array(AttributeType::Number, 'default' => 0),
             'pointsUsed'                   => array(AttributeType::Number, 'default' => null),
             'totalPointsAcquired'          => array(AttributeType::Number, 'default' => null),
             'referrerHash'                 => array(AttributeType::String, 'default' => '', 'required' => true),
