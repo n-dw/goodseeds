@@ -5,27 +5,30 @@
             <div id="logo" class="col-xs-4 col-sm-4 col-md-3 col-lg-2 col-xl-2">
                 {% if page == '' %}
                     <h1 class="logo-header"><a id="header_logo" class="header__logo thcpost-f" href="{{ siteUrl }}">
-                        THCPOST
+                            {{ siteName }}
                     </a></h1>
                 {% else  %}
                     <a id="header_logo" class="header__logo thcpost-f" href="{{ siteUrl }}">
-                        THCPOST
+                        {{ siteName }}
                     </a>
                 {% endif %}
             </div>
-            <div id="search" class="col-xs-6 col-sm-6 col-md-3 col-lg-5 col-xl-5">
-                <autocomplete
-                            id="searchbox"
-                            class-name="auto"
-                            url="/search"
-                            anchor="title"
-                            placeholder="Search"
-                            :min="3"
-                            :on-select="itemSelected"
-                            :process="processJsonData"
-                    >
-                    </autocomplete>
+            {#<div id="search" class="col-xs-6 col-sm-6 col-md-3 col-lg-5 col-xl-5">#}
+                {#<autocomplete#}
+                            {#id="searchbox"#}
+                            {#class-name="auto"#}
+                            {#url="/search"#}
+                            {#anchor="title"#}
+                            {#placeholder="Search"#}
+                            {#:min="3"#}
+                            {#:on-select="itemSelected"#}
+                            {#:process="processJsonData"#}
+                    {#>#}
+                    {#</autocomplete>#}
 
+            {#</div>#}
+            <div class="account-nav col-xs-3 col-sm-5 col-md-6 col-lg-5 col-xl-5 end-xs" data-mobile="false">
+                {% include "shop/_includes/mainNav" %}
             </div>
             <div class="account-nav col-xs-3 col-sm-5 col-md-6 col-lg-5 col-xl-5 end-xs" data-mobile="false">
                 {% include "shop/_includes/accountNav" %}
@@ -38,13 +41,6 @@
                     <span></span>
                     <span></span>
                     <span></span>
-                </div>
-            </div>
-        </div>
-        <div class="main-nav-wrapper" data-mobile="false">
-            <div class="row">
-                <div class="col-xs-12">
-                    {% include "shop/_includes/nav" %}
                 </div>
             </div>
         </div>
