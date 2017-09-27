@@ -10,7 +10,9 @@
         </div>
         {% set productVariants = {} %}
         {% set currentUserEmail = currentUser.email is defined ? currentUser.email  : '' %}
-
+        {% set productRating %}
+            <div class="product-card__ribbon product-card__ribbon--product-rating">{{ prodmac.starRating(avgRating) }}</div>
+        {% endset %}
         {% if productStock > 0 %}
             {% set variantWeights =[
             {weight: '1g', gramWeight: 1},
@@ -93,7 +95,8 @@
             salePrice: productSalePrice,
             strainType: product.strainType.first().slug,
             strainTypeFrontVal: product.strainType.first().slug|first|upper,
-            variants: productVariants
+            variants: productVariants,
+            productrating: productRating,
         } %}
 
 

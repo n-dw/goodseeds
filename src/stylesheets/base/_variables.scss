@@ -126,6 +126,7 @@ $colorsGoodSeeds: 	(
         earthBrown:         #795c39
 );
 
+$darkBrown:           map-get($colorsGoodSeeds, darkBrown);
 $logo-color:            map-get($colorsGoodSeeds, orangeBrown);
 $headings-color: 	    map-get($colors, black);
 $text-color: 			map-get($colors, black);

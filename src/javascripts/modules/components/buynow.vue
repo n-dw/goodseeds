@@ -44,11 +44,8 @@
     <div class="product-info-wrapper">
         <div class="media">
             <div class="media-left">
-                <div class="product-details-wrapper">
-                    <h4 class="product-strain-type" :title="capitalizeStrainType" :class="productData.strainType">
-                        {{ productData.strainTypeFrontVal }}
-                    </h4>
-                    <h4 v-if="productData.organic" title="Organic" class="product-strain-type organic">O</h4>
+                <div v-if="rating" class="product-details-wrapper">
+                    {{rating}}
                 </div>
             </div>
             <div class="media-content">
@@ -128,6 +125,10 @@
                 type: String,
                 default: ""
             },
+            productrating:{
+                type: String,
+                default: ""
+            },
             formaction:{
                 type: String,
                 default: "commerce/cart/updateCart"
@@ -171,6 +172,7 @@
                 qty: '1',
                 loading: false,
                 emailError: false,
+                rating: false
             };
         },
         computed:{
@@ -184,6 +186,7 @@
             this.productData = this.product;
             this.price = this.product.price;
             this.salePrice = this.product.salePrice;
+            this.rating = this.productrating;
             if(this.$parent.$data.currentUserEmail){
                 this.email = this.$parent.$data.currentUserEmail;
             }
