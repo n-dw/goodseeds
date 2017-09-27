@@ -120,6 +120,9 @@ APP MENU
     }
   }
 
+  a{
+    font-family: $font-headings;
+  }
   &__icon,&__link{
     text-align: center;
     color: $link-header-color;

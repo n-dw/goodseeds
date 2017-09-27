@@ -1,11 +1,20 @@
 {% cache globally using key 'site-footer' %}
     {% minify %}
-<footer  data-mobile-padding="true" class="site-footer u-bg-dark-slate-grey">
+<footer  data-mobile-padding="true" class="site-footer">
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
                 <div class="site-footer__wrapper row center-xs">
                     <div class="col-xs-12 col-md-8 col-lg-6">
+                        <div class="footer-links">
+                            <ul class="c-list--clean">
+                                <li><a href="/shop">Shop | </a></li>
+                                <li><a href="/contact">Contact | </a></li>
+                                <li><a href="/frequently-asked-questions">FAQ | </a></li>
+                                <li><a href="/terms">Terms | </a></li>
+                                <li><a href="/privacy-policy">Privacy</a></li>
+                            </ul>
+                        </div>
                         <div class="site-footer__site-seals site-seals row">
                             <div class="site-seal site-seal--ssl col-xs-4">
                                 <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/lets_encrypt_icon.svg' | gulp_rev  }}"
@@ -23,16 +32,7 @@
                         <div class="site-footer__copyright">Copyright © {{"now"|date("Y")}} THCPOST.CA&nbsp;|&nbsp;<a
                                 href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a>
                         </div>
-                        <div class="footer-links">
-                            <ul class="c-list--clean">
-                                <li><a href="/shop">Shop | </a></li>
-                                <li><a href="/contact">Contact | </a></li>
-                                <li><a href="/frequently-asked-questions">FAQ | </a></li>
-                                <li><a href="/terms">Terms | </a></li>
-                                <li><a href="/privacy-policy">Privacy</a></li>
-                            </ul>
 
-                        </div>
                         <div class="site-footer__social-links">
                             <h5>Follow Us</h5>
                             <ul class="c-list--clean">
