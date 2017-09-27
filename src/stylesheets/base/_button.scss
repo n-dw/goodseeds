@@ -10,7 +10,7 @@ button{
 
 	&:after{
 		animation: spinAround 500ms infinite linear;
-		border: 2px solid $black;
+		border: 1px solid $black;
 		border-radius: 290486px;
 		border-right-color: transparent;
 		border-top-color: transparent;
@@ -65,52 +65,52 @@ button{
 	}
 	&--promotion{
 
-		border: 2px solid $promotion-color;
+		border: 1px solid $promotion-color;
 		color: $promotion-color;
 
 
 		&:hover{
-			border: 2px solid $promotion-hover-color;
+			border: 1px solid $promotion-hover-color;
 			color: $promotion-hover-color;
 		}
 	}
 	&--cta-blue{
 
-		border: 2px solid $cta-blue-color;
+		border: 1px solid $cta-blue-color;
 		color: $cta-blue-color;
 
 
 		&:hover{
-			border: 2px solid $cta-blue-hover-color;
+			border: 1px solid $cta-blue-hover-color;
 			color: $cta-blue-hover-color;
 		}
 	}
 	&--cta-white{
 
-		border: 2px solid map_get($colors, white);
+		border: 1px solid map_get($colors, white);
 		color: map_get($colors, white);
 
 
 		&:hover{
-			border: 2px solid $cta-blue-color;
+			border: 1px solid $cta-blue-color;
 			color: $cta-blue-color;
 		}
 	}
 	&--cta-black{
 
-		border: 2px solid map_get($colors, black);
-		color: map_get($colors, black);
+		border: 1px solid $darkBrown;
+		color:  $darkBrown;
 
 
 		&:hover{
-			border: 2px solid $promotion-hover-color;
+			border: 1px solid $promotion-hover-color;
 			color: $promotion-hover-color;
 		}
 
 	}
 	&--cta-black--active{
 
-			border: 2px solid $promotion-hover-color;
+			border: 1px solid $promotion-hover-color;
 			color: $promotion-hover-color;
 
 	}

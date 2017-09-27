@@ -32,28 +32,13 @@
             </div>
         </div>
     </section>
-    
-    <section class="hp-content-section u-text-center product-categories u-brd-bttm-darkBrown">
-        <div class="wrapper container-fluid">
-            <openclose>
-                <template slot="title"><h2>Shop by Category</h2></template>
-                <template slot="content">
-                    <div class="row">
-
-                        {% include '/shop/_includes/home/_productCatItem.html' %}
-
-                    </div>
-                </template>
-            </openclose>
-        </div>
-    </section>
     {% set thcpicksSection = craft.entries.section('thcpicks').first() %}
     {% set thcpicks = thcpicksSection.thcpicks %}
     {% if thcpicks |length > 0 %}
         <section class="hp-content-section about u-text-center u-brd-bttm-darkBrown">
             <div class="wrapper container-fluid">
                 <openclose>
-                    <template slot="title"><h2 class="about__section-header">THC Picks</h2></template>
+                    <template slot="title"><h2 class="about__section-header">Good Breeds</h2></template>
                     <template slot="content">
                         <div class="thcpicks-list products-list row">
                             {% for product in thcpicks %}
@@ -69,7 +54,7 @@
         <div class="wrapper container-fluid">
             <div class="row">
                 <div class="col-xs-12">
-                    <h2 class="thcpoints__section-header">THC Points</h2>
+                    <h2 class="thcpoints__section-header">Karma Seeds</h2>
                     <div class="thcpoints__short-description">
                         Earn THC Points by enjoying and reviewing our products! Use your THC Points towards your next
                         purchase!

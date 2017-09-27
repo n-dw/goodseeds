@@ -128,10 +128,10 @@ $colorsGoodSeeds: 	(
 
 $darkBrown:           map-get($colorsGoodSeeds, darkBrown);
 $logo-color:            map-get($colorsGoodSeeds, orangeBrown);
-$headings-color: 	    map-get($colors, black);
-$text-color: 			map-get($colors, black);
-$link-color: 			map-get($colors, dark-purple);
-$link-color-hover: 		map-get($colors, pastel-green);
+$headings-color: 	    $darkBrown;
+$text-color: 			$darkBrown;
+$link-color: 			map-get($colorsGoodSeeds, orangeBrown);
+$link-color-hover: 		map-get($colorsGoodSeeds, ligtherGreen);
 $link-header-color:		map-get($colorsGoodSeeds, darkBrown);
 $link-header-color-hover: map-get($colorsGoodSeeds, cannaGreen);
 $footer-font-color:     map-get($colorsPostIt, lightgreyDarker);
@@ -174,7 +174,7 @@ $formElementBorderColorError: map-get($colors, red);
 
 
 $white: map-get($colors, white);
-$black: map-get($colors, black);
+$black: $darkBrown;
 $pastelGreen: map-get($colors, pastel-green);
 $pinkPastel: map-get($colors, pink-pastelle);
 
