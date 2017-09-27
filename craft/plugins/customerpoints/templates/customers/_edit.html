@@ -1,0 +1,52 @@
+{% extends "customerpoints/_layouts/cp" %}
+
+{% set selectedSubnavItem = "customers" %}
+{% if cpUser.email %}
+    {% set title = "Customer Points User " ~ cpUser.email %}
+{% else %}
+    {% set title = "Customer Points User" %}
+{% endif %}
+
+{% import "_includes/forms" as forms %}
+
+{% set extraPageHeaderHtml %}
+    <div class="buttons right">
+        <input type="submit" class="btn submit" value="{{ 'Save Submission' | t }}">
+    </div>
+{% endset %}
+
+{% block content %}
+    <input type="hidden" name="action" value="customerPoints/customers/SaveCustomerPointsInfo">
+    <input type="hidden" name="redirect" value="customerPoints/customers/editCustomerPointsInfo/{{ cpUser.id }}">
+    {% if cpUser.id %}<input type="hidden" name="customerPointsUserId" value="{{ cpUser.id }}">{% endif %}
+
+    <div id="customerpoints_user">
+
+        {{ forms.textField({
+            first: true,
+            label: "Points"|t,
+            instructions: "The amount of points a user has. Only update if neccesary and update the total points acquired"|t,
+            id: 'points',
+            name: 'points',
+            value: cpUser.points,
+            errors: cpUser.getErrors('points'),
+            required: true,
+        }) }}
+
+        {{ forms.textField({
+            first: true,
+            label: "Total Points Aquired"|t,
+            instructions: "The total amount of points a user has required. Update if you change points"|t,
+            id: 'totalPointsAcquired',
+            name: 'totalPointsAcquired',
+            value: cpUser.totalPointsAcquired,
+            errors: cpUser.getErrors('totalPointsAcquired'),
+            required: true,
+        }) }}
+
+
+    </div>
+
+
+
+{% endblock %}

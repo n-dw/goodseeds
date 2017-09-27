@@ -7,7 +7,7 @@ return [
 
     //Customer
     'customerpoints/customers' => ['action' => 'customerPoints/customers/index'],
-    'customerpoints/customers/edit/(?P<customerPointsUserId>\d+)' => ['action' => 'customerPoints/customers/editPointsEvent'],
+    'customerpoints/customers/edit/(?P<customerPointsUserId>\d+)' => ['action' => 'customerPoints/customers/editCustomerPointsInfo'],
 
     //Points
     'customerpoints/points' => ['action' => 'customerPoints/points/index'],
