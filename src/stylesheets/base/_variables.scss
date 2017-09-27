@@ -116,6 +116,14 @@ $colorsCannabis: 	(
         aqua: 				#6bb8ac
 );
 
+$colorsGoodSeeds: 	(
+        forestGreen: 		#575423,
+        orangeBrowm: 		#d87c29,
+        darkBrown: 			#402c1c,
+        cannaGreen: 	    #7f7431,
+        ligtherGreen: 	    #b7bc50,
+        earthBrown:         #795c39
+);
 
 $headings-color: 	    map-get($colors, black);
 $text-color: 			map-get($colors, black);
