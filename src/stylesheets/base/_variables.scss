@@ -34,10 +34,11 @@ $font-weight-headings: 	300;
 /**
  * FONT FAMILY
  */
-$font-copy-logo: 'Permanent Marker', cursive;
+$font-copy-logo: 'cookiesmilk', sans-serif;
+$font-menu:      'cookiesmilk', sans-serif;
 $font-copy: 	 'Roboto Condensed', sans-serif;//'Helvetica Neue', 'Source Sans Pro', 'Arial', sans-serif;
 $font-headings: 'Quicksand', sans-serif;
-$font-headings-product: 'Architects Daughter', cursive;
+$font-headings-product: $font-copy-logo;//'Architects Daughter', cursive;
 /**
  * BASE SPACING VALUE
  */
@@ -118,29 +119,30 @@ $colorsCannabis: 	(
 
 $colorsGoodSeeds: 	(
         forestGreen: 		#575423,
-        orangeBrowm: 		#d87c29,
+        orangeBrown: 		#d87c29,
         darkBrown: 			#402c1c,
         cannaGreen: 	    #7f7431,
         ligtherGreen: 	    #b7bc50,
         earthBrown:         #795c39
 );
 
+$logo-color:            map-get($colorsGoodSeeds, orangeBrown);
 $headings-color: 	    map-get($colors, black);
 $text-color: 			map-get($colors, black);
 $link-color: 			map-get($colors, dark-purple);
 $link-color-hover: 		map-get($colors, pastel-green);
-$link-header-color:		map-get($colors, white);
-$link-header-color-hover: map-get($colors, pastel-green); //#fc8d87;
+$link-header-color:		map-get($colorsGoodSeeds, darkBrown);
+$link-header-color-hover: map-get($colorsGoodSeeds, cannaGreen);
 $footer-font-color:     map-get($colorsPostIt, lightgreyDarker);
 $link-footer-color: 			map-get($colors, dark-purple);
 $link-footer-color-hover: 		#252d31;
 
 $body-bg-color: map-get($colors, yellow);
-$header-bg-color: map_get($colors, black);
+$header-bg-color: map_get($colors, white);
 $cart-num-items-color: map_get($colorsPostIt, pink);
 $footer-bg-color: map_get($colors, dark-grey);
 
-$fixed-nav-color: map_get($colors, black);
+$fixed-nav-color: $header-bg-color;
 $fixed-nav-hover-color: map_get($colors, yellow);
 
 
@@ -195,3 +197,8 @@ $easings: (
 
 $transition-ease: 	map-get($easings, out) !default;
 $transition-speed: 	0.25 !default;
+
+/*
+Spacing
+ */
+$cookies-letter-spacing: 0.2rem;

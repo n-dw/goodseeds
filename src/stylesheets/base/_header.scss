@@ -1,9 +1,10 @@
 .site-header{
   background: $header-bg-color;
   width: 100%;
-  padding: 0.75rem 0;
+  padding: 1.68rem 0;
   position:fixed;
   z-index: 15;
+  border-bottom: 1px solid $link-header-color;
 
   &.fixed{
     padding: 1rem 0.5rem;
@@ -14,7 +15,9 @@
   a{
     color: $link-header-color;
     padding: 0 0.8rem;
-    font-size: 1.8rem;
+    font-size: 2.5rem;
+    font-family: $font-menu;
+    letter-spacing: $cookies-letter-spacing;
 
     &:hover{
       color: $link-header-color-hover;
@@ -31,7 +34,9 @@
   #header_logo{
     font-size: 2rem;
     line-height: 1em;
+    text-transform: uppercase;
     padding: 0;
+    color: $logo-color;
   }
   #search{
     position: relative;
@@ -148,7 +153,7 @@
 
 /* mobile toggle */
 .mobile-nav-toggle{
-  color: #fff;
+  color: $link-header-color;
   font-size: 1.5rem;
 }
 #nav-icon{
@@ -167,7 +172,7 @@
     position: absolute;
     height: 2px;
     width: 50%;
-    background: #fff;
+    background: $link-header-color;
     opacity: 1;
     transition: .25s ease-in-out;
 

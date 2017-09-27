@@ -93,6 +93,7 @@ APP MENU
   background-color:  $fixed-nav-color;
   margin-left: 0;
   margin-right: 0;
+  border-top: 1px solid $link-header-color;
 
 
   &--fixed{
@@ -221,7 +222,7 @@ APP MENU
 }
 .cart-count{
   background : $cart-num-items-color;
-
+  font-family: $font-copy;
 }
 .count{
   text-align: center;

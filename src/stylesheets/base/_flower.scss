@@ -30,6 +30,10 @@
 .product-page{
  // padding-top: 3.2rem;
 }
+.product-title{
+ font-family: $font-headings-product;
+  letter-spacing: $cookies-letter-spacing;
+}
 
 .product-heading{
   text-transform: capitalize;
