@@ -1,5 +1,6 @@
 <template>
     <div :class="(className ? className + '-wrapper ' : '') + 'autocomplete-wrapper'">
+        <i class="icon-search"></i>
         <input  type="text"
                 aria-label="Site Search"
                 :id="id"
@@ -12,8 +13,8 @@
                 @keydown="keydown"
                 @focus="focus"
                 />
-        <button class="button--search" aria-label="Search Submit" @click="clear" type="button" value="Search">
-            <i :class="icon"></i>
+        <button v-show="showClose" class="button--search" aria-label="Search Submit" @click="clear" type="button" value="Search">
+            <i class="icon-cancel"></i>
         </button>
 
         <div :class="(className ? className + '-list ' : '') + 'autocomplete transition autocomplete-list'" v-show="showList">
@@ -63,7 +64,7 @@
 
             searchIcon: {
                 type: String,
-                default: "icon-search"
+                default: "icon"
             },
             closeIcon: {
                 type: String,
@@ -125,7 +126,8 @@
                 type: "",
                 json: [],
                 focusList: "",
-                icon: this.searchIcon
+                icon: this.searchIcon,
+                showClose: false
             };
         },
 
@@ -138,10 +140,10 @@
                 this.type = ""
                 this.json = []
                 this.focusList = ""
-                this.icon =  this.searchIcon
+                this.showClose = false;
             },
             clear(){
-                if(this.icon == this.closeIcon){
+                if(this.showClose){
                     this.clearInput();
                 }
             },
@@ -153,7 +155,7 @@
 
             input(val){
                 if(this.type != null && this.type.length > 0 && this.icon == this.searchIcon)
-                    this.icon = this.closeIcon;
+                    this.showClose = true;
                 // Callback Event
                 this.onInput ? this.onInput(val) : null
 

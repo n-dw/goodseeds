@@ -39,13 +39,13 @@
                     </p>
 
                     {% if order.orderStatus.handle == 'paymentPending' %}
-                        <div class="box">
+                        <div class="box-section">
                             <h2>Payment Instructions</h2>
                             {% include 'shop/_includes/messages/_paymentInstructionETransfer' %}
                         </div>
                     {% endif %}
 
-                            <div class="box">
+                            <div class="box-section">
 
                                 <h2 class="has-text-left">
                                         Order Details
@@ -75,7 +75,7 @@
                                         <div class="block"> <a href="{{ url('https://www.canadapost.ca/cpotools/apps/track/personal/findByTrackNumber', { trackingNumber: order.trackingNumber }) }}"><span
                                                         class="tracking-number">{{ order.trackingNumber }}</span></a></div>
                                         {% else %}
-                                            <p class="box">You will be emailed the tracking number upon order
+                                            <p class="box-section">You will be emailed the tracking number upon order
                                                 shipment.</p>
                                         {% endif %}
                                     </div>
@@ -83,7 +83,7 @@
                                 </div>
                             </div>
 
-                            <div class="box">
+                            <div class="box-section">
 
                                 <h2 class="has-text-left">
                                         Items Ordered
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
 
-                            <div class="box">
+                            <div class="box-section">
                                     <h2 class="has-text-left">
                                         Shipping Information
                                     </h2>
@@ -116,7 +116,7 @@
 
                     {% if order.orderNotes is not empty %}
 
-                            <div class="box">
+                            <div class="box-section">
 
                                 <h2 class="has-text-left">
                                         Order Notes
@@ -128,7 +128,7 @@
                             </div>
 
                     {% endif %}
-                            <div class="box">
+                            <div class="box-section">
 
                                 <h2 class="has-text-left">
                                         Order Summary

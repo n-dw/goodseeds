@@ -32,7 +32,7 @@
                 </button>
             </div>
         </div>
-        <footer class="product-footer card">
+        <footer class="product-footer">
             <div class="product-details-tabs c-tabs">
                 <div class="card-content">
                     <div class="product-description product-tab" id="product_description" v-show="details">

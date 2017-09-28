@@ -6,7 +6,8 @@
 <footer class="product-card-footer">
     <div class="product-card__information">
         <div class="product-title-wrapper">
-            <h3 class="product-title has-text-centered">{{ product.title }}</h3>
+
+            <h3 class="product-title has-text-centered"><a href="{{ product.url }}" class="product-title-link">{{ product.title }}</a></h3>
         </div>
         {% set productVariants = {} %}
         {% set currentUserEmail = currentUser.email is defined ? currentUser.email  : '' %}

@@ -1,7 +1,7 @@
 .site-header{
   background: $header-bg-color;
   width: 100%;
-  padding: 1.68rem 0;
+  padding: 0;
   position:fixed;
   z-index: 15;
   border-bottom: 1px solid $darkBrown;
@@ -30,6 +30,7 @@
     text-align: left;
     font-size: inherit;
     margin: 0;
+    padding: 1.68rem 0;
   }
   #header_logo{
     font-size: 2rem;
@@ -38,29 +39,47 @@
     padding: 0;
     color: $logo-color;
   }
+  .icon-search{
+   font-size: 2.5rem;
+
+    .searchvisible{
+      color: $link-color-hover;
+    }
+  }
+
   #search{
     position: relative;
 
+    .icon-search, .button--search{
+      position: absolute;
+    }
+    .icon-cancel{
+      font-size: 2.5rem;
+    }
+    .button--search{
+      top: 0;
+      right: 0;
+    }
     .autocomplete-wrapper{
+      background-color: $lightGrey;
       position: relative;
 
       .autocomplete ul{
         z-index: 7;
         position: absolute;
         list-style: none;
-        background: $black;
+        background: $lightGrey;
         padding: 10px 0;
         margin: 0;
         display: inline-block;
         //max-width: 500px;
-        width: 95%;
+        width: 100%;
         min-width: 15%;
       }
 
       .autocomplete ul li a{
         text-decoration: none;
         display: block;
-        color: $white;
         padding: 5px;
         padding-left: 10px;
       }
@@ -71,7 +90,7 @@
 
       .autocomplete ul li a:hover, .autocomplete ul li.focus-list a{
         color: $white;
-        background: $link-color-hover;
+        background: $link-color;
       }
 
       .autocomplete ul li a span{
@@ -103,11 +122,8 @@
     }
     input{
       box-sizing: border-box;
-      display: block;
       width: 100%;
       height: ($base-space * 1.5);
-      margin: (0) (0) ($base-space / 4);
-      padding: ($base-space / 4) ($base-space / 3);
       vertical-align: middle;
       line-height: 1;
       display: inline-block;
@@ -115,16 +131,13 @@
       font: inherit;
       color: inherit;
       border: none;
-      border-bottom: 1px solid $link-header-color;
       max-width: 100%;
-      width: 95%;
-      padding-right: 3rem;
+      width: 100%;
+      padding:0 4.5rem;
+
       color: $link-header-color;
       &:focus{
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        border-bottom: 1px solid $link-header-color-hover;
+        border: none;
         outline: none;
       }
       &::placeholder{
@@ -156,6 +169,13 @@
   color: $link-header-color;
   font-size: 1.5rem;
 }
+
+#mobile_nav_toggle{
+  .icon-search{
+    margin-right: 2rem;
+  }
+}
+
 #nav-icon{
   transform: rotate(0deg);
   position: relative;
@@ -165,6 +185,8 @@
 
   width: 30px;
   height: 20px;
+
+  display: inline-block;
 
   span{
     transform: rotate(0deg);

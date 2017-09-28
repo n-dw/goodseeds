@@ -26,7 +26,7 @@ import productTabs from './components/productTabs.vue';
 var bus = new Vue({});
 export default bus;
 
-var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed" };
+var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed", showSearch: false };
 var components = {ptabs: productTabs, openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
     toggle: function() {
@@ -39,7 +39,10 @@ var methods = {
     },
     processJsonData: function(json) {
         return json.data;
-    }
+    },
+    toggleSearchBar: function(json) {
+        this.showSearch = !this.showSearch;
+    },
 }
 
 thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, data);
