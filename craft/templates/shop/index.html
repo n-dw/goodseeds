@@ -22,15 +22,7 @@
     {% cache  globally using key "homepage" %}
     {% minify %}
     <section class="hp-content-section about u-text-center u-brd-bttm-darkBrown">
-        <div class="wrapper container-fluid">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2 class="about__section-header">{{ entry.aboutSectionHeader }}</h2>
-                    <div class="about__short-description">{{ entry.aboutBlurb }}</div>
-                    <a class="c-button c-button--large c-button--cta-black" href="/our-story">Learn More</a>
-                </div>
-            </div>
-        </div>
+        {% include '/shop/_includes/home/_headerHero.html' %}
     </section>
     {% set thcpicksSection = craft.entries.section('thcpicks').first() %}
     {% set thcpicks = thcpicksSection.thcpicks %}
