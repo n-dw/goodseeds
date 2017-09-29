@@ -118,15 +118,21 @@ $colorsCannabis: 	(
 );
 
 $colorsGoodSeeds: 	(
+        pastelGreen:        #91a13d,
+        maximumPurple:      #7A248C,
+        operaMauve:         #B98EA7,
+        mediumGreen:        #258C3A,//#228B22,
         forestGreen: 		#575423,
         orangeBrown: 		#d87c29,
         darkBrown: 			#402c1c,
         cannaGreen: 	    #7f7431,
         ligtherGreen: 	    #b7bc50,
-        earthBrown:         #795c39
+        earthBrown:         #795c39,
+        lightGrey:          #f8f8f8,
 );
 
-$darkBrown:           map-get($colorsGoodSeeds, darkBrown);
+$darkBrown:             map-get($colorsGoodSeeds, darkBrown);
+$lightGrey:             map-get($colorsGoodSeeds, lightGrey);
 $logo-color:            map-get($colorsGoodSeeds, orangeBrown);
 $headings-color: 	    $darkBrown;
 $text-color: 			$darkBrown;
@@ -140,6 +146,7 @@ $link-footer-color-hover: 		#252d31;
 
 $body-bg-color: map-get($colors, yellow);
 $header-bg-color: map_get($colors, white);
+$promotion-bg-color: map-get($colorsGoodSeeds, orangeBrown);
 $cart-num-items-color: map_get($colorsPostIt, pink);
 $footer-bg-color: map_get($colors, dark-grey);
 
@@ -159,11 +166,12 @@ $concentrate-color: map-get($colors, yellow);
 /*
 Promotion Coloursrgba( $base-color,
  */
-$promotion-color: map-get($colors, pastel-green);
-$promotion-hover-color: darken(map-get($colors, pastel-green), 10%);
+$promotion-color: map-get($colorsGoodSeeds, orangeBrown);
+$promotion-hover-color: darken(map-get($colorsGoodSeeds, orangeBrown), 10%);
+$price-color: map-get($colorsGoodSeeds, operaMauve);
 
-$cta-blue-color: map-get($colors, cyan);
-$cta-blue-hover-color: darken(map-get($colors, cyan), 10%);
+$cta-blue-color: map-get($colorsGoodSeeds, mediumGreen);
+$cta-blue-hover-color: darken(map-get($colorsGoodSeeds, mediumGreen), 10%);
 
 /*
 Forms
@@ -175,7 +183,7 @@ $formElementBorderColorError: map-get($colors, red);
 
 $white: map-get($colors, white);
 $black: $darkBrown;
-$pastelGreen: map-get($colors, pastel-green);
+$pastelGreen: map-get($colorsGoodSeeds, pastel-green);
 $pinkPastel: map-get($colors, pink-pastelle);
 
 $stars-color: map-get($colorsPostIt, cream);

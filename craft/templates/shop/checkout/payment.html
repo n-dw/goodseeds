@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="box has-text-left">
+    <div class="has-text-left">
         <h2>e-Transfer Instructions</h2>
         {% if order is not defined %}
             {% set order = {'email': cart.email, 'shortNumber': cart.shortNumber } %}
@@ -10,7 +10,7 @@
         {% include 'shop/_includes/messages/_paymentInstructionETransfer' %}
     </div>
 
-    <div class="box">
+    <div>
         <ul class="c-list c-list--clean has-text-left">
             <li>
                 <strong>Subtotal:</strong>

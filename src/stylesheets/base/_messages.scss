@@ -1,6 +1,9 @@
 .messages{
 
 }
+.notification.sucess{
+  background-color: $pastelGreen;
+}
 .notification{
   transition: height 0.3s ease-out;
   overflow: hidden;

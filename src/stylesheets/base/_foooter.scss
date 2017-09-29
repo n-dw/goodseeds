@@ -1,33 +1,52 @@
 
 
 .site-footer{
-  width:100%;
-  padding: 5rem .5rem;
+  width: 100%;
+  padding: 3.36rem .5rem;
   display: block;
-  color: $footer-font-color;
   border-top: 1px solid $darkBrown;
 
   h5{
     margin-top: 0.76391rem;
-    color: $footer-font-color;
   }
   a{
     color: $link-header-color-hover;
+    font-family: $font-menu;
+    letter-spacing: $cookies-letter-spacing;
+    font-size: 2.5rem;
+
     &:hover{
       color:  $footer-font-color;
+    }
+
+    &.support-email{
+      font-family: $font-copy;
+      font-size: 1.68rem;
     }
   }
 }
 .site-seals{
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.68rem;
 }
 .site-seal{
+  display: inline-block;
+  padding: 0 1.68rem;
+
   & img{
     max-width: 100%;
-    max-height: 23.5rem;
+    max-height: map-get($heading-sizes, 1);
+  }
+
+  &--ssl{
+    height: 100%;
+    img{
+      width: auto;
+      height: 100%;
+    }
   }
 }
 .footer-links{
+  margin-bottom: 1.68rem;
     ul{
       li{
         display: inline-block;
@@ -35,11 +54,33 @@
     }
 }
 .site-footer__social-links{
+  margin-bottom: 1.68rem;
+}
+.site-footer__site-brand{
+  margin-bottom: 1.68rem;
+  &__site-slogan{
+    font-family: $font-menu;
+    letter-spacing: $cookies-letter-spacing;
+    font-size: map-get($heading-sizes, 3);
+  }
+
+}
+
+
+.site-logo__img{
+  max-height: 16.8rem;
+}
+.site-footer__social-links{
   ul{
     li{
       display: inline-block;
+      padding: 0 1.68rem;
     }
   }
+}
+
+.site-footer__copyright{
+
 }
 
 @media only screen and (max-width: 64.063em){

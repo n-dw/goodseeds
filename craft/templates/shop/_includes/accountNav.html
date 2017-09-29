@@ -1,7 +1,10 @@
 <ul id="account_nav" class="account-nav c-list--clean" data-mobile="false">
+    <li class="account-nav__item">
+        <i :class="[{searchvisible: showSearch}, searchIconButtonClass ]" title="Click to Toggle Bar: Open, Close" @click="toggleSearchBar" class="u-cursor-pointer"></i>
+    </li>
     {% if currentUser %}
     <li class="account-nav__item account-nav__item--user {% if 'account' in page %}app-menu__item-top-nav--active{% endif %}">
-        <i class="icon-user">You <span class="down-arrow"></span></i>
+        <i class="icon-user"><span class="down-arrow"></span></i>
         <ul class="sub-menu user-menu c-list--clean">
             <li class="user-menu__item user-menu__item--border-bottom {% if page == 'account' %}app-menu__item--active{% endif %}">
                 <a href="{{ url('account') }}">My Account</a>

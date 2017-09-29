@@ -14,13 +14,23 @@
 
 }
 #account_nav{
+  .account-nav__item--user{
+    i,span{
+      font-size: 2.5rem;
+    }
+  }
   .app-menu__item-top-nav--active.account-nav__item--user{
     & > i{
       color: $link-header-color-hover;
+      font-family: $font-menu;
+      letter-spacing: 0.2rem;
+
+      margin-right: 1rem;
     }
   }
   .account-nav__item{
     display: inline-block;
+    padding: 1.68rem 0;
 
     &:hover{
       .sub-menu{
@@ -152,6 +162,11 @@ APP MENU
     margin-top: 2rem;
     width: 30rem;
     color: $black;
+
+    a{
+      font-family: $font-copy;
+      font-size: 1.68rem;
+    }
 
     &--mobile{
       bottom: 7.5rem;
