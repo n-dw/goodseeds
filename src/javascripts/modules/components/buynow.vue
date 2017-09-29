@@ -86,7 +86,7 @@
                     <quantity @changequantity="changeQuantity" :disabled="productData.stock < 1" qty="1"></quantity>
                 </div>
 
-                <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-black add-to-cart"  :class="{'is-loading' : loading}">Buy Now</button>
+                <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-buy-now add-to-cart"  :class="{'is-loading' : loading}">Buy Now</button>
 
                 <button v-else-if="email != '' && productData.stock < 1" type="submit" :class="{'is-loading' : loading}" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 <div v-else class="notify-stock-component">

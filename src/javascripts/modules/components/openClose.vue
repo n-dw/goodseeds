@@ -1,6 +1,6 @@
 <template>
     <div class="open-close-component">
-        <i :class="icon" class="occ-icon" @click="toggleOpenClose" ></i>
+        <i :class="icon" class="occ-icon" @click="toggleOpenClose" :data-mobile="hideOpenCloseToggle" ></i>
         <slot name="title"></slot>
         <div v-show="open" class="open-close__content">
             <slot name="content"></slot>
@@ -14,6 +14,10 @@
         name: 'openclose',
         props:{
             opened:{
+                type: Boolean,
+                default: true
+            },
+            hideOpenCloseToggle:{
                 type: Boolean,
                 default: true
             },

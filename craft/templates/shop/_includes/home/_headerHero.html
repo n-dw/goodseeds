@@ -1,5 +1,5 @@
-<header class="hero-wrapper">
-    {% set imageHeroSettingJPG = [
+<header class="hero-wrapper" style="background: url('{{ entry.heroImage[0].url }}') 50% no-repeat;">
+   {# {% set imageHeroSettingJPG = [
                                 {width: 1600, ratio: 16/9 , jpegQuality: 90},
                                 {width: 1200, ratio: 16/9 , jpegQuality: 90},
                                 {width: 1024, ratio: 16/9 , jpegQuality: 90},
@@ -36,18 +36,15 @@
                  alt="{{ image.title }}">
 
         </picture>
-    {% endif %}
-    <div class="hero__overlay">
-        <div class="center-content">
-            <div class="wrapper container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h2 class="about__section-header">{{ entry.aboutSectionHeader }}</h2>
-                        <div class="about__short-description">{{ entry.aboutBlurb }}</div>
-                        <a class="c-button c-button--large c-button--cta-black" href="/our-story">Learn More</a>
-                    </div>
-                </div>
-            </div>
+    {% endif %}#}
+    <div class="hero-section__content">
+        <div class="site-brand">
+            <figure class="site-logo">
+                <img class="site-brand__site-logo site-logo__img site-logo-img" src="{{ craft.rebrand.logo.url }}"
+                     title="Good Seeds Logo" alt="Good Seeds Logo">
+                <figcaption class="site-brand__site-slogan site-slogan">{{ siteSettings.siteSlogan }}</figcaption>
+            </figure>
         </div>
+        <a class="c-button c-button--large c-button--cta-white" href="/our-story">Learn More</a>
     </div>
 </header>

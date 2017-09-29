@@ -12,8 +12,7 @@
     <div class="promotion-area has-text-centered">
         <div class="wrapper container-fluid">
             <div class="promotion">
-                <p class="promotion-text">Free Shipping on all orders over ${{ siteSettings.freeShipping }}! Same day
-                    shipping when ordered before 11am PST, weekdays! </p>
+                <p class="promotion-text">Free Shipping on all orders over ${{ siteSettings.freeShipping }}!</p>
             </div>
         </div>
     </div>
@@ -21,7 +20,7 @@
 {% block main %}
     {% cache  globally using key "homepage" %}
     {% minify %}
-    <section class="hp-content-section u-padding-top--none about u-text-center u-brd-bttm-darkBrown">
+    <section class="hp-content-section u-padding-top--none u-padding-bottom--none about u-text-center u-brd-bttm-darkBrown">
         {% include '/shop/_includes/home/_headerHero.html' %}
     </section>
     {% set thcpicksSection = craft.entries.section('thcpicks').first() %}
@@ -30,7 +29,7 @@
         <section class="hp-content-section about u-text-center u-brd-bttm-darkBrown">
             <div class="wrapper container-fluid">
                 <openclose>
-                    <template slot="title"><h2 class="about__section-header">Good Breeds</h2></template>
+                    <template slot="title"><h2 class="about__section-header">Featured Products</h2></template>
                     <template slot="content">
                         <div class="thcpicks-list products-list row">
                             {% for product in thcpicks %}

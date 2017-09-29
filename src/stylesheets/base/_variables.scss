@@ -136,8 +136,8 @@ $lightGrey:             map-get($colorsGoodSeeds, lightGrey);
 $logo-color:            map-get($colorsGoodSeeds, orangeBrown);
 $headings-color: 	    $darkBrown;
 $text-color: 			$darkBrown;
-$link-color: 			map-get($colorsGoodSeeds, orangeBrown);
-$link-color-hover: 		map-get($colorsGoodSeeds, ligtherGreen);
+$link-color: 			map-get($colorsGoodSeeds, ligtherGreen);
+$link-color-hover: 		map-get($colorsGoodSeeds,  orangeBrown);
 $link-header-color:		map-get($colorsGoodSeeds, darkBrown);
 $link-header-color-hover: map-get($colorsGoodSeeds, cannaGreen);
 $footer-font-color:     map-get($colorsPostIt, lightgreyDarker);
@@ -168,10 +168,15 @@ Promotion Coloursrgba( $base-color,
  */
 $promotion-color: map-get($colorsGoodSeeds, orangeBrown);
 $promotion-hover-color: darken(map-get($colorsGoodSeeds, orangeBrown), 10%);
-$price-color: map-get($colorsGoodSeeds, operaMauve);
+$price-color: map-get($colorsGoodSeeds, orangeBrown);
 
 $cta-blue-color: map-get($colorsGoodSeeds, mediumGreen);
 $cta-blue-hover-color: darken(map-get($colorsGoodSeeds, mediumGreen), 10%);
+
+$cta-buy-now-color: map-get($colorsGoodSeeds, orangeBrown);
+$cta-buy-now-hover-color: map-get($colorsGoodSeeds, mediumGreen);
+
+$cta-white-hover: map-get($colorsGoodSeeds, ligtherGreen);
 
 /*
 Forms
