@@ -89,14 +89,14 @@
     {% include "shop/_includes/ageVerificationModal" %}
 {% endif %}
 <div class="vue-app">
+    {% block promotions %}
+    {% endblock %}
     {% block header %}
         {% include "shop/_includes/header" %}
     {% endblock %}
     {% block body %}
         <main id="main" class="main">
             <section class="content-wrapper">
-                {% block promotions %}
-                {% endblock %}
                 {% block headerHeroImage %}
                 {% endblock %}
                 {% block breadcrumbs %}

@@ -14,12 +14,17 @@
 
 }
 #account_nav{
+  .account-nav__item--user{
+    i,span{
+      font-size: 2.5rem;
+    }
+  }
   .app-menu__item-top-nav--active.account-nav__item--user{
     & > i{
       color: $link-header-color-hover;
       font-family: $font-menu;
       letter-spacing: 0.2rem;
-      font-size: 2.5rem;
+
       margin-right: 1rem;
     }
   }

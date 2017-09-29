@@ -1,4 +1,6 @@
 .promotion-area{
+  background-color: $promotion-bg-color;
+
   transition: all 0.3s ease-out;
   overflow: hidden;
   height: 100%;
@@ -17,5 +19,6 @@
   }
    p{
      margin-bottom: 0;
+     color: $white;
    }
 }

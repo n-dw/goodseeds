@@ -26,7 +26,7 @@ import productTabs from './components/productTabs.vue';
 var bus = new Vue({});
 export default bus;
 
-var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed", showSearch: false };
+var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed", showSearch: false, searchIconButtonClass: 'icon-search' };
 var components = {ptabs: productTabs, openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
     toggle: function() {
@@ -42,6 +42,8 @@ var methods = {
     },
     toggleSearchBar: function(json) {
         this.showSearch = !this.showSearch;
+        this.searchIconButtonClass = (this.showSearch) ? 'icon-cancel' : 'icon-search';
+        bus.$emit('searchBarToggle', this.showSearch);
     },
 }
 

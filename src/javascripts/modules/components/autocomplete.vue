@@ -3,6 +3,7 @@
         <i class="icon-search"></i>
         <input  type="text"
                 aria-label="Site Search"
+                ref="searchInputText"
                 :id="id"
                 :class="(className ? className + '-input ' : '') + 'autocomplete-input'"
                 :placeholder="placeholder"
@@ -14,7 +15,7 @@
                 @focus="focus"
                 />
         <button v-show="showClose" class="button--search" aria-label="Search Submit" @click="clear" type="button" value="Search">
-            <i class="icon-cancel"></i>
+           Clear
         </button>
 
         <div :class="(className ? className + '-list ' : '') + 'autocomplete transition autocomplete-list'" v-show="showList">
@@ -48,6 +49,8 @@
             }, delay);
         };
     };
+
+    import bus from '../index';
 
     export default {
         name: 'autocomplete',
@@ -129,6 +132,12 @@
                 icon: this.searchIcon,
                 showClose: false
             };
+        },
+
+        mounted(){
+            bus.$on('searchBarToggle', function(searchBarShown){
+                this.updateFocus(searchBarShown)
+            }.bind(this));
         },
 
 
@@ -310,13 +319,22 @@
 
             setValue(val) {
                 this.type = val
-            }
+            },
+            updateFocus(searchBarShown){
+
+               if(searchBarShown)
+               {
+                   console.log(this.$refs.searchInputText)
+                   this.$refs.searchInputText.focus()
+               }
+            },
         },
 
         created(){
             // Sync parent model with initValue Props
             this.type = this.initValue ? this.initValue : null
-        }
+        },
+
 
     }
 </script>

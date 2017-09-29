@@ -30,19 +30,19 @@
     text-align: left;
     font-size: inherit;
     margin: 0;
-    padding: 1.68rem 0;
   }
   #header_logo{
     font-size: 2rem;
     line-height: 1em;
     text-transform: uppercase;
-    padding: 0;
+    padding: 1.68rem 0;
     color: $logo-color;
+    display: inline-block;
   }
-  .icon-search{
+  .icon-search, .icon-cancel{
    font-size: 2.5rem;
 
-    .searchvisible{
+    &.searchvisible{
       color: $link-color-hover;
     }
   }
@@ -57,12 +57,20 @@
       font-size: 2.5rem;
     }
     .button--search{
-      top: 0;
-      right: 0;
+      top: 1rem;
+      right: 1rem;
+      font-size: 2rem;
+      color: $link-color;
+      text-transform: uppercase;
+
+      &:hover{
+        color: $link-color-hover;
+      }
     }
     .autocomplete-wrapper{
       background-color: $lightGrey;
       position: relative;
+      padding: 0.7rem 0;
 
       .autocomplete ul{
         z-index: 7;
@@ -82,6 +90,8 @@
         display: block;
         padding: 5px;
         padding-left: 10px;
+        font-family: $font-copy;
+        font-size: 1.68rem;
       }
 
       .autocomplete ul li a .search-string-match{
