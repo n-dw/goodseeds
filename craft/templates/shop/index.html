@@ -21,7 +21,7 @@
 {% block main %}
     {% cache  globally using key "homepage" %}
     {% minify %}
-    <section class="hp-content-section about u-text-center u-brd-bttm-darkBrown">
+    <section class="hp-content-section u-padding-top--none about u-text-center u-brd-bttm-darkBrown">
         {% include '/shop/_includes/home/_headerHero.html' %}
     </section>
     {% set thcpicksSection = craft.entries.section('thcpicks').first() %}
