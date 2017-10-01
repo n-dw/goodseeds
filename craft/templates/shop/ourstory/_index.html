@@ -1,0 +1,64 @@
+{% extends 'shop/_layouts/main' %}
+
+{% block _inline_css %}
+    <style>
+        {{ _self.getTemplateName() }}
+        {{ source (_self.getTemplateName() ~ '_critical.min.css', ignore_missing = true) }}
+    </style>
+{% endblock %}
+
+{% block main %}
+    {% cache  globally using key craft.request.path  %}
+    {% minify %}
+    <section class="our-story content-section">
+        <div class="hero-section__content">
+            <div class="site-brand">
+                <figure class="site-logo">
+                    <img class="site-brand__site-logo site-logo__img site-logo-img" src="{{ entry.heroImage[0].url }}"
+                         title="Good Seeds Logo" alt="Good Seeds Logo">
+                    <h1 class="page-title">{{ entry.title }}</h1>
+                    <figcaption class="site-brand__site-slogan site-slogan">{{ entry.ourStoryHeadingDescription }}</figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class="wrapper container-fluid">
+                    <div id="core_values" class="core-values">
+                        {% for cv in entry.coreValues %}
+                            <div class="row cv">
+                                <div class="col-xs-12 col-sm-6 cv__description">
+                                    <h3>{{ cv.coreValueTitle }}</h3>
+                                    <p>{{ cv.coreValueText }}</p>
+                                </div>
+                               <div class="col-xs-12 col-sm-6 cv__image">
+                                   {% set image = cv.coreValueImage[0] ?? null %}
+                                   {% if image %}
+                                       {% set transformedImages = craft.imager.transformImage(image,
+                                       [imageSetting],
+                                       {format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 90,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
+                                       ) %}
+                                       {% if craft.imager.serverSupportsWebp() %}
+                                           {% set transformedImagesWebP = craft.imager.transformImage(image,[{width: 460, ratio: 4/3, webpQuality: 85}],
+                                           { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
+                                       {% endif %}
+                                       <picture class="full-width">
+                                           {% if craft.imager.serverSupportsWebp() %}
+                                               <source class="product-cat__image" sizes="100vw" srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
+                                           {% endif %}
+                                           <img class="product-card__image"
+                                                src="{{ transformedImages[0].url }}"
+                                                sizes="100vw"
+                                                srcset="{{ craft.imager.srcset(transformedImages) }}"
+                                                alt="{{ image.title }}">
+
+                                       </picture>
+                                   {% endif %}
+                               </div>
+
+                            </div>
+                        {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endminify %}
+    {% endcache %}
+{% endblock %}
