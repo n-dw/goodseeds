@@ -14,7 +14,7 @@
 .product-cat-card{
   position: relative;
 // /* transition: all 0.3s ease-out 0s;*/
-  margin-bottom: 1.5rem;
+  margin-bottom: $regular-spacing;
   width: 100%;
 
   .product-cat__caption{
@@ -25,7 +25,7 @@
       transform: scale3d(1.05, 1.05, 1);
     }
     .product-cat-card__overlay{
-      border: 2px solid map-get($colors, white);
+      border: 1px solid map-get($colors, white);
 
       .product-cat__caption{
           color:  map-get($colors, white);
@@ -36,68 +36,13 @@
 
   .product-cat-card__overlay{
     position: absolute;
-    top: 1rem;
-    bottom: 1rem;
-    left: 1rem;
-    right: 1rem;
+    top: $smallregular-spacing;
+    bottom: $smallregular-spacing;
+    left: $smallregular-spacing;
+    right: $smallregular-spacing;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  &--all{
-    .product-cat-card__overlay{
-      border: 2px solid map-get($colors, pastel-green);
-
-      .product-cat__caption{
-        color: map-get($colors, pastel-green);
-      }
-    }
-  }
-  &--sale{
-    .product-cat-card__overlay{
-      border: 2px solid map-get($colors, red);
-
-      .product-cat__caption{
-        color: map-get($colors, red);
-      }
-    }
-  }
-  &--sativa{
-    .product-cat-card__overlay{
-      border: 2px solid $sativa-color;
-
-      .product-cat__caption{
-        color: $sativa-color;
-      }
-    }
-  }
-  &--indica{
-    .product-cat-card__overlay{
-      border: 2px solid $indica-color;
-
-      .product-cat__caption{
-        color: $indica-color;
-      }
-    }
-  }
-  &--hybrid{
-    .product-cat-card__overlay{
-      border: 2px solid $hybrid-color;
-
-      .product-cat__caption{
-        color: $hybrid-color;
-      }
-    }
-  }
-  &--concentrates{
-    .product-cat-card__overlay{
-      border: 2px solid $concentrate-color;
-
-      .product-cat__caption{
-        color: $concentrate-color;
-      }
-    }
   }
 }
 .product-cat__image{
@@ -108,7 +53,7 @@
 
   .tout{
   .tout__footer{
-    padding-top: 1.5rem;
+    padding-top: $regular-spacing;
   }
   }
 }
