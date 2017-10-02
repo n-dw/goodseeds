@@ -48,15 +48,15 @@ button{
 		outline: none;
 	}
 	&--small{
-		margin-bottom: 1rem;
-		padding: 0.5rem 1rem;
+		margin-bottom: $small-spacing;
+		padding: $xsmall-spacing $small-spacing;
 	}
 
 	&--large{
-		font-size: 2.6rem;
+		font-size: $medium-font;
 		max-width: 30rem;
 		font-weight: 500;
-		width:100%;
+		width:	100%;
 		background: none;
 		text-transform: uppercase;
 	}
@@ -108,7 +108,7 @@ button{
 		}
 
 	}
-	&--cta-buy-now, &--cta-add-to-cart{
+	&--cta-buy-now, &--cta-add-to-cart, &--cta-gold{
 
 		border: 1px solid $cta-buy-now-color;
 		color:  $cta-buy-now-color;

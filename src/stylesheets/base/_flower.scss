@@ -28,7 +28,7 @@
   padding: ($base-space) * 0.3;
 }
 .product-page{
- // padding-top: 3.2rem;
+
 }
 .product-title{
  font-family: $font-headings-product;
@@ -37,7 +37,7 @@
 
 .product-heading{
   text-transform: capitalize;
-  font-size: 4rem;
+  font-size: $xlarge-font;
 }
 
 .product-tab-button{
@@ -47,23 +47,22 @@
 .product{
   .product-heading{
     display: inline-block;
-    margin-bottom: ($base-space / 3.33);
+    margin-bottom: $small-spacing;
   }
   .product-strain-type{
     display: inline-block;
     //margin-left: 1.3rem;
   }
   .product-buy-wrapper{
-    padding-bottom: ($base-space) * 0.6;
+    padding-bottom: $regular-spacing;
   }
   .add-to-cart{
-    margin-bottom:  ($base-space) * 0.6;
+    margin-bottom:  $regular-spacing;
   }
 }
 
 .product-variants{
   .radio-wrapper{
-
     margin-right: 0.2rem;
     &:last-of-type{
       margin-right: 0;
@@ -93,14 +92,14 @@
       font-family: $font-headings;
 
       .radio-face{
-       height: 4rem;
-        width: 4rem;
+        height: $midlarge-spacing;
+        width: $midlarge-spacing;
       }
 
     }
 
     input[type="radio"]:checked ~ label{
-      border: 2px solid $promotion-hover-color;
+      border: 1px solid $promotion-hover-color;
       color: $promotion-hover-color;
       .radio-face {
       }
@@ -109,13 +108,13 @@
   }
   input[type="radio"]:disabled ~ label{
     cursor: not-allowed;
-    border: 2px solid map-get($colors, mid-grey) !important;
+    border: 1px solid map-get($colors, mid-grey) !important;
     .variant-weight{
       color:  map-get($colors, mid-grey) !important;
     }
 
     &:hover{
-      border: 2px solid map-get($colors, mid-grey) !important;
+      border: 1px solid map-get($colors, mid-grey) !important;
      .variant-weight{
         color:  map-get($colors, mid-grey) !important;
       }
@@ -131,15 +130,15 @@
     }
   }
   i{
-    font-size: 2rem;
+    font-size: $regular-font;
   }
  }
 .product-footer{
-  border-radius: 0.5rem;
+  border-radius: $xsmall-spacing;
 }
 
 .tag{
-  font-size: 2rem;
+  font-size: $regular-font;
   background-color: $pinkPastel;
   color: $white;
   a.tag-link{
@@ -153,17 +152,17 @@
 .progress-container{
   display: block;
   width: 100%;
-  height: 4.5rem;
-  margin-bottom: ($base-space / 2.148);
+  height: $xlarge-spacing;
+  margin-bottom: $regular-spacing;
   border-radius: 999px;
   position: relative;
-  border: 2px solid $black;
+  border: 1px solid $black;
 
   .progress-title{
     position: absolute;
-    left: 1.5rem;
-    top: 0.5rem;
-    font-size: 2rem;
+    left: $regular-spacing;
+    top: $small-spacing;
+    font-size: $regular-font;
 
     a.effect-link{
       color: $black;
@@ -188,8 +187,8 @@
 
 //reviews
 .login-review-message{
-  border-top: 1px solid rgba(219, 219, 219, 0.5);
-  padding-top: ($base-space / 2.148);
+  border-top: 1px solid $darkBrown;
+  padding-top: $smallregular-spacing;
     p{
       font-size: larger;
        margin-bottom: 0;
@@ -214,7 +213,7 @@
 }
 @include bp(medium){
   .product-page{
-     padding-top: 3.2rem;
+     padding-top: $large-spacing;
   }
   .product-heading{
        margin-top: ($base-space / 3.33);

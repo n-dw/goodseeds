@@ -40,6 +40,7 @@ $paddings: (
         regular:  1.618rem,
         medium:   2.427rem,
         large:    3.236rem,
+        midlarge: 4.045rem,
         xlarge:   4.854rem,
 );
 
@@ -53,6 +54,7 @@ $smallregular-padding:   map-get($paddings, smallregular);
 $regular-padding: map-get($paddings, regular);
 $medium-padding:  map-get($paddings, medium);
 $large-padding:   map-get($paddings, large);
+$midlarge-padding:   map-get($paddings, midlarge);
 $xlarge-padding:  map-get($paddings, xlarge);
 
 //off of 16.18 base
@@ -62,6 +64,7 @@ $smallregular-spacing: $smallregular-padding;
 $regular-spacing: $regular-padding;
 $medium-spacing:  $medium-padding;
 $large-spacing:   $large-padding;
+$midlarge-spacing:   $midlarge-padding;
 $xlarge-spacing:  $xlarge-padding;
 
 
