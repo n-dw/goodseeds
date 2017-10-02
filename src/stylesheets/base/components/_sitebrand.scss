@@ -1,5 +1,5 @@
 .site-brand{
-  margin-bottom: 1.68rem;
+  margin-bottom: $regular-spacing;
   &__site-slogan{
     font-family: $font-menu;
     letter-spacing: $cookies-letter-spacing;
@@ -8,5 +8,5 @@
 
 }
 .site-logo__img{
-  max-height: 16.8rem;
+  max-height:  ($regular-spacing * 10);
 }

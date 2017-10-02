@@ -1,5 +1,10 @@
 .hero-wrapper{
-  background-size: cover;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+
+  padding: $large-padding 0;
+
   height: auto;
   max-height: 50.04rem;
 

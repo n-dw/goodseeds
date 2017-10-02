@@ -22,6 +22,46 @@ $heading-sizes: (
         6: 1.618rem
 );
 
+/*
+Padding
+ */
+//off of 16.8 base
+$base-font:   map-get($heading-sizes, 6);
+$regular-font: map-get($heading-sizes, 5);
+$medium-font:  map-get($heading-sizes, 4);
+$large-font:   map-get($heading-sizes, 3);
+$xlarge-font:  map-get($heading-sizes, 2);
+$xxlarge-font: map-get($heading-sizes, 1);
+//off of 16.8 base
+$paddings: (
+        xsmall:   0.404rem,
+        small: 	  0.809rem,
+        regular:  1.618rem,
+        medium:   2.427rem,
+        large:    3.236rem,
+        xlarge:   4.854rem,
+);
+
+/*
+Padding
+ */
+//off of 16.8 base
+$xsmall-padding:  map-get($paddings, xsmall);
+$small-padding:   map-get($paddings, small);
+$regular-padding: map-get($paddings, regular);
+$medium-padding:  map-get($paddings, medium);
+$large-padding:   map-get($paddings, large);
+$xlarge-padding:  map-get($paddings, xlarge);
+
+//off of 16.18 base
+$xsmall-spacing:  $xsmall-padding;
+$small-spacing:   $small-padding;
+$regular-spacing: $regular-padding;
+$medium-spacing:  $medium-padding;
+$large-spacing:   $large-padding;
+$xlarge-spacing:  $xlarge-padding;
+
+
 $font-size-small: 1.25rem;
 
 /**
@@ -56,6 +96,7 @@ $breakpoints: (
         large: 		75em,
         xlarge: 	75em
 );
+
 
 /**
  * GRID
@@ -123,7 +164,7 @@ $colorsGoodSeeds: 	(
         operaMauve:         #B98EA7,
         mediumGreen:        #258C3A,//#228B22,
         forestGreen: 		#575423,
-        orangeBrown: 		#d87c29,
+        orangeBrown: 		#DF934F,//#d87c29,
         darkBrown: 			#402c1c,
         cannaGreen: 	    #7f7431,
         ligtherGreen: 	    #b7bc50,
@@ -216,3 +257,5 @@ $transition-speed: 	0.25 !default;
 Spacing
  */
 $cookies-letter-spacing: 0.2rem;
+
+
