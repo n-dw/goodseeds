@@ -276,10 +276,10 @@
 .content-wrapper{
   .breadcrumb{
     overflow: hidden;
-    margin-top: 1rem;
+    margin-top: $small-spacing;
 
     a{
-      font-size: 1.6rem;
+      font-size: $base-font;
     }
   }
 

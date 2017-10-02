@@ -11,7 +11,7 @@
     {% cache  globally using key craft.request.path  %}
     {% minify %}
     <section class="our-story content-section">
-        <header class="hero-wrapper" style="background: url('{{ entry.heroImage[0].url }}') 50% no-repeat;">
+        <header class="hero-wrapper" style="background: url('{{ entry.heroImage[0].url }}')">
         <div class="hero-section__content">
             <div class="site-brand">
                 <figure class="site-logo">
@@ -24,12 +24,12 @@
         <div class="wrapper container-fluid">
                     <div id="core_values" class="core-values">
                         {% for cv in entry.coreValues %}
-                            <div class="row cv">
+                            <div class="row cv {% if cv.imagePosition == 'left' %}cv--row-reverse{% endif %}">
                                 <div class="col-xs-12 col-sm-6 cv__description">
                                     <h3>{{ cv.coreValueTitle }}</h3>
                                     <p>{{ cv.coreValueText }}</p>
                                 </div>
-                               <div class="col-xs-12 col-sm-6 cv__image  {% if cv.imagePosition == 'left' %}start-sm{% endif %}">
+                               <div class="col-xs-12 col-sm-6 cv__image">
                                    {% set image = cv.coreValueImage[0] ?? null %}
                                    {% if image %}
                                        {% set transformedImages = craft.imager.transformImage(image,

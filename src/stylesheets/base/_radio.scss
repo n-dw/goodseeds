@@ -9,20 +9,20 @@
       left: 1rem;
 
       &:checked ~ .c-radio-label{
-        border: 2px solid $promotion-hover-color;
+        border: 1px solid $promotion-hover-color;
         color: $promotion-hover-color;
       }
 
       &:disabled ~ .c-radio-label{
         cursor: not-allowed;
-        border: 2px solid map-get($colors, mid-grey);
+        border: 1px solid map-get($colors, mid-grey);
 
         .variant-weight{
           color: map-get($colors, mid-grey);
         }
 
         &:hover{
-          border: 2px solid map-get($colors, mid-grey);
+          border: 1px solid map-get($colors, mid-grey);
 
           .variant-weight{
             color: map-get($colors, mid-grey);
@@ -50,7 +50,7 @@
       appearance: none;
       vertical-align: middle;
 
-      border: 2px solid $black;
+      border: 1px solid $black;
       color: $black;
 
       &:focus,
@@ -59,11 +59,11 @@
       }
 
       &--black{
-        border: 2px solid $black;
+        border: 1px solid $black;
         color: $black;
 
         &:hover{
-          border: 2px solid $promotion-hover-color;
+          border: 1px solid $promotion-hover-color;
           color: $promotion-hover-color;
         }
       }

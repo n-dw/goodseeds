@@ -23,7 +23,7 @@
 		display: inline-block;
 	}
 	&--error{
-		margin-bottom: 0.65448rem;
+		margin-bottom: $small-spacing;
 		li{
 			font-size: 1.4rem;
 			color: $errorColor;

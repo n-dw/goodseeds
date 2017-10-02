@@ -35,15 +35,15 @@
 
 .order{
   border: 1px solid $black;
-  padding: 0.7rem;
-  margin-bottom: 1rem;
+  padding: $small-spacing;
+  margin-bottom: $regular-spacing;
 
   .order-listing{
     margin-bottom: 0;
 
     li{
-      padding: 0.5rem 0;
-      font-size: 1.8rem;
+      padding: $small-spacing 0;
+      font-size: $base-font;
     }
   }
 }
@@ -65,6 +65,5 @@
 }
 
 .item-card{
- border-bottom: 1px solid rgba(10, 10, 10, 0.1);
-  margin-bottom: 1rem;
+  margin-bottom: $regular-spacing;
 }
