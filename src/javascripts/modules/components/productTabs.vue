@@ -1,10 +1,15 @@
 <template>
     <div>
-        <div class="row center-xs container-fluid">
-            <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
+        <div class="tabs">
+            <ul>
+                <li><a  :class="{'c-button--cta-black--active' : details}" @click="selectTab('details')">Details</a></li>
+                <li><a  :class="{'c-button--cta-black--active' : effects}" @click="selectTab('effects')">Effects</a></li>
+                <li><a :class="{'c-button--cta-black--active' : reviews}" @click="selectTab('reviews')">Reviews</a></li>
+            </ul>
+           <!-- <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
                 <button
-                        class="product-tab-button product-cat-card product-cat-card--link c-button c-button--cta-black c-button--medium"
-                        :class="{'c-button--cta-black--active' : details}"
+                        class="product-tab-button product-cat-card product-cat-card&#45;&#45;link c-button c-button&#45;&#45;cta-black c-button&#45;&#45;medium"
+                        :class="{'c-button&#45;&#45;cta-black&#45;&#45;active' : details}"
                         type="button"
                         @click="selectTab('details')"
                         >
@@ -13,8 +18,8 @@
             </div>
             <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
                 <button data-show="product_effects" data-module="productTabs"
-                        class="product-tab-button product-cat-card product-cat-card--link c-button c-button--cta-black c-button--medium"
-                        :class="{'c-button--cta-black--active' : effects}"
+                        class="product-tab-button product-cat-card product-cat-card&#45;&#45;link c-button c-button&#45;&#45;cta-black c-button&#45;&#45;medium"
+                        :class="{'c-button&#45;&#45;cta-black&#45;&#45;active' : effects}"
                         type="button"
                         @click="selectTab('effects')"
                         >
@@ -23,14 +28,14 @@
             </div>
             <div class="col-xs-4 col-psm-4 col-md-3 col-lg-3">
                 <button data-show="product_reviews" data-module="productTabs"
-                        class="product-tab-button product-cat-card product-cat-card--link c-button--tab c-button c-button--cta-black c-button--medium"
-                        :class="{'c-button--cta-black--active' : reviews}"
+                        class="product-tab-button product-cat-card product-cat-card&#45;&#45;link c-button&#45;&#45;tab c-button c-button&#45;&#45;cta-black c-button&#45;&#45;medium"
+                        :class="{'c-button&#45;&#45;cta-black&#45;&#45;active' : reviews}"
                         type="button"
                         @click="selectTab('reviews')"
                         >
                     Reviews
                 </button>
-            </div>
+            </div>-->
         </div>
         <footer class="product-footer">
             <div class="product-details-tabs c-tabs">
