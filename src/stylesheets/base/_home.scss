@@ -8,30 +8,24 @@
   display: block;
   overflow: hidden;
   max-width: 100%;
-  max-height: 25rem;
+  max-height: $medium-spacing * 10;
   cursor: pointer;
 }
 .product-cat-card{
   position: relative;
-// /* transition: all 0.3s ease-out 0s;*/
   margin-bottom: $regular-spacing;
   width: 100%;
 
-  .product-cat__caption{
-
-  }
   &:hover{
     .product-cat__image{
       transform: scale3d(1.05, 1.05, 1);
     }
     .product-cat-card__overlay{
       border: 1px solid map-get($colors, white);
-
       .product-cat__caption{
           color:  map-get($colors, white);
         }
     }
-
   }
 
   .product-cat-card__overlay{
@@ -50,11 +44,10 @@
 }
 
 .touts{
-
   .tout{
-  .tout__footer{
-    padding-top: $regular-spacing;
-  }
+    .tout__footer{
+      padding-top: $regular-spacing;
+    }
   }
 }
 

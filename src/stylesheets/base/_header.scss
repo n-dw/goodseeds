@@ -284,37 +284,6 @@
   }
 
 }
-// for fixed menu
-/*
-#main > section:first-child,.main-nav-mobile-wrapper{
-  padding-top: 2.4rem;
-}
-.secure-checkout-page #main > section:first-child{
-  padding-top: 5rem;
-}
-@include bp(small){
-  #main > section:first-child,.main-nav-mobile-wrapper{
-    padding-top: 3rem;
-  }
-  .secure-checkout-page #main > section:first-child{
-    padding-top: 7rem;
-  }
-}
-@media only screen and (min-width: 64.063em){
-  #main > section:first-child,.main-nav-mobile-wrapper{
-    padding-top: 10rem;
-  }
-  .secure-checkout-page #main > section:first-child{
-  padding-top: 7rem;
-  }
-}
-@media only screen and (min-width: 64.063em){
-  #main > section.checkout-page:first-child,.main-nav-mobile-wrapper{
-    padding-top: 7rem;
-  }
-}
-*/
-
 @media only screen and (min-width: 25em){
   #header #header_logo {
     font-size: $medium-font;
