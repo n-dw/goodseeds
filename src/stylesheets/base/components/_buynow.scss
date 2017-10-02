@@ -3,14 +3,14 @@
   max-width: 34rem;
 
     .product-info-wrapper{
-      padding: 0 1.5rem;
+      padding: 0 $regular-spacing;
     }
     .product-buy-now{
-      padding: 0.7rem 1.5rem 0;
+      padding: $small-spacing $regular-spacing 0;
 
       .in-stock-controls{
         position: relative;
-        margin-top: 1.333rem;
+        margin-top: $regular-spacing;
 
         .conversion-chart-link{
           position: absolute;
@@ -30,7 +30,7 @@
         color: $cta-blue-color;
       }
       .price{
-        font-size: 2rem;
+        font-size: $regular-font;
         color: $price-color;
       }
   }
@@ -38,7 +38,7 @@
 
 .product-strain-type{
   border-radius: 5px;
-  padding: 0.7rem 1.5rem;
+  padding: $small-spacing $regular-spacing;
   font-weight: 500;
   border: 2px solid $black;
   font-size: map-get($heading-sizes, 4);

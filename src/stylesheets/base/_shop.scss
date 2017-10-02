@@ -12,32 +12,32 @@
 
 #product_filters_form{
   .filter-group{
-    margin-bottom: 1rem;
+    margin-bottom: $smallregular-spacing;
 
     .checkbox-wrapper{
       display: inline-block;
-      margin-right: 0.7rem;
+      margin-right: $small-spacing;
     }
   }
 
   .form-controls__product-filters{
-    margin-top: .4rem;
+    margin-top: $xsmall-spacing;
   }
 }
 
 .products-list{
- padding-top: 1.5rem;
+ padding-top: $regular-spacing;
 }
 .product-card--link{
   display: block;
   overflow: hidden;
   max-width: 100%;
-  max-height: 35rem;
+  max-height: ($large-spacing * 10);
   cursor: pointer;
 }
 
 .product-card-wrapper{
-  margin-bottom: 1.5rem;
+  margin-bottom: $regular-spacing;
 }
 .product-card{
   display: block;
@@ -70,7 +70,7 @@
     overflow: hidden;
   }
   .product-card-footer{
-    padding-top: 1.5rem;
+    padding-top: $regular-spacing;
   }
 }
 .product-card__image{
@@ -96,7 +96,7 @@
     background-color: $cta-blue-color;
     top:0;
     right: 0;
-    padding: 1.5rem;
+    padding: $regular-spacing;
     span{
       color: $white
     }
@@ -106,7 +106,7 @@
     align-self: flex-start;
     top:0;
     left: 0;
-    padding: 1.5rem;
+    padding: $regular-spacing;
   }
 }
 

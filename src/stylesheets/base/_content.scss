@@ -8,15 +8,15 @@
          }
     }
 .content-container{
-    padding: 0 1rem;
+    padding: 0 $smallregular-spacing;
 }
 
 .content-section{
     padding-bottom: 3.2rem;
 }
 .hp-content-section{
-    padding-top: 3.2rem;
-    padding-bottom: 3.2rem;
+    padding-top: $large-padding;
+    padding-bottom: $large-padding;
 }
 
 .box{
