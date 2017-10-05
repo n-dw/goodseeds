@@ -6,9 +6,10 @@
   border-bottom: 1px solid $darkBrown;
 
   &.fixed{
-    padding: 1rem 0.5rem;
+    position: fixed;
+    top: 0;
     #header_logo{
-      font-size: 4rem;
+
     }
   }
   a{

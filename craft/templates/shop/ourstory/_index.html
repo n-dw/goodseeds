@@ -22,6 +22,10 @@
         </div>
         </header>
         <div class="wrapper container-fluid">
+            <p class="our-story__desc has-text-centered">
+                {{ entry.ourStoryHeadingDescription }} {#{{ entry.ourStoryBlurb }}#}
+            </p>
+            <h2 class="has-text-centered">Three Goods</h2>
                     <div id="core_values" class="core-values">
                         {% for cv in entry.coreValues %}
                             <div class="row cv {% if cv.imagePosition == 'left' %}cv--row-reverse{% endif %}">

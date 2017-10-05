@@ -11,6 +11,7 @@ for (var i = 0; i < moduleElements.length; i++) {
   new Module(el)
 }
 
+import VueSticky from 'vue-sticky'; // Es6 module
 import faqComp from './components/faq.vue';
 import quantityComp from './components/quantity.vue';
 import Autocomplete from './components/autocomplete.vue';
@@ -26,9 +27,26 @@ import productTabs from './components/productTabs.vue';
 var bus = new Vue({});
 export default bus;
 
-var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed", showSearch: false, searchIconButtonClass: 'icon-search' };
+var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed", menuFixed: false,  showSearch: false, searchIconButtonClass: 'icon-search' };
 var components = {ptabs: productTabs, openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
+    windowScroll(e){
+        const header = document.getElementById('header');
+        let headerTop = header.getBoundingClientRect();
+        headerTop = headerTop.top;
+
+        console.log(headerTop);
+        console.log(headerOriginal);
+        if( headerTop < 0 ) {
+            this.menuFixed = true;
+        }
+        else if(headerTop == 0 && headerOriginal) {
+            this.menuFixed = false;
+        }
+        else {
+            this.menuFixed = false;
+        }
+    },
     toggle: function() {
         this.menuOpen = !this.menuOpen;
         this.menuOpen ? this.navMenuStatus = "mobile-nav--open" : this.navMenuStatus = "mobile-nav--closed";
@@ -55,7 +73,9 @@ thcpost.vueParams.methods = Object.assign(thcpost.vueParams.methods, methods);
 new Vue({
     el: '.vue-app',
     components: thcpost.vueParams.components,
+    directives: {'sticky': VueSticky},
     delimiters: ['{|', '|}'],
+    created(){window.addEventListener('scroll', this.windowScroll)},
     data: thcpost.vueParams.data,
     methods: thcpost.vueParams.methods,
 });
