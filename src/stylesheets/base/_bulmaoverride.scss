@@ -1,0 +1,29 @@
+.tabs.gs-tabs
+{
+  ul{
+    border-bottom: 1px solid $darkBrown;
+  }
+  li{
+
+    &.is-active{
+      a{
+        border-bottom-color: $link-color-hover;
+        color: $link-color-hover;
+      }
+    }
+  }
+
+  a{
+    padding: $small-padding $smallregular-padding;
+    border-bottom: 1px solid $darkBrown;
+    color: $text-color;
+    font-family: $font-copy-logo;
+    letter-spacing: $cookies-letter-spacing;
+    font-size: $medium-font;
+
+    &:hover{
+      color: $link-color;
+      border-bottom: 1px solid $link-color;
+    }
+  }
+}

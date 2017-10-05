@@ -45,6 +45,9 @@
   padding-right: 0;
 }
 .product{
+  .product-header{
+    margin-bottom: $large-spacing;
+  }
   .product-heading{
     display: inline-block;
     margin-bottom: $small-spacing;
