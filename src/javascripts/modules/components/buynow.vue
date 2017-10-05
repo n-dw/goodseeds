@@ -43,13 +43,8 @@
         </div>
     <div class="product-info-wrapper">
         <div class="media">
-            <div class="media-left">
-                <div v-if="rating" class="product-details-wrapper">
-                    {{rating}}
-                </div>
-            </div>
             <div class="media-content">
-                <div class="product-price-wrapper has-text-right">
+                <div class="product-price-wrapper has-text-centered">
                     <span v-if=" productData.sale" class="sale-price">was  <strike>{{price}}</strike></span>
                     <span class="price"><b>{{ salePrice }}</b></span>
                 </div>

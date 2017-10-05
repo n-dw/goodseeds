@@ -6,14 +6,18 @@
     {label: 'Change Password', href: '/account/change-password'}
     ] %}
 
-    {% set classes = 'c-button c-button--cta-black c-button--small '%}
-    {% set activeClass = 'c-button--cta-black--active'%}
+    {% set classes = ' '%}
+    {% set activeClass = 'is-active'%}
 
-    <div class="controls">
+    <div class="controls tabs gs-tabs is-centered">
+        <ul>
         {% for item in accountMenu %}
-            <a href="{{ url(item.href) }}" class="{{ classes }}{% if (loop.index == positionActive) %}{{activeClass}}{% endif %}">
+            <li {% if (loop.index == positionActive) %}class="{{activeClass}}"{% endif %}>
+            <a href="{{ url(item.href) }}" class="{{ classes }}">
                 {{item.label}}
             </a>
+            </li>
         {% endfor %}
+        </ul>
     </div>
 {% endmacro %}

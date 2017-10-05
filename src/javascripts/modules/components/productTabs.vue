@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="tabs gs-tabs is-large">
+        <div class="tabs gs-tabs is-centered">
             <ul>
                 <li :class="{'is-active' : details}"><a @click="selectTab('details')">Details</a></li>
                 <li :class="{'is-active' : effects}"><a  @click="selectTab('effects')">Effects</a></li>
