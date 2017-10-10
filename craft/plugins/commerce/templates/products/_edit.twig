@@ -1,4 +1,3 @@
-
 {% extends "commerce/_layouts/cp" %}
 
 {% set selectedSubnavItem = "products" %}
@@ -14,8 +13,7 @@
 
 {% hook "cp.commerce.product.edit" %}
 
-{% import "_includes/forms" as forms %}com
-
+{% import "_includes/forms" as forms %}
 {% import "commerce/products/_fields" as productFields %}
 
 
@@ -189,6 +187,8 @@
 					{% endif %}
 				</div>
 			{% endif %}
+
+			{% hook "cp.commerce.product.edit.right-pane" %}
 
 		</div>
 	</div>
