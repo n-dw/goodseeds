@@ -14,7 +14,7 @@
                 @keydown="keydown"
                 @focus="focus"
                 />
-        <button v-show="showClose" class="button--search" aria-label="Search Submit" @click="clear" type="button" value="Search">
+        <button v-show="showClose" class="button--search button--clear-search" aria-label="Search Submit" @click="clear" type="button" value="Search">
            Clear
         </button>
 

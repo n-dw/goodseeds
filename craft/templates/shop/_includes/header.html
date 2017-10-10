@@ -21,7 +21,7 @@
                 {% include "shop/_includes/accountNav" %}
             </div>
             <div id="mobile_nav_toggle" class="mobile-nav-toggle col-xs-8 end-xs" data-mobile="true">
-                <i :class="{ searchvisible: showSearch }" title="Click to Toggle Bar: Open, Close" @click="toggleSearchBar" class="icon-search u-cursor-pointer"></i>
+                <i :class="[{searchvisible: showSearch}, searchIconButtonClass ]" title="Click to Toggle Bar: Open, Close" @click="toggleSearchBar" class="u-cursor-pointer"></i>
                 <div id="nav-icon" :class="{ open: menuOpen }" @click="toggle">
                     <span></span>
                     <span></span>

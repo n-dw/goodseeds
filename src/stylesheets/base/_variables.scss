@@ -19,13 +19,15 @@ $heading-sizes: (
         3: 3.427rem,
         4: 2.618rem,
         5: 2.148rem,
-        6: 1.618rem
+        6: 1.618rem,
+        7: 1.353rem,
 );
 
 /*
 Padding
  */
 //off of 16.8 base
+$small-font:   map-get($heading-sizes, 7);
 $base-font:   map-get($heading-sizes, 6);
 $regular-font: map-get($heading-sizes, 5);
 $medium-font:  map-get($heading-sizes, 4);
