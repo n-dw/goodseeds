@@ -1,7 +1,7 @@
 <template>
     <div class="message">
         <div v-if="show" class="notification has-text-centered" :class="{ 'is-danger' :  isErr,  'is-success': !isErr}">
-            <button class="delete"  @click="show = !show"></button>
+            <button class="icon-cancel"  @click="show = !show"></button>
             <h4 class="notification-header">{{ message }}</h4>
         </div>
     </div>
@@ -49,7 +49,7 @@
                  this.isErr = message.type == 'error' ? true : false;
                  this.show = true;
                  this.message = message.msg;
-                 this.timer = setTimeout(this.hideMessage, 7000)
+                 this.timer = setTimeout(this.hideMessage, 700000)
             }
         }
     }
