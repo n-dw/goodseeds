@@ -165,6 +165,7 @@ $colorsCannabis: 	(
 );
 
 $colorsGoodSeeds: 	(
+        red:                #BC5151,
         pastelGreen:        #91a13d,
         maximumPurple:      #7A248C,
         operaMauve:         #B98EA7,
@@ -230,7 +231,7 @@ Forms
  */
 $formElementBorderColor: map-get($colors, black);
 $formElementBorderColorFocus: map-get($colors, cyan);
-$formElementBorderColorError: map-get($colors, red);
+$formElementBorderColorError: map-get($colorsGoodSeeds, red);
 
 
 $white: map-get($colors, white);
@@ -242,7 +243,7 @@ $stars-color: map-get($colorsPostIt, cream);
 /*
 *ERROR
 */
-$errorColor: map-get($colors, red);
+$errorColor: map-get($colorsGoodSeeds, red);
 /**
  * EASINGS
  */

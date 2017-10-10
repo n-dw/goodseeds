@@ -114,3 +114,14 @@ Padding
 .u-padding-bottom--none{
 	padding-bottom: 0 !important;
 }
+
+@media only screen and (max-width: 64.063em){
+	[data-mobile="false"]{
+		display: none;
+	}
+}
+@media only screen and (min-width: 64.063em){
+	[data-mobile="true"]{
+		display: none;
+	}
+}

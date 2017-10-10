@@ -1,8 +1,8 @@
 .messages{
 
 }
-.notification.sucess{
-  background-color: $pastelGreen;
+.notification.is-success{
+  background-color: $link-color;
 }
 .notification{
   transition: height 0.3s ease-out;

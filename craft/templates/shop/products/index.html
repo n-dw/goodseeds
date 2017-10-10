@@ -70,7 +70,7 @@
     <div class="wrapper container-fluid">
         <h1 class="page-title">Shop</h1>
         <div class="product-filters-wrapper">
-            <openclose :opened="false" :hideOpenCloseToggle="false" class="product-form-opc">
+            <openclose :opened="false" :hideoct="false" class="product-form-opc">
                 <template slot="title"><h2 class="product-form__title">Filters</h2></template>
                 <template slot="content">
                     {{ params is defined and params ? prodmac.productForm(formParams) }}

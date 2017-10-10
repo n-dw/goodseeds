@@ -27,24 +27,24 @@ import productTabs from './components/productTabs.vue';
 var bus = new Vue({});
 export default bus;
 
-var data = { menuOpen: false,  navMenuStatus: "mobile-nav--closed", menuFixed: false,  showSearch: false, searchIconButtonClass: 'icon-search' };
+var data = {menuOpen: false,  navMenuStatus: "mobile-nav--closed", menuFixed: false,  showSearch: false, searchIconButtonClass: 'icon-search' };
 var components = {ptabs: productTabs, openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
     windowScroll(e){
-        const header = document.getElementById('header');
-        let headerTop = header.getBoundingClientRect();
-        headerTop = headerTop.top;
 
-        console.log(headerTop);
-        console.log(headerOriginal);
-        if( headerTop < 0 ) {
-            this.menuFixed = true;
-        }
-        else if(headerTop == 0 && headerOriginal) {
-            this.menuFixed = false;
+        const Offset = window.scrollY || window.pageYOffset;
+        const headerHeight = document.getElementById('header').offsetHeight || document.getElementById('header').clientHeight;
+        document.getElementById('header_wrapper').style.height = headerHeight;
+
+        if (Offset > headerHeight) {
+            if(!this.menuFixed) {
+                this.menuFixed = true;
+            }
         }
         else {
-            this.menuFixed = false;
+            if(this.menuFixed) {
+                this.menuFixed = false;
+            }
         }
     },
     toggle: function() {
@@ -75,7 +75,12 @@ new Vue({
     components: thcpost.vueParams.components,
     directives: {'sticky': VueSticky},
     delimiters: ['{|', '|}'],
-    created(){window.addEventListener('scroll', this.windowScroll)},
+    created(){
+        window.addEventListener('scroll', this.windowScroll)
+    },
+    mounted(){
+
+    },
     data: thcpost.vueParams.data,
     methods: thcpost.vueParams.methods,
 });

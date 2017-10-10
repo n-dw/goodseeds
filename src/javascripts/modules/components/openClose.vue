@@ -1,6 +1,6 @@
 <template>
     <div class="open-close-component">
-        <i :class="icon" class="occ-icon" @click="toggleOpenClose" :data-mobile="hideOpenCloseToggle" ></i>
+        <i :class="classOpenClose" @click="toggleOpenClose"></i>
         <slot name="title"></slot>
         <div v-show="open" class="open-close__content">
             <slot name="content"></slot>
@@ -17,7 +17,7 @@
                 type: Boolean,
                 default: true
             },
-            hideOpenCloseToggle:{
+            hideoct:{
                 type: Boolean,
                 default: true
             },
@@ -29,11 +29,20 @@
                 open: true,
                 icon: 'icon-plus-1',
             };
+
+
+
         },
         mounted(){
             this.open = this.opened;
             if(this.open){
                 this.icon = this.closeIcon;
+            }
+        },
+        computed: {
+            classOpenClose: function () {
+                return this.icon// + this.hideoct ? ' is-hidden-desk': '';
+
             }
         },
         methods: {
