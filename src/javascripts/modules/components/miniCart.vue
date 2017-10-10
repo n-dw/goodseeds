@@ -4,7 +4,6 @@
             <i class="icon-basket cart-count-wrapper app-menu__icon">
                 <span class="cart-count count" v-show="lineItems.length">{{lineItems.length}}</span>
             </i>
-            <span v-show="mobile">Cart</span>
         </a>
         <article class="mini-cart has-text-left box" :class="{'mini-cart--mobile': mobile}" v-show="showMiniCart">
             <header class="mini-cart__header">

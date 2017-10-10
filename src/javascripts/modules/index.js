@@ -32,11 +32,11 @@ var components = {ptabs: productTabs, openclose: Openclose, message: Message, au
 var methods = {
     windowScroll(e){
 
-        const Offset = window.scrollY || window.pageYOffset;
+        const offset = window.scrollY || window.pageYOffset;
         const headerHeight = document.getElementById('header').offsetHeight || document.getElementById('header').clientHeight;
         document.getElementById('header_wrapper').style.height = headerHeight;
 
-        if (Offset > headerHeight) {
+        if (offset > headerHeight) {
             if(!this.menuFixed) {
                 this.menuFixed = true;
             }

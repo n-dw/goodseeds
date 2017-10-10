@@ -16,21 +16,21 @@
 #account_nav{
   .account-nav__item--user{
     i,span{
-      font-size: 2.5rem;
+      font-size: $medium-font;
     }
   }
   .app-menu__item-top-nav--active.account-nav__item--user{
     & > i{
       color: $link-header-color-hover;
       font-family: $font-menu;
-      letter-spacing: 0.2rem;
+      letter-spacing: $cookies-letter-spacing;
 
       margin-right: 1rem;
     }
   }
   .account-nav__item{
     display: inline-block;
-    padding: 1.68rem 0;
+    padding: $regular-padding 0;
 
     &:hover{
       .sub-menu{
@@ -40,7 +40,7 @@
         background-color: $header-bg-color;
         left: -9rem;
         width: 15rem;
-        padding: 1.8rem 0.8rem 0.8rem;
+        padding: $regular-padding $small-padding;
 
         li{
           a{
@@ -64,7 +64,7 @@
     }
   }
   .account-nav__link--login{
-    padding: 0.5rem 1.2rem;
+    padding: $small-padding $smallregular-padding;
     border-radius: 5px;
     border: 1px solid $link-header-color;
 
@@ -140,15 +140,15 @@ APP MENU
 
   &__icon{
     display: block;
-    font-size: 2rem;
+    font-size: $medium-font;
   }
   &__link{
-    padding: 0.3em 0.7em;
+    padding: $small-padding $smallregular-padding;
     height: 100%;
     display: block;
   }
   .cart-count-wrapper{
-    font-size: 2rem;
+    font-size: $medium-font;
   }
 }
 
@@ -165,12 +165,11 @@ APP MENU
 
     a{
       font-family: $font-copy;
-      font-size: 1.68rem;
+      font-size: $base-font;
     }
 
     &--mobile{
       bottom: 7.5rem;
-
     }
 
     .close-cart{
@@ -197,18 +196,18 @@ APP MENU
 
         .c-button--cta-blue{
 
-          border: 2px solid $cta-blue-color;
+          border: 1px solid $cta-blue-color;
           color: $cta-blue-color;
 
 
           &:hover{
-            border: 2px solid $cta-blue-hover-color;
+            border: 1px solid $cta-blue-hover-color;
             color: $cta-blue-hover-color;
           }
         }
         .c-button--cta-black{
 
-          border: 2px solid map_get($colors, black);
+          border: 1px solid map_get($colors, black);
           color: map_get($colors, black);
 
 
@@ -236,7 +235,7 @@ APP MENU
 /*shared nav items */
 .cart-count-wrapper{
   position: relative;
-  font-size: 2.5rem;
+  font-size: $medium-font;
 }
 .cart-count{
   background : $cart-num-items-color;
@@ -265,7 +264,7 @@ APP MENU
 
 @media only screen and (max-width: 23.438em){
   .app-menu .app-menu__link {
-    padding: 0.2em 0.5em;
+    padding: $xsmall-padding $small-padding;
   }
 }
 /*
