@@ -159,7 +159,9 @@
 
             // Get the original data
             cleanUp(data){
-                return JSON.parse(JSON.stringify(data));
+                let inputText = JSON.parse(JSON.stringify(data));
+                inputText.title = inputText.title.replace(/<(?:.|\n)*?>/gm, '');
+                return inputText;
             },
 
             input(val){
@@ -252,7 +254,9 @@
 
             selectList(data){
                 let clean = this.cleanUp(data);
-
+                console.log(data);
+                console.log(clean);
+              //  this.type = val.replace(/<(?:.|\n)*?>/gm, '');
                 // Put the selected data to type (model)
                 this.type = clean[this.anchor];
 
@@ -324,8 +328,8 @@
 
                if(searchBarShown)
                {
-                   console.log(this.$refs.searchInputText)
-                   this.$refs.searchInputText.focus()
+                   document.getElementById("searchbox").focus();
+                   //this.$refs.searchInputText.focus()
                }
             },
         },
