@@ -9,13 +9,13 @@
     margin-top: $small-spacing;
   }
   a{
-    color: $link-header-color-hover;
+    color: $link-footer-color;
     font-family: $font-menu;
     letter-spacing: $cookies-letter-spacing;
     font-size: $medium-font;
 
     &:hover{
-      color:  $footer-font-color;
+      color:  $link-footer-color-hover;
     }
 
     &.support-email{

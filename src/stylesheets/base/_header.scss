@@ -3,6 +3,7 @@
   width: 100%;
   padding: 0;
   z-index: 15;
+  //box-shadow: 0 0 3px rgba(64, 44, 28, 0.1);
   //border-bottom: 1px solid $darkBrown;
 
   &.fixed{
@@ -78,7 +79,8 @@
     .autocomplete-wrapper{
       background-color: $lightGrey;
       position: relative;
-      padding: 0.7rem 0;
+      padding: $small-spacing 0;
+      margin-bottom: $small-spacing;
 
       .autocomplete ul{
         z-index: 7;

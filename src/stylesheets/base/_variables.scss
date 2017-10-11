@@ -181,21 +181,22 @@ $colorsGoodSeeds: 	(
         lightGrey:          #f8f8f8,
 );
 
-$darkBrown:             map-get($colorsGoodSeeds, darkBrown);
-$lightGrey:             map-get($colorsGoodSeeds, lightGrey);
-$orangeBrown:           map-get($colorsGoodSeeds, orangeBrown);
-$ligtherGreen:          map-get($colorsGoodSeeds, ligtherGreen);
-$logo-color:            $orangeBrown;
-$headings-color: 	    $darkBrown;
-$text-color: 			$darkBrown;
-$link-color: 			$ligtherGreen;
-$link-color-hover: 		$orangeBrown;
-$link-header-color:		map-get($colorsGoodSeeds, darkBrown);
-$link-header-color-hover: map-get($colorsGoodSeeds, cannaGreen);
-$footer-font-color:     map-get($colorsPostIt, lightgreyDarker);
-$link-footer-color: 			map-get($colors, dark-purple);
-$link-footer-color-hover: 		#252d31;
-$mobileNavColor: $ligtherGreen;
+$darkBrown:               map-get($colorsGoodSeeds, darkBrown);
+$lightGrey:               map-get($colorsGoodSeeds, lightGrey);
+$orangeBrown:             map-get($colorsGoodSeeds, orangeBrown);
+$ligtherGreen:            map-get($colorsGoodSeeds, ligtherGreen);
+$cannaGreen:              map-get($colorsGoodSeeds, cannaGreen);
+$logo-color:              $orangeBrown;
+$headings-color: 	      $darkBrown;
+$text-color: 			  $darkBrown;
+$link-color: 			  $ligtherGreen;
+$link-color-hover: 		  $orangeBrown;
+$link-header-color:		  $darkBrown;
+$link-header-color-hover: $cannaGreen;
+$footer-font-color:       map-get($colorsPostIt, lightgreyDarker);
+$link-footer-color: 	  $link-header-color;
+$link-footer-color-hover: $link-header-color-hover;
+$mobileNavColor:          $ligtherGreen;
 
 $body-bg-color: map-get($colors, yellow);
 $header-bg-color: map_get($colors, white);
