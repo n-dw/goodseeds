@@ -3,13 +3,7 @@
         <li class="mobile-nav__item {% if page == 'home' %} nav__item--active {% endif %}"><a href="/" class="mobile-nav__link">Home  <i class="icon-home"></i></a></li>
         <li class="mobile-nav__item {% if 'shop' in page %} nav__item--active {% endif %}">
             <a href="/shop" class="mobile-nav__link">Shop <i class="icon-shopping-bag"></i></a>
-            <ul class="sub-menu--open c-list--clean">
-                {% for shopCat in shopCategories %}
-                    {% if shopCat.show %}
-                        <li class="mobile-nav__item"><a href="/{{  shopCat.url }}" class="mobile-nav__link">{{ shopCat.label }}</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
+           
         </li>
 
         <li class="mobile-nav__item {% if page == 'our-story' %} nav__item--active {% endif %}"><a href="/our-story" class="mobile-nav__link">Our Story</a></li>

@@ -183,16 +183,19 @@ $colorsGoodSeeds: 	(
 
 $darkBrown:             map-get($colorsGoodSeeds, darkBrown);
 $lightGrey:             map-get($colorsGoodSeeds, lightGrey);
-$logo-color:            map-get($colorsGoodSeeds, orangeBrown);
+$orangeBrown:           map-get($colorsGoodSeeds, orangeBrown);
+$ligtherGreen:          map-get($colorsGoodSeeds, ligtherGreen);
+$logo-color:            $orangeBrown;
 $headings-color: 	    $darkBrown;
 $text-color: 			$darkBrown;
-$link-color: 			map-get($colorsGoodSeeds, ligtherGreen);
-$link-color-hover: 		map-get($colorsGoodSeeds,  orangeBrown);
+$link-color: 			$ligtherGreen;
+$link-color-hover: 		$orangeBrown;
 $link-header-color:		map-get($colorsGoodSeeds, darkBrown);
 $link-header-color-hover: map-get($colorsGoodSeeds, cannaGreen);
 $footer-font-color:     map-get($colorsPostIt, lightgreyDarker);
 $link-footer-color: 			map-get($colors, dark-purple);
 $link-footer-color-hover: 		#252d31;
+$mobileNavColor: $ligtherGreen;
 
 $body-bg-color: map-get($colors, yellow);
 $header-bg-color: map_get($colors, white);

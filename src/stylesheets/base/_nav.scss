@@ -274,12 +274,12 @@ Mobile Nav
 
 }
 nav.mobile-nav{
-  z-index: 6;
+  z-index: 4;
   position: fixed;
 
   transition: .5s ease-in-out;
   display: none;
-  padding: 1rem 3rem;
+  padding: $smallregular-padding $large-padding;
 
 
   width: 85%;
@@ -287,7 +287,7 @@ nav.mobile-nav{
   max-height: 95vh;
   height: 100vh;
 
-  background-color: $header-bg-color;
+  background-color: $mobileNavColor;
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -299,7 +299,7 @@ nav.mobile-nav{
   }
 
   ul li ul{
-    border-left: 2px solid $white;
+    border-left: 1px solid $white;
     margin: 0.75rem;
   }
   a{
@@ -316,8 +316,9 @@ nav.mobile-nav{
     }
   }
   a.mobile-nav__link{
-    font-size: 2rem;
-    padding: 0.7rem 0;
+    font-size: $regular-font;
+    letter-spacing: $cookies-letter-spacing;
+    padding: $small-padding 0;
     width: 100%;
     display: inline-block;
   }
