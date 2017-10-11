@@ -3,14 +3,34 @@
 {% block content %}
 
     <div class="has-text-left">
+
+        <h2>
+            Payment Method
+        </h2>
+
+            <div class="c-radio-group">
+                <div class="c-radio-wrapper">
+                        <input type="radio" class="c-radio" id="c_radio_0"
+                               name="paymentMethod" value="etransfer"
+                               checked />
+                        <label for="c_radio_0" class="c-radio-label c-radio-label--black">
+                            <strong>e-Transfer</strong>
+                        </label>
+                    </div>
+            </div>
+    </div>
+
+    <div class="has-text-left">
         <h2>e-Transfer Instructions</h2>
+        <p>{{ siteSettings.paymentInstructions }}</p>
         {% if order is not defined %}
             {% set order = {'email': cart.email, 'shortNumber': cart.shortNumber } %}
         {% endif %}
         {% include 'shop/_includes/messages/_paymentInstructionETransfer' %}
     </div>
 
-    <div>
+    <div class="has-text-left">
+        <h2>Order Summary</h2>
         <ul class="c-list c-list--clean has-text-left">
             <li>
                 <strong>Subtotal:</strong>
