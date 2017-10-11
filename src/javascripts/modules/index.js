@@ -54,7 +54,7 @@ var methods = {
     itemSelected: function(data) {
         // ga('send', 'pageview', data.searchUrl);
         if(data.url) {
-            //window.location.href = data.url;
+            window.location.href = data.url;
         }
     },
     processJsonData: function(json) {

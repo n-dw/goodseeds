@@ -254,9 +254,6 @@
 
             selectList(data){
                 let clean = this.cleanUp(data);
-                console.log(data);
-                console.log(clean);
-              //  this.type = val.replace(/<(?:.|\n)*?>/gm, '');
                 // Put the selected data to type (model)
                 this.type = clean[this.anchor];
 
