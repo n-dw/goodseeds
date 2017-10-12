@@ -17,6 +17,13 @@
 {label: "Concentrates", url: 'shop?cat=oil', show: true},
 {label: "Edibles", url: 'shop?cat=edibles', show: false}
 ] %}
+{% set accountMenu = [
+{label: 'My Address', href: '/account'},
+{label: 'My Orders', href: '/account/orders'},
+{label: 'My Points', href: '/account/points'},
+{label: 'My Password', href: '/account/change-password'},
+{label: 'Sign Out', href: logoutUrl}
+] %}
 
 {% set imageSetting = { width: 460, ratio: 4/3 , jpegQuality: 70} %}
 

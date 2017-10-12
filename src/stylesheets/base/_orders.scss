@@ -1,3 +1,23 @@
+.controls{
+  margin-bottom: $regular-spacing;
+  .level{
+    .level-item{
+
+      a{
+        letter-spacing: $cookies-letter-spacing;
+        font-family: $font-menu;
+        font-size: $regular-font;
+      }
+      &.is-active{
+        a{
+          color: $link-color-hover;
+        }
+      }
+    }
+  }
+
+}
+
 .out-stock{
   color: $pinkPastel;
 }
