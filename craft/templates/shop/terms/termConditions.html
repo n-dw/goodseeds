@@ -16,10 +16,9 @@
                 <div class="col-xs-12">
                     <h1 class="page-title">{{ entry.title }}</h1>
                     {% for termsGroup in entry.headerText %}
-
                         <div class="terms-conditions__tc">
                             <h2 class="tc__heading">{{ termsGroup.header }}</h2>
-                            <p class="tc__text box">{{ termsGroup.text }}</p>
+                            <p class="tc__text">{{ termsGroup.text }}</p>
                         </div>
                     {% endfor %}
                 </div>

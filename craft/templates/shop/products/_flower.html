@@ -21,7 +21,7 @@
     <section class="shop product-page product-listing-app content-section">
         <div class="wrapper">
             <article class="product">
-                <header class="product-header box">
+                <header class="product-header box-section">
                         <div class="row">
                             <div class="col-xs-12 col-md-7">
                                 <div class="product-images has-text-centered card-image">
@@ -33,7 +33,7 @@
                             <div class="col-xs-12 col-md-5">
                                 <div class="row center-xs product-buy-wrapper">
                                     <div class="col-xs-12">
-                                        <h1 class="product-heading">{{ product.title }}</h1>
+                                        <h1 class="product-heading product-title">{{ product.title }}</h1>
                                         {% if avgRating > 0 %}
                                             <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
                                         {% endif %}

@@ -9,12 +9,10 @@
 {% endblock %}
 
 {% block promotions %}
-    <div class="promotion-area u-bg-pastel-green has-text-centered">
+    <div class="promotion-area has-text-centered">
         <div class="wrapper container-fluid">
             <div class="promotion">
-                {#<button class="delete" onclick="this.parentNode.parentNode.parentNode.classList.add('close')"></button>#}
-                <p class="promotion-text">Free Shipping on all orders over ${{ siteSettings.freeShipping }}! Same day
-                    shipping when ordered before 11am PST, weekdays! </p>
+                <p class="promotion-text">Free Shipping on all orders over ${{ siteSettings.freeShipping }}!</p>
             </div>
         </div>
     </div>
@@ -22,27 +20,16 @@
 {% block main %}
     {% cache  globally using key "homepage" %}
     {% minify %}
-    <section class="hp-content-section u-text-center product-categories u-brd-bttm-black">
-        <div class="wrapper container-fluid">
-            <openclose>
-                <template slot="title"><h2>Shop by Category</h2></template>
-                <template slot="content">
-                    <div class="row">
-
-                        {% include '/shop/_includes/home/_productCatItem.html' %}
-
-                    </div>
-                </template>
-            </openclose>
-        </div>
+    <section class="hp-content-section u-padding-top--none u-padding-bottom--none about u-text-center">
+        {% include '/shop/_includes/home/_headerHero.html' %}
     </section>
     {% set thcpicksSection = craft.entries.section('thcpicks').first() %}
     {% set thcpicks = thcpicksSection.thcpicks %}
     {% if thcpicks |length > 0 %}
-        <section class="hp-content-section about u-text-center u-brd-bttm-black">
+        <section class="hp-content-section about u-text-center">
             <div class="wrapper container-fluid">
                 <openclose>
-                    <template slot="title"><h2 class="about__section-header">THC Picks</h2></template>
+                    <template slot="title"><h2 class="about__section-header">Featured Products</h2></template>
                     <template slot="content">
                         <div class="thcpicks-list products-list row">
                             {% for product in thcpicks %}
@@ -54,47 +41,12 @@
             </div>
         </section>
     {% endif %}
-
-    {% set sales = craft.commerce.products({
-    status: 'live',
-    limit:  4,
-    hasSales: true,
-    hasVariant: {hasStock: true},
-    order: 'postDate DESC'
-    }) %}
-    {% if sales|length > 0 %}
-        <section class="hp-content-section about u-text-center u-brd-bttm-black">
-            <div class="wrapper container-fluid">
-                <openclose>
-                    <template slot="title"><h2 class="about__section-header">Hot Deals</h2></template>
-                    <template slot="content">
-                        <div class="thcpicks-list products-list row">
-                            {% for product in sales %}
-                                {% include '/shop/_includes/product/_productCard.html' %}
-                            {% endfor %}
-                        </div>
-                    </template>
-                </openclose>
-            </div>
-        </section>
-    {% endif %}
-    <section class="hp-content-section about u-text-center u-brd-bttm-black">
+    <section class="hp-content-section thcpoints u-text-center">
         <div class="wrapper container-fluid">
             <div class="row">
                 <div class="col-xs-12">
-                    <h2 class="about__section-header">{{ entry.aboutSectionHeader }}</h2>
-                    <div class="about__short-description box">{{ entry.aboutBlurb }}</div>
-                    <a class="c-button c-button--large c-button--cta-black" href="/our-story">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="hp-content-section thcpoints u-text-center u-brd-bttm-black">
-        <div class="wrapper container-fluid">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2 class="thcpoints__section-header">THC Points</h2>
-                    <div class="thcpoints__short-description box">
+                    <h2 class="thcpoints__section-header">Karma Seeds</h2>
+                    <div class="thcpoints__short-description">
                         Earn THC Points by enjoying and reviewing our products! Use your THC Points towards your next
                         purchase!
                         <br> * See <a href="/terms">Terms and Conditions</a> for more details
@@ -103,7 +55,7 @@
             </div>
         </div>
     </section>
-    <section class="hp-content-section customer-assurance u-text-center u-brd-bttm-black">
+    <section class="hp-content-section customer-assurance u-text-center">
         <div class="wrapper container-fluid">
             <h2 class="customer-assurance__header section-header">{{ entry.toutSectionHeader }}</h2>
             <div class="touts row">
@@ -118,13 +70,13 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="section-header u-text-center">Questions or Concerns</h2>
-                    <p class="box">Let us put your mind at ease, please visit our <a href="/frequently-asked-questions">FAQ</a>
+                    <p>Let us put your mind at ease, please visit our <a href="/frequently-asked-questions">FAQ</a>
                         for
                         common questions or contact us us via <a href="/contact">contact</a> form or email
                         <a href="mailto:{{ siteSettings.defaultEmailAddress }}">{{ siteSettings.defaultEmailAddress }}</a>
                         and
                         we will get back to you as soon as possible.
-                    </p><a href="/shop/products" class="c-button c-button--large c-button--cta-black">Shop Now</a>
+                    </p><a href="/shop/products" class="c-button c-button--large c-button--cta-gold">Shop Now</a>
                 </div>
             </div>
         </div>

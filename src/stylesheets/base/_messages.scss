@@ -1,10 +1,22 @@
 .messages{
 
 }
+.notification.is-success{
+  background-color: $link-color;
+}
 .notification{
   transition: height 0.3s ease-out;
   overflow: hidden;
   height: 100%;
+
+ & > .icon-cancel{
+   position: absolute;
+   right: 0.5rem;
+   top: 0.5rem;
+   background: none;
+   border: none;
+   font-size: $regular-font;
+  }
    &.close{
      opacity: 0;
      height: 0;

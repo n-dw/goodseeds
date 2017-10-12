@@ -1,9 +1,9 @@
 .icon-star, .icon-star-half, .icon-star-empty{
   color: $stars-color;
-  font-size: 2rem;
+  font-size: $regular-font;
   line-height: 1;
 
   &:before{
-    width: 1rem;
+    width: $smallregular-spacing;
   }
 }

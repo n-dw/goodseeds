@@ -17,6 +17,13 @@
 {label: "Concentrates", url: 'shop?cat=oil', show: true},
 {label: "Edibles", url: 'shop?cat=edibles', show: false}
 ] %}
+{% set accountMenu = [
+{label: 'My Address', href: '/account'},
+{label: 'My Orders', href: '/account/orders'},
+{label: 'My Points', href: '/account/points'},
+{label: 'My Password', href: '/account/change-password'},
+{label: 'Sign Out', href: logoutUrl}
+] %}
 
 {% set imageSetting = { width: 460, ratio: 4/3 , jpegQuality: 70} %}
 
@@ -80,7 +87,7 @@
     </script>
     {% endminify %}
 </head>
-<body class="{% block btags %}u-bg-light-grey{% endblock %}">
+<body class="{% block btags %}{% endblock %}">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -89,13 +96,15 @@
     {% include "shop/_includes/ageVerificationModal" %}
 {% endif %}
 <div class="vue-app">
+    {% block promotions %}
+    {% endblock %}
     {% block header %}
         {% include "shop/_includes/header" %}
     {% endblock %}
     {% block body %}
         <main id="main" class="main">
             <section class="content-wrapper">
-                {% block promotions %}
+                {% block headerHeroImage %}
                 {% endblock %}
                 {% block breadcrumbs %}
                 {% endblock %}
@@ -115,19 +124,19 @@
         <div class="messages">
             {% if messageNotice and (messageNotice != 'Cart updated.' or craft.request.getPost())  %}
                 <div class="notification has-text-centered is-success">
-                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    <button class="icon-cancel" onclick="this.parentNode.classList.add('close');"></button>
                     <h4 class="notification-header">{{ messageNotice }}</h4>
                 </div>
             {% endif %}
             {% if messageError and (messageError != 'Cart not completely updated.' or craft.request.getPost()) %}
                 <div class="notification has-text-centered is-danger">
-                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    <button class="icon-cancel" onclick="this.parentNode.classList.add('close');"></button>
                     <h4 class="notification-header">{{ messageError }}</h4>
                 </div>
             {% endif %}
             {% if cartError %}
                 <div class="notification has-text-centered is-danger">
-                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    <buttonclass="icon-cancel" onclick="this.parentNode.classList.add('close');"></button>
                     <h4 class="notification-header"> {{ cartError }}</h4>
                 </div>
             {% endif %}

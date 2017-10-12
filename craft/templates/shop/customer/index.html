@@ -2,24 +2,14 @@
 {% if not currentUser %}
     {% redirect '/' %}
 {% endif %}
+{% import "shop/macros/account.html" as accountFunctions %}
 {% block main %}
     <section class="content-section">
         <div class="wrapper container-fluid">
             <div class="row center-xs">
                 <div class="col-xs-12">
                     <h1 class="page-title">My Orders</h1>
-                    <div class="controls">
-                        <a href="/account/orders"
-                           class="c-button c-button--cta-black c-button--cta-black--active c-button--small">
-                            My Orders
-                        </a>
-                        <a href="/account" class="c-button c-button--cta-black c-button--small">
-                            My Address
-                        </a>
-                        <a href="/account/change-password" class="c-button c-button--cta-black c-button--small">
-                            Change Password
-                        </a>
-                    </div>
+                    {{ accountFunctions.accountMenu(1) }}
                     <div class="orders-wrapper row">
                         {% for order in craft.commerce.orders.customer(craft.commerce.customer).find() %}
                             <div class="col-xs-12 col-psm-6 col-md-4 col-lg-3">

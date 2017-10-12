@@ -1,7 +1,18 @@
 // Fonts
 // GOOGLE FONTS ADD HERE
-@import url(https://fonts.googleapis.com/css?family=Permanent+Marker|Quicksand|Roboto+Condensed);
+@import url(https://fonts.googleapis.com/css?family=Quicksand|Roboto+Condensed);
 
+@font-face {
+  font-family: 'cookiesmilk';
+  src: url('../fonts/cookiesmilk-regular.eot?54144138');
+  src: url('../fonts/cookiesmilk-regular.eot?54144138#iefix') format('embedded-opentype'),
+  url('../fonts/cookiesmilk-regular.woff2?54144138') format('woff2'),
+  url('../fonts/cookiesmilk-regular.woff?54144138') format('woff'),
+  url('../fonts/cookiesmilk-regular.ttf?54144138') format('truetype'),
+  url('../fonts/cookiesmilk-regular.svg?54144138#cookiesmilk-regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 
 @font-face {
   font-family: 'thcpost-icons';

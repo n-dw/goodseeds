@@ -17,7 +17,7 @@
             <div class="row center-xs">
                 <div class="col-xs-12 col-md-10 col-lg-7">
                     <h1 class="page-title">Cart</h1>
-                    <div class="box">
+                    <p>
                         <div>Cart subtotal ({{ cart.totalQty }}
                             items): {{ cart.itemSubTotal|commerceCurrency(cart.currency) }} +
                             <strong>{{ shippingAmount }}</strong>
@@ -27,8 +27,8 @@
                                 shipping, <a href="{{ url('/shop') }}">Continue Shopping</a>.
                             </div>
                         {% endif %}
-                    </div>
-                    <div class="box has-text-left">
+                    </p>
+                    <div class="has-text-left">
                         <ul class="c-list c-list--clean">
                             {% if  cart.lineItems|length < 1 %}
                                 <p>There are no items in your cart.</p>
@@ -43,7 +43,7 @@
                         </ul>
                     </div>
                     {% if  cart.lineItems|length > 0 %}
-                        <div class="box has-text-left">
+                        <div class="has-text-left">
                             <form method="POST">
                                 <input type="hidden" name="action" value="commerce/cart/updateCart">
                                 <input type="hidden" name="redirect" value="shop/cart">
@@ -72,7 +72,7 @@
                         </div>
                     {% endif %}
 
-                    <div class="box has-text-left">
+                    <div class="has-text-left">
                         <form method="POST">
                             <input type="hidden" name="action" value="commerce/cart/updateCart">
                             <input type="hidden" name="redirect" value="shop/cart">
@@ -92,7 +92,7 @@
                         </form>
                     </div>
 
-                    <div class="box has-text-left">
+                    <div class="has-text-left">
                         <ul class="c-list c-list--clean c-list--margin-bottom">
                             <li>
                                 <strong>Subtotal : </strong> {{ cart.itemSubtotal|commerceCurrency(cart.currency) }}

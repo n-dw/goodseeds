@@ -1,7 +1,9 @@
 <template>
     <div :class="(className ? className + '-wrapper ' : '') + 'autocomplete-wrapper'">
+        <i class="icon-search"></i>
         <input  type="text"
                 aria-label="Site Search"
+                ref="searchInputText"
                 :id="id"
                 :class="(className ? className + '-input ' : '') + 'autocomplete-input'"
                 :placeholder="placeholder"
@@ -12,8 +14,8 @@
                 @keydown="keydown"
                 @focus="focus"
                 />
-        <button class="button--search" aria-label="Search Submit" @click="clear" type="button" value="Search">
-            <i :class="icon"></i>
+        <button v-show="showClose" class="button--search button--clear-search" aria-label="Search Submit" @click="clear" type="button" value="Search">
+           Clear
         </button>
 
         <div :class="(className ? className + '-list ' : '') + 'autocomplete transition autocomplete-list'" v-show="showList">
@@ -48,6 +50,8 @@
         };
     };
 
+    import bus from '../index';
+
     export default {
         name: 'autocomplete',
         props: {
@@ -63,7 +67,7 @@
 
             searchIcon: {
                 type: String,
-                default: "icon-search"
+                default: "icon"
             },
             closeIcon: {
                 type: String,
@@ -125,8 +129,15 @@
                 type: "",
                 json: [],
                 focusList: "",
-                icon: this.searchIcon
+                icon: this.searchIcon,
+                showClose: false
             };
+        },
+
+        mounted(){
+            bus.$on('searchBarToggle', function(searchBarShown){
+                this.updateFocus(searchBarShown)
+            }.bind(this));
         },
 
 
@@ -138,22 +149,24 @@
                 this.type = ""
                 this.json = []
                 this.focusList = ""
-                this.icon =  this.searchIcon
+                this.showClose = false;
             },
             clear(){
-                if(this.icon == this.closeIcon){
+                if(this.showClose){
                     this.clearInput();
                 }
             },
 
             // Get the original data
             cleanUp(data){
-                return JSON.parse(JSON.stringify(data));
+                let inputText = JSON.parse(JSON.stringify(data));
+                inputText.title = inputText.title.replace(/<(?:.|\n)*?>/gm, '');
+                return inputText;
             },
 
             input(val){
                 if(this.type != null && this.type.length > 0 && this.icon == this.searchIcon)
-                    this.icon = this.closeIcon;
+                    this.showClose = true;
                 // Callback Event
                 this.onInput ? this.onInput(val) : null
 
@@ -241,7 +254,6 @@
 
             selectList(data){
                 let clean = this.cleanUp(data);
-
                 // Put the selected data to type (model)
                 this.type = clean[this.anchor];
 
@@ -308,13 +320,22 @@
 
             setValue(val) {
                 this.type = val
-            }
+            },
+            updateFocus(searchBarShown){
+
+               if(searchBarShown)
+               {
+                   document.getElementById("searchbox").focus();
+                   //this.$refs.searchInputText.focus()
+               }
+            },
         },
 
         created(){
             // Sync parent model with initValue Props
             this.type = this.initValue ? this.initValue : null
-        }
+        },
+
 
     }
 </script>

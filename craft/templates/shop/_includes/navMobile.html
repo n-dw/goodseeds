@@ -1,28 +1,16 @@
 <nav class="mobile-nav nav-menu" :class="navMenuStatus">
     <ul class="c-list--clean">
         <li class="mobile-nav__item {% if page == 'home' %} nav__item--active {% endif %}"><a href="/" class="mobile-nav__link">Home  <i class="icon-home"></i></a></li>
-        <li class="mobile-nav__item {% if 'shop' in page %} nav__item--active {% endif %}">
-            <a href="/shop" class="mobile-nav__link">Shop <i class="icon-shopping-bag"></i></a>
-            <ul class="sub-menu--open c-list--clean">
-                {% for shopCat in shopCategories %}
-                    {% if shopCat.show %}
-                        <li class="mobile-nav__item"><a href="/{{  shopCat.url }}" class="mobile-nav__link">{{ shopCat.label }}</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </li>
-
-        <li class="mobile-nav__item {% if page == 'our-story' %} nav__item--active {% endif %}"><a href="/our-story" class="mobile-nav__link">Our Story</a></li>
+        <li class="mobile-nav__item {% if 'shop' in page %} nav__item--active {% endif %}"><a href="/shop" class="mobile-nav__link">Shop <i class="icon-shopping-bag"></i></a></li>
         <li class="mobile-nav__item {% if page == 'frequently-asked-questions' %} nav__item--active {% endif %}"><a href="/frequently-asked-questions" class="mobile-nav__link">FAQ <i class=" icon-help-circled"></i></a></li>
+        <li class="mobile-nav__item {% if page == 'our-story' %} nav__item--active {% endif %}"><a href="/our-story" class="mobile-nav__link">Our Story</a></li>
         <li class="mobile-nav__item {% if page == 'contact' %} nav__item--active {% endif %}"><a href="/contact" class="mobile-nav__link">Contact Us</a></li>
         {% if currentUser %}
-
-                    <li class="mobile-nav__item">
-                        <a class="mobile-nav__link {% if page == 'account' %} nav__item--active {% endif %}"  href="{{ url('account') }}">My Account</a>
-                    </li>
-                    <li class="mobile-nav__item">
-                        <a  class="mobile-nav__link {% if page == 'account/orders' %} nav__item--active {% endif %}" href="{{ url('account/orders') }}">My Orders</a>
-                    </li>
+            {% for item in accountMenu %}
+                <li class="mobile-nav__item {% if page == item.href|trim('/', 'left') %} nav__item--active {% endif %}">
+                    <a class="mobile-nav__link" href="{{ url(item.href) }}">{{item.label}}</a>
+                </li>
+            {% endfor %}
         {% else %}
             <li class="mobile-nav__item {% if page == 'register' %}nav__item--active {% endif %}">
                 <a class="mobile-nav__link" href="/register">{{ "Register"|t }}</a>
@@ -42,10 +30,5 @@
                 </i>
             </a>
         </li>
-        {% if currentUser %}
-        <li class="mobile-nav__item">
-            <a class="mobile-nav__link" href="{{ logoutUrl }}">Sign out</a>
-        </li>
-        {% endif %}
     </ul>
 </nav>

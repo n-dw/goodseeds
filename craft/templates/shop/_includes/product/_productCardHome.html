@@ -32,9 +32,9 @@
                         <span>Sale</span>
                     </div>
                 {% endif %}
-                {% if avgRating > 0 %}
+               {# {% if avgRating > 0 %}
                     <div class="product-card__ribbon product-card__ribbon--product-rating">{{ prodmac.starRating(avgRating) }}</div>
-                {% endif %}
+                {% endif %}#}
 
                 {% if product.totalStock < 1 %}
                     <div class="product-card__ribbon product-card__ribbon--out-of-stock">
