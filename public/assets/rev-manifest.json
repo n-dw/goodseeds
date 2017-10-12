@@ -1,6 +1,16 @@
 {
-  "css/app.css": "css/app-127f3c6d9c.css",
+  "css/app.css": "css/app-2e7ee6ec3e.css",
   "fonts/PermanentMarker.ttf": "fonts/PermanentMarker-6e5dfd5d33.ttf",
+  "fonts/cookiesmilk-Italic.eot": "fonts/cookiesmilk-Italic-cb39aee1e9.eot",
+  "fonts/cookiesmilk-Italic.svg": "fonts/cookiesmilk-Italic-1d0ff36f9b.svg",
+  "fonts/cookiesmilk-Italic.ttf": "fonts/cookiesmilk-Italic-127a04cc33.ttf",
+  "fonts/cookiesmilk-Italic.woff": "fonts/cookiesmilk-Italic-e35f71bccc.woff",
+  "fonts/cookiesmilk-Italic.woff2": "fonts/cookiesmilk-Italic-f8dae809d1.woff2",
+  "fonts/cookiesmilk-regular.eot": "fonts/cookiesmilk-regular-bdefa6d31e.eot",
+  "fonts/cookiesmilk-regular.svg": "fonts/cookiesmilk-regular-64bbfae958.svg",
+  "fonts/cookiesmilk-regular.ttf": "fonts/cookiesmilk-regular-21ac2921c9.ttf",
+  "fonts/cookiesmilk-regular.woff": "fonts/cookiesmilk-regular-1513e7da2c.woff",
+  "fonts/cookiesmilk-regular.woff2": "fonts/cookiesmilk-regular-6c4afd8805.woff2",
   "fonts/thcpost-icons.eot": "fonts/thcpost-icons-03c53219eb.eot",
   "fonts/thcpost-icons.svg": "fonts/thcpost-icons-e55268827b.svg",
   "fonts/thcpost-icons.ttf": "fonts/thcpost-icons-e24a5f6316.ttf",
@@ -23,5 +33,5 @@
   "images/shipping.png": "images/shipping-259bdbf364.png",
   "images/ssl-security.svg": "images/ssl-security-369d645811.svg",
   "images/thcpost.svg": "images/thcpost-eb678c4083.svg",
-  "js/app.js": "js/app-de44738c757ea60fad2a.js"
+  "js/app.js": "js/app-1156e34517e783b3168e.js"
 }
