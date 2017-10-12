@@ -9,7 +9,7 @@
         <div class="col-xs-12 col-psm-8">
             <div class="checkout-first">
             <div class="form-filter-wrapper">
-                <openclose :opened="false" class="product-form-opc">
+                <openclose :opened="false" :hideoct="false" class="product-form-opc">
                     <template slot="title"><h2 class="product-form__title">Sign In</h2></template>
                     <template slot="content">
                         {% include 'shop/_includes/forms/_signInForm' %}
