@@ -31,9 +31,9 @@
   },
 
   "urls": {
-    "live": "https://cbd.thcpost.ca/",
+    "live": "https://thc.goodseeds.ca/",
     "local": "//localhost:3000/",
-    "critical": "https://cbd.thcpost.ca/"
+    "critical": "https://thc.goodseeds.ca/"
   },
 
   "vars": {

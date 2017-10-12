@@ -17,7 +17,7 @@
             <div class="row center-xs">
                 <div class="col-xs-12 col-md-10 col-lg-7">
                     <h1 class="page-title">Cart</h1>
-                    <div>
+                    <p>
                         <div>Cart subtotal ({{ cart.totalQty }}
                             items): {{ cart.itemSubTotal|commerceCurrency(cart.currency) }} +
                             <strong>{{ shippingAmount }}</strong>
@@ -27,7 +27,7 @@
                                 shipping, <a href="{{ url('/shop') }}">Continue Shopping</a>.
                             </div>
                         {% endif %}
-                    </div>
+                    </p>
                     <div class="has-text-left">
                         <ul class="c-list c-list--clean">
                             {% if  cart.lineItems|length < 1 %}

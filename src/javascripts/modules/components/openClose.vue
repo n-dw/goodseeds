@@ -1,6 +1,6 @@
 <template>
     <div class="open-close-component">
-        <i :class="classOpenClose" @click="toggleOpenClose"></i>
+        <i class="occ-icon" :class="classOpenClose" @click="toggleOpenClose"></i>
         <slot name="title"></slot>
         <div v-show="open" class="open-close__content">
             <slot name="content"></slot>
@@ -41,7 +41,8 @@
         },
         computed: {
             classOpenClose: function () {
-                return this.icon// + this.hideoct ? ' is-hidden-desk': '';
+                let isHiddenClass = this.hideoct ? ' is-hidden-desk': '';
+                return this.icon + isHiddenClass;
 
             }
         },
