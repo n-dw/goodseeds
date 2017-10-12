@@ -6,7 +6,7 @@
 <footer class="product-card-footer">
     <div class="product-card__information">
         <div class="product-title-wrapper">
-            <h3 class="product-title has-text-centered">{{ product.title }}</h3>
+            <h3 class="product-title has-text-centered"><a href="{{ product.url }}" class="product-title-link">{{ product.title }}</a></h3>
         </div>
         {% set productVariants = {} %}
         {% set currentUserEmail = currentUser.email is defined ? currentUser.email  : '' %}
@@ -93,10 +93,12 @@
             salePrice: productSalePrice,
             strainType: product.strainType.first().slug,
             strainTypeFrontVal: product.strainType.first().slug|first|upper,
-            variants: productVariants
+            variants: productVariants,
         } %}
 
-
+        {% if avgRating > 0 %}
+            <div class="ratings">{{ prodmac.starRating(avgRating) }}</div>
+        {% endif %}
         <buynow :product="{{ productVue | json_encode() }}" formaction="{{ formAction }}" :form="{{ formVals | json_encode() }}" :currentUserEmail="{{ currentUserEmail | json_encode() }}"></buynow>
     </div>
 </footer>

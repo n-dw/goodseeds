@@ -1,0 +1,57 @@
+{% import "shop/macros/errors.html" as errList %}
+<form enctype="multipart/form-data" class="user-registration-form"  id="user_register" method="post" accept-charset="UTF-8">
+    {{ getCsrfInput() }}
+    <input type="hidden" name="action" value="users/saveUser">
+    <input type="hidden" name="redirect" value="shop/checkout/addresses">
+    <div class="box-section">
+        <div class="row has-text-left">
+            <div class="input-wrapper col-xs-12 c-fieldset">
+                <label for="email">Email *</label>
+                <input class="c-input {% if account is defined and account.getErrors('email') %}error{% endif %}" placeholder="Email *" required aria-label="Email" id="email" type="email"
+                       name="email"
+                        {%- if account is defined %} value="{{ account.email }}"{% endif %}>
+
+                {% if account is defined %}
+                    {{errList.errorList(account.getErrors('email')) }}
+                {% endif %}
+            </div>
+
+            <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
+                <label for="password">Password *</label>
+                <password  {% if message is defined and message.getErrors('password') is not empty %}hasError="true"{% endif %}></password>
+                {% if account is defined %}
+                    {{errList.errorList(account.getErrors('password')) }}
+                {% endif %}
+            </div>
+
+            <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
+                <label for="passwordConfirm">Confirm Password *</label>
+                <password id="passwordConfirm" name="passwordConfirm" {% if message is defined and message.getErrors('passwordConfirm') is not empty %}hasError="true"{% endif %}></password>
+                {% if account is defined %}
+                    {{errList.errorList(account.getErrors('passwordConfirm')) }}
+                {% endif %}
+            </div>
+
+            <div class="input-wrapper col-xs-12 c-fieldset c-file-upload has-text-centered">
+                <label class="has-text-left" for="fields[userGovernmentId]">Upload ID *</label>
+                <p>Please upload a valid Canadian government photo ID, showing you are over the age of {{ siteSettings.minAge }}, such as a drivers license or passport.</p>
+                <input required name="fields[userGovernmentId]" type="file" accept="image/*;capture=camera">
+                {% if account is defined %}
+                    {{errList.errorList(account.getErrors('fields[userGovernmentId]')) }}
+                {% endif %}
+            </div>
+            <div class="input-wrapper col-xs-12 c-fieldset c-file-upload has-text-centered">
+                <input name="fields[subscribedToEmails]" checked type="checkbox">
+                <label class="has-text-left" for="fields[subscribedToEmails]">Subscribe to Newsletter</label>
+                {% if account is defined %}
+                    {{errList.errorList(account.getErrors('fields[subscribedToEmails]')) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-wrapper col-xs-12 c-fieldset has-text-centered">
+            <button class="c-button c-button--large c-button--cta-blue">  <i class="icon-lock"></i> Continue</button>
+        </div>
+    </div>
+</form>

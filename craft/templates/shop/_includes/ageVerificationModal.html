@@ -4,7 +4,7 @@
         <div class="box has-text-centered">
             <h4>Verify Your Age</h4>
             <form action="/{{ craft.request.getPath() }}" method="post" id="age_verification_form">
-                {{ getCsrfInput() }}
+               {{ getCsrfInput() }}
                 <div class="columns is-gapless">
                     <div class="column">
                         <input required type="checkbox" id="ageVerification" name="ageVerification" value="1">

@@ -1,7 +1,7 @@
 {% extends 'shop/_layouts/main' %}
 
 {% import "shop/macros/product.html" as prodmac %}
-
+{% set title = 'Shop' %}
 {% set params = {with: ['productImages']} %}
 {% set formParams = {'productParam' : ''} %}
 {% set categoriesArray = ['or'] %}
@@ -70,14 +70,10 @@
     <div class="wrapper container-fluid">
         <h1 class="page-title">Shop</h1>
         <div class="product-filters-wrapper">
-            <openclose :opened="false" class="product-form-opc">
+            <openclose :opened="false" :hideoct="false" class="product-form-opc">
                 <template slot="title"><h2 class="product-form__title">Filters</h2></template>
                 <template slot="content">
-                    {% cache  globally using key "productsform-" ~ craft.request.path ~ '-' ~ hashVal %}
-                        {% minify %}
-                            {{ params is defined and params ? prodmac.productForm(formParams) }}
-                        {% endminify %}
-                    {% endcache %}
+                    {{ params is defined and params ? prodmac.productForm(formParams) }}
                 </template>
             </openclose>
         </div>
@@ -92,7 +88,4 @@
         </div>
     </div>
 </section>
-{% endblock %}
-{% block scripts %}
-    {{ d(params) }}
 {% endblock %}

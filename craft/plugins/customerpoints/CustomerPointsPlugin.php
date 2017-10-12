@@ -43,7 +43,15 @@ class CustomerPointsPlugin extends BasePlugin
     {
         parent::init();
 
-       //since on order complete we have a customer add points to there account after payment recieved
+        $this->initEventHandlers();
+
+        // If this is a CP request, register the customerpoints.prepCpTemplate hook
+        if (craft()->request->isCpRequest()) {
+            $this->includeCpResources();
+            craft()->templates->hook('customerpoints.prepCpTemplate', array($this, 'prepCpTemplate'));
+        }
+
+      /* //since on order complete we have a customer add points to there account after payment recieved
         //since we use e transfer watch out for fuckers finishing orders and not paing and using the points - could look for status change on order to paid as well..
         // use for from payment pending commerce_orderHistories.onStatusChange
         craft()->on('commerce_orders.onOrderComplete', function($event){
@@ -52,7 +60,30 @@ class CustomerPointsPlugin extends BasePlugin
             $settings = craft()->plugins->getPlugin('customerpoints')->getSettings();
             //if there are discounts we dont want to give out extra points
             $itemTotal = $order->itemTotal;
-        });
+        });*/
+    }
+
+    /**
+     * Set up all event handlers.
+     */
+    private function initEventHandlers()
+    {
+       /* //init global event handlers
+        craft()->on('i18n.onAddLocale', array(craft()->commerce_productTypes, 'addLocaleHandler'));*/
+//        craft()->on('commerce_orders.onOrderComplete', array(craft()->commerce_customers, 'saveUserHandler'));
+//        craft()->on('users.onActivateUser', array(craft()->commerce_customers, 'loginHandler'));
+//        craft()->on('commerce_orderHistories.onStatusChange', array(craft()->commerce_customers, 'logoutHandler'));
+//        craft()->on('email.onSendEmailError', array(craft()->commerce_customers, 'logoutHandler'));
+
+    }
+    /**
+     * Includes front end resources for Control Panel requests.
+     */
+    private function includeCpResources()
+    {
+        $templatesService = craft()->templates;
+        $templatesService->includeCssResource('customerpoints/CustomerPoints_Style.css');
+        $templatesService->includeJsResource('customerpoints/js/CustomerPoints_Script.js');
     }
 
     /**
@@ -73,7 +104,7 @@ class CustomerPointsPlugin extends BasePlugin
      */
     public function getDescription()
     {
-        return Craft::t('Rewards points for customer');
+        return Craft::t('Customer Points System for Craft Commerce');
     }
 
     /**
@@ -149,7 +180,7 @@ class CustomerPointsPlugin extends BasePlugin
      */
     public function hasCpSection()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -166,6 +197,25 @@ class CustomerPointsPlugin extends BasePlugin
      */
     public function onAfterInstall()
     {
+        //do
+        $customers = craft()->commerce_customers->getAllCustomers();
+
+        foreach ($customers as $customer)
+        {
+
+            if($customer->id && $customer->email && $customer->userId)
+            {
+                $cpUser = new CustomerPoints_UserModel();
+                $cpUser->email = $customer->email;
+                $cpUser->customerId = $customer->id;
+                $cpUser->points = 0;
+                $cpUser->pointsUsed = 0;
+                $cpUser->totalPointsAcquired = 0;
+                $cpUser->referrerHash = craft()->customerPoints_user->getUserReferralHash($customer->email, $customer->id);
+
+                craft()->customerPoints_user->saveCustomerPointsUser($cpUser);
+            }
+        }
     }
 
     /**
@@ -185,20 +235,91 @@ class CustomerPointsPlugin extends BasePlugin
     }
 
     /**
+     * @param array|BaseModel $values
+     */
+    public function setSettings($values)
+    {
+        if (!$values)
+        {
+            $values = array();
+        }
+
+        if (is_array($values))
+        {
+            // Merge in any values that are stored in craft/config/customerpoints.php
+            foreach ($this->getSettings() as $key => $value)
+            {
+                $configValue = craft()->config->get($key, 'customerpoints');
+
+                if ($configValue !== null)
+                {
+                    $values[$key] = $configValue;
+                }
+            }
+        }
+
+        parent::setSettings($values);
+    }
+
+    /**
      * Defines the attributes that model your plugin’s available settings.
      *
      * @return array
      */
     protected function defineSettings()
     {
-        return array(
-            'pointsPerDollerSpent'        => array(AttributeType::Number, 'required' => true),
-            'pointsPerDollerEarned'       => array(AttributeType::Number, 'required' => true),
-            'maxAmountRedeemable'         => array(AttributeType::Number, 'required' => true),
-            'allowWithDiscounts'          => AttributeType::Bool,
-            'earnWithRedemption'          => AttributeType::Bool,
-            'successFlashMessage'         => array(AttributeType::String, 'default' => Craft::t('Your Points have been applied'), 'required' => true),
-        );
+        return [
+            //GENERAL
+            'roundPointsToNearestNumber'  => [AttributeType::Bool, 'default' => true],
+            'customerPointsName'          => [AttributeType::String, 'default' => Craft::t('Customer Points'), 'required' => true],
+            'errorFlashMessage'           => [AttributeType::String, 'default' => Craft::t('There was an error redeeming your points'), 'required' => true],
+            'successFlashMessage'         => [AttributeType::String, 'default' => Craft::t('Your Points have been applied'), 'required' => true],
+            ///PURCHASES
+            'earnPointsPurchases'         => [AttributeType::Bool, 'default' => true],
+            'pointsPerDollarSpent'        => [AttributeType::Number, 'default' => 0, 'required' => true],
+            'pointsPerDollarEarned'       => [AttributeType::Number, 'default' => 0, 'required' => true],
+            'minimumCartSubTotal'         => [AttributeType::Number, 'default' => 0, 'required' => true],
+            'minimumPointsRedemption'     => [AttributeType::Number, 'default' => 0, 'required' => true],
+            'minimumPointsFirstRedemption' => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //'maxAmountRedeemable'         => [AttributeType::Number, 'required' => true],
+            'maxPointsRedeemable'         => [AttributeType::Number, 'required' => true],
+            'allowWithDiscounts'          => [AttributeType::Bool, 'default' => false],
+            'earnWithRedemption'          => [AttributeType::Bool, 'default' => false],
+            'canRedeemFirstPurchase'      => [AttributeType::Bool, 'default' => false],
+            //points for order if they want to give n points per order instead of for order subtotal
+            'pointsForOrder'                => [AttributeType::Bool, 'default' => false],
+            'pointsPerOrder'             => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //points for each product if they want to give n points per order instead of for order subtotal
+            'pointsForProduct'              => [AttributeType::Bool, 'default' => false],
+            'pointsPerProduct'              => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //REVIEWS
+            'earnPointsReviews'           => [AttributeType::Bool, 'default' => false],
+            'oneReviewPerProduct'         => [AttributeType::Bool, 'default' => false],
+            'pointsPerReview'             => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //ACCOUNT CREATION
+            'earnPointsAccountCreation'   => [AttributeType::Bool, 'default' => false],
+            'pointsPerAccount'            => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //SOCIAL PROMOTION
+            'earnPointsSocialPromotion'   => [AttributeType::Bool, 'default' => false],
+            'pointsPerPromotion'          => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //REFERRALS
+            'earnPointsReferrals'         => [AttributeType::Bool, 'default' => false],
+            'referreeMustSignUp'          => [AttributeType::Bool, 'default' => true],
+            'referreeMustPurchase'        => [AttributeType::Bool, 'default' => true],
+            'pointsPerReferral'           => [AttributeType::Number, 'default' => 0, 'required' => true],
+            //set this relative to points for account sign up 0 to leave same or 2 +2 from acount sign up
+            'pointsPerReferree'           => [AttributeType::Number, 'default' => 0, 'required' => true],
+        ];
+    }
+
+    public function registerCpRoutes()
+    {
+        return require(__DIR__ . '/etc/routes.php');
+    }
+
+    public function getSettingsUrl()
+    {
+        return 'customerpoints/settings/general';
     }
 
     /**
@@ -206,12 +327,12 @@ class CustomerPointsPlugin extends BasePlugin
      *
      * @return mixed
      */
-    public function getSettingsHtml()
+   /* public function getSettingsHtml()
     {
        return craft()->templates->render('customerpoints/CustomerPoints_Settings', array(
            'settings' => $this->getSettings()
        ));
-    }
+    }*/
 
     /**
      * If you need to do any processing on your settings’ post data before they’re saved to the database, you can
@@ -227,5 +348,44 @@ class CustomerPointsPlugin extends BasePlugin
 
         return $settings;
     }
+
+    /**
+     * @return array
+     */
+    public function registerUserPermissions()
+    {
+        return array(
+            'customerpoints-managePoints' => array('label' => Craft::t('Manage points')),
+            'customerpoints-managePointsSettings' => array('label' => Craft::t('Manage points settings'))
+        );
+    }
+
+    /**
+     * Prepares a CP template.
+     *
+     * @param &$context The current template context
+     */
+    public function prepCpTemplate(&$context)
+    {
+        $context['subnav'] = array();
+
+        if (craft()->userSession->checkPermission('customerpoints-managePoints')) {
+            $context['subnav']['points'] = array('label' => Craft::t('Points'), 'url' => 'customerpoints/points');
+        }
+        if (craft()->userSession->checkPermission('customerpoints-managePoints')) {
+            $context['subnav']['referrals'] = array('label' => Craft::t('Referrals'), 'url' => 'customerpoints/referrals');
+        }
+        if (craft()->userSession->checkPermission('customerpoints-managePoints')) {
+            $context['subnav']['reviews'] = array('label' => Craft::t('Reviews'), 'url' => 'customerpoints/reviews');
+        }
+        if (craft()->userSession->checkPermission('customerpoints-managePoints')) {
+            $context['subnav']['customers'] = array('label' => Craft::t('Customers'), 'url' => 'customerpoints/customers');
+        }
+        if (craft()->userSession->checkPermission('customerpoints-managePointsSettings')) {
+            $context['subnav']['settings'] = array('label' => Craft::t('Settings'), 'url' => 'customerpoints/settings');
+        }
+
+    }
+
 
 }

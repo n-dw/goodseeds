@@ -1,0 +1,69 @@
+{#
+/**
+* Customer Points plugin for Craft CMS
+*
+* Customer Points Settings.twig
+*
+* @author    Nathan de Waard
+* @copyright Copyright (c) 2017 Nathan de Waard
+* @link      https://github.com/n-dw
+* @package   CustomerPoints
+* @since     1.0.0
+*/
+#}
+{% set selectedTab = 'settings' %}
+
+{% macro configWarning(setting) -%}
+    {{ "This is being overridden by the {setting} config setting in your customerpoints.php config file."|t({
+        setting: setting
+    })|raw }}
+{%- endmacro %}
+
+{% from _self import configWarning %}
+
+{% import "_includes/forms" as forms %}
+
+    {{ forms.lightswitchField({
+        label:        "Round Points to Nearest Number"|t,
+        instructions: "No half points or fractions round when we come to this"|t,
+        id:           'roundPointsToNearestNumber',
+        name:         'roundPointsToNearestNumber',
+        on:           settings.roundPointsToNearestNumber,
+        disabled:     (craft.config.get('roundPointsToNearestNumber', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('roundPointsToNearestNumber', 'customerpoints') is not sameas(null)) ? configWarning('roundPointsToNearestNumber'),
+        errors:       settings.getErrors('roundPointsToNearestNumber')
+    }) }}
+
+    {{ forms.textField({
+        label:        "Customer Points Branding"|t,
+        id:           "customerPointsName",
+        name:         "customerPointsName",
+        instructions: "What do you want the points to be called in the front end eg: SITENAME Points"|t,
+        value:        settings.customerPointsName,
+        disabled:     (craft.config.get('customerPointsName', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('customerPointsName', 'customerpoints') is not sameas(null)) ? configWarning('customerPointsName'),
+        errors:       settings.getErrors('customerPointsName')
+    }) }}
+
+
+    {{ forms.textField({
+        label:        "Success Flash Message"|t,
+        id:           "successFlashMessage",
+        name:         "successFlashMessage",
+        instructions: "The flash message displayed after successfully redeeming points."|t,
+        value:        settings.successFlashMessage,
+        disabled:     (craft.config.get('successFlashMessage', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('successFlashMessage', 'customerpoints') is not sameas(null)) ? configWarning('successFlashMessage'),
+        errors:       settings.getErrors('successFlashMessage')
+    }) }}
+
+    {{ forms.textField({
+        label:        "Error Flash Message"|t,
+        id:           "errorFlashMessage",
+        name:         "errorFlashMessage",
+        instructions: "The flash message displayed after successfully redeeming points."|t,
+        value:        settings.errorFlashMessage,
+        disabled:     (craft.config.get('errorFlashMessage', 'customerpoints') is not sameas(null)),
+        warning:      (craft.config.get('successFlashMessage', 'customerpoints') is not sameas(null)) ? configWarning('errorFlashMessage'),
+        errors:       settings.getErrors('errorFlashMessage')
+    }) }}

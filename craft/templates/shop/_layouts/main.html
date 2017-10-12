@@ -17,6 +17,13 @@
 {label: "Concentrates", url: 'shop?cat=oil', show: true},
 {label: "Edibles", url: 'shop?cat=edibles', show: false}
 ] %}
+{% set accountMenu = [
+{label: 'My Address', href: '/account'},
+{label: 'My Orders', href: '/account/orders'},
+{label: 'My Points', href: '/account/points'},
+{label: 'My Password', href: '/account/change-password'},
+{label: 'Sign Out', href: logoutUrl}
+] %}
 
 {% set imageSetting = { width: 460, ratio: 4/3 , jpegQuality: 70} %}
 
@@ -38,24 +45,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% hook 'seomaticRender' %}
+    {% cache  globally using key "SEOMATIC-" ~ craft.request.path %}
+    {% minify %}
+        {% hook 'seomaticRender' %}
+    {% endminify %}
+    {% endcache %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% if craft.config.devMode %}
         <script type="text/javascript" src="https://unpkg.com/vue"></script>
-
         {#<script async type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>#}
         <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
         {% else %}
-        <script async type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>
+        <script  type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>
         <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
     {% endif %}
 
+    {# -- CRITICAL CSS -- #}
+    {% set cacheVal = getCookie('critical-css') %}
+    {% set staticAssetsVersion = 'assets/css/app.css' | gulp_rev  %}
+    {% if not cacheVal or cacheVal != staticAssetsVersion or craft.config.devMode %}
+        {{ setCookie('critical-css', staticAssetsVersion, now | date_modify("+7 days").timestamp ) }}
+        {% block _inline_css %}
+        {% endblock %}
+        <link rel="preload" href="{{ 'assets/css/app.css' | gulp_rev }}" as="style" onload="this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"></noscript>
+        <script>
+            {{ source('_inlinejs/loadCSS.min.js', ignore_missing = true) }}
+            {{ source('_inlinejs/cssrelpreload.min.js', ignore_missing = true) }}
+        </script>
+    {% else %}
     <link rel="stylesheet" href="{{ 'assets/css/app.css' | gulp_rev }}"/>
+    {% endif %}
     {% block head %}
-
     {% endblock %}
     {% minify js %}
     <script>
@@ -63,7 +87,7 @@
     </script>
     {% endminify %}
 </head>
-<body class="{% block btags %}u-bg-light-grey{% endblock %}">
+<body class="{% block btags %}{% endblock %}">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -72,13 +96,15 @@
     {% include "shop/_includes/ageVerificationModal" %}
 {% endif %}
 <div class="vue-app">
+    {% block promotions %}
+    {% endblock %}
     {% block header %}
         {% include "shop/_includes/header" %}
     {% endblock %}
     {% block body %}
         <main id="main" class="main">
             <section class="content-wrapper">
-                {% block promotions %}
+                {% block headerHeroImage %}
                 {% endblock %}
                 {% block breadcrumbs %}
                 {% endblock %}
@@ -98,19 +124,19 @@
         <div class="messages">
             {% if messageNotice and (messageNotice != 'Cart updated.' or craft.request.getPost())  %}
                 <div class="notification has-text-centered is-success">
-                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    <button class="icon-cancel" onclick="this.parentNode.classList.add('close');"></button>
                     <h4 class="notification-header">{{ messageNotice }}</h4>
                 </div>
             {% endif %}
             {% if messageError and (messageError != 'Cart not completely updated.' or craft.request.getPost()) %}
                 <div class="notification has-text-centered is-danger">
-                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    <button class="icon-cancel" onclick="this.parentNode.classList.add('close');"></button>
                     <h4 class="notification-header">{{ messageError }}</h4>
                 </div>
             {% endif %}
             {% if cartError %}
                 <div class="notification has-text-centered is-danger">
-                    <button class="delete" onclick="this.parentNode.classList.add('close');"></button>
+                    <buttonclass="icon-cancel" onclick="this.parentNode.classList.add('close');"></button>
                     <h4 class="notification-header"> {{ cartError }}</h4>
                 </div>
             {% endif %}
@@ -121,12 +147,15 @@
     </div>
 {% endblock %}
 </div>
-
 {% block scripts %}
-
 {% endblock %}
 <script type="text/javascript">
     window.csrfTokenName = "{{ craft.config.csrfTokenName|e('js') }}";window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
+    {% if currentUser %}
+        thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, { currentUserEmail: "{{ currentUser.email }}" });
+    {% else %}
+        thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, { currentUserEmail: false });
+    {% endif %}
 </script>
 {%  set appJS =  'assets/js/app.js' | gulp_rev %}
 {% includeJsFile appJS %}

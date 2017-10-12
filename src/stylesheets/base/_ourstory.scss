@@ -1,0 +1,14 @@
+.core-values{
+  padding: $large-spacing 0;
+
+  .cv{
+    padding-bottom: $large-spacing;
+
+    &:last-of-type{
+      padding-bottom: 0;
+    }
+    &--row-reverse{
+      flex-direction: row-reverse;
+    }
+  }
+}

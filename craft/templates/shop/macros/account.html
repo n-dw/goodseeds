@@ -2,18 +2,22 @@
     {% set accountMenu = [
     {label: 'My Orders', href: '/account/orders'},
     {label: 'My Address', href: '/account'},
-    {label: 'My Points', href: '/account/thcpoints'},
+    {label: 'My Points', href: '/account/points'},
     {label: 'Change Password', href: '/account/change-password'}
     ] %}
 
-    {% set classes = 'c-button c-button--cta-black c-button--small '%}
-    {% set activeClass = 'c-button--cta-black--active'%}
+    {% set classes = ' '%}
+    {% set activeClass = 'is-active'%}
 
     <div class="controls">
+        <ul class="level">
         {% for item in accountMenu %}
-            <a href="{{ url(item.href) }}" class="{{ classes }}{% if (loop.index == positionActive) %}{{activeClass}}{% endif %}">
+            <li class="level-item has-text-centered {% if (loop.index == positionActive) %}{{activeClass}}{% endif %}">
+            <a href="{{ url(item.href) }}" class="{{ classes }}">
                 {{item.label}}
             </a>
+            </li>
         {% endfor %}
+        </ul>
     </div>
 {% endmacro %}

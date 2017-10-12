@@ -1,7 +1,7 @@
 <template>
     <div class="message">
         <div v-if="show" class="notification has-text-centered" :class="{ 'is-danger' :  isErr,  'is-success': !isErr}">
-            <button class="delete"  @click="show = !show"></button>
+            <button class="icon-cancel"  @click="show = !show"></button>
             <h4 class="notification-header">{{ message }}</h4>
         </div>
     </div>
@@ -27,8 +27,12 @@
             return {
                 show: false,
                 message: '',
-                isErr: false
+                isErr: false,
+                timer: ''
             };
+        },
+        created(){
+
         },
         mounted(){
             this.message = this.msg;
@@ -38,10 +42,14 @@
             });
         },
         methods: {
+            hideMessage(){
+                this.show = false;
+            },
             updateMessage(message){
                  this.isErr = message.type == 'error' ? true : false;
                  this.show = true;
                  this.message = message.msg;
+                 this.timer = setTimeout(this.hideMessage, 700000)
             }
         }
     }

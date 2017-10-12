@@ -41,6 +41,15 @@ class CustomerPointsVariable
     {
         return craft()->customerPoints->getUserPoints($customerEmail);
     }
+    /**
+     * gets points if the user has them
+     *
+     * @return integer
+     */
+    public function getUserReferralHash($userId)
+    {
+        return craft()->customerPoints_User->getUserReferralHash($userId);
+    }
 
     /**
      * Rating - Elements

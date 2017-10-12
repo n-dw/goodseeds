@@ -1,0 +1,16 @@
+
+{% extends "_layouts/elementindex" %}
+{% hook 'customerpoints.prepCpTemplate' %}
+
+{% set title = "Referrals"|t %}
+{% set docTitle = title %}
+
+{% set elementType = 'CustomerPoints_Referral' %}
+{% set selectedSubnavItem = "referrals" %}
+{% set bodyClass = (bodyClass is defined ? bodyClass~' ' : '') ~ "customerpoints customerpoints-referrals" %}
+
+{% set showStatusMenu = true %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}

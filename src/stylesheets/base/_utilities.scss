@@ -78,7 +78,18 @@
 	}
 
 	.u-brd-bttm-#{$key} {
-		border-bottom: 0.2rem solid $value !important;
+		border-bottom: 1px solid $value !important;
+	}
+}
+
+@each $key, $value in $colorsGoodSeeds {
+
+	.u-bg-#{$key} {
+		background-color: $value !important;
+	}
+
+	.u-brd-bttm-#{$key} {
+		border-bottom: 1px solid $value !important;
 	}
 }
 
@@ -89,3 +100,35 @@
 .u-bg-trans{
 	background: transparent;
 }
+
+.u-cursor-pointer{
+	cursor: pointer;
+}
+
+/*
+Padding
+ */
+.u-padding-top--none{
+	padding-top: 0 !important;
+}
+.u-padding-bottom--none{
+	padding-bottom: 0 !important;
+}
+
+@media only screen and (max-width: 64.063em){
+	[data-mobile="false"]{
+		display: none;
+	}
+}
+@media only screen and (min-width: 64.063em){
+	[data-mobile="true"]{
+		display: none;
+	}
+}
+
+@media only screen and (min-width: 48em){
+	.is-hidden-desk{
+		display: none;
+	}
+}
+

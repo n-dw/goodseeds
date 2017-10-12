@@ -1,5 +1,13 @@
 {% extends 'shop/_layouts/main' %}
 {% import "shop/macros/errors.html" as errList %}
+
+{% block _inline_css %}
+    <style>
+        {{ _self.getTemplateName() }}
+        {{ source (_self.getTemplateName() ~ '_critical.min.css', ignore_missing = true) }}
+    </style>
+{% endblock %}
+
 {% block main %}
     <section class="sign-in">
         <div class="wrapper container-fluid">
@@ -12,7 +20,7 @@
                         <input type="hidden" name="redirect" value="/">
 
                         <div class="row has-text-left">
-                            <div class="box">
+                            <div>
                             <div class="input-wrapper col-xs-12 c-fieldset">
                                 <label for="email">Email *</label>
                                 <input class="c-input {% if account is defined and account.getErrors('email') %}error{% endif %}" placeholder="Email *" required aria-label="Email" id="email" type="email"
@@ -48,6 +56,13 @@
                                     {{errList.errorList(account.getErrors('fields[userGovernmentId]')) }}
                                 {% endif %}
                             </div>
+                                <div class="input-wrapper col-xs-12 c-fieldset c-file-upload has-text-centered">
+                                    <input name="fields[subscribedToEmails]" checked type="checkbox">
+                                    <label class="has-text-left" for="fields[subscribedToEmails]">Subscribe to Newsletter</label>
+                                    {% if account is defined %}
+                                        {{errList.errorList(account.getErrors('fields[subscribedToEmails]')) }}
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="input-wrapper col-xs-12 c-fieldset has-text-centered">
                                 <input class="c-button c-button--large c-button--cta-black" type="submit"

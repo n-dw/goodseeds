@@ -1,0 +1,3 @@
+{% extends "_layouts/cp" %}
+{% hook 'customerpoints.prepCpTemplate' %}
+{% set bodyClass = (bodyClass is defined ? bodyClass~' ' : '') ~ "customerpoints" %}

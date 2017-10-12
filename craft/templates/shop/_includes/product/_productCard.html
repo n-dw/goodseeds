@@ -1,7 +1,7 @@
 {#make sure to have a var image setting  {% set imageSetting = { width: 460, ratio: 4/3 , jpegQuality: 85} %}#}
 {% set avgRating =  craft.commentsrating.elementAvgRatings(product.id) %}
 <article  id="product_card_{{ loop.index }}" class=" product-card-wrapper col-xs-12 col-psm-6 col-sm-6 col-md-4 col-lg-3">
-    <div  class="product-card product-card--{{ product.strainType.first().slug }} product-card--{{ product.type }} box">
+    <div  class="product-card product-card--{{ product.strainType.first().slug }} product-card--{{ product.type }}">
         <a href="{{ product.url }}">
             <header class="product-card-header">
                 {% set image = product.productImages[0] ?? null %}
@@ -32,9 +32,9 @@
                             <span>Sale</span>
                         </div>
                     {% endif %}
-                    {% if avgRating > 0 %}
+                   {# {% if avgRating > 0 %}
                         <div class="product-card__ribbon product-card__ribbon--product-rating">{{ prodmac.starRating(avgRating) }}</div>
-                    {% endif %}
+                    {% endif %}#}
 
                     {% if product.totalStock < 1 %}
                         <div class="product-card__ribbon product-card__ribbon--out-of-stock">

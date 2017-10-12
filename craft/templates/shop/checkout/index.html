@@ -7,107 +7,21 @@
 {% block content %}
     <div class="row center-xs">
         <div class="col-xs-12 col-psm-8">
-
-
-    <div class="checkout-first">
+            <div class="checkout-first">
             <div class="form-filter-wrapper">
-                <openclose :opened="false" class="product-form-opc">
+                <openclose :opened="false" :hideoct="false" class="product-form-opc">
                     <template slot="title"><h2 class="product-form__title">Sign In</h2></template>
                     <template slot="content">
-                        <form method="post" class="login-form" accept-charset="UTF-8">
-                            {{ getCsrfInput() }}
-                            <input type="hidden" name="action" value="users/login">
-                            <input type="hidden" name="redirect" value="shop/checkout/addresses">
-                            <div class="box">
-                                <div class="row has-text-left">
-                                    <div class="input-wrapper col-xs-12 c-fieldset">
-                                        <label for="email">Email *</label>
-                                        <input class="login-form__login-email c-input {% if message is defined and message.getErrors('loginName') is not empty %}error{% endif %}"
-                                               aria-label="Email" placeholder="Email *" required id="loginName" type="email" name="loginName"
-                                               value="{{ craft.session.rememberedUsername }}">
-                                    </div>
-                                    <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
-                                        <label for="password">Password *</label>
-                                        <password  {% if message is defined and message.getErrors('password') is not empty %}hasError="true"{% endif %}></password>
-                                        {{ message is defined and message ? errList.errorList(message.getErrors('password')) }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="input-wrapper col-xs-12 c-fieldset">
-                                        <label>
-                                            <input class="login-form__remember" aria-label="Remember Me" checked type="checkbox"
-                                                   name="rememberMe" value="1">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-wrapper col-xs-12">
-                                    <button class="c-button c-button--large c-button--cta-blue">  <i class="icon-lock"></i> Sign In</button>
-                                </div>
-                            </div>
-
-                        </form>
+                        {% include 'shop/_includes/forms/_signInForm' %}
                     </template>
                 </openclose>
             </div>
-        <div class="box">
-                <p>Please sign in if you already are a member of THCPOST.<br>
+        <div class="box-section">
+                <p>Please sign in if you already are a member of GoodSeeds.<br>
                 If you are not a member please fill out the form below, as we need to verify your age with a valid government ID.</p>
         </div>
-
-        <form enctype="multipart/form-data" class="user-registration-form"  id="user_register" method="post" accept-charset="UTF-8">
-            {{ getCsrfInput() }}
-            <input type="hidden" name="action" value="users/saveUser">
-            <input type="hidden" name="redirect" value="shop/checkout/addresses">
-            <div class="box">
-            <div class="row has-text-left">
-                <div class="input-wrapper col-xs-12 c-fieldset">
-                    <label for="email">Email *</label>
-                    <input class="c-input {% if account is defined and account.getErrors('email') %}error{% endif %}" placeholder="Email *" required aria-label="Email" id="email" type="email"
-                           name="email"
-                            {%- if account is defined %} value="{{ account.email }}"{% endif %}>
-
-                    {% if account is defined %}
-                        {{errList.errorList(account.getErrors('email')) }}
-                    {% endif %}
-                </div>
-
-                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
-                    <label for="password">Password *</label>
-                    <password  {% if message is defined and message.getErrors('password') is not empty %}hasError="true"{% endif %}></password>
-                    {% if account is defined %}
-                        {{errList.errorList(account.getErrors('password')) }}
-                    {% endif %}
-                </div>
-
-                <div class="input-wrapper u-pos-rel col-xs-12 c-fieldset">
-                    <label for="passwordConfirm">Confirm Password *</label>
-                    <password id="passwordConfirm" name="passwordConfirm" {% if message is defined and message.getErrors('passwordConfirm') is not empty %}hasError="true"{% endif %}></password>
-                    {% if account is defined %}
-                        {{errList.errorList(account.getErrors('passwordConfirm')) }}
-                    {% endif %}
-                </div>
-
-                <div class="input-wrapper col-xs-12 c-fieldset c-file-upload has-text-centered">
-                    <label class="has-text-left" for="fields[userGovernmentId]">Upload ID *</label>
-                    <p>Please upload a valid Canadian government photo ID, showing you are over the age of {{ siteSettings.minAge }}, such as a drivers license or passport.</p>
-                    <input required name="fields[userGovernmentId]" type="file" accept="image/*;capture=camera">
-                    {% if account is defined %}
-                        {{errList.errorList(account.getErrors('fields[userGovernmentId]')) }}
-                    {% endif %}
-                </div>
+                {% include 'shop/_includes/forms/_registerForm' %}
             </div>
-            </div>
-            <div class="row">
-                <div class="input-wrapper col-xs-12 c-fieldset has-text-centered">
-                    <button class="c-button c-button--large c-button--cta-blue">  <i class="icon-lock"></i> Continue</button>
-                </div>
-            </div>
-        </form>
-
-    </div>
         </div>
     </div>
 {% endblock %}

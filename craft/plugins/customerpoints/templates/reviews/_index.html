@@ -1,0 +1,16 @@
+
+{% extends "_layouts/elementindex" %}
+{% hook 'customerpoints.prepCpTemplate' %}
+
+{% set title = "Product Reviews"|t %}
+{% set docTitle = title %}
+
+{% set elementType = 'CustomerPoints_Review' %}
+{% set selectedSubnavItem = "reviews" %}
+{% set bodyClass = (bodyClass is defined ? bodyClass~' ' : '') ~ "customerpoints customerpoints-reviews" %}
+
+{% set showStatusMenu = true %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,12 @@
+.site-brand{
+  margin-bottom: $regular-spacing;
+  &__site-slogan{
+    font-family: $font-menu;
+    letter-spacing: $cookies-letter-spacing;
+    font-size: map-get($heading-sizes, 3);
+  }
+
+}
+.site-logo__img{
+  max-height:  ($regular-spacing * 10);
+}

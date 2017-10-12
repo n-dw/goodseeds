@@ -1,3 +1,8 @@
+const critical = require('critical');
+const fancyLog = require('fancy-log');
+const chalk = require('chalk');
+
+
 module.exports = {
     images: true,
     fonts: true,
@@ -6,6 +11,42 @@ module.exports = {
     ghPages: false,
     html: false,
     static: false,
+
+    additionalTasks: {
+        initialize(gulp, PATH_CONFIG, TASK_CONFIG) {
+            gulp.task('criticalcss', ['stylesheets'], () => {
+               PATH_CONFIG.critical.forEach(function(element) {
+                   const criticalSrc = PATH_CONFIG.urls.critical + element.url;
+                   const criticalDest = PATH_CONFIG.templates + element.template + '_critical.min.css';
+                   fancyLog("-> Generating critical CSS: " + chalk.cyan(criticalSrc) + " -> " + chalk.magenta(criticalDest));
+
+                   critical.generate({
+                        src: criticalSrc,
+                        dest: criticalDest,
+                        inline: false,
+                        ignore: [],
+                        base: '../public',
+
+                        minify: true,
+                        width: 1600,
+                        height: 1200
+                    }, (err, output) => {
+                       if (err) {
+                           fancyLog(chalk.magenta(err));
+                       }
+                   });
+                });
+            });
+        },
+        development: {
+            prebuild: false,
+            postbuild: false
+        },
+        production: {
+            prebuild: false,
+            postbuild: ['criticalcss']
+        }
+    },
 
     javascripts: {
         babel: {
@@ -38,7 +79,4 @@ module.exports = {
     production: {
         rev: true
     },
-
-
 }
-

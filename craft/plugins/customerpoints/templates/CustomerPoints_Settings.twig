@@ -22,6 +22,15 @@
 
 {% import "_includes/forms" as forms %}
 
+{% set tabs = {
+    general: { label: "General" | t, url: url('comments') },
+    redemption: { label: "Redemption" | t, url: url('comments') },
+    purchases: { label: "Purchases" | t, url: url('comments/permissions') },
+    productReviews: { label: "Product Reviews" | t, url: url('comments/settings') },
+    signup: { label: "Account Sign Up" | t, url: url('comments/settings') },
+    socialPromotion: { label: "Social Promotion" | t, url: url('comments/settings') },
+} %}
+{% set selectedTab = 'general' %}
 {#{% includeCssResource "customerpoints/css/CustomerPoints_Style.css" %}
 {% includeJsResource "customerpoints/js/CustomerPoints_Script.js" %}#}
 
@@ -81,6 +90,16 @@
     errors:       settings.getErrors('earnWithRedemption')
 }) }}
 
+{{ forms.textField({
+    label:        "Customer Points Branding"|t,
+    id:           "customerPointsName",
+    name:         "customerPointsName",
+    instructions: "What do you want the points to be called in the front end eg: SITENAME Points"|t,
+    value:        settings.customerPointsName,
+    disabled:     (craft.config.get('customerPointsName', 'customerpoints') is not sameas(null)),
+    warning:      (craft.config.get('customerPointsName', 'customerpoints') is not sameas(null)) ? configWarning('customerPointsName'),
+    errors:       settings.getErrors('customerPointsName')
+}) }}
 
 
 {{ forms.textField({

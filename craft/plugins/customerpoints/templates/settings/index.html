@@ -1,0 +1,70 @@
+{% extends "customerpoints/_layouts/settingscp" %}
+
+{% set title = "Customer Points Settings"|t %}
+
+{% set navItems = {
+    'general': { title: "General Settings"|t, selected: true },
+    'purchase-heading': { heading: "Purchases"|t },
+    'purchases': { title: "Purchases"|t },
+    'signup-heading': { heading: "Account Creation"|t },
+    'accountcreation': { title: "Account Creation"|t },
+    'reviews-heading': { heading: "Product Reviews"|t },
+    'reviews': { title: "Product Reviews"|t },
+    'referrals-heading': { heading: "Referrals"|t },
+    'referrals': { title: "Referrals"|t },
+} %}
+
+{% block sidebar %}
+
+    <nav class="customer-points-tabs">
+        <ul>
+            {% for id, item in navItems %}
+                {% if item.heading is defined %}
+                    <li class="heading"><span>{{ item.heading }}</span></li>
+                {% else %}
+                    <li><a id="settings-tab-{{ item.title }}" href="#settings-{{id}}" tabindex="{{ loop.index }}" class="tab {% if  item.selected is defined and item.selected %} sel{% endif %}">{{ item.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+
+{% endblock %}
+
+{% block settingsForm %}
+
+    <form method="post" accept-charset="UTF-8" data-saveshortcut>
+        <input type="hidden" name="action" value="plugins/savePluginSettings">
+        <input type="hidden" name="pluginClass" value="customerpoints">
+
+        {{ getCsrfInput() }}
+
+        {% namespace 'settings' %}
+        <div id="general" class="settings-pane">
+            {% include 'customerpoints/settings/general' %}
+        </div>
+
+        <div id="purchases" class="settings-pane hidden">
+            {% include 'customerpoints/settings/purchases' %}
+        </div>
+
+        <div id="reviews" class="settings-pane hidden">
+            {% include 'customerpoints/settings/reviews' %}
+        </div>
+
+        <div id="accountcreation" class="settings-pane hidden">
+            {% include 'customerpoints/settings/accountCreation' %}
+        </div>
+
+        <div id="referrals" class="settings-pane hidden">
+            {% include 'customerpoints/settings/referrals' %}
+        </div>
+
+        {% endnamespace %}
+
+        <div class="buttons">
+            <input type="submit" class="btn submit" value="{{ "Save"|t }}">
+        </div>
+    </form>
+
+{% endblock %}
+

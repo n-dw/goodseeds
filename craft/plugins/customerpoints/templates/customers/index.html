@@ -1,0 +1,16 @@
+
+{% extends "_layouts/elementindex" %}
+{% hook 'customerpoints.prepCpTemplate' %}
+
+{% set title = "Customer Points Customer Info"|t %}
+{% set docTitle = title %}
+
+{% set elementType = 'CustomerPoints_User' %}
+{% set selectedSubnavItem = "customers" %}
+{% set bodyClass = (bodyClass is defined ? bodyClass~' ' : '') ~ "customerpoints customerpoints-customer" %}
+
+{% set showStatusMenu = true %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}

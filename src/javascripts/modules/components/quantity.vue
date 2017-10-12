@@ -1,8 +1,8 @@
 <template>
     <div class="qty-cpt">
-        <button @click="decrease" type="button" class="c-button c-button--small c-button--cta-black quantity-control quantity-control--decrement">-</button>
-        <input  @change="change" :disabled="disabled == 'true' ? true : false" type="number" name="qty" min="1" maxlength="3" v-model="quantity">
-        <button @click="increase"  type="button" class="c-button c-button--small c-button--cta-black quantity-control quantity-control--decrement">+</button>
+        <button aria-label="decrease quantity" @click="decrease" type="button" class="c-button c-button--small c-button--cta-black quantity-control quantity-control--decrement">-</button>
+        <input aria-label="quantity"  @change="change" :disabled="disabled == 'true' ? true : false" type="number" name="qty" min="1" maxlength="3" v-model="quantity">
+        <button aria-label="increase quantity" @click="increase"  type="button" class="c-button c-button--small c-button--cta-black quantity-control quantity-control--decrement">+</button>
     </div>
 </template>
 

@@ -1,51 +1,65 @@
 {% cache globally using key 'site-footer' %}
     {% minify %}
-<footer  data-mobile-padding="true" class="site-footer u-bg-dark-slate-grey">
+<footer  data-mobile-padding="true" class="site-footer">
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
                 <div class="site-footer__wrapper row center-xs">
                     <div class="col-xs-12 col-md-8 col-lg-6">
-                        <div class="site-footer__site-seals site-seals row">
-                            <div class="site-seal site-seal--ssl col-xs-4">
-                                <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/lets_encrypt_icon.svg' | gulp_rev  }}"
-                                     alt="SSL Secured Seal" class="site-seal-image">
-                            </div>
-                            <div class="site-seal site-seal--etransfer col-xs-4">
-                                <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/interac.png' | gulp_rev  }}"
-                                     alt="Interac E-Transer Seal" class="site-seal-image">
-                            </div>
-                            <div class="site-seal site-seal--canada-post col-xs-4">
-                                <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/canada-post.svg' | gulp_rev }}"
-                                     alt="Canada Post Xpresspost Shipping" class="site-seal-image">
-                            </div>
-                        </div>
-                        <div class="site-footer__copyright">Copyright © {{"now"|date("Y")}} THCPOST.CA&nbsp;|&nbsp;<a
-                                href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a>
-                        </div>
                         <div class="footer-links">
-                            <ul class="c-list--clean">
-                                <li><a href="/shop">Shop | </a></li>
-                                <li><a href="/contact">Contact | </a></li>
-                                <li><a href="/frequently-asked-questions">FAQ | </a></li>
-                                <li><a href="/terms">Terms | </a></li>
-                                <li><a href="/privacy-policy">Privacy</a></li>
-                            </ul>
+                            <nav class="level">
+                                <li class="level-item has-text-centered"><a href="/shop">Shop</a></li>
+                                <li class="level-item has-text-centered"><a href="/contact">Contact</a></li>
+                                <li class="level-item has-text-centered"><a href="/frequently-asked-questions">FAQ</a></li>
+                                <li class="level-item has-text-centered"><a href="/terms">Terms</a></li>
+                                <li class="level-item has-text-centered"><a href="/privacy-policy">Privacy</a></li>
+                            </nav>
+                        </div>
+                        <div class="site-footer__site-brand">
+                            <figure class="site-logo site-brand">
+                                <img class="site-footer__site-brand__site-logo site-logo__img site-logo-img" src="{{ craft.rebrand.logo.url }}"
+                                     title="Good Seeds Logo" alt="Good Seeds Logo">
+                                <figcaption class="site-footer__site-brand__site-slogan site-slogan">{{ siteSettings.siteSlogan }}</figcaption>
+                            </figure>
 
                         </div>
-                        <div class="site-footer__social-links">
-                            <h5>Follow Us</h5>
-                            <ul class="c-list--clean">
-                                <li>
-                                    <a href="{{siteSettings.instagramUrl}}" rel="noopener" target="_blank"><i
-                                            class="icon-instagram"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{{siteSettings.twitterUrl}}" rel="noopener" target="_blank"><i
-                                            class="icon-twitter"></i></a>
-                                </li>
-                            </ul>
+                                <div class="site-footer__social-links">
+                                    <ul class="c-list--clean">
+                                        <li>
+                                            <a href="{{siteSettings.instagramUrl}}" rel="noopener" target="_blank"><i
+                                                        class="icon-instagram"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="{{siteSettings.twitterUrl}}" rel="noopener" target="_blank"><i
+                                                        class="icon-twitter"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="{{siteSettings.facebookUrl}}" rel="noopener" target="_blank"><i
+                                                        class="icon-facebook"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="site-footer__site-seals site-seals">
+                                    <div class="site-seal site-seal--etransfer">
+                                        <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/interac.png' | gulp_rev  }}"
+                                             alt="Interac E-Transer Seal" class="site-seal-image">
+                                    </div>
+                                    <div class="site-seal site-seal--ssl">
+                                        <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/lets_encrypt_icon.svg' | gulp_rev  }}"
+                                             alt="SSL Secured Seal" class="site-seal-image">
+                                    </div>
+                                    <div class="site-seal site-seal--canada-post">
+                                        <img src="{{ craft.config.environmentVariables.baseUrl ~ 'assets/images/canada-post.svg' | gulp_rev }}"
+                                             alt="Canada Post Xpresspost Shipping" class="site-seal-image">
+                                    </div>
+                                </div>
+
+                        <div class="site-footer__copyright">Copyright © {{"now"|date("Y")}} GOODSEEDS.CA&nbsp;|&nbsp;<a class="support-email"
+                                href="mailto:{{siteSettings.defaultEmailAddress}}">{{siteSettings.defaultEmailAddress}}</a>
                         </div>
+
+
                     </div>
                 </div>
             </div>

@@ -1,4 +1,12 @@
 {% extends 'shop/_layouts/main' %}
+
+{% block _inline_css %}
+    <style>
+        {{ _self.getTemplateName() }}
+        {{ source (_self.getTemplateName() ~ '_critical.min.css', ignore_missing = true) }}
+    </style>
+{% endblock %}
+
 {% block main %}
     {% cache globally using key craft.request.path %}
     {% minify %}
@@ -10,7 +18,7 @@
                     {% for termsGroup in entry.headerText %}
                         <div class="terms-conditions__tc">
                             <h2 class="tc__heading">{{termsGroup.header}}</h2>
-                            <p class="tc__text box">{{termsGroup.text}}</p>
+                            <p class="tc__text">{{termsGroup.text}}</p>
                         </div>
                     {% endfor %}
                 </div>

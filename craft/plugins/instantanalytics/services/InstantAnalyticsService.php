@@ -184,7 +184,7 @@ class InstantAnalyticsService extends BaseApplicationComponent
                 $productType = property_exists($productVariant, "typeId")
                     ? craft()->commerce_productTypes->getProductTypeById($productVariant->typeId)
                     : null;
-                
+
                 if ($productType && $productType->hasVariants)
                 {
                     $productVariant = ArrayHelper::getFirstValue($productVariant->getVariants());
@@ -213,8 +213,8 @@ class InstantAnalyticsService extends BaseApplicationComponent
                     }
                     else
                     {
-                        $category = $productVariant->product->getType()['name'];
-                        $name = $productVariant->product->title;
+                        $category = $productVariant->getType()['name'];
+                        $name = $productVariant->title;
                         $variant = $productVariant->title;
                     }
                 }
@@ -523,7 +523,7 @@ class InstantAnalyticsService extends BaseApplicationComponent
     {
         $result = true;
         $loggingFlag = craft()->config->get("logExcludedAnalytics", "instantanalytics");
-        $requestIp = $_SERVER['REMOTE_ADDR'];
+        $requestIp = craft()->request->getUserHostAddress();
 
         if (!craft()->config->get("sendAnalyticsData", "instantanalytics"))
         {
@@ -705,18 +705,21 @@ class InstantAnalyticsService extends BaseApplicationComponent
             $analytics = new IAnalytics();
             if ($analytics)
             {
-                $hostName = parse_url(craft()->getSiteUrl(), PHP_URL_HOST);
-                if (isset($_SERVER['SERVER_NAME']))
-                    $hostName = $_SERVER['SERVER_NAME'];
-                $userAgent = "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13\r\n";
-                if (isset($_SERVER['HTTP_USER_AGENT']))
-                    $userAgent = $_SERVER['HTTP_USER_AGENT'];
-                $referrer = "";
-                if (isset($_SERVER['HTTP_REFERER']))
-                    $referrer = $_SERVER['HTTP_REFERER'];
+                $hostName = craft()->request->getServerName();
+                if (empty($hostName)) {
+                    $hostName = parse_url(craft()->getSiteUrl(), PHP_URL_HOST);
+                }
+                $userAgent = craft()->request->getUserAgent();
+                if (empty($userAgent)) {
+                    $userAgent = "User-Agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13\r\n";
+                }
+                $referrer = craft()->request->getUrlReferrer();
+                if (empty($referrer)) {
+                    $referrer = "";
+                }
                 $analytics->setProtocolVersion('1')
                     ->setTrackingId($settings['googleAnalyticsTracking'])
-                    ->setIpOverride($_SERVER['REMOTE_ADDR'])
+                    ->setIpOverride(craft()->request->getUserHostAddress())
                     ->setUserAgentOverride($userAgent)
                     ->setDocumentHostName($hostName)
                     ->setDocumentReferrer($referrer)

@@ -1,6 +1,13 @@
 {% import "shop/macros/errors.html" as errList %}
 {% extends 'shop/_layouts/main' %}
 
+{% block _inline_css %}
+    <style>
+        {{ _self.getTemplateName() }}
+        {{ source (_self.getTemplateName() ~ '_critical.min.css', ignore_missing = true) }}
+    </style>
+{% endblock %}
+
 {% block main %}
 <section class="sign-in">
     <div class="wrapper container-fluid">
@@ -12,7 +19,7 @@
                     <input type="hidden" name="action" value="users/login">
                     {% set redirect = craft.request.getUrlReferrer() %}
                     <input type="hidden" name="redirect" value="{{ redirect }}"/>
-                    <div class="box">
+                    <div>
                     <div class="row has-text-left">
                         <div class="input-wrapper col-xs-12 c-fieldset">
                             <label for="email">Email *</label>

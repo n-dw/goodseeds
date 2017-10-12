@@ -43,16 +43,8 @@
         </div>
     <div class="product-info-wrapper">
         <div class="media">
-            <div class="media-left">
-                <div class="product-details-wrapper">
-                    <h4 class="product-strain-type" :title="capitalize(productData.strainType)" :class="productData.strainType">
-                        {{ productData.strainTypeFrontVal }}
-                    </h4>
-                    <h4 v-if="productData.organic" title="Organic" class="product-strain-type organic">O</h4>
-                </div>
-            </div>
             <div class="media-content">
-                <div class="product-price-wrapper has-text-right">
+                <div class="product-price-wrapper has-text-centered">
                     <span v-if=" productData.sale" class="sale-price">was  <strike>{{price}}</strike></span>
                     <span class="price"><b>{{ salePrice }}</b></span>
                 </div>
@@ -61,7 +53,7 @@
     </div>
     <div class="product-buy-now">
         <div class="buy-now">
-            <form method="POST" id="addToCartForm"  @submit.prevent="submitForm">
+            <form method="POST" class="buy-now__add-to-cart-form"  @submit.prevent="submitForm">
 
                 <input v-for="input in formData.inputs" :type="input.type" :name="input.name" :value="input.value">
 
@@ -89,9 +81,9 @@
                     <quantity @changequantity="changeQuantity" :disabled="productData.stock < 1" qty="1"></quantity>
                 </div>
 
-                <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-black add-to-cart"  :class="{'is-loading' : loading}">Buy Now</button>
+                <button v-if="productData.stock > 0" type="submit" class="c-button c-button--cta-buy-now add-to-cart"  :class="{'is-loading' : loading}">Buy Now</button>
 
-                <button v-else-if="currentuseremail != '' && productData.stock < 1" type="submit" :class="{'is-loading' : loading}" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+                <button v-else-if="email != '' && productData.stock < 1" type="submit" :class="{'is-loading' : loading}" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 <div v-else class="notify-stock-component">
                     <input type="email" v-model="email"  v-show="notifyEmailShow" class="c-input has-text-centered" :class="{'error' : emailError}"  name="customerEmail" required aria-label="Email" placeholder="Email">
                     <button type="submit" :class="{'is-loading' : loading}" @click="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
@@ -125,6 +117,10 @@
                 }
             },
             currentuseremail:{
+                type: String,
+                default: ""
+            },
+            productrating:{
                 type: String,
                 default: ""
             },
@@ -171,7 +167,13 @@
                 qty: '1',
                 loading: false,
                 emailError: false,
+                rating: false
             };
+        },
+        computed:{
+            capitalizeStrainType(){
+                return this.product.strainType.charAt(0).toUpperCase() + this.product.strainType.slice(1);
+            }
         },
         mounted(){
             this.formData = this.form;
@@ -179,7 +181,15 @@
             this.productData = this.product;
             this.price = this.product.price;
             this.salePrice = this.product.salePrice;
-            this.email = this.currentuseremail;
+            this.rating = this.productrating;
+            if(this.$parent.$data.currentUserEmail){
+                this.email = this.$parent.$data.currentUserEmail;
+            }
+            else{
+                this.email = this.currentuseremail;
+            }
+
+            console.log();
         },
         methods: {
             notifyEmailShowSubmit: function(e) {
@@ -251,9 +261,6 @@
             },
             toggleChart(){
                 this.cannabisConversionChartShow = !this.cannabisConversionChartShow;
-            },
-            capitalize(stringToCap){
-                return stringToCap.charAt(0).toUpperCase() + stringToCap.slice(1);
             },
             setError(err){
                 let msgData = {
