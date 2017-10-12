@@ -30,21 +30,31 @@ export default bus;
 var data = {menuOpen: false,  navMenuStatus: "mobile-nav--closed", menuFixed: false,  showSearch: false, searchIconButtonClass: 'icon-search' };
 var components = {ptabs: productTabs, openclose: Openclose, message: Message, autocomplete: Autocomplete, faq: faqComp, quantity: quantityComp, password: Password, notify: Notify, minicart: Minicart, buynow: BuyNow};
 var methods = {
-    windowScroll(e){
+    windowScroll(delay, headerPos){
+        let last = undefined;
+        let timer = undefined;
 
-        const offset = window.scrollY || window.pageYOffset;
-        const headerHeight = document.getElementById('header').offsetHeight || document.getElementById('header').clientHeight;
-        document.getElementById('header_wrapper').style.height = headerHeight;
+        return  () => {
+            var now = +new Date();
 
-        if (offset > headerHeight) {
-            if(!this.menuFixed) {
-                this.menuFixed = true;
+            if (last && now < last + delay) {
+                clearTimeout(timer);
+
+                timer = setTimeout(() => {
+                    last = now;
+                    this.onScroll(headerPos);
+                }, delay);
+            } else {
+                last = now;
+                this.onScroll(headerPos);
             }
-        }
-        else {
-            if(this.menuFixed) {
-                this.menuFixed = false;
-            }
+        };
+    },
+    onScroll(headerPos) {
+        if (window.pageYOffset && window.pageYOffset > headerPos) {
+            this.menuFixed = true;
+        } else {
+            this.menuFixed = false;
         }
     },
     toggle: function() {
@@ -78,7 +88,11 @@ new Vue({
     directives: {'sticky': VueSticky},
     delimiters: ['{|', '|}'],
     created(){
-        window.addEventListener('scroll', this.windowScroll)
+        let header = document.getElementById('header');
+        let rect = header.getBoundingClientRect();
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        let headerPos  = rect.top + scrollTop;
+        window.addEventListener('scroll', this.windowScroll(25, headerPos))
     },
     mounted(){
 

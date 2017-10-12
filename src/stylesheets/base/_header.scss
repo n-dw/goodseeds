@@ -1,3 +1,12 @@
+.sticky {
+  position: sticky;
+  will-change: transform;
+}
+
+.sticky--top {
+  top: 0;
+}
+
 .site-header{
   background: $header-bg-color;
   width: 100%;
@@ -6,13 +15,30 @@
   //box-shadow: 0 0 3px rgba(64, 44, 28, 0.1);
   //border-bottom: 1px solid $darkBrown;
 
+  &:after{
+    bottom: 0;
+    box-shadow: 0 0.0625rem 0.5rem rgba(64, 44, 28, .3);
+    content: '';
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    -webkit-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    z-index: -1;
+  }
   &.fixed{
+    &:after{
+      opacity: 1;
+    }
     position: fixed;
     top: 0;
     #header_logo{
 
     }
   }
+
   a{
     color: $link-header-color;
     padding: 0 $small-padding;
@@ -331,5 +357,18 @@
   }
 }
 
+//setting height for header wrapper for content jump
 
-
+#header_wrapper{
+  height: 5.8rem
+}
+@media only screen and (min-width: 35em){
+  #header_wrapper{
+    height: 6.6rem
+  }
+}
+@media only screen and (min-width: 48em){
+  #header_wrapper{
+    height: 7.6rem
+  }
+}
