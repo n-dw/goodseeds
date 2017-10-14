@@ -1,4 +1,5 @@
 {% extends 'shop/_layouts/main' %}
+{% import "shop/macros/headerImage.html" as hI %}
 
 {% block _inline_css %}
     <style>
@@ -10,17 +11,11 @@
 {% block main %}
     {% cache  globally using key craft.request.path  %}
     {% minify %}
-    <section class="our-story content-section">
-        <header class="hero-wrapper" style="background: url('{{ entry.heroImage[0].url }}')">
-        <div class="hero-section__content">
-            <div class="site-brand">
-                <figure class="site-logo">
-                    <h1 class="page-title">{{ entry.title }}</h1>
-                    <figcaption class="site-brand__site-slogan site-slogan">{{ entry.ourStoryHeadingDescription }}</figcaption>
-                </figure>
-            </div>
-        </div>
-        </header>
+        {%  if  entry.heroImage is not null %}
+            {{  hI.headerImage(entry.heroImage, entry.title, entry.ourStoryHeadingDescription, true ) }}
+        {% else %}
+            <h1 class="container-fluid page-title">{{entry.title}}</h1>
+        {% endif %}
         <div class="wrapper container-fluid">
             {% if entry.ourStoryOpeningParagraph %}
                 <p class="our-story__desc has-text-centered">
