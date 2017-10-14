@@ -65,10 +65,62 @@
 {% set products = craft.commerce.products(params) %}
 {% set hashVal =  craft.thcpost.hashValue(formParams) %}
 
+{% set page = craft.request.requestUri|slice(1) %}
+{% set headerImageEntry =  craft.entries.section('headerImagesForNonEntries').title(page).first() %}
 {% block main %}
 <section class="shop product-listings product-listing-app content-section">
     <div class="wrapper container-fluid">
-        <h1 class="page-title">Shop</h1>
+        {%  if headerImageEntry is not null and headerImageEntry.heroImage is not null %}
+            <header class="header-image---wrapper">
+                        <figure class="header-image">
+                            {% set image = headerImageEntry.heroImage[0] ?? null %}
+                            {% if image %}
+                                {% set imageSetting = [{ width: 1420, ratio: 2/1 , jpegQuality: 70},
+                                    { width: 1200, ratio: 3/1 , jpegQuality: 70},
+                                    { width: 1024, ratio: 3/1 , jpegQuality: 70},
+                                    { width: 768, ratio: 3/1 , jpegQuality: 70},
+                                    { width: 560, ratio: 2/1 , jpegQuality: 70},
+                                    { width: 420, ratio: 1 , jpegQuality: 70}]
+                                %}
+                                {% set transformedImages = craft.imager.transformImage(image,[imageSetting],
+                                {format: 'jpg',	allowUpscale: false, mode: 'crop', jpegQuality: 90,	position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true}
+                                ) %}
+                                {% if craft.imager.serverSupportsWebp() %}
+                                    {% set imageSettingWebp =
+                                   [ { width: 1420, ratio: 3/1 , webpQuality: 70},
+                                    { width: 1200, ratio: 3/1 , webpQuality: 70},
+                                    { width: 1024, ratio: 3/1 , webpQuality: 70},
+                                    { width: 768, ratio: 3/1 , webpQuality: 70},
+                                    { width: 560, ratio: 2/1 , webpQuality: 70},
+                                    { width: 420, ratio: 1 , webpQuality: 70},]
+                                    %}
+                                    {% set transformedImagesWebP = craft.imager.transformImage(image,[imageSettingWebp],
+                                    { format: 'webp', allowUpscale: false, mode: 'crop', position: image.focusPctX ~ '% ' ~ image.focusPctY ~ '%', interlace: true }) %}
+                                {% endif %}
+                                <picture class="full-width">
+                                    {% if craft.imager.serverSupportsWebp() %}
+                                        <source class="header-image__img" sizes="100vw" srcset="{{ craft.imager.srcset(transformedImagesWebP) }}" type="image/webp">
+                                    {% endif %}
+                                    <img class="header-image__img"
+                                         src="{{ transformedImages[0].url }}"
+                                         sizes="100vw"
+                                         srcset="{{ craft.imager.srcset(transformedImages) }}"
+                                         alt="{{ image.title }}">
+
+                                </picture>
+                            {% endif %}
+                            <div class="header-image__text-wrapper">
+                                <h1 class="page-title">Shop</h1>
+                                <figcaption class="header-image__text header-image__text--desk">{{ headerImageEntry.headerImageText }}</figcaption>
+                            </div>
+                            </picture>
+                        </figure>
+                <p class="header-image__text header-image__text--mobile">{{ headerImageEntry.headerImageText }}</p>
+            </header>
+            {% else %}
+                <h1 class="page-title">Shop</h1>
+        {% endif %}
+
         <div class="product-filters-wrapper">
             <openclose :opened="false" :hideoct="false" class="product-form-opc">
                 <template slot="title"><h2 class="product-form__title">Filters</h2></template>
@@ -88,4 +140,8 @@
         </div>
     </div>
 </section>
+{% endblock %}
+{% block scripts %}
+{{ d(headerImageEntry) }}
+
 {% endblock %}
