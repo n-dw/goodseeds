@@ -372,3 +372,7 @@
     height: 7.6rem
   }
 }
+
+#header_wrapper:not(.fixed){
+  height: auto;
+}
