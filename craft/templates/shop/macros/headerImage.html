@@ -1,12 +1,12 @@
-{% macro headerImage(headerImage, heading, text, fullwidth) %}
+{% macro headerImage(headerImage, heading, text, fullwidth, height) %}
     <header class="header-image---wrapper{% if not fullwidth|default(false) %} wrapper{% endif %}">
         <figure class="header-image">
             {% set image = headerImage[0] ?? null %}
             {% if image %}
-                {% set imageSetting = [{ width: 1420, ratio: 4/1 , jpegQuality: 70},
-                { width: 1200, ratio: 4/1 , jpegQuality: 70},
-                { width: 1024, ratio: 3/1 , jpegQuality: 70},
-                { width: 768, ratio: 3/1 , jpegQuality: 70},
+                {% set imageSetting = [{ width: 1420, height: height|default(404.5) , jpegQuality: 70},
+                { width: 1200, height: height|default(404.5) , jpegQuality: 70},
+                { width: 1024, height: height|default(404.5) , jpegQuality: 70},
+                { width: 768, height: height|default(404.5) , jpegQuality: 70},
                 { width: 560, ratio: 2/1 , jpegQuality: 70},
                 { width: 420, ratio: 1 , jpegQuality: 70}]
                 %}
@@ -15,10 +15,10 @@
                 ) %}
                 {% if craft.imager.serverSupportsWebp() %}
                     {% set imageSettingWebp =
-                    [ { width: 1420, ratio: 8/1 , webpQuality: 70},
-                    { width: 1200, ratio: 8/1 , webpQuality: 70},
-                    { width: 1024, ratio: 3/1 , webpQuality: 70},
-                    { width: 768, ratio: 3/1 , webpQuality: 70},
+                    [ { width: 1420, height: height|default(404.5), webpQuality: 70},
+                    { width: 1200, height: height|default(404.5) , webpQuality: 70},
+                    { width: 1024, height: height|default(404.5) , webpQuality: 70},
+                    { width: 768, height: height|default(404.5) , webpQuality: 70},
                     { width: 560, ratio: 2/1 , webpQuality: 70},
                     { width: 420, ratio: 1 , webpQuality: 70},]
                     %}
