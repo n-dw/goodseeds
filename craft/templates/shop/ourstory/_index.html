@@ -12,7 +12,7 @@
     {% cache  globally using key craft.request.path  %}
     {% minify %}
         {%  if  entry.heroImage is not null %}
-            {{  hI.headerImage(entry.heroImage, entry.title, entry.ourStoryHeadingDescription, true ) }}
+            {{  hI.headerImage(entry.heroImage, entry.title, entry.ourStoryHeadingDescription ) }}
         {% else %}
             <h1 class="container-fluid page-title">{{entry.title}}</h1>
         {% endif %}
