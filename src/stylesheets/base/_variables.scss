@@ -87,6 +87,7 @@ $font-menu:      'cookiesmilk', sans-serif;
 $font-copy: 	 'Roboto Condensed', sans-serif;//'Helvetica Neue', 'Source Sans Pro', 'Arial', sans-serif;
 $font-headings: 'Quicksand', sans-serif;
 $font-headings-product: $font-copy-logo;//'Architects Daughter', cursive;
+$fontHeaderImage: 'cookiesmilk', sans-serif;
 /**
  * BASE SPACING VALUE
  */
@@ -197,6 +198,7 @@ $footer-font-color:       map-get($colorsPostIt, lightgreyDarker);
 $link-footer-color: 	  $link-header-color;
 $link-footer-color-hover: $link-header-color-hover;
 $mobileNavColor:          $ligtherGreen;
+$headerImageFontColor:    white;
 
 $body-bg-color: map-get($colors, yellow);
 $header-bg-color: map_get($colors, white);
