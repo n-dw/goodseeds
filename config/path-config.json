@@ -3,11 +3,13 @@
   "temp": "../temp",
   "dest": "./public/assets",
   "templates": "./craft/templates/",
+  "nodeModules": "./node_modules",
 
 
   "javascripts": {
     "src": "javascripts",
-    "dest": "js"
+    "dest": "js",
+    "destBuild": "./public/static/assets/js"
   },
 
   "stylesheets": {
@@ -67,6 +69,10 @@
     "version": "1.0"
   },
 
+  "resources":[
+    {"name": "vue", "path": "vue/dist/vue.min.js"},
+    {"name": "axios", "path": "axios/dist/axios.min.js"}
+  ],
   "critical": [
     { "url": "", "template": "/shop/index" },
     { "url": "shop", "template": "/shop/products/index" },

@@ -39,6 +39,21 @@ module.exports = {
                    });
                 });
             });
+            gulp.task('moveResources', () => {
+                fancyLog("-> Moving build resources");
+                //rememberthis for any additional taks the paths
+                const paths = {
+                    src: path.resolve(process.env.PWD, PATH_CONFIG.nodeModules),
+                    dest: path.resolve(process.env.PWD, PATH_CONFIG.javascripts.destBuild),
+                }
+                PATH_CONFIG.resources.forEach(function(element) {
+                    const resourceSrc =  path.resolve(paths.src, element.path);
+                    const criticalDest = PATH_CONFIG.templates + element.template + '_critical.min.css';
+                    fancyLog("-> Moving File " + chalk.cyan(element.name) + " FROM ->" + chalk.green(resourceSrc) + " TO -> " + chalk.magenta(paths.dest));
+
+                    gulp.src(resourceSrc).pipe(gulp.dest(paths.dest));
+                });
+            });
             gulp.task('faviconGen', () => {
                 fancyLog("-> Generating favicons");
 
@@ -89,7 +104,7 @@ module.exports = {
         },
         production: {
             prebuild: false,
-            postbuild: ['faviconGen']
+            postbuild: ['faviconGen','criticalcss', 'moveResources']
         }
     },
 
