@@ -1,6 +1,7 @@
 {% extends 'shop/_layouts/main' %}
 
 {% import "shop/macros/product.html" as prodmac %}
+{% import "shop/macros/headerImage.html" as hI %}
 {% set title = 'Shop' %}
 {% set params = {with: ['productImages']} %}
 {% set formParams = {'productParam' : ''} %}
@@ -65,10 +66,20 @@
 {% set products = craft.commerce.products(params) %}
 {% set hashVal =  craft.thcpost.hashValue(formParams) %}
 
+{% set page = craft.request.requestUri|slice(1) %}
+{% set headerImageEntry =  craft.entries.section('headerImagesForNonEntries').title(page).first() %}
 {% block main %}
 <section class="shop product-listings product-listing-app content-section">
+    {% cache  globally using key "headerImage-" ~ craft.request.path%}
+        {% minify %}
+            {%  if headerImageEntry is not null and headerImageEntry.heroImage is not null %}
+                {{  hI.headerImage(headerImageEntry.heroImage, 'Shop', headerImageEntry.headerImageText , false ) }}
+                {% else %}
+                    <h1 class="wrapper container-fluid page-title">Shop</h1>
+            {% endif %}
+        {% endminify %}
+    {% endcache %}
     <div class="wrapper container-fluid">
-        <h1 class="page-title">Shop</h1>
         <div class="product-filters-wrapper">
             <openclose :opened="false" :hideoct="false" class="product-form-opc">
                 <template slot="title"><h2 class="product-form__title">Filters</h2></template>
