@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" height="460.01" viewBox="0 0 364.55743 460.00604" width="364.56">
+  <defs>
+    <clipPath id="clipPath18" clipPathUnits="userSpaceOnUse">
+      <path d="m0 720h720v-720h-720z"></path>
+    </clipPath>
+  </defs>
+  <g transform="matrix(1.3333 0 0 -1.3333 -307.31 719.45)">
+    <g clip-path="url(#clipPath18)">
+      <g transform="translate(368 195.08)">
+        <path d="m0 0c-41.119 0-74.454 46.613-74.454 104.12 0 57.5 74.454 169.18 74.454 169.18" stroke="#795c3a" stroke-miterlimit="10" fill="#795c3a"></path>
+      </g>
+      <g transform="translate(368 468.38)">
+        <path d="m0 0s74.453-111.68 74.453-169.18-33.334-104.12-74.453-104.12" fill="#b6bc50"></path>
+      </g>
+      <g transform="translate(395.1 385.08)">
+        <path d="m0 0-27.912-27.912" stroke="#795c3a" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" fill="none"></path>
+      </g>
+      <g transform="translate(409.71 338.69)">
+        <path d="m0 0-42.521-42.521" stroke="#795c3a" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" fill="none"></path>
+      </g>
+      <g transform="translate(425.84 290.34)">
+        <path d="m0 0-58.648-58.648" stroke="#795c3a" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" fill="none"></path>
+      </g>
+      <g transform="translate(365.67 500.3)">
+        <path d="m0 0v38.274" stroke="#d88029" stroke-linecap="round" stroke-miterlimit="10" stroke-width="5" fill="none"></path>
+      </g>
+      <g transform="translate(231.5 388.94)">
+        <path d="m0 0 38.271-0.204" stroke="#d88029" stroke-linecap="round" stroke-miterlimit="10" stroke-width="5" fill="none"></path>
+      </g>
+      <g transform="translate(454.32 465.98)">
+        <path d="m0 0 29.425 24.469" stroke="#d88029" stroke-linecap="round" stroke-miterlimit="10" stroke-width="5" fill="none"></path>
+      </g>
+      <g transform="translate(284.48 466.62)">
+        <path d="m0 0-29.425 24.469" stroke="#d88029" stroke-linecap="round" stroke-miterlimit="10" stroke-width="5" fill="none"></path>
+      </g>
+      <g transform="translate(464.62 386.78)">
+        <path d="m0 0 38.271-0.203" stroke="#d88029" stroke-linecap="round" stroke-miterlimit="10" stroke-width="5" fill="none"></path>
+      </g>
+    </g>
+  </g>
+</svg>
