@@ -75,7 +75,7 @@
   ],
   "critical": [
     { "url": "", "template": "/shop/index" },
-    { "url": "our-story", "template": "/shop/our-story/_index" },
+    { "url": "our-story", "template": "/shop/our-story/_lsindex" },
     { "url": "shop", "template": "/shop/products/index" },
     { "url": "shop/flower/jack-herer", "template": "/shop/products/_flower" },
     { "url": "shop/cart", "template": "shop/cart" },
