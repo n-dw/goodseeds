@@ -54,7 +54,9 @@
 
   "favicon": {
     "src": "favicon.svg",
-    "dest": "./public/favicon"
+    "dest": "./public/favicon",
+    "html": "_includes/favicon/",
+    "relPath": "favicon"
   },
 
   "appInfo":{

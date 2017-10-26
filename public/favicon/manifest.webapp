@@ -3,9 +3,9 @@
   "name": "Good Seeds",
   "description": "Good Seeds - Breeds - Good Deeds",
   "icons": {
-    "60": "/home/nathan/Sites/queef/public/favicon/firefox_app_60x60.png",
-    "128": "/home/nathan/Sites/queef/public/favicon/firefox_app_128x128.png",
-    "512": "/home/nathan/Sites/queef/public/favicon/firefox_app_512x512.png"
+    "60": "favicon/firefox_app_60x60.png",
+    "128": "favicon/firefox_app_128x128.png",
+    "512": "favicon/firefox_app_512x512.png"
   },
   "developer": {
     "name": "Good Seeds",

@@ -42,17 +42,12 @@ module.exports = {
             gulp.task('faviconGen', () => {
                 fancyLog("-> Generating favicons");
 
+                //rememberthis for any additional taks the paths
                 const pathsFavIcon = {
                     src: path.resolve(process.env.PWD, PATH_CONFIG.src, PATH_CONFIG.images.src, PATH_CONFIG.favicon.src),
                     dest: path.resolve(process.env.PWD, PATH_CONFIG.favicon.dest),
-                    htmlBuild: path.resolve(process.env.PWD, PATH_CONFIG.build.html),
+                    htmlBuild: path.resolve(process.env.PWD, PATH_CONFIG.templates, PATH_CONFIG.favicon.html),
                 }
-
-
-                fancyLog("Current DIR " + __dirname);
-
-                fancyLog("favicon src " + pathsFavIcon.src);
-                fancyLog("favicon dest " + pathsFavIcon.dest);
 
                 return gulp.src(pathsFavIcon.src).pipe(favicon({
                     appName: PATH_CONFIG.appInfo.name,
@@ -60,14 +55,14 @@ module.exports = {
                     developerName: PATH_CONFIG.appInfo.author,
                     developerURL: PATH_CONFIG.urls.live,
                     background: "#FFFFFF",
-                    path:  pathsFavIcon.dest,
+                    path:  PATH_CONFIG.favicon.relPath,
                     url: PATH_CONFIG.appInfo.siteUrl,
                     display: "standalone",
                     orientation: "portrait",
                     version: PATH_CONFIG.appInfo.version,
                     logging: false,
                     online: false,
-                    html: pathsFavIcon.htmlBuild + "favicons.html",
+                    html: pathsFavIcon.htmlBuild + "/favicons.html",
                     replace: true,
                     icons: {
                         android: true, // Create Android homescreen icon. `boolean`
