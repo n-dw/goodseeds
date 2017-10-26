@@ -50,6 +50,13 @@
         {% hook 'seomaticRender' %}
     {% endminify %}
     {% endcache %}
+
+    {% block favicon %}
+        {{ source('_includes/favicon/favicons.html', ignore_missing = true) }}
+        <link rel="icon"
+              href="{{ url('favicon/favicon.ico') }}">
+    {% endblock %}
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>

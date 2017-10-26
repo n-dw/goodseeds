@@ -1,13 +1,15 @@
 {
   "src": "./src",
-  "temp": "../temp",
+  "temp": "./temp",
   "dest": "./public/assets",
   "templates": "./craft/templates/",
+  "nodeModules": "./node_modules",
 
 
   "javascripts": {
     "src": "javascripts",
-    "dest": "js"
+    "dest": "js",
+    "destBuild": "./public/static/assets/js"
   },
 
   "stylesheets": {
@@ -18,6 +20,16 @@
   "images": {
     "src": "images",
     "dest": "images"
+  },
+
+  "build": {
+    "base": "./build/",
+    "css": "./build/css/",
+    "fontello": "./build/fonts/fontello/",
+    "fonts": "./build/fonts/",
+    "js": "./build/js/",
+    "html": "./build/html/",
+    "img": "./build/img/"
   },
 
   "fonts": {
@@ -42,8 +54,28 @@
     "cssName": "style.css"
   },
 
+  "favicon": {
+    "src": "favicon.svg",
+    "dest": "./public/favicon",
+    "html": "_includes/favicon/",
+    "relPath": "favicon"
+  },
+
+  "appInfo":{
+    "siteUrl": "https://goodseeds.ca/",
+    "name": "Good Seeds",
+    "description": "Good Seeds - Breeds - Good Deeds",
+    "author": "Good Seeds",
+    "version": "1.0"
+  },
+
+  "resources":[
+    {"name": "vue", "path": "vue/dist/vue.min.js"},
+    {"name": "axios", "path": "axios/dist/axios.min.js"}
+  ],
   "critical": [
     { "url": "", "template": "/shop/index" },
+    { "url": "our-story", "template": "/shop/our-story/_index" },
     { "url": "shop", "template": "/shop/products/index" },
     { "url": "shop/flower/jack-herer", "template": "/shop/products/_flower" },
     { "url": "shop/cart", "template": "shop/cart" },
@@ -56,4 +88,5 @@
     { "url": "login", "template": "shop/user/login" },
     { "url": "404", "template": "404" }
   ]
+
 }
