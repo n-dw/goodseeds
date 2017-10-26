@@ -20,6 +20,16 @@
     "dest": "images"
   },
 
+  "build": {
+    "base": "./build/",
+    "css": "./build/css/",
+    "fontello": "./build/fonts/fontello/",
+    "fonts": "./build/fonts/",
+    "js": "./build/js/",
+    "html": "./build/html/",
+    "img": "./build/img/"
+  },
+
   "fonts": {
     "src": "fonts",
     "dest": "fonts"
@@ -42,6 +52,19 @@
     "cssName": "style.css"
   },
 
+  "favicon": {
+    "src": "favicon.svg",
+    "dest": "./public/favicon"
+  },
+
+  "appInfo":{
+    "siteUrl": "https://goodseeds.ca/",
+    "name": "Good Seeds",
+    "description": "Good Seeds - Breeds - Good Deeds",
+    "author": "Good Seeds",
+    "version": "1.0"
+  },
+
   "critical": [
     { "url": "", "template": "/shop/index" },
     { "url": "shop", "template": "/shop/products/index" },
@@ -56,4 +79,5 @@
     { "url": "login", "template": "shop/user/login" },
     { "url": "404", "template": "404" }
   ]
+
 }

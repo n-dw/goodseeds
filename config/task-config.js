@@ -1,6 +1,8 @@
 const critical = require('critical');
+const favicon = require('gulp-favicons');
 const fancyLog = require('fancy-log');
 const chalk = require('chalk');
+const path  = require('path');
 
 
 module.exports = {
@@ -37,6 +39,54 @@ module.exports = {
                    });
                 });
             });
+            gulp.task('faviconGen', () => {
+                fancyLog("-> Generating favicons");
+
+                const pathsFavIcon = {
+                    src: path.resolve(process.env.PWD, PATH_CONFIG.src, PATH_CONFIG.images.src, PATH_CONFIG.favicon.src),
+                    dest: path.resolve(process.env.PWD, PATH_CONFIG.favicon.dest),
+                    htmlBuild: path.resolve(process.env.PWD, PATH_CONFIG.build.html),
+                }
+
+
+                fancyLog("Current DIR " + __dirname);
+
+                fancyLog("favicon src " + pathsFavIcon.src);
+                fancyLog("favicon dest " + pathsFavIcon.dest);
+
+                return gulp.src(pathsFavIcon.src).pipe(favicon({
+                    appName: PATH_CONFIG.appInfo.name,
+                    appDescription: PATH_CONFIG.appInfo.description,
+                    developerName: PATH_CONFIG.appInfo.author,
+                    developerURL: PATH_CONFIG.urls.live,
+                    background: "#FFFFFF",
+                    path:  pathsFavIcon.dest,
+                    url: PATH_CONFIG.appInfo.siteUrl,
+                    display: "standalone",
+                    orientation: "portrait",
+                    version: PATH_CONFIG.appInfo.version,
+                    logging: false,
+                    online: false,
+                    html: pathsFavIcon.htmlBuild + "favicons.html",
+                    replace: true,
+                    icons: {
+                        android: true, // Create Android homescreen icon. `boolean`
+                        appleIcon: true, // Create Apple touch icons. `boolean`
+                        appleStartup: true, // Create Apple startup images. `boolean`
+                        coast: true, // Create Opera Coast icon. `boolean`
+                        favicons: true, // Create regular favicons. `boolean`
+                        firefox: true, // Create Firefox OS icons. `boolean`
+                        opengraph: true, // Create Facebook OpenGraph image. `boolean`
+                        twitter: false, // Create Twitter Summary Card image. `boolean`
+                        windows: true, // Create Windows 8 tile icons. `boolean`
+                        yandex: true // Create Yandex browser icon. `boolean`
+                    }
+                } , (err, output) => {
+                if (err) {
+                    fancyLog(chalk.magenta(err));
+                }
+            })).pipe(gulp.dest(pathsFavIcon.dest));
+            });
         },
         development: {
             prebuild: false,
@@ -44,7 +94,7 @@ module.exports = {
         },
         production: {
             prebuild: false,
-            postbuild: ['criticalcss']
+            postbuild: ['faviconGen']
         }
     },
 
