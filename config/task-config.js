@@ -18,8 +18,9 @@ module.exports = {
         initialize(gulp, PATH_CONFIG, TASK_CONFIG) {
             gulp.task('criticalcss', ['stylesheets'], () => {
                PATH_CONFIG.critical.forEach(function(element) {
+                   const criticaDestDir = path.resolve(process.env.PWD, PATH_CONFIG.temp);
                    const criticalSrc = PATH_CONFIG.urls.critical + element.url;
-                   const criticalDest = PATH_CONFIG.templates + element.template + '_critical.min.css';
+                   const criticalDest =  path.resolve(process.env.PWD, PATH_CONFIG.templates + element.template + '_critical.min.css');
                    fancyLog("-> Generating critical CSS: " + chalk.cyan(criticalSrc) + " -> " + chalk.magenta(criticalDest));
 
                    critical.generate({
@@ -27,7 +28,7 @@ module.exports = {
                         dest: criticalDest,
                         inline: false,
                         ignore: [],
-                        base: '../public',
+                        base: criticaDestDir,
 
                         minify: true,
                         width: 1600,

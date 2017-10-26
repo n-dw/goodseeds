@@ -1,6 +1,6 @@
 {
   "src": "./src",
-  "temp": "../temp",
+  "temp": "./temp",
   "dest": "./public/assets",
   "templates": "./craft/templates/",
   "nodeModules": "./node_modules",
