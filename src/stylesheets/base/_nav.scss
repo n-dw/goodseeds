@@ -103,8 +103,8 @@ APP MENU
   background-color:  $fixed-nav-color;
   margin-left: 0;
   margin-right: 0;
-  border-top: 1px solid $link-header-color;
 
+  box-shadow: 0 -0.0625rem 0.5rem rgba(64, 44, 28, .3);
 
   &--fixed{
     position: fixed;
