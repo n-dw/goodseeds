@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% set avgRating =  craft.commentsrating.elementAvgRatings(product.id) %}
-{% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
-{% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
+{% set qualifyFreeShipping = craft.commerce.cart.itemTotal >= siteSettings.freeShipping %}
+{% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.itemTotal %}
 {% set productStock = product.defaultVariant.stock %}
 {% set isStockLessOunce = (productStock < 28) ? true : false %}
 {% set shippingamount = qualifyFreeShipping ? 'with <span class="product-shipping-cost product-shipping-cost--free">Free Shipping!</span>' : ' + <span class="product-shipping-cost product-shipping-cost--paid">$'~ siteSettings.shippingFlatCost  ~' Shipping</span>' %}
