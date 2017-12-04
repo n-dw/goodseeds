@@ -1,4 +1,4 @@
-/*! Craft  - 2017-10-05 */
+/*! Craft  - 2017-11-20 */
 (function($){
 
 // Set all the standard Craft.* stuff
@@ -16357,6 +16357,12 @@ Craft.TagSelectInput = Craft.BaseElementSelectInput.extend(
 
 			Craft.postActionRequest('tags/searchForTags', data, $.proxy(function(response, textStatus)
 			{
+				// Just in case
+				if (this.searchMenu)
+				{
+					this.killSearchMenu();
+				}
+
 				this.$spinner.addClass('hidden');
 
 				if (textStatus == 'success')
@@ -16373,7 +16379,7 @@ Craft.TagSelectInput = Craft.BaseElementSelectInput.extend(
 					if (!response.exactMatch)
 					{
 						var $li = $('<li/>').appendTo($ul);
-						$('<a data-icon="+"/>').appendTo($li).text(data.search);
+						$('<a data-icon="+"/>').appendTo($li).text(Craft.escapeHtml(data.search));
 					}
 
 					$ul.find('> li:first-child > a').addClass('hover');
