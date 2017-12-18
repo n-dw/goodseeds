@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block main %}
-    {% set qualifyFreeShipping = craft.commerce.cart.totalPrice >= siteSettings.freeShipping %}
-    {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.totalPrice %}
+    {% set qualifyFreeShipping = craft.commerce.cart.itemTotal >= siteSettings.freeShipping %}
+    {% set amountQualify = siteSettings.freeShipping - craft.commerce.cart.itemTotal %}
     {% set shippingAmount = qualifyFreeShipping ? 'FREE Shipping' : '$' ~ siteSettings.shippingFlatCost ~ ' (Canada XpressPost) Shipping' %}
     <section class="content-section cart-page">
         <div class="wrapper container-fluid">

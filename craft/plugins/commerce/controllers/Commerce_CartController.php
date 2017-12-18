@@ -272,6 +272,11 @@ class Commerce_CartController extends Commerce_BaseFrontEndController
                 }
                 else
                 {
+                    if ($shippingAddress->hasErrors())
+                    {
+                        $updateErrors['shippingAddress'] = Craft::t('Could not save the shipping address.');
+                    }
+
                     if ($billingAddress->hasErrors())
                     {
                         $updateErrors['billingAddress'] = Craft::t('Could not save the billing address.');
