@@ -189,7 +189,6 @@
                 this.email = this.currentuseremail;
             }
 
-            console.log();
         },
         methods: {
             notifyEmailShowSubmit: function(e) {
@@ -288,6 +287,8 @@
                             msg: dataXHR.error
                         }
                         this.emailError = true;
+                        //if invalid reset field
+                        this.email = '';
                     }
                     bus.$emit('Message',msgData);
                 }
