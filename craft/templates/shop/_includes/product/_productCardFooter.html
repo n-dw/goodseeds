@@ -65,8 +65,8 @@
         {% endif %}
 
         {% set pLastV = product.variants|last %}
-        {% set productSalePrice = prodmac.priceRange(product.defaultVariant.price, pLastV.price, pLastV.variantWeight.value, cart)  %}
-        {% set productPrice = prodmac.priceRange(product.defaultVariant.salePrice, pLastV.salePrice, pLastV.variantWeight.value, cart)  %}
+        {% set productPrice = prodmac.priceRange(product.defaultVariant.price, pLastV.price, pLastV.variantWeight.value, cart)  %}
+        {% set productSalePrice = prodmac.priceRange(product.defaultVariant.salePrice, pLastV.salePrice, pLastV.variantWeight.value, cart)  %}
 
         {% set formAction = productStock > 0 ? '/commerce/cart/updateCart' : '/inStockNotifier/notification/requestRestockNotification' %}
         {% set inputs =[

@@ -3,7 +3,7 @@
         <i class="icon-search"></i>
         <input  type="text"
                 aria-label="Site Search"
-                ref="searchInputText"
+                ref="searchinputtext"
                 :id="id"
                 :class="(className ? className + '-input ' : '') + 'autocomplete-input'"
                 :placeholder="placeholder"
@@ -325,8 +325,9 @@
 
                if(searchBarShown)
                {
-                   document.getElementById("searchbox").focus();
-                   //this.$refs.searchInputText.focus()
+                   this.$nextTick(function() {
+                       this.$refs.searchinputtext.focus()
+                   });
                }
             },
         },

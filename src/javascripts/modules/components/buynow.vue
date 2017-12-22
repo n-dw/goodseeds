@@ -85,8 +85,8 @@
 
                 <button v-else-if="email != '' && productData.stock < 1" type="submit" :class="{'is-loading' : loading}" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 <div v-else class="notify-stock-component">
-                    <input type="email" v-model="email"  v-show="notifyEmailShow" class="c-input has-text-centered" :class="{'error' : emailError}"  name="customerEmail" required aria-label="Email" placeholder="Email">
-                    <button type="submit" :class="{'is-loading' : loading}" @click="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
+                    <input type="email" ref="customeremail" v-model="custemail"  v-show="notifyEmailShow" class="c-input has-text-centered" :class="{'error' : emailError}"  name="customerEmail" required aria-label="Email" placeholder="Email">
+                    <button type="button" :class="{'is-loading' : loading}" @click="notifyEmailShowSubmit" class="c-button c-button--cta-black add-to-cart">Notify Me Upon Restock</button>
                 </div>
             </form>
         </div>
@@ -164,6 +164,7 @@
                 price: '',
                 salePrice: '',
                 email: '',
+                custemail: '',
                 qty: '1',
                 loading: false,
                 emailError: false,
@@ -189,14 +190,25 @@
                 this.email = this.currentuseremail;
             }
 
-            console.log();
+            this.custemail = this.email;
+
         },
         methods: {
             notifyEmailShowSubmit: function(e) {
-                if(this.notifyEmailShow){
-                   return true;
-                }
                 this.notifyEmailShow = !this.notifyEmailShow;
+
+                if(this.notifyEmailShow) {
+                    this.$nextTick(function() {
+                        this.$refs.customeremail.focus();
+                    });
+
+                    return true;
+                }
+
+                if(this.custemail !== ''){
+                    this.submitForm();
+                }
+
             },
             submitForm: function(){
                 this.loading = true;
@@ -226,9 +238,9 @@
                     params.append('purchasableId', this.picked);
                 }
 
-                if(this.email !== ''){
-                    dataXHR['customerEmail'] = this.email;
-                    params.append('customerEmail', this.email);
+                if(this.custemail !== ''){
+                    dataXHR['customerEmail'] = this.custemail;
+                    params.append('customerEmail', this.custemail);
                 }
 
                 if(this.qty !== ''){
@@ -288,6 +300,12 @@
                             msg: dataXHR.error
                         }
                         this.emailError = true;
+                        //if invalid reset field
+                        this.notifyEmailShow = true;
+
+                        this.$nextTick(function() {
+                            this.$refs.customeremail.focus();
+                        });
                     }
                     bus.$emit('Message',msgData);
                 }
