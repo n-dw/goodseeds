@@ -61,15 +61,7 @@
     <meta charset="utf-8">
     <title>{% if title is defined %}{{ title }} - {% endif %}{{ siteName }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% if craft.config.devMode %}
-        <script type="text/javascript" src="https://unpkg.com/vue"></script>
-        {#<script async type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>#}
-        <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
-        {% else %}
-        <script  type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>
-        <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
-    {% endif %}
-
+    <script async type="text/javascript" src="{{ url('static/assets/js/axios.min.js') }}"></script>
     {# -- CRITICAL CSS -- #}
     {% set cacheVal = getCookie('critical-css') %}
     {% set staticAssetsVersion = 'assets/css/app.css' | gulp_rev  %}
@@ -164,6 +156,11 @@
         thcpost.vueParams.data = Object.assign(thcpost.vueParams.data, { currentUserEmail: false });
     {% endif %}
 </script>
+{% if craft.config.devMode %}
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+{% else %}
+    <script type="text/javascript" src="{{ url('static/assets/js/vue.min.js') }}"></script>
+{% endif %}
 {%  set appJS =  'assets/js/app.js' | gulp_rev %}
 {% includeJsFile appJS %}
 </body>
