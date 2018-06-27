@@ -182,7 +182,7 @@ class ImagesService extends BaseApplicationComponent
 		$cleanedByStripping = false;
 
 		// Special case for SVG files.
-		if (IOHelper::getExtension($filePath) === 'svg')
+		if (StringHelper::toLowerCase(IOHelper::getExtension($filePath)) === 'svg')
 		{
 			if (craft()->config->get('sanitizeSvgUploads'))
 			{
@@ -205,6 +205,11 @@ class ImagesService extends BaseApplicationComponent
 
 			return true;
 		}
+
+		if (StringHelper::toLowerCase(IOHelper::getExtension($filePath)) === 'gif' && !craft()->config->get('transformGifs'))
+        {
+            return true;
+        }
 
 		try
 		{
@@ -336,9 +341,10 @@ class ImagesService extends BaseApplicationComponent
 
 				// Delete the Orientation entry and re-save the file
 				$ifd0->offsetUnset(PelTag::ORIENTATION);
-				$file->saveFile($filePath);
 
-				return true;
+				// PEL's saveFile won't strip malicious embedded code, so fall-through to
+				// return false on purpose, so it gets cleansed later.
+				$file->saveFile($filePath);
 			}
 		}
 

@@ -28,8 +28,15 @@
 				</tr>
 				<tr>
 					<td><strong>{{ "Customer"|t }}</strong></td>
-					<td>{% if order.customer.user %}<a
-							href="{{ order.customer.user.cpEditUrl }}">{{ order.email }}</a>{% else %}{{ order.email }}&nbsp;({{ "Guest"|t }}) {% endif %}
+					<td>
+						{% if order.customer.user %}
+							<a href="{{ order.customer.user.cpEditUrl }}">{{ order.email }}</a>
+						{% else %}
+							<div id="order-email" data="{{ order.email }}">
+								<div>{{ order.email }} ({{ "Guest"|t }})</div>
+								{% if order.isCompleted %}<a href="#" class="updateemail btn small"> {{ "Update Email"|t }}</a>{% endif %}
+							</div>
+						{% endif %}
 					</td>
 				</tr>
 				<tr>
@@ -145,7 +152,7 @@
 					{ label: "Tax (Included)", value: lineItem.taxIncluded|currency(order.currency) },
 					{ label: "Shipping Cost", value: lineItem.shippingCost|currency(order.currency) },
 					{ label: "Discount", value: lineItem.discount|currency(order.currency) },
-					{ label: "Total", value: lineItem.subtotal|currency(order.currency) },
+					{ label: "Total", value: lineItem.total|currency(order.currency) },
 				] %}
 
 				<tr class="infoRow" data-id="{{lineItem.id}}" data-info="{{ info|json_encode }}">

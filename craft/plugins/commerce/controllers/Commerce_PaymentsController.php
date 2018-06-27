@@ -22,29 +22,36 @@ class Commerce_PaymentsController extends Commerce_BaseFrontEndController
 
         $customError = '';
 
+        $order = null;
+
+        // Get the order number from the cookie
+        $cartCookieNumber = craft()->userSession->getStateCookieValue('commerce_cookie');
+
+        // Do we have an explicit order number submitted?
         if (($number = craft()->request->getParam('orderNumber')) !== null)
         {
             $order = craft()->commerce_orders->getOrderByNumber($number);
-            if (!$order)
-            {
-                $error = Craft::t('Can not find an order to pay.');
-                if (craft()->request->isAjaxRequest())
-                {
-                    $this->returnErrorJson($error);
-                }
-                else
-                {
-                    craft()->userSession->setFlash('error', $error);
-                }
-
-                return;
-            }
         }
 
-        // Get the cart if no order number was passed.
-        if (!isset($order) && !$number)
+
+        // If we didn't have an explicit order number passed, but we have a cookie, grab the active cart
+        if (!$order && !$number && $cartCookieNumber)
         {
             $order = craft()->commerce_cart->getCart();
+        }
+
+        // Still can't find an order then abort
+        if (!$order)
+        {
+            $error = Craft::t('Cart no longer exists or can not find an order to pay.');
+            if (craft()->request->isAjaxRequest())
+            {
+                $this->returnErrorJson($error);
+            }
+
+            craft()->userSession->setFlash('error', $error);
+
+            return;
         }
 
         // Are we paying anonymously?
@@ -185,6 +192,48 @@ class Commerce_PaymentsController extends Commerce_BaseFrontEndController
             return;
         }
 
+        // Double check stock
+        $stockByVariantId = [];
+        $purchasables = [];
+        foreach ($order->getLineItems() as $lineItem)
+        {
+            $purchasable = $lineItem->getPurchasable();
+            if($purchasable && $purchasable instanceof Commerce_VariantModel && !$purchasable->unlimitedStock)
+            {
+                $purchasables[] = $purchasable;
+                if(isset($stockByVariantId[$purchasable->id]))
+                {
+                    $stockByVariantId[$purchasable->id] += $lineItem->qty;
+                }else{
+                    $stockByVariantId[$purchasable->id] = $lineItem->qty;
+                }
+            }
+        }
+
+        foreach($purchasables as $purchasable)
+        {
+            if ($stockByVariantId[$purchasable->id] > $purchasable->stock)
+            {
+                $error = Craft::t('{product} now has {num} in stock. Please remove {diff} of the items from the cart before retrying payment.', [
+                        'num' => $purchasable->stock,
+                        'product' => $purchasable->getDescription(),
+                        'diff' => $stockByVariantId[$purchasable->id] - $purchasable->stock
+                ]);
+
+                if (craft()->request->isAjaxRequest())
+                {
+                    $this->returnErrorJson($error);
+                }
+                else
+                {
+                    craft()->userSession->setFlash('error', $error);
+                }
+
+                return;
+            }
+        }
+
+
         // Save the return and cancel URLs to the order
         $returnUrl = craft()->request->getValidatedPost('redirect');
         $cancelUrl = craft()->request->getValidatedPost('cancelUrl');
@@ -199,6 +248,27 @@ class Commerce_PaymentsController extends Commerce_BaseFrontEndController
         // This also confirms the products are available and discounts are current.
         if (craft()->commerce_orders->saveOrder($order))
         {
+
+            // Shipping method can be removed (during recalc) if no longer matching the cart, so check it is still there.
+            if (craft()->config->get('requireShippingMethodSelectionAtCheckout', 'commerce'))
+            {
+                /** Order $order */
+                if (!$order->getShippingMethodId)
+                {
+                    $error = Craft::t('There is no shipping method selected for this order.');
+                    if (craft()->request->isAjaxRequest())
+                    {
+                        $this->returnErrorJson($error);
+                    }
+                    else
+                    {
+                        craft()->userSession->setFlash('error', $error);
+                    }
+
+                    return;
+                }
+            }
+
             $totalPriceChanged = $originalTotalPrice != $order->outstandingBalance();
             $totalQtyChanged = $originalTotalQty != $order->getTotalQty();
             $totalAdjustmentsChanged = $originalTotalAdjustments != count($order->getAdjustments());

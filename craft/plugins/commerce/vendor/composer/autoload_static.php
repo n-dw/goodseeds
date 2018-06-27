@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2
+class ComposerStaticInit93664ef69048b84e95d5515fb92c53ac
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -826,6 +826,7 @@ class ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2
         'Omnipay\\AuthorizeNet\\DPMGateway' => __DIR__ . '/..' . '/omnipay/authorizenet/src/DPMGateway.php',
         'Omnipay\\AuthorizeNet\\Message\\AIMAbstractRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/AIMAbstractRequest.php',
         'Omnipay\\AuthorizeNet\\Message\\AIMAuthorizeRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/AIMAuthorizeRequest.php',
+        'Omnipay\\AuthorizeNet\\Message\\AIMCaptureOnlyRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/AIMCaptureOnlyRequest.php',
         'Omnipay\\AuthorizeNet\\Message\\AIMCaptureRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/AIMCaptureRequest.php',
         'Omnipay\\AuthorizeNet\\Message\\AIMPurchaseRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/AIMPurchaseRequest.php',
         'Omnipay\\AuthorizeNet\\Message\\AIMRefundRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/AIMRefundRequest.php',
@@ -856,6 +857,20 @@ class ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2
         'Omnipay\\AuthorizeNet\\Message\\DPMCompleteResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/DPMCompleteResponse.php',
         'Omnipay\\AuthorizeNet\\Message\\DPMPurchaseRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/DPMPurchaseRequest.php',
         'Omnipay\\AuthorizeNet\\Message\\DPMResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/DPMResponse.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\AIMAbstractQueryRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/AIMAbstractQueryRequest.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\AIMPaymentPlanQueryRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/AIMPaymentPlanQueryRequest.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\AIMPaymentPlanQueryResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/AIMPaymentPlanQueryResponse.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\AIMPaymentPlansQueryRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/AIMPaymentPlansQueryRequest.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\AIMPaymentPlansQueryResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/AIMPaymentPlansQueryResponse.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\AbstractQueryResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/AbstractQueryResponse.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\QueryBatchDetailRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/QueryBatchDetailRequest.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\QueryBatchDetailResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/QueryBatchDetailResponse.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\QueryBatchRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/QueryBatchRequest.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\QueryBatchResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/QueryBatchResponse.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\QueryDetailRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/QueryDetailRequest.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\QueryDetailResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/QueryDetailResponse.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\QueryRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/QueryRequest.php',
+        'Omnipay\\AuthorizeNet\\Message\\Query\\QueryResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/Query/QueryResponse.php',
         'Omnipay\\AuthorizeNet\\Message\\SIMAbstractRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/SIMAbstractRequest.php',
         'Omnipay\\AuthorizeNet\\Message\\SIMAuthorizeRequest' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/SIMAuthorizeRequest.php',
         'Omnipay\\AuthorizeNet\\Message\\SIMAuthorizeResponse' => __DIR__ . '/..' . '/omnipay/authorizenet/src/Message/SIMAuthorizeResponse.php',
@@ -1113,6 +1128,7 @@ class ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2
         'Omnipay\\PayPal\\Message\\RestDeleteCardRequest' => __DIR__ . '/..' . '/omnipay/paypal/src/Message/RestDeleteCardRequest.php',
         'Omnipay\\PayPal\\Message\\RestFetchPurchaseRequest' => __DIR__ . '/..' . '/omnipay/paypal/src/Message/RestFetchPurchaseRequest.php',
         'Omnipay\\PayPal\\Message\\RestFetchTransactionRequest' => __DIR__ . '/..' . '/omnipay/paypal/src/Message/RestFetchTransactionRequest.php',
+        'Omnipay\\PayPal\\Message\\RestListPlanRequest' => __DIR__ . '/..' . '/omnipay/paypal/src/Message/RestListPlanRequest.php',
         'Omnipay\\PayPal\\Message\\RestListPurchaseRequest' => __DIR__ . '/..' . '/omnipay/paypal/src/Message/RestListPurchaseRequest.php',
         'Omnipay\\PayPal\\Message\\RestPurchaseRequest' => __DIR__ . '/..' . '/omnipay/paypal/src/Message/RestPurchaseRequest.php',
         'Omnipay\\PayPal\\Message\\RestReactivateSubscriptionRequest' => __DIR__ . '/..' . '/omnipay/paypal/src/Message/RestReactivateSubscriptionRequest.php',
@@ -1128,6 +1144,7 @@ class ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2
         'Omnipay\\PayPal\\PayPalItemBag' => __DIR__ . '/..' . '/omnipay/paypal/src/PayPalItemBag.php',
         'Omnipay\\PayPal\\ProGateway' => __DIR__ . '/..' . '/omnipay/paypal/src/ProGateway.php',
         'Omnipay\\PayPal\\RestGateway' => __DIR__ . '/..' . '/omnipay/paypal/src/RestGateway.php',
+        'Omnipay\\PayPal\\Support\\InstantUpdateApi\\BillingAgreement' => __DIR__ . '/..' . '/omnipay/paypal/src/Support/InstantUpdateApi/BillingAgreement.php',
         'Omnipay\\PayPal\\Support\\InstantUpdateApi\\ShippingOption' => __DIR__ . '/..' . '/omnipay/paypal/src/Support/InstantUpdateApi/ShippingOption.php',
         'Omnipay\\Payflow\\Message\\AuthorizeRequest' => __DIR__ . '/..' . '/omnipay/payflow/src/Message/AuthorizeRequest.php',
         'Omnipay\\Payflow\\Message\\CaptureRequest' => __DIR__ . '/..' . '/omnipay/payflow/src/Message/CaptureRequest.php',
@@ -1454,10 +1471,10 @@ class ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit9dd51f934fc7f63f3b064bb49dc565f2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit93664ef69048b84e95d5515fb92c53ac::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit93664ef69048b84e95d5515fb92c53ac::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit93664ef69048b84e95d5515fb92c53ac::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit93664ef69048b84e95d5515fb92c53ac::$classMap;
 
         }, null, ClassLoader::class);
     }
