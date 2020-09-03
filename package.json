@@ -17,7 +17,7 @@
     "flexboxgrid": "^6.3.1",
     "flexboxgrid-sass": "^8.0.5",
     "gulp-favicons": "^2.2.7",
-    "lazysizes": "^4.0.0-rc1",
+    "lazysizes": "^5.2.2",
     "normalize.css": "^7.0.0",
     "qs": "^6.5.0",
     "vue": "^2.4.1",
